@@ -193,7 +193,7 @@ if SAMELINE then don't move the cursor between lines."
 (require 'multiple-cursors)
 (require 'evil)
 (require 'evil-numbers)
-(require 'framemove)
+;;(require 'framemove)
 (require 'smartparens-config)
 (require 'outshine)
 (require 'rotate-text)
@@ -390,7 +390,7 @@ if SAMELINE then don't move the cursor between lines."
 ;; (define-key my-keys-map (kbd "M-<left>") 'winner-undo)
 ;; (define-key my-keys-map (kbd "M-<right>") 'winner-redo)
 
-(setq framemove-hook-into-windmove t)
+;;(setq framemove-hook-into-windmove t)
 ;;;; evil
 ;;;;; setup
 (setq evil-emacs-state-modes nil)
