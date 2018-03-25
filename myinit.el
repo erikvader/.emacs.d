@@ -376,7 +376,7 @@ if SAMELINE then don't move the cursor between lines."
 (define-key my-keys-map (kbd "C-x o") 'ace-window)
 
 (frames-only-mode)
-(setq frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops t)
+(setq frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops nil)
 
 (define-key my-keys-map (kbd "S-<right>") 'windmove-right)
 (define-key my-keys-map (kbd "S-<left>") 'windmove-left)
