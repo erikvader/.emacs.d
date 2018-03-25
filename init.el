@@ -30,7 +30,7 @@
 
 ;;(add-to-list 'load-path "~/.emacs.d/small-libs")
 
-(server-start)
+;; (server-start)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
