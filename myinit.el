@@ -199,7 +199,7 @@ if SAMELINE then don't move the cursor between lines."
 (require 'rotate-text)
 (require 'atomic-chrome)
 (require 'eyebrowse)
-(require 'switch-window)
+;;(require 'switch-window)
 
 ;;;; random
 (sml/setup)
@@ -237,8 +237,8 @@ if SAMELINE then don't move the cursor between lines."
 (define-key my-keys-map (kbd "C-s") 'swiper)
 (define-key ivy-minibuffer-map (kbd "<escape>") 'keyboard-escape-quit)
 ;; compatability with dwm-mode
-(define-key ivy-mode-map [remap switch-to-buffer] nil)
-(define-key ivy-mode-map [remap switch-to-buffer-other-window] nil)
+;; (define-key ivy-mode-map [remap switch-to-buffer] nil)
+;; (define-key ivy-mode-map [remap switch-to-buffer-other-window] nil)
 (setq ivy-use-selectable-prompt t)
 
 ;;;; avy
@@ -368,14 +368,20 @@ if SAMELINE then don't move the cursor between lines."
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 
-;;;; framemove
-(require 'dwm)
-(dwm-mode 1)
+;;;; windows
+;; (require 'dwm)
+;; (dwm-mode 1)
 
-;; (define-key my-keys-map (kbd "S-<right>") 'windmove-right)
-;; (define-key my-keys-map (kbd "S-<left>") 'windmove-left)
-;; (define-key my-keys-map (kbd "S-<up>") 'windmove-up)
-;; (define-key my-keys-map (kbd "S-<down>") 'windmove-down)
+(require 'ace-window)
+(define-key my-keys-map (kbd "C-x o") 'ace-window)
+
+(frames-only-mode)
+(setq frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops t)
+
+(define-key my-keys-map (kbd "S-<right>") 'windmove-right)
+(define-key my-keys-map (kbd "S-<left>") 'windmove-left)
+(define-key my-keys-map (kbd "S-<up>") 'windmove-up)
+(define-key my-keys-map (kbd "S-<down>") 'windmove-down)
 
 (define-key my-keys-map (kbd "C-<right>") 'enlarge-window-horizontally)
 (define-key my-keys-map (kbd "C-<left>") 'shrink-window-horizontally)
@@ -1424,27 +1430,6 @@ REGEX is the regex to align by."
     (message "You need to install magit for this")))
 
 (define-key git-timemachine-mode-map (kbd "c") 'eriks/git-timemachine-show-commit)
-;;;; switch-window
-
-(define-key my-keys-map (kbd "C-x o") 'switch-window)
-(define-key my-keys-map (kbd "C-x 1") 'switch-window-then-maximize)
-(define-key my-keys-map (kbd "C-x 0") 'switch-window-then-delete)
-
-;; (setq switch-window-shortcut-style 'qwerty)
-;; (setq switch-window-qwerty-shortcuts '("f" "j" "g" "h" "d" "k" "s" "l" "a"))
-(setq switch-window-threshold 1)
-(setq switch-window-minibuffer-shortcut ?z)
-
-(defun switch-window-dwm-focus ()
-  "Display an overlay in each window showing a unique key.
-In the mean time, ask user for the window to focus"
-  (interactive)
-  (switch-window--then
-   "dwm focus window: "
-   nil
-   #'dwm-focus-buffer))
-
-(define-key my-keys-map (kbd "C-x O") 'switch-window-dwm-focus)
 
 ;;; mode hooks
 ;;;; prog-mode
