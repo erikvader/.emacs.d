@@ -393,6 +393,52 @@ if SAMELINE then don't move the cursor between lines."
 (define-key my-keys-map (kbd "C-S-<up>") 'buf-move-up)
 (define-key my-keys-map (kbd "C-S-<down>") 'buf-move-down)
 
+(define-key my-keys-map (kbd "C-x 1") 'delete-other-visible-frames)
+(define-key my-keys-map (kbd "C-x 2") 'make-frame-command)
+(define-key my-keys-map (kbd "C-x 0") 'delete-frame)
+
+(define-key my-keys-map (kbd "C-x 5 1") 'delete-other-windows)
+(define-key my-keys-map (kbd "C-x 5 2") 'split-window-below)
+(define-key my-keys-map (kbd "C-x 5 0") 'delete-window)
+
+(defun delete-other-visible-frames (&optional frame)
+  "Delete all frames on FRAME's terminal, except FRAME.
+If FRAME uses another frame's minibuffer, the minibuffer frame is
+left untouched.  Do not delete any of FRAME's child frames.  If
+FRAME is a child frame, delete its siblings only.  FRAME must be
+a live frame and defaults to the selected one.
+
+Only does all of this on visible frames (might not always work)"
+  (interactive)
+  (setq frame (window-normalize-frame frame))
+  (let ((minibuffer-frame (window-frame (minibuffer-window frame)))
+        (this (next-frame frame 'visible))
+        (parent (frame-parent frame))
+        next)
+    ;; In a first round consider minibuffer-less frames only.
+    (while (not (eq this frame))
+      (setq next (next-frame this 'visible))
+      (unless (or (eq (window-frame (minibuffer-window this)) this)
+                  ;; When FRAME is a child frame, delete its siblings
+                  ;; only.
+                  (and parent (not (eq (frame-parent this) parent)))
+                  ;; Do not delete a child frame of FRAME.
+                  (eq (frame-parent this) frame))
+        (delete-frame this))
+      (setq this next))
+    ;; In a second round consider all remaining frames.
+    (setq this (next-frame frame 'visible))
+    (while (not (eq this frame))
+      (setq next (next-frame this 'visible))
+      (unless (or (eq this minibuffer-frame)
+                  ;; When FRAME is a child frame, delete its siblings
+                  ;; only.
+                  (and parent (not (eq (frame-parent this) parent)))
+                  ;; Do not delete a child frame of FRAME.
+                  (eq (frame-parent this) frame))
+        (delete-frame this))
+      (setq this next))))
+
 ;; (define-key my-keys-map (kbd "M-<left>") 'winner-undo)
 ;; (define-key my-keys-map (kbd "M-<right>") 'winner-redo)
 
