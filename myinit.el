@@ -208,6 +208,7 @@ if SAMELINE then don't move the cursor between lines."
 
 (winner-mode 1)
 
+(global-linum-mode)
 (linum-relative-toggle)
 
 (yas-global-mode 1)
