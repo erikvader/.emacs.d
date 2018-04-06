@@ -1467,11 +1467,6 @@ REGEX is the regex to align by."
 (add-hook 'java-mode-hook 'rotate-text-java-hook)
 (add-hook 'js-mode-hook   'rotate-text-c-hook)
 
-;;;; atomic chrome
-(setq atomic-chrome-extension-type-list '(atomic-chrome))
-(setq atomic-chrome-buffer-open-style 'frame)
-(atomic-chrome-start-server)
-
 ;;;; eyebrowse
 ;; (define-key eyebrowse-mode-map (kbd "C-<") 'eyebrowse-prev-window-config)
 ;; (define-key eyebrowse-mode-map (kbd "C->") 'eyebrowse-next-window-config)
