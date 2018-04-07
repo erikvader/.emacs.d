@@ -197,7 +197,6 @@ if SAMELINE then don't move the cursor between lines."
 (require 'smartparens-config)
 (require 'outshine)
 (require 'rotate-text)
-(require 'atomic-chrome)
 ;; (require 'eyebrowse)
 ;;(require 'switch-window)
 
