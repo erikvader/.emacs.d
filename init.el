@@ -89,6 +89,8 @@
  '(eyebrowse-mode-line-style 'always)
  '(fci-rule-color "#14151E")
  '(flycheck-global-modes nil)
+ '(frames-only-mode-use-window-functions
+   '(calendar report-emacs-bug checkdoc-show-diagnostics checkdoc undo-tree-visualize ad-Advice-undo-tree-visualize))
  '(ggtags-highlight-tag nil)
  '(git-gutter+-lighter "")
  '(git-gutter-fr+-side 'right-fringe)

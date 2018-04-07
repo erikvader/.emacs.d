@@ -396,10 +396,22 @@ if SAMELINE then don't move the cursor between lines."
 (define-key my-keys-map (kbd "C-x 1") 'delete-other-visible-frames)
 (define-key my-keys-map (kbd "C-x 2") 'make-frame-command)
 (define-key my-keys-map (kbd "C-x 0") 'delete-frame)
+(define-key my-keys-map (kbd "C-x C-0") 'kill-buffer-and-frame)
 
-(define-key my-keys-map (kbd "C-x 5 1") 'delete-other-windows)
-(define-key my-keys-map (kbd "C-x 5 2") 'split-window-below)
-(define-key my-keys-map (kbd "C-x 5 0") 'delete-window)
+(define-key my-keys-map (kbd "C-x 4 1") 'delete-other-windows)
+(define-key my-keys-map (kbd "C-x 4 2") 'split-window-below)
+(define-key my-keys-map (kbd "C-x 4 0") 'delete-window)
+(define-key my-keys-map (kbd "C-x 4 C-0") 'kill-buffer-and-window)
+
+(defun kill-buffer-and-frame ()
+  "Kills the current buffer, if successful then delete the frame."
+  (interactive)
+  (when (and
+         (buffer-modified-p)
+         (y-or-n-p "Current buffer is modified, save?"))
+    (save-buffer))
+  (when (kill-buffer)
+    (delete-frame)))
 
 (defun delete-other-visible-frames (&optional frame)
   "Delete all frames on FRAME's terminal, except FRAME.
