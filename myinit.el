@@ -1030,24 +1030,9 @@ side of the sexp"
 (define-key evil-insert-state-map (kbd "C-^") 'sp-up-sexp)
 (define-key evil-insert-state-map (kbd "C-u") 'sp-up-sexp)
 (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
-(define-key evil-insert-state-map (kbd "C-a") 'beg-of-line-maybe-remove)
 
-(define-key evil-normal-state-map (kbd "C-a") 'beg-of-line-maybe-remove)
-
-(defun beg-of-line-maybe-remove ()
-  "Go to the beginning of the line, if the line is empty (only spaces
-or tabs) then delete the whole line."
-  (interactive)
-  (move-beginning-of-line 1)
-  (save-excursion ; remove the line if it is empty (only spaces or tabs)
-    (let ((beg (point)))
-      (while (and (not (eolp))
-                  (is-whitespace (char-after)))
-        (forward-char 1))
-      (when (eolp)
-        (delete-region beg (point))))))
-
-(define-key evil-normal-state-map (kbd "C-r") 'eriks/delete-trailing-this-line)
+(define-key evil-normal-state-map (kbd "C-a") 'eriks/delete-trailing-this-line)
+(define-key evil-insert-state-map (kbd "C-a") 'eriks/delete-trailing-this-line)
 
 (defun eriks/delete-trailing-this-line ()
   "Removes trailing whitespace from the current line."
