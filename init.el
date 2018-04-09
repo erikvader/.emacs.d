@@ -19,7 +19,7 @@
 ;;   (unless (package-installed-p package)
 ;;     (package-install package)))
 
-(package-install-selected-packages)
+;;(package-install-selected-packages)
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/themes/")
@@ -169,6 +169,8 @@
  '(default ((t (:inherit nil :stipple nil :background "#000000" :foreground "#bbe0f0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "DAMA" :family "Ubuntu Mono"))))
  '(eyebrowse-mode-line-active ((t (:inherit mode-line-emphasis :foreground "white smoke"))))
  '(moccur-face ((t nil))))
+
+(package-install-selected-packages)
 
 ;;init files
 ;;(load-file "~/.emacs.d/inits/keybindings.el")
