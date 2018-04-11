@@ -494,7 +494,29 @@ Only does all of this on visible frames (might not always work)"
 
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
-(define-key evil-normal-state-map (kbd "SPC x") 'calc)
+(define-key evil-normal-state-map (kbd "SPC x") 'eriks/run-bc-on-region)
+
+(defun eriks/run-bc-on-region (beg end)
+  "Evaluates the region as a command to bc and replaces it with the
+result.
+
+example:
+  region: ibase=16; FF
+  after: 255
+
+  region: 3+3
+  after: 6
+"
+  (interactive "r")
+  (let* ((s (delete-and-extract-region beg end))
+         (has-newline (equal (substring s -1 nil) "\n"))
+         shell-res)
+    (when has-newline
+      (setq s (substring s 0 -1)))
+    (setq shell-res (shell-command-to-string (format "echo \"%s\" | bc" s)))
+    (unless has-newline
+      (setq shell-res (substring shell-res 0 -1)))
+    (insert shell-res)))
 
 ;;;;; evil remap
 (defun evil-remap (trigger action &optional map)
