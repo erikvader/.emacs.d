@@ -495,8 +495,17 @@ Only does all of this on visible frames (might not always work)"
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
 (define-key evil-normal-state-map (kbd "SPC x") 'eriks/run-bc-on-region)
+(define-key evil-normal-state-map (kbd "SPC X") 'eriks/bc-set-default-scale)
 
-(defun eriks/run-bc-on-region (beg end)
+(defvar eriks/bc-scale 3 "The default scale value to use in `eriks/run-bc-on-region'")
+
+(defun eriks/bc-set-default-scale (scale)
+  "Changes the default global value of scale that is used in
+`eriks/run-bc-on-region'"
+  (interactive "Nscale=")
+  (setq eriks/bc-scale scale))
+
+(defun eriks/run-bc-on-region (arg beg end)
   "Evaluates the region as a command to bc and replaces it with the
 result.
 
@@ -507,16 +516,19 @@ example:
   region: 3+3
   after: 6
 "
-  (interactive "r")
-  (let* ((s (delete-and-extract-region beg end))
-         (has-newline (equal (substring s -1 nil) "\n"))
-         shell-res)
-    (when has-newline
-      (setq s (substring s 0 -1)))
-    (setq shell-res (shell-command-to-string (format "echo \"%s\" | bc" s)))
-    (unless has-newline
-      (setq shell-res (substring shell-res 0 -1)))
-    (insert shell-res)))
+  (interactive "P\nr")
+  (message "arg=%s" arg)
+  (when (region-active-p)
+    (let* ((s (delete-and-extract-region beg end))
+           (has-newline (equal (substring s -1 nil) "\n"))
+           shell-res
+           (scale (or (and arg (prefix-numeric-value arg)) eriks/bc-scale 0)))
+      (when has-newline
+        (setq s (substring s 0 -1)))
+      (setq shell-res (shell-command-to-string (format "echo \"scale=%s; %s\" | bc" scale s)))
+      (unless has-newline
+        (setq shell-res (substring shell-res 0 -1)))
+      (insert shell-res))))
 
 ;;;;; evil remap
 (defun evil-remap (trigger action &optional map)
