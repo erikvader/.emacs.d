@@ -413,6 +413,7 @@ if SAMELINE then don't move the cursor between lines."
   (when (kill-buffer)
     (delete-frame)))
 
+;;TODO: doesn't work in emacs 25
 (defun delete-other-visible-frames (&optional frame)
   "Delete all frames on FRAME's terminal, except FRAME.
 If FRAME uses another frame's minibuffer, the minibuffer frame is
@@ -515,9 +516,16 @@ example:
 
   region: 3+3
   after: 6
+
+Math functions:
+  s (x):   The sine of x, x is in radians.
+  c (x):   The cosine of x, x is in radians.
+  a (x):   The arctangent of x, arctangent returns radians.
+  l (x):   The natural logarithm of x.
+  e (x):   The exponential function of raising e to the value x.
+  j (n,x): The bessel function of integer order n of x.
 "
   (interactive "P\nr")
-  (message "arg=%s" arg)
   (when (region-active-p)
     (let* ((s (delete-and-extract-region beg end))
            (has-newline (equal (substring s -1 nil) "\n"))
@@ -525,7 +533,7 @@ example:
            (scale (or (and arg (prefix-numeric-value arg)) eriks/bc-scale 0)))
       (when has-newline
         (setq s (substring s 0 -1)))
-      (setq shell-res (shell-command-to-string (format "echo \"scale=%s; %s\" | bc" scale s)))
+      (setq shell-res (replace-regexp-in-string "\\\\\n" "" (shell-command-to-string (format "echo \"scale=%s; %s\" | bc -l" scale s))))
       (unless has-newline
         (setq shell-res (substring shell-res 0 -1)))
       (insert shell-res))))
