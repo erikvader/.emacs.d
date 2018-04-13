@@ -576,32 +576,48 @@ The map to bind 'trigger' in is by default `evil-normal-state-map' (evil normal 
 (define-key evil-insert-state-map (kbd "M-c") 'evil-capitalize-last-word)
 (define-key my-keys-map (kbd "M-c") 'evil-capitalize-last-word)
 
+(defvar evil-open-line-modes '((haskell-mode . same-as-prev)
+                               (prog-mode . according-to-mode))
+  "Settings for `evil-open-line'.
+Association list of the type (mode . action) where 'action' is done
+if we are in major-mode 'mode'
+
+'action' can be either:
+  same-as-prev      = same indentation as the previous line
+  according-to-mode = call `indent-according-to-mode'")
+
 (defun evil-open-line (ARG)
   "open-line for evil, designed to be the opposite of J (join-lines).
 
 Indents the new line if it is not empty.
- - if prefix argument is raw, then `indent-according-to-mode'
- - if prefix argument is non-negative, then indent that much
- - if derived from prog-mode, then `indent-according-to-mode'
+ - if prefix argument is a non-negative number, then indent that much
+ - if prefix argument is raw, then indent the same amount as the previous line
+ - if there is a match in `evil-open-line-modes', use that
  - else indent to the same amount as the previous line
 
 Assumes `left-margin' is 0 or that there is no fill prefix (that
 open-line doesn't indent the new line in any way)"
   (interactive "P")
-  (let ((start-ind (current-indentation)))
+  (let ((start-ind (current-indentation))
+        (raw (equal ARG '(4)))
+        method)
     (just-one-space 0)
     (open-line 1)
     (save-excursion
       (forward-char)
       (unless (eolp)
-        (cond ((equal ARG '(4))
-               (indent-according-to-mode))
-              ((and (numberp ARG) (>= ARG 0))
-               (indent-to ARG))
-              ((derived-mode-p 'prog-mode)
-               (indent-according-to-mode))
-              (t
-               (indent-to start-ind)))))))
+        (if (and (numberp ARG) (>= ARG 0))
+            (indent-to ARG)
+          (if raw
+              (setq method 'same-as-prev)
+            (setq method (or (cdr (find-if #'derived-mode-p
+                                           evil-open-line-modes
+                                           :key 'car))
+                             'same-as-prev)))
+          (cond ((eq method 'according-to-mode)
+                 (indent-according-to-mode))
+                ((eq method 'same-as-prev)
+                 (indent-to start-ind))))))))
 
 (defun evil-open-line-above (ARG)
   "same as `evil-open-line' except that it is more like gO<esc>"
