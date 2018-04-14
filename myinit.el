@@ -599,7 +599,7 @@ if we are in major-mode 'mode'
 
 Indents the new line if it is not empty.
  - if prefix argument is a non-negative number, then indent that much
- - if prefix argument is raw, then indent the same amount as the previous line
+ - if prefix argument is raw, then invert the action from the following steps
  - if there is a match in `evil-open-line-modes', use that
  - else indent to the same amount as the previous line
 
@@ -616,12 +616,11 @@ open-line doesn't indent the new line in any way)"
       (unless (eolp)
         (if (and (numberp ARG) (>= ARG 0))
             (indent-to ARG)
-          (if raw
-              (setq method 'same-as-prev)
-            (setq method (or (cdr (find-if #'derived-mode-p
-                                           evil-open-line-modes
-                                           :key 'car))
-                             'same-as-prev)))
+          (setq method (or (cdr (find-if #'derived-mode-p
+                                         evil-open-line-modes
+                                         :key 'car))
+                           'same-as-prev))
+          (if raw (setq method (if (eq method 'same-as-prev) 'according-to-mode 'same-as-prev)))
           (cond ((eq method 'according-to-mode)
                  (indent-according-to-mode))
                 ((eq method 'same-as-prev)
