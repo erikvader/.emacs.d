@@ -658,8 +658,10 @@ open-line doesn't indent the new line in any way)"
 
 ;;opposite to J (join-lines)
 (define-key evil-normal-state-map (kbd "S") 'evil-open-line)
-(define-key evil-normal-state-map (kbd "gO") 'evil-open-line-above)
-(define-key evil-normal-state-map (kbd "go") 'evil-open-line-below)
+(define-key evil-normal-state-map (kbd "<return>")   'evil-open-line-below)
+(define-key evil-normal-state-map (kbd "S-<return>") 'evil-open-line-above)
+;; (define-key evil-normal-state-map (kbd "gO") 'evil-open-line-above)
+;; (define-key evil-normal-state-map (kbd "go") 'evil-open-line-below)
 (define-key evil-normal-state-map (kbd "SPC o") 'evil-open-line-below-comment)
 (define-key evil-normal-state-map (kbd "SPC O") 'evil-open-line-above-comment)
 
