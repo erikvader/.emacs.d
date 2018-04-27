@@ -29,6 +29,24 @@
 
 (mapc (lambda (m) (add-hook m 'show-paren-alt-hook)) '(html-erb-mode-hook jinja2-mode-hook web-mode-hook nxml-mode-hook nxhtml-mode-hook rhtml-mode-hook sgml-mode-hook html-mode-hook mhtml-mode-hook))
 
+(require 'heaven-and-hell)
+;; Default is 'light
+(setq heaven-and-hell-theme-type 'dark)
+
+;; Set preferred light and dark themes
+;; default light is emacs default theme, default dark is wombat
+;; Themes can be the list: (dark . (tsdh-dark tango-dark))
+(setq heaven-and-hell-themes
+      '((light . nil)
+        (dark . dracula)))
+
+;; Add init-hook so heaven-and-hell can load your theme
+(add-hook 'after-init-hook 'heaven-and-hell-init-hook)
+
+;; Set keys to toggle theme and return to default emacs theme
+(global-set-key (kbd "C-<f6>") 'heaven-and-hell-load-default-theme)
+(global-set-key (kbd "<f6>") 'heaven-and-hell-toggle-theme)
+
 ;;; my-keys-map
 
 (setq my-keys-map (make-sparse-keymap)) ;;varför gör jag såhär?
