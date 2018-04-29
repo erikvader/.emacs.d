@@ -514,17 +514,17 @@ Only does all of this on visible frames (might not always work)"
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
 (define-key evil-normal-state-map (kbd "SPC x") 'eriks/run-bc-on-region)
-(define-key evil-normal-state-map (kbd "SPC X") 'eriks/bc-set-default-scale)
+(define-key evil-normal-state-map (kbd "SPC X") 'eriks/run-bc-on-region-fixed)
 
-(defvar eriks/bc-scale 3 "The default scale value to use in `eriks/run-bc-on-region'")
+(defvar eriks/bc-scale 5 "The default scale value to use in `eriks/run-bc-on-region'")
 
-(defun eriks/bc-set-default-scale (scale)
-  "Changes the default global value of scale that is used in
-`eriks/run-bc-on-region'"
-  (interactive "Nscale=")
-  (setq eriks/bc-scale scale))
+;; (defun eriks/bc-set-default-scale (scale)
+;;   "Changes the default global value of scale that is used in
+;; `eriks/run-bc-on-region'"
+;;   (interactive "Nscale=")
+;;   (setq eriks/bc-scale scale))
 
-(defun eriks/run-bc-on-region (arg beg end)
+(defun eriks/run-bc-on-region (arg beg end &optional fixed)
   "Evaluates the region as a command to bc and replaces it with the
 result.
 
@@ -542,6 +542,8 @@ Math functions:
   l (x):   The natural logarithm of x.
   e (x):   The exponential function of raising e to the value x.
   j (n,x): The bessel function of integer order n of x.
+
+If fixed is t, then truncate the result to the value of scale.
 "
   (interactive "P\nr")
   (when (region-active-p)
@@ -551,10 +553,15 @@ Math functions:
            (scale (or (and arg (prefix-numeric-value arg)) eriks/bc-scale 0)))
       (when has-newline
         (setq s (substring s 0 -1)))
-      (setq shell-res (replace-regexp-in-string "\\\\\n" "" (shell-command-to-string (format "echo \"scale=%s; %s\" | bc -l" scale s))))
+      (setq shell-res (replace-regexp-in-string "\\\\\n" "" (shell-command-to-string (format "echo \"scale=%s; (%s)%s\" | bc -l" scale s (if fixed " / 1" "")))))
       (unless has-newline
         (setq shell-res (substring shell-res 0 -1)))
-      (insert shell-res))))
+      (insert shell-res)
+      (setq eriks/bc-scale scale))))
+
+(defun eriks/run-bc-on-region-fixed (arg beg end)
+  (interactive "P\nr")
+  (eriks/run-bc-on-region arg beg end t))
 
 ;;;;; evil remap
 (defun evil-remap (trigger action &optional map)
