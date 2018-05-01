@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: bash_bang
+# key: !b
+# --
+#!/bin/bash
