@@ -1,0 +1,6 @@
+# key: wr
+# name: while_read
+# --
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    $0
+done
