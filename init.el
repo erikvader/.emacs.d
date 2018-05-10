@@ -91,9 +91,12 @@
  '(eyebrowse-mode-line-style (quote always))
  '(fci-rule-color "#14151E")
  '(flycheck-global-modes nil)
+ '(frames-only-mode-kill-frame-when-buffer-killed-buffer-list
+   (quote
+    ("*RefTeX Select*" "*Help*" "*Popup Help*" "*Completions*" "widget-choose")))
  '(frames-only-mode-use-window-functions
    (quote
-    (calendar report-emacs-bug checkdoc-show-diagnostics checkdoc undo-tree-visualize ad-Advice-undo-tree-visualize)))
+    (calendar report-emacs-bug checkdoc-show-diagnostics checkdoc undo-tree-visualize ad-Advice-undo-tree-visualize Custom-newline)))
  '(ggtags-highlight-tag nil)
  '(git-gutter+-lighter "")
  '(git-gutter-fr+-side (quote right-fringe))
