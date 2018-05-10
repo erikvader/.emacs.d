@@ -1,5 +1,5 @@
 # -*- mode: snippet; -*-
-# key: [
+# key: tn
 # name: test_new
 # --
-[[ $0 ]
+[[ $0 ]]
