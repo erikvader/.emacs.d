@@ -1151,18 +1151,37 @@ side of the sexp"
 (require 'evil-easymotion)
 (evilem-default-keybindings "SPC")
 
-(defun eriks/avy-goto-char-in-line-exclusive ()
+(defun eriks/avy--regex-candidates-exclusive (regex &optional beg end)
+  "same as `avy--regex-candidates' except that all candidates are
+  before the actual candidate. Only makes sense on the current window
+  where the point is."
+  (let ((p (point))
+        (cur-window (selected-window)))
+    (mapcar
+     (lambda (a)
+       (pcase a
+         ((and
+           `((,b . ,e) . ,w)
+           (guard (equal w cur-window)))
+          (cond ((> b p)
+                 `((,(1- b) . ,(1- e)) . ,w))
+                ((< e p)
+                 `((,(1+ b) . ,(1+ e)) . ,w))
+                (t
+                 `((,b . ,e) . ,w))))
+         (_ a)))
+     (avy--regex-candidates regex beg end))))
+
+(defun eriks/avy-goto-char-in-line-exclusive (char)
   "Same as `avy-goto-char-in-line' except that it doesn't include the
 target character"
-  (interactive)
-  (let ((before (point))
-        after)
-    (call-interactively 'avy-goto-char-in-line)
-    (setq after (point))
-    (cond ((> after before)
-           (goto-char (1- after)))
-          ((< after before)
-           (goto-char (1+ after))))))
+  (interactive "cchar:")
+  (avy--process
+   (eriks/avy--regex-candidates-exclusive
+    (regexp-quote (string char))
+    (line-beginning-position)
+    (line-end-position))
+   (avy--style-fn avy-style)))
 
 (evil-define-avy-motion eriks/avy-goto-char-in-line-exclusive inclusive)
 (define-key evil-motion-state-map (kbd ".") 'evil-eriks/avy-goto-char-in-line-exclusive)
