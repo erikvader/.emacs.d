@@ -1177,11 +1177,6 @@ target character"
 (define-key evil-motion-state-map (kbd "H-.") 'evil-repeat-find-char)
 (define-key evil-motion-state-map (kbd "H-,") 'evil-repeat-find-char-reverse)
 
-;; evilem doesn't get inclusivity right
-;; d SPC e doesn't work if it finds a word that is one character long
-(evil-set-command-property 'evilem-motion-forward-WORD-end :type 'inclusive)
-(evil-set-command-property 'evilem-motion-forward-word-end :type 'inclusive)
-
 (evilem-define (kbd "SPC ][") 'sp-next-sexp)
 (evilem-define (kbd "SPC ]]") 'sp-forward-sexp)
 (evilem-define (kbd "SPC [[") 'sp-backward-sexp)
