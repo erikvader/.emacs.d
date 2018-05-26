@@ -142,26 +142,26 @@
 (define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
 (define-key universal-argument-map (kbd "C-u") nil)
 
-;; (defun eriks/delete-empty-parens ()
-;;   "Kills an empty set om parens (anything in the parens syntax class).
-;; Point can be immediately after the closing paren, inside the parens or
-;; immediately before the opening paren."
-;;   (interactive)
-;;   (save-excursion
-;;     (let ((done nil)
-;;           (ok nil)
-;;           (i 0))
-;;       (while (and
-;;               (not done)
-;;               (< i 3))
-;;         (when (looking-at-p "\\s(\\s)\\|\\s\"\\s\"\\|\\s/\\s/\\|\\s$\\s$") ; delimeters, strings, character delimeter, paired delimeter
-;;           (delete-region (point) (+ 2 (point)))
-;;           (setq done t ok t))
-;;         (setq i (1+ i))
-;;         (setq done (or done
-;;                        (not (ignore-errors (progn (backward-char) t))))))
-;;       (when (not ok)
-;;         (message "There wasn't anything to remove...")))))
+(defun eriks/delete-empty-parens ()
+  "Delete an empty set om parens (anything in the parens syntax class).
+Point can be immediately after the closing paren, inside the parens or
+immediately before the opening paren."
+  (interactive)
+  (save-excursion
+    (let ((done nil)
+          (ok nil)
+          (i 0))
+      (while (and
+              (not done)
+              (< i 3))
+        (when (looking-at-p "\\s(\\s)\\|\\s\"\\s\"\\|\\s/\\s/\\|\\s$\\s$") ; delimeters, strings, character delimeter, paired delimeter
+          (delete-region (point) (+ 2 (point)))
+          (setq done t ok t))
+        (setq i (1+ i))
+        (setq done (or done
+                       (not (ignore-errors (progn (backward-char) t))))))
+      (when (not ok)
+        (message "There wasn't anything to remove...")))))
 
 (defun is-whitespace (char &optional NOTNEWLINE)
   "Checks whether char is a space, newline or tab.
@@ -1117,6 +1117,9 @@ side of the sexp"
 
 (define-key evil-normal-state-map (kbd "C-a") 'eriks/line-cleanup-dwim)
 (define-key evil-insert-state-map (kbd "C-a") 'eriks/line-cleanup-dwim)
+
+(define-key evil-insert-state-map (kbd "C-s") 'eriks/delete-empty-parens)
+(define-key evil-normal-state-map (kbd "C-k") 'eriks/delete-empty-parens)
 
 (defun eriks/delete-trailing-this-line ()
   "Removes trailing whitespace from the current line."
