@@ -567,6 +567,21 @@ If fixed is t, then truncate the result to the value of scale.
   (interactive "P\nr")
   (eriks/run-bc-on-region arg beg end t))
 
+(defun evil-what-cursor (&optional arg)
+  "Extension of `what-cursor-position' that also shows how the
+character can be inserted (if possible) with `evil-insert-digraph'"
+  (interactive "P")
+  (message "")
+  (what-cursor-position arg)
+  (let ((s (find
+            (following-char)
+            (append evil-digraphs-table-user evil-digraphs-table)
+            :key #'cdr)))
+    (when s
+      (princ (format "%s C-k %c%c => %c" (or (current-message) ":(") (caar s) (cadar s) (cdr s))))))
+
+(define-key evil-normal-state-map (kbd "g8") 'evil-what-cursor)
+
 ;;;;; evil remap
 (defun evil-remap (trigger action &optional map)
   "remaps a key sequence to execute another key sequence in evil-mode.
@@ -1123,7 +1138,7 @@ side of the sexp"
 (define-key evil-insert-state-map (kbd "C-a") 'eriks/line-cleanup-dwim)
 
 (define-key evil-insert-state-map (kbd "C-s") 'eriks/delete-empty-parens)
-(define-key evil-normal-state-map (kbd "C-k") 'eriks/delete-empty-parens)
+;; (define-key evil-normal-state-map (kbd "C-k") 'eriks/delete-empty-parens)
 
 (defun eriks/delete-trailing-this-line ()
   "Removes trailing whitespace from the current line."
