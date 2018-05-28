@@ -104,6 +104,7 @@
  '(global-eldoc-mode nil)
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
+ '(indicate-empty-lines t)
  '(js-indent-level 3)
  '(linum-relative-current-symbol "")
  '(linum-relative-lighter "")

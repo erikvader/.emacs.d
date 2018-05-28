@@ -1,6 +1,10 @@
 
 ;;; fonts
 
+;; tilde fringe
+(define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
+(setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
+
 (defface eriks-fix-later-face
   '((t :foreground "orange1"
        :background "gray10"
