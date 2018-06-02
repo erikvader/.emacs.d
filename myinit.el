@@ -81,6 +81,9 @@
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (setq inhibit-startup-screen t)
 
+(define-key indent-rigidly-map (kbd "h") 'indent-rigidly-left)
+(define-key indent-rigidly-map (kbd "l") 'indent-rigidly-right)
+
 (defvar autosave-dir (concat "~/.emacs_auto_saves" "/"))
 (make-directory autosave-dir t)
 (setq auto-save-file-name-transforms
@@ -936,8 +939,6 @@ Uses a default face unless C-u is used."
   (let ((text (read-from-minibuffer "" "")))
     (cons text text)))
 
-(setq-default evil-surround-pairs-alist (cons '(?g . erik-evil-surround-generic) evil-surround-pairs-alist))
-
 ;;stop evil-surround from asking for the same text twice
 (setq erik-evil-generic-inner nil)
 (setq erik-evil-generic-outer nil)
@@ -970,13 +971,24 @@ Uses a default face unless C-u is used."
   (let ((text (string (read-char))))
     (cons text text)))
 
-(setq-default evil-surround-pairs-alist (cons '(?b . erik-evil-surround-between-cmd) evil-surround-pairs-alist))
+(defun erik-evil-surround-latex-macro ()
+  (let ((text (read-from-minibuffer "" "")))
+    (cons (concat "\\" text "{") "}")))
+
+(setq-default evil-surround-pairs-alist (append '((?b . erik-evil-surround-between-cmd)
+                                                  (?g . erik-evil-surround-generic)
+                                                  (?m . erik-evil-surround-latex-macro))
+                                                evil-surround-pairs-alist))
+
+(require 'evil-latex-textobjects)
+(add-hook 'LaTeX-mode-hook 'turn-on-evil-latex-textobjects-mode)
 
 ;;;;; evil collection typ
 ;; (setq evil-want-integration nil)
 ;; (require 'evil-collection)
 ;; (require 'evil-collection-calc)
 ;; (evil-collection-calc-setup)
+
 ;;;;;; outline minor mode
 (evil-define-key '(normal visual motion) outline-minor-mode-map
   (kbd "zp")  'outline-hide-other
@@ -1682,6 +1694,11 @@ REGEX is the regex to align by."
 ;;;; org-mode
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
+;;;; python
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq evil-shift-width python-indent-offset) ;; vet inte om detta funkar
+            ))
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)
   "

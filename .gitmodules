@@ -1,3 +1,9 @@
 [submodule "submodules/evil-easymotion"]
 	path = submodules/evil-easymotion
 	url = https://github.com/erikvader/erik-evilem.git
+[submodule "submodules/evil-latex-textobjects"]
+	path = submodules/evil-latex-textobjects
+	url = https://github.com/hpdeifel/evil-latex-textobjects.git
+[submodule "submodules/evil-plugins"]
+	path = submodules/evil-plugins
+	url = https://github.com/tarao/evil-plugins.git

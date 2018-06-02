@@ -23,8 +23,10 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/themes/")
-(add-to-list 'load-path "~/.emacs.d/evil-plugins")
+(add-to-list 'load-path "~/.emacs.d/misc")
 (add-to-list 'load-path "~/.emacs.d/submodules/evil-easymotion")
+(add-to-list 'load-path "~/.emacs.d/submodules/evil-latex-textobjects")
+(add-to-list 'load-path "~/.emacs.d/submodules/evil-plugins")
 
 ;;(add-to-list 'load-path "~/.emacs.d/non_elpa/i3-emacs")
 
@@ -85,7 +87,7 @@
  '(evil-move-cursor-back nil)
  '(evil-repeat-move-cursor nil)
  '(evil-search-module (quote evil-search))
- '(evil-shift-width 1)
+ '(evil-shift-width 3)
  '(evil-want-C-d-scroll nil)
  '(evil-want-Y-yank-to-eol t)
  '(expand-region-fast-keys-enabled t)
@@ -151,7 +153,6 @@
  '(split-height-threshold nil)
  '(split-width-threshold 100)
  '(standard-indent 3)
- '(tab-width 4)
  '(text-scale-mode-step 1.05)
  '(tool-bar-mode nil)
  '(undo-tree-mode-lighter " untree")
