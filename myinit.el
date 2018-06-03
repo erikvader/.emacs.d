@@ -273,6 +273,9 @@ if SAMELINE then don't move the cursor between lines."
                 ;; '(?å ?ä ?ö)
                 ))
 
+;; no timeout ("infinite" timeout)
+(setq avy-timeout-seconds nil)
+
 (defun eriks/avy-binary-search ()
   "Do a binary search to find a character on the current line"
   (interactive)
@@ -1131,8 +1134,8 @@ side of the sexp"
 
 (defun eriks/avy--regex-candidates-exclusive (regex &optional beg end)
   "same as `avy--regex-candidates' except that all candidates are
-  before the actual candidate. Only makes sense on the current window
-  where the point is."
+  before the actual candidate. Only makes sense/works on the current
+  window where the point is."
   (let ((p (point))
         (cur-window (selected-window)))
     (mapcar
