@@ -375,16 +375,15 @@ if SAMELINE then don't move the cursor between lines."
 (define-key my-keys-map (kbd "C-x C-b") 'ibuffer)
 
 ;;;; latex
-(eval-after-load
-    "latex"
-  (progn
-    (add-hook 'LaTeX-mode-hook
-              (lambda ()
-                ;; (modify-syntax-entry ?$ "\"" LaTeX-mode-syntax-table) ;;make $ act like string so smartparens can navigate with it.
-                (define-key LaTeX-mode-map [remap beginning-of-defun] 'LaTeX-find-matching-begin)
-                (define-key LaTeX-mode-map [remap end-of-defun] 'LaTeX-find-matching-end)
-                (run-hooks 'prog-mode-hook)))))
 
+(require 'latex)
+
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            ;; (modify-syntax-entry ?$ "\"" LaTeX-mode-syntax-table) ;;make $ act like string so smartparens can navigate with it.
+            (define-key LaTeX-mode-map [remap beginning-of-defun] 'LaTeX-find-matching-begin)
+            (define-key LaTeX-mode-map [remap end-of-defun] 'LaTeX-find-matching-end)
+            (run-hooks 'prog-mode-hook)))
 
 ;;;; company
 (global-company-mode t)
@@ -619,6 +618,20 @@ The map to bind 'trigger' in is by default `evil-normal-state-map' (evil normal 
 (define-key evil-normal-state-map (kbd "<backspace>") 'evil-ex-nohighlight)
 
 (evil-remap "C-@" "@@")
+
+(require 'evil-latex-textobjects)
+
+(defmacro evil-define-inner-local-textobject (key func)
+  "binds key to text object func buffer-locally"
+  `(progn
+     (define-key evil-visual-state-local-map (kbd ,(concat "i " key)) ,func)
+     (define-key evil-operator-state-local-map (kbd ,(concat "i " key)) ,func)))
+
+(defmacro evil-define-outer-local-textobject (key func)
+  "binds key to text object func buffer-locally"
+  `(progn
+     (define-key evil-visual-state-local-map (kbd ,(concat "a " key)) ,func)
+     (define-key evil-operator-state-local-map (kbd ,(concat "a " key)) ,func)))
 
 (defun evil-capitalize-last-word ()
   (interactive)
@@ -906,82 +919,13 @@ Uses a default face unless C-u is used."
 
 ;;;;; evil surround
 (require 'evil-surround)
+(evil-surround-install-text-objects)
 (global-evil-surround-mode 1)
 
 (evil-define-key 'visual evil-surround-mode-map "s" 'evil-surround-region)
 (evil-define-key 'visual evil-surround-mode-map "S" 'evil-Surround-region)
 (evil-define-key 'normal evil-surround-mode-map "gs" 'evil-surround-edit)
 (evil-define-key 'normal evil-surround-mode-map "gS" 'evil-Surround-edit)
-
-;; makes point stay where it is
-(define-advice evil-surround-edit (:around (fn OPERATION) keep-point)
-  (save-excursion (funcall fn OPERATION)))
-
-;;;;;; generic
-(evil-define-text-object erik-evil-generic-outer-text-object (count &optional beg end type)
-  (let ((text (read-from-minibuffer "" "")))
-    (if erik-evil-generic-outer
-        (setq erik-evil-generic-latest text))
-    (evil-select-paren text text beg end type count t)))
-
-(evil-define-text-object erik-evil-generic-inner-text-object (count &optional beg end type)
-  (let ((text (if (and erik-evil-generic-inner
-                       erik-evil-generic-latest)
-                  erik-evil-generic-latest
-                (read-from-minibuffer "" ""))))
-    ;; (setq erik-evil-generic-inner nil)
-    (evil-select-paren text text beg end type count nil)))
-
-(define-key evil-inner-text-objects-map (kbd "g") 'erik-evil-generic-inner-text-object)
-(define-key evil-outer-text-objects-map (kbd "g") 'erik-evil-generic-outer-text-object)
-
-(defun erik-evil-surround-generic ()
-  (let ((text (read-from-minibuffer "" "")))
-    (cons text text)))
-
-;;stop evil-surround from asking for the same text twice
-(setq erik-evil-generic-inner nil)
-(setq erik-evil-generic-outer nil)
-(setq erik-evil-generic-latest nil)
-
-(defun erik-evil-generic-before-outer (char)
-  (setq erik-evil-generic-outer t))
-
-(defun erik-evil-generic-after-outer (char)
-  (setq erik-evil-generic-outer nil))
-
-(advice-add 'evil-surround-outer-overlay :before 'erik-evil-generic-before-outer)
-(advice-add 'evil-surround-outer-overlay :after 'erik-evil-generic-after-outer)
-
-(defun erik-evil-generic-before-inner (char)
-  (setq erik-evil-generic-inner t))
-
-(defun erik-evil-generic-after-inner (char)
-  (setq erik-evil-generic-inner nil))
-
-(advice-add 'evil-surround-inner-overlay :before 'erik-evil-generic-before-inner)
-(advice-add 'evil-surround-inner-overlay :after 'erik-evil-generic-after-inner)
-
-;;;;;; between
-(setq evil-textobj-between-a-key "b")
-(setq evil-textobj-between-i-key "b")
-(require 'evil-textobj-between)
-
-(defun erik-evil-surround-between-cmd ()
-  (let ((text (string (read-char))))
-    (cons text text)))
-
-(defun erik-evil-surround-latex-macro ()
-  (let ((text (read-from-minibuffer "" "")))
-    (cons (concat "\\" text "{") "}")))
-
-(setq-default evil-surround-pairs-alist (append '((?b . erik-evil-surround-between-cmd)
-                                                  (?g . erik-evil-surround-generic)
-                                                  (?m . erik-evil-surround-latex-macro))
-                                                evil-surround-pairs-alist))
-
-(require 'evil-latex-textobjects)
-(add-hook 'LaTeX-mode-hook 'turn-on-evil-latex-textobjects-mode)
 
 ;;;;; evil collection typ
 ;; (setq evil-want-integration nil)
@@ -1479,6 +1423,19 @@ target character"
 ;;       (back-to-indentation))))
 
 (evil-mode 1)
+
+(add-hook 'LaTeX-mode-hook
+          (lambda ()
+            ;; (add-to-list 'evil-surround-pairs-alist '(?f . erik-evil-surround-latex-macro))
+            (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
+            (evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
+            (evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
+            (evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
+            (evil-define-outer-local-textobject "\\" 'evil-latex-textobjects-a-math)
+            (evil-define-inner-local-textobject "f" 'evil-latex-textobjects-inner-macro)
+            (evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
+            (evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
+            (evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env)))
 
 ;;;;; modifications
 

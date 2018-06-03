@@ -7,3 +7,6 @@
 [submodule "submodules/evil-plugins"]
 	path = submodules/evil-plugins
 	url = https://github.com/tarao/evil-plugins.git
+[submodule "submodules/evil-surround"]
+	path = submodules/evil-surround
+	url = https://github.com/erikvader/eriks-evil-surround.git

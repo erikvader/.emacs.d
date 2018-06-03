@@ -24,9 +24,11 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/themes/")
 (add-to-list 'load-path "~/.emacs.d/misc")
-(add-to-list 'load-path "~/.emacs.d/submodules/evil-easymotion")
-(add-to-list 'load-path "~/.emacs.d/submodules/evil-latex-textobjects")
-(add-to-list 'load-path "~/.emacs.d/submodules/evil-plugins")
+;; (add-to-list 'load-path "~/.emacs.d/submodules/evil-easymotion")
+;; (add-to-list 'load-path "~/.emacs.d/submodules/evil-latex-textobjects")
+;; (add-to-list 'load-path "~/.emacs.d/submodules/evil-plugins")
+(let ((default-directory "~/.emacs.d/submodules"))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ;;(add-to-list 'load-path "~/.emacs.d/non_elpa/i3-emacs")
 
@@ -118,7 +120,7 @@
  '(org-src-window-setup (quote current-window))
  '(package-selected-packages
    (quote
-    (heaven-and-hell arduino-mode ace-window frames-only-mode evil-collection git-timemachine evil-exchange git-gutter-fringe+ yasnippet-snippets wgrep-ag ag drag-stuff which-key smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile outshine org-bullets multiple-cursors markdown-mode magit linum-relative hydra haskell-snippets haskell-mode golden-ratio-scroll-screen ggtags flycheck expand-region evil-surround evil-nerd-commenter evil-mc-extras evil-lion evil-indent-plus evil-extra-operator disable-mouse diminish counsel-projectile counsel company-emacs-eclim color-moccur charmap buffer-move browse-kill-ring auctex)))
+    (heaven-and-hell arduino-mode ace-window frames-only-mode evil-collection git-timemachine evil-exchange git-gutter-fringe+ yasnippet-snippets wgrep-ag ag drag-stuff which-key smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile outshine org-bullets multiple-cursors markdown-mode magit linum-relative hydra haskell-snippets haskell-mode golden-ratio-scroll-screen ggtags flycheck expand-region evil-nerd-commenter evil-mc-extras evil-lion evil-indent-plus evil-extra-operator disable-mouse diminish counsel-projectile counsel company-emacs-eclim color-moccur charmap buffer-move browse-kill-ring auctex)))
  '(perl-continued-brace-offset -3)
  '(perl-continued-statement-offset 3)
  '(perl-indent-level 3)
