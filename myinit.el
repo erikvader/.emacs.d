@@ -1103,7 +1103,14 @@ side of the sexp"
   "Removes trailing whitespace from the current line."
   (interactive)
   (let ((l (bounds-of-thing-at-point 'line)))
-    (delete-trailing-whitespace (car l) (cdr l))))
+    (save-excursion
+      (goto-char (1- (cdr l)))
+      (while (and
+              (>= (point) (car l))
+              (is-whitespace (following-char) nil))
+        (when (is-whitespace (following-char) t)
+          (delete-char 1))
+        (forward-char -1)))))
 
 (defun eriks/line-cleanup-dwim ()
   " - if the mark is active, then remove trailing whitespace inside region
@@ -1119,7 +1126,7 @@ side of the sexp"
            (i (current-indentation))
            (non-i (- (- (cdr l) (car l)) i 1)))
       (cond
-       ((or (and (> i 0) (= non-i 0)) ; only indentation
+       ((or (and (> i 0) (<= non-i 0)) ; only indentation
             (> non-i 0))              ; contains non-indentation
         (eriks/delete-trailing-this-line))
        ((and (= i 0) (= non-i 0))     ; completely empty line
