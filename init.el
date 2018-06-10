@@ -136,7 +136,6 @@
      mode-line-minor-mode-keymap)))
  '(rm-whitelist nil)
  '(sentence-end-double-space nil)
- '(sh-mode-hook nil)
  '(show-trailing-whitespace nil)
  '(size-indication-mode nil)
  '(sml/theme (quote dark-erik))

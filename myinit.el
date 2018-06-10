@@ -1666,6 +1666,12 @@ REGEX is the regex to align by."
           (lambda ()
             (setq evil-shift-width python-indent-offset) ;; vet inte om detta funkar
             ))
+
+;;;; shell-script
+(remove-hook 'sh-mode-hook 'sh-electric-here-document-mode)
+(add-hook 'sh-mode-hook
+          (lambda ()
+            (flycheck-mode 1)))
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)
   "
