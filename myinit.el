@@ -195,25 +195,18 @@ if SAMELINE then don't move the cursor between lines."
   (interactive)
   (eriks-skip-space -1 SAMELINE))
 
-(defmacro same-buffer (&rest body)
+(defmacro same-buffer (&rest BODY)
   "Executes BODY while forcing `switch-to-buffer-other-window' and
 `display-buffer' to always open in the current window, if possible
 (see `switch-to-buffer' and its last argument FORCE-SAME-WINDOW
 when set to nil)."
-  (defun same-buffer-adv (f buffer-or-name &rest args)
-    "advice to open buffer in the same window"
-    (switch-to-buffer buffer-or-name))
-  (defun same-buffer-adv-2 (f buffer-or-name &rest args)
-    "same as `same-buffer-adv', except that this returns the window
-instead of the buffer."
-    (get-buffer-window (switch-to-buffer buffer-or-name)))
-  `(unwind-protect
-       (progn
-         (advice-add 'switch-to-buffer-other-window :around #'same-buffer-adv)
-         (advice-add 'display-buffer :around #'same-buffer-adv-2)
-         ,@body)
-     (advice-remove 'switch-to-buffer-other-window #'same-buffer-adv)
-     (advice-remove 'display-buffer #'same-buffer-adv-2)))
+  `(cl-letf (((symbol-function 'switch-to-buffer-other-window)
+              (lambda (BUFFER-OR-NAME &rest args)
+                (switch-to-buffer BUFFER-OR-NAME)))
+             ((symbol-function 'display-buffer)
+              (lambda (BUFFER-OR-NAME &rest args)
+                (get-buffer-window (switch-to-buffer BUFFER-OR-NAME)))))
+     ,@BODY))
 
 ;;; eriks-map
 (define-prefix-command 'eriks-map)
