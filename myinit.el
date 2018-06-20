@@ -245,8 +245,8 @@ when set to nil)."
 
 (winner-mode 1)
 
-(global-linum-mode)
-(linum-relative-toggle)
+;; (global-linum-mode)
+;; (linum-relative-toggle)
 
 (yas-global-mode 1)
 
@@ -263,12 +263,12 @@ when set to nil)."
             (setq ggtags-mode-line-project-name nil)))
 
 ;; disable linum-mode in main config file (this one)
-(add-hook 'outline-minor-mode-hook (lambda ()
-                                     (when (and
-                                            buffer-file-name
-                                            (equal "myinit.el"
-                                                    (replace-regexp-in-string "\\(^.*/\\).*?$" "" buffer-file-name nil nil 1)))
-                                       (linum-mode -1))))
+;; (add-hook 'outline-minor-mode-hook (lambda ()
+;;                                      (when (and
+;;                                             buffer-file-name
+;;                                             (equal "myinit.el"
+;;                                                     (replace-regexp-in-string "\\(^.*/\\).*?$" "" buffer-file-name nil nil 1)))
+;;                                        (linum-mode -1))))
 ;;;; ivy, swiper and counsel
 (ivy-mode 1)
 (counsel-mode 1)
