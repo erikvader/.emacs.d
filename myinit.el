@@ -281,7 +281,7 @@ when set to nil)."
 
 ;;;; avy
 (setq avy-keys '(;;nconc
-                ?a ?s ?d ?f ?g ?h ?j ?k ?l
+                ?h ?g ?j ?f ?k ?d ?l ?s
                 ;; (number-sequence ?a ?z)
                 ;; '(?å ?ä ?ö)
                 ))
@@ -1191,6 +1191,9 @@ target character"
 (define-key evil-motion-state-map (kbd "SPC SPC") 'avy-goto-char)
 
 (define-key evil-motion-state-map (kbd ";") 'avy-goto-char-timer)
+
+(define-key evil-motion-state-map (kbd "+") 'evilem-motion-next-line-first-non-blank)
+(define-key evil-motion-state-map (kbd "-") 'evilem-motion-previous-line-first-non-blank)
 
 (define-key evil-motion-state-map (kbd "C-;") 'evil-repeat-find-char)
 (define-key evil-motion-state-map (kbd "C-,") 'evil-repeat-find-char-reverse)
