@@ -52,6 +52,7 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(auto-hscroll-mode (quote current-line))
  '(avy-all-windows (quote all-frames))
  '(avy-background t)
  '(avy-highlight-first nil)
@@ -114,6 +115,7 @@
  '(linum-relative-lighter "")
  '(menu-bar-mode nil)
  '(modalka-excluded-modes (quote (dired-mode)))
+ '(mode-line-percent-position (quote (-3 "%o")))
  '(my-keys-minor-mode t)
  '(neo-show-hidden-files t)
  '(neo-window-fixed-size t)
@@ -187,6 +189,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "DAMA" :family "Ubuntu Mono"))))
+ '(line-number ((t (:inherit (shadow default) :background "black" :foreground "#565761" :slant italic))))
+ '(line-number-current-line ((t (:inherit line-number :background "#444444" :foreground "#CAE682" :slant normal :weight bold))))
  '(moccur-face ((t nil))))
 
 (package-install-selected-packages)
