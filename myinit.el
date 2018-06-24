@@ -743,19 +743,21 @@ open-line doesn't indent the new line in any way)"
 
 (define-key evil-normal-state-map (kbd "C-M-j") 'indent-new-comment-line)
 
-;; copy of the normal evil-join
-(evil-define-operator eriks/evil-join (beg end)
+(defun eriks/evil-join (arg)
   "Join the selected lines. But don't add any spaces if a prefix
-argument is specified."
-  :motion evil-line
-  (let ((count (count-lines beg end)))
-    (when (> count 1)
-      (setq count (1- count)))
-    (goto-char beg)
-    (dotimes (var count)
-      (join-line 1)
-      (when current-prefix-arg
-        (just-one-space 0)))))
+argument is raw or negative. If prefix is any other number, then add
+that many spaces instead of one."
+  (interactive "P")
+  (setq prefix-arg nil current-prefix-arg nil)
+  (call-interactively 'evil-join)
+  (when arg
+    (let* ((x (prefix-numeric-value arg))
+           (y (if (or (equal arg '(4))
+                      (equal arg '(16))
+                      (< x 0))
+                  0
+                x)))
+      (just-one-space y))))
 
 (define-key evil-normal-state-map (kbd "J") 'eriks/evil-join)
 
