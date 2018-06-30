@@ -968,6 +968,7 @@ Uses a default face unless C-u is used."
 
 ;;;;;; outline minor mode
 (evil-define-key '(normal visual motion) outline-minor-mode-map
+  (kbd "zo")  'outline-show-more
   (kbd "zp")  'outline-hide-other
   (kbd "zB")  'outline-hide-body
   (kbd "zb")  'outline-hide-entry
