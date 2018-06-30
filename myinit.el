@@ -279,6 +279,21 @@ when set to nil)."
 ;; (define-key ivy-mode-map [remap switch-to-buffer-other-window] nil)
 (setq ivy-use-selectable-prompt t)
 
+;; no longer requires a match, can create files now
+(defun counsel-projectile-find-file (&optional arg)
+  "Jump to a file in the current project.
+
+With a prefix ARG, invalidate the cache first."
+  (interactive "P")
+  (projectile-maybe-invalidate-cache arg)
+  (ivy-read (projectile-prepend-project-name "Find file: ")
+            (projectile-current-project-files)
+            :matcher counsel-projectile-find-file-matcher
+            :require-match nil
+            :sort counsel-projectile-sort-files
+            :action counsel-projectile-find-file-action
+            :caller 'counsel-projectile-find-file))
+
 ;;;; avy
 (setq avy-keys '(;;nconc
                 ?h ?g ?j ?f ?k ?d ?l ?s
