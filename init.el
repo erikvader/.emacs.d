@@ -122,7 +122,7 @@
  '(org-src-window-setup (quote current-window))
  '(package-selected-packages
    (quote
-    (lua-mode heaven-and-hell arduino-mode ace-window frames-only-mode evil-collection git-timemachine evil-exchange git-gutter-fringe+ yasnippet-snippets wgrep-ag ag drag-stuff which-key smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile outshine org-bullets multiple-cursors markdown-mode magit linum-relative hydra haskell-snippets haskell-mode golden-ratio-scroll-screen ggtags flycheck expand-region evil-nerd-commenter evil-mc-extras evil-lion evil-indent-plus evil-extra-operator disable-mouse diminish counsel-projectile counsel company-emacs-eclim color-moccur charmap buffer-move browse-kill-ring auctex)))
+    (vdiff-magit vdiff lua-mode heaven-and-hell arduino-mode ace-window frames-only-mode evil-collection git-timemachine evil-exchange git-gutter-fringe+ yasnippet-snippets wgrep-ag ag drag-stuff which-key smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile outshine org-bullets multiple-cursors markdown-mode magit linum-relative hydra haskell-snippets haskell-mode golden-ratio-scroll-screen ggtags flycheck expand-region evil-nerd-commenter evil-mc-extras evil-lion evil-indent-plus evil-extra-operator disable-mouse diminish counsel-projectile counsel company-emacs-eclim color-moccur charmap buffer-move browse-kill-ring auctex)))
  '(perl-continued-brace-offset -3)
  '(perl-continued-statement-offset 3)
  '(perl-indent-level 3)
@@ -189,9 +189,18 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :foundry "DAMA" :family "Ubuntu Mono"))))
+ '(ediff-even-diff-A ((t (:background "gray25"))))
+ '(ediff-even-diff-Ancestor ((t (:inherit ediff-even-diff-A))))
+ '(ediff-even-diff-B ((t (:inherit ediff-even-diff-A))))
+ '(ediff-even-diff-C ((t (:inherit ediff-even-diff-A))))
+ '(ediff-odd-diff-A ((t (:inherit ediff-odd-diff-Ancestor))))
+ '(ediff-odd-diff-Ancestor ((t (:inherit ediff-even-diff-A))))
+ '(ediff-odd-diff-B ((t (:inherit ediff-odd-diff-Ancestor))))
+ '(ediff-odd-diff-C ((t (:inherit ediff-odd-diff-Ancestor))))
  '(line-number ((t (:inherit (shadow default) :background "black" :foreground "#565761" :slant italic))))
  '(line-number-current-line ((t (:inherit line-number :background "#444444" :foreground "#CAE682" :slant normal :weight bold))))
- '(moccur-face ((t nil))))
+ '(moccur-face ((t nil)))
+ '(vdiff-change-face ((t (:background "gray25")))))
 
 (package-install-selected-packages)
 

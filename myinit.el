@@ -214,6 +214,7 @@ when set to nil)."
 (define-key eriks-map (kbd "C-f") 'ff-find-other-file)
 
 (define-key eriks-map (kbd "gs") 'magit-status)
+(define-key eriks-map (kbd "gb") 'magit-blame)
 (define-key eriks-map (kbd "gt") 'git-timemachine)
 (define-key eriks-map (kbd "gv") 'vc-annotate)
 
@@ -1649,6 +1650,17 @@ REGEX is the regex to align by."
     (message "You need to install magit for this")))
 
 (define-key git-timemachine-mode-map (kbd "c") 'eriks/git-timemachine-show-commit)
+
+;;;; vdiff
+(require 'vdiff)
+
+(define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
+
+(setq vdiff-auto-refine t)
+
+(defun vdiff-close-everything (buf1 buf2)
+  "close everything on exit"
+  (delete-frame))
 
 ;;; mode hooks
 ;;;; prog-mode
