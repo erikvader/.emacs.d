@@ -1213,6 +1213,8 @@ target character"
 
 (define-key evil-motion-state-map (kbd "+") 'evilem-motion-next-line-first-non-blank)
 (define-key evil-motion-state-map (kbd "-") 'evilem-motion-previous-line-first-non-blank)
+(define-key evil-motion-state-map (kbd "J") 'evilem-motion-next-line-first-non-blank)
+(define-key evil-motion-state-map (kbd "K") 'evilem-motion-previous-line-first-non-blank)
 
 (define-key evil-motion-state-map (kbd "C-;") 'evil-repeat-find-char)
 (define-key evil-motion-state-map (kbd "C-,") 'evil-repeat-find-char-reverse)
