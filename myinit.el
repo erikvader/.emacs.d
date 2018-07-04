@@ -591,7 +591,7 @@ If fixed is t, then truncate the result to the value of scale.
            (scale (or (and arg (prefix-numeric-value arg)) eriks/bc-scale 0)))
       (when has-newline
         (setq s (substring s 0 -1)))
-      (setq shell-res (replace-regexp-in-string "\\\\\n" "" (shell-command-to-string (format "echo \"scale=%s; (%s)%s\" | bc -l" scale s (if fixed " / 1" "")))))
+      (setq shell-res (replace-regexp-in-string "\\\\\n" "" (shell-command-to-string (format "echo \"scale=%s; %s%s%s\" | bc -l" scale (if fixed "(" "") s (if fixed ") / 1" "")))))
       (unless has-newline
         (setq shell-res (substring shell-res 0 -1)))
       (insert shell-res)
