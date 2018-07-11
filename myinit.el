@@ -1685,8 +1685,7 @@ REGEX is the regex to align by."
 ;;;; c
 (add-hook 'c-mode-hook
           (lambda ()
-            (flycheck-mode 1)
-            (ggtags-mode 1)))
+            (flycheck-mode 1)))
 
 ;;;; lisp
 (defun lisp-modes-hook ()
