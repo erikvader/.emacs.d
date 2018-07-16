@@ -253,8 +253,8 @@ when set to nil)."
 
 (global-undo-tree-mode 1)
 
-(define-key my-keys-map [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
-(define-key my-keys-map [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
+;; (define-key my-keys-map [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+;; (define-key my-keys-map [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 
 (projectile-global-mode t)
 (counsel-projectile-mode)
@@ -553,6 +553,11 @@ Only does all of this on visible frames (might not always work)"
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
 (define-key evil-normal-state-map (kbd "SPC x") 'eriks/run-bc-on-region)
 (define-key evil-normal-state-map (kbd "SPC X") 'eriks/run-bc-on-region-fixed)
+
+(define-key evil-normal-state-map (kbd "C-d") 'golden-ratio-scroll-screen-up)
+(define-key evil-normal-state-map (kbd "C-u") 'golden-ratio-scroll-screen-down)
+(define-key evil-visual-state-map (kbd "C-d") 'evil-scroll-down)
+(define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
 (defvar eriks/bc-scale 5 "The default scale value to use in `eriks/run-bc-on-region'")
 
@@ -1207,7 +1212,7 @@ target character"
 (define-key evil-motion-state-map (kbd ".") 'evil-eriks/avy-goto-char-in-line-exclusive)
 
 (define-key evil-motion-state-map (kbd ",") 'avy-goto-char-in-line)
-(define-key evil-motion-state-map (kbd "SPC SPC") 'avy-goto-char)
+(define-key evil-motion-state-map (kbd "SPC ,") 'avy-goto-char)
 
 (define-key evil-motion-state-map (kbd ";") 'avy-goto-char-timer)
 
@@ -1347,9 +1352,13 @@ target character"
 
 ;;;;; ggtags
 
-(evil-define-key 'normal ggtags-mode-map (kbd "C-]") 'ggtags-find-tag-dwim)
-(evil-define-key 'normal ggtags-mode-map (kbd "C-o") 'ggtags-prev-mark)
-(evil-define-key 'normal ggtags-mode-map (kbd "C-i") 'ggtags-next-mark)
+(define-key evil-normal-state-map (kbd "SPC SPC") 'ggtags-find-tag-dwim)
+(define-key evil-normal-state-map (kbd "H-o") 'ggtags-prev-mark)
+(define-key evil-normal-state-map (kbd "H-i") 'ggtags-next-mark)
+
+;; (evil-define-key 'normal ggtags-mode-map (kbd "C-]") 'ggtags-find-tag-dwim)
+;; (evil-define-key 'normal ggtags-mode-map (kbd "C-o") 'ggtags-prev-mark)
+;; (evil-define-key 'normal ggtags-mode-map (kbd "C-i") 'ggtags-next-mark)
 
 ;;;;; other
 
