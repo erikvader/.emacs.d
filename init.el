@@ -97,6 +97,7 @@
  '(eyebrowse-mode-line-style (quote always))
  '(fci-rule-color "#14151E")
  '(flycheck-global-modes nil)
+ '(flycheck-pylintrc "~/.emacs.d/.flycheck-pylintrc")
  '(frames-only-mode-kill-frame-when-buffer-killed-buffer-list
    (quote
     ("*RefTeX Select*" "*Help*" "*Popup Help*" "*Completions*" "widget-choose")))

@@ -1712,6 +1712,7 @@ REGEX is the regex to align by."
 (add-hook 'python-mode-hook
           (lambda ()
             (setq evil-shift-width python-indent-offset) ;; vet inte om detta funkar
+            (flycheck-mode 1)
             ))
 
 ;;;; shell-script
