@@ -105,6 +105,8 @@
 (setq line-move-visual nil)
 (setq browse-url-browser-function 'browse-url-generic browse-url-generic-program "xdg-open")
 
+(defun noop () "Does pretty much (exactly) nothing" (interactive))
+
 ;;; my custom functions
 (defun eval-last-sexp-replace ()
   "Runs `eval-last-sexp' and replaces the sexp with the evaluated value"
@@ -778,7 +780,10 @@ open-line doesn't indent the new line in any way)"
 
 (define-key evil-normal-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
 (define-key evil-visual-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
+(define-key evil-visual-state-map (kbd "J") 'evil-join)
 
+(define-key evil-normal-state-map (kbd "K") 'noop)
+(define-key evil-visual-state-map (kbd "K") 'noop)
 
 (define-key evil-normal-state-map (kbd "ga") 'evil-lion-left)
 (define-key evil-normal-state-map (kbd "gA") 'evil-lion-right)
