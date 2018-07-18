@@ -786,8 +786,6 @@ that many spaces instead of one."
 (define-key evil-normal-state-map (kbd "gA") 'evil-lion-right)
 
 (define-key evil-normal-state-map (kbd "U")   'undo-tree-redo)
-(define-key evil-normal-state-map (kbd "C-d") 'scroll-up-command)
-(define-key evil-normal-state-map (kbd "C-u") 'scroll-down-command)
 
 (define-key evil-normal-state-map (kbd "C-M--") 'evil-numbers/dec-at-pt)
 (define-key evil-normal-state-map (kbd "C-M-+") 'evil-numbers/inc-at-pt)
@@ -1718,11 +1716,12 @@ REGEX is the regex to align by."
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;;;; python
-(add-hook 'python-mode-hook
-          (lambda ()
-            (setq evil-shift-width python-indent-offset) ;; vet inte om detta funkar
-            (flycheck-mode 1)
-            ))
+(defun python-mode-hook-fun ()
+  (setq evil-shift-width python-indent-offset)
+  (flycheck-mode 1)
+  (highlight-indent-guides-mode 1))
+
+(add-hook 'python-mode-hook 'python-mode-hook-fun)
 
 ;;;; shell-script
 (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode)
