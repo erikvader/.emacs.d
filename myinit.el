@@ -765,9 +765,8 @@ open-line doesn't indent the new line in any way)"
 (define-key evil-normal-state-map (kbd "C-M-j") 'indent-new-comment-line)
 
 ;; copy of the normal evil-join
-(evil-define-operator eriks/evil-join (beg end)
-  "Join the selected lines. But don't add any spaces if a prefix
-argument is specified."
+(evil-define-operator eriks/evil-join-no-space (beg end)
+  "Join the selected lines and remove all whitespace"
   :motion evil-line
   (let ((count (count-lines beg end)))
     (when (> count 1)
@@ -775,10 +774,11 @@ argument is specified."
     (goto-char beg)
     (dotimes (var count)
       (join-line 1)
-      (when current-prefix-arg
-        (just-one-space 0)))))
+      (just-one-space 0))))
 
-(define-key evil-normal-state-map (kbd "J") 'eriks/evil-join)
+(define-key evil-normal-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
+(define-key evil-visual-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
+
 
 (define-key evil-normal-state-map (kbd "ga") 'evil-lion-left)
 (define-key evil-normal-state-map (kbd "gA") 'evil-lion-right)
