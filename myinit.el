@@ -163,7 +163,7 @@ immediately before the opening paren."
       (while (and
               (not done)
               (< i 3))
-        (when (looking-at-p "\\s(\\s)\\|\\s\"\\s\"\\|\\s/\\s/\\|\\s$\\s$") ; delimeters, strings, character delimeter, paired delimeter
+        (when (looking-at-p "\\s(\\s)\\|\\s\"\\s\"\\|\\s/\\s/\\|\\s$\\s$\\|\\s|\\s|") ; delimeters, strings, character delimeter, paired delimeter, generic string delimiter
           (delete-region (point) (+ 2 (point)))
           (setq done t ok t))
         (setq i (1+ i))
