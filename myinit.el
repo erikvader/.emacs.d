@@ -31,7 +31,17 @@
 (defun show-paren-alt-hook ()
   (face-remap-set-base 'show-paren-match '(:underline t)))
 
-(mapc (lambda (m) (add-hook m 'show-paren-alt-hook)) '(html-erb-mode-hook jinja2-mode-hook web-mode-hook nxml-mode-hook nxhtml-mode-hook rhtml-mode-hook sgml-mode-hook html-mode-hook mhtml-mode-hook))
+(mapc
+ (lambda (m) (add-hook m 'show-paren-alt-hook))
+ '(html-erb-mode-hook
+   jinja2-mode-hook
+   web-mode-hook
+   nxml-mode-hook
+   nxhtml-mode-hook
+   rhtml-mode-hook
+   sgml-mode-hook
+   html-mode-hook
+   mhtml-mode-hook))
 
 (require 'heaven-and-hell)
 ;; Default is 'light
@@ -222,10 +232,12 @@ when set to nil)."
 
 (define-key eriks-map (kbd "U") 'counsel-unicode-char)
 
-(define-key eriks-map (kbd "t U") 'untabify)
-(define-key eriks-map (kbd "t u") 'tabify)
-(define-key eriks-map (kbd "t w") 'whitespace-cleanup)
-(define-key eriks-map (kbd "t e") 'delete-trailing-whitespace)
+(define-key eriks-map (kbd "w U") 'untabify)
+(define-key eriks-map (kbd "w u") 'tabify)
+(define-key eriks-map (kbd "w w") 'whitespace-cleanup)
+(define-key eriks-map (kbd "w e") 'delete-trailing-whitespace)
+
+(define-key eriks-map (kbd "T") 'toggle-truncate-lines)
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
@@ -261,9 +273,9 @@ when set to nil)."
 (projectile-global-mode t)
 (counsel-projectile-mode)
 
-(add-hook 'ggtags-mode-hook
-          (lambda ()
-            (setq ggtags-mode-line-project-name nil)))
+(defun ggtags-mode-hook-fun ()
+  (setq ggtags-mode-line-project-name nil))
+(add-hook 'ggtags-mode-hook 'ggtags-mode-hook-fun)
 
 ;; disable linum-mode in main config file (this one)
 ;; (add-hook 'outline-minor-mode-hook (lambda ()
@@ -281,21 +293,6 @@ when set to nil)."
 ;; (define-key ivy-mode-map [remap switch-to-buffer] nil)
 ;; (define-key ivy-mode-map [remap switch-to-buffer-other-window] nil)
 (setq ivy-use-selectable-prompt t)
-
-;; no longer requires a match, can create files now
-(defun counsel-projectile-find-file (&optional arg)
-  "Jump to a file in the current project.
-
-With a prefix ARG, invalidate the cache first."
-  (interactive "P")
-  (projectile-maybe-invalidate-cache arg)
-  (ivy-read (projectile-prepend-project-name "Find file: ")
-            (projectile-current-project-files)
-            :matcher counsel-projectile-find-file-matcher
-            :require-match nil
-            :sort counsel-projectile-sort-files
-            :action counsel-projectile-find-file-action
-            :caller 'counsel-projectile-find-file))
 
 ;;;; avy
 (setq avy-keys '(;;nconc
@@ -356,16 +353,19 @@ With a prefix ARG, invalidate the cache first."
 
 ;;;; outshine
 ;; (setq outshine-use-speed-commands t)
-(add-hook 'outline-minor-mode-hook (lambda ()
-                                     (outshine-hook-function)
-                                     (define-key outline-minor-mode-map [remap self-insert-command] nil) ;;remove annyoing remap to outshine-self-insert-command
-                                     ))
+(defun outline-minor-mode-hook-fun ()
+  (outshine-hook-function)
+  (define-key outline-minor-mode-map [remap self-insert-command] nil) ;;remove annyoing remap to outshine-self-insert-command
+  )
+(add-hook 'outline-minor-mode-hook 'outline-minor-mode-hook-fun)
 
 ;; removed top-level sexpressions as outlines in lisp modes
+(defun lisp-outline-hook-fun ()
+  (setq outline-regexp ";;;\\(;* [^ 	
+]\\|###autoload\\)"))
+
 (dolist (l-mode '(emacs-lisp-mode-hook lisp-mode-hook))
-  (add-hook l-mode (lambda ()
-                     (setq outline-regexp ";;;\\(;* [^ 	
-]\\|###autoload\\)"))))
+  (add-hook l-mode 'lisp-outline-hook-fun))
 
 ;; enable in some programming modes
 (dolist (p-mode '(emacs-lisp-mode-hook
@@ -402,9 +402,9 @@ With a prefix ARG, invalidate the cache first."
                ;;          (name . "^\\.newsrc-dribble")))
                ))))
 
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "default")))
+(defun ibuffer-mode-hook-fun ()
+  (ibuffer-switch-to-saved-filter-groups "default"))
+(add-hook 'ibuffer-mode-hook 'ibuffer-mode-hook-fun)
 
 (define-key my-keys-map (kbd "C-x C-b") 'ibuffer)
 
@@ -412,12 +412,12 @@ With a prefix ARG, invalidate the cache first."
 
 (require 'latex)
 
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            ;; (modify-syntax-entry ?$ "\"" LaTeX-mode-syntax-table) ;;make $ act like string so smartparens can navigate with it.
-            (define-key LaTeX-mode-map [remap beginning-of-defun] 'LaTeX-find-matching-begin)
-            (define-key LaTeX-mode-map [remap end-of-defun] 'LaTeX-find-matching-end)
-            (run-hooks 'prog-mode-hook)))
+(defun LaTeX-mode-hook-fun ()
+  ;; (modify-syntax-entry ?$ "\"" LaTeX-mode-syntax-table) ;;make $ act like string so smartparens can navigate with it.
+  (define-key LaTeX-mode-map [remap beginning-of-defun] 'LaTeX-find-matching-begin)
+  (define-key LaTeX-mode-map [remap end-of-defun] 'LaTeX-find-matching-end)
+  (run-hooks 'prog-mode-hook))
+(add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-fun)
 
 ;;;; company
 (global-company-mode t)
@@ -980,7 +980,7 @@ Uses a default face unless C-u is used."
   (kbd "zB")  'outline-hide-body
   (kbd "zb")  'outline-hide-entry
   (kbd "ze")  'outline-show-entry
-  (kbd "zl")  'outline-hide-leaves
+  ;; (kbd "zl")  'outline-hide-leaves ;; interferes with evil binding
   (kbd "zk")  'outline-show-children
   (kbd "zK")  'outline-show-branches
   (kbd "zu")  'outline-up-heading
@@ -1292,9 +1292,9 @@ target character"
 ;;;;; multiple cursors
 ;; yank fix
 ;; https://github.com/gabesoft/evil-mc/issues/70
-(add-hook 'evil-mc-after-cursors-deleted
-          (lambda ()
-            (setq evil-was-yanked-without-register t)))
+(defun evil-mc-after-cursors-deleted-fun ()
+  (setq evil-was-yanked-without-register t))
+(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-after-cursors-deleted-fun)
 
 (defvar evil-mc-key-map
   (let ((map (make-sparse-keymap))
@@ -1346,8 +1346,12 @@ target character"
 
 ;; Temporary fix for bug with change command with multiple cursors
 ;; https://github.com/gabesoft/evil-mc/issues/63
-(add-hook 'evil-mc-before-cursors-created (lambda () (setq-default evil-move-cursor-back t)))
-(add-hook 'evil-mc-after-cursors-deleted (lambda () (setq-default evil-move-cursor-back nil)))
+(defun evil-mc-before-cursors-created-fun ()
+  (setq-default evil-move-cursor-back t))
+(add-hook 'evil-mc-before-cursors-created 'evil-mc-before-cursors-created-fun)
+(defun evil-mc-after-cursors-deleted-fun ()
+  (setq-default evil-move-cursor-back nil))
+(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-after-cursors-deleted-fun)
 
 (global-evil-mc-mode 1)
 
@@ -1481,18 +1485,18 @@ target character"
 
 (evil-mode 1)
 
-(add-hook 'LaTeX-mode-hook
-          (lambda ()
-            ;; (add-to-list 'evil-surround-pairs-alist '(?f . erik-evil-surround-latex-macro))
-            (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
-            (evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
-            (evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
-            (evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
-            (evil-define-outer-local-textobject "\\" 'evil-latex-textobjects-a-math)
-            (evil-define-inner-local-textobject "f" 'evil-latex-textobjects-inner-macro)
-            (evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
-            (evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
-            (evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env)))
+(defun LaTeX-mode-hook-fun ()
+  ;; (add-to-list 'evil-surround-pairs-alist '(?f . erik-evil-surround-latex-macro))
+  (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
+  (evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
+  (evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
+  (evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
+  (evil-define-outer-local-textobject "\\" 'evil-latex-textobjects-a-math)
+  (evil-define-inner-local-textobject "f" 'evil-latex-textobjects-inner-macro)
+  (evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
+  (evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
+  (evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))
+(add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-fun)
 
 ;;;;; modifications
 
@@ -1676,26 +1680,26 @@ REGEX is the regex to align by."
 
 ;;; mode hooks
 ;;;; prog-mode
-(add-hook 'prog-mode-hook
-          (lambda ()
-            ;; (evil-set-initial-state major-mode 'normal)
-            (show-smartparens-mode t)
-            (smartparens-mode t)
-            (setq show-trailing-whitespace t)
-            (rainbow-delimiters-mode t)
-            (add-todo-font-lock)))
+(defun prog-mode-hook-fun ()
+  ;; (evil-set-initial-state major-mode 'normal)
+  (show-smartparens-mode t)
+  (smartparens-mode t)
+  (setq show-trailing-whitespace t)
+  (rainbow-delimiters-mode t)
+  (add-todo-font-lock))
+(add-hook 'prog-mode-hook 'prog-mode-hook-fun)
 
 ;;;; common c
-(add-hook 'c-mode-common-hook
-            (lambda ()
-              (run-hooks 'abbrev-mode-hook) ;;för att den inte verkar göra det själv
-              (setq-local comment-start "//")
-              (setq-local comment-end "")))
+(defun c-mode-common-hook-fun ()
+  (run-hooks 'abbrev-mode-hook) ;;för att den inte verkar göra det själv
+  (setq-local comment-start "//")
+  (setq-local comment-end ""))
+(add-hook 'c-mode-common-hook 'c-mode-common-hook-fun)
 
 ;;;; c
-(add-hook 'c-mode-hook
-          (lambda ()
-            (flycheck-mode 1)))
+(defun c-mode-hook-fun ()
+  (flycheck-mode 1))
+(add-hook 'c-mode-hook 'c-mode-hook-fun)
 
 ;;;; lisp
 (defun lisp-modes-hook ()
@@ -1711,12 +1715,15 @@ REGEX is the regex to align by."
   (save-excursion
     (sgml-close-tag)))
 
-(add-hook 'html-mode-hook (lambda ()
-                            (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
-                            (define-key html-mode-map (kbd "/") nil)))
+(defun html-mode-hook-fun ()
+  (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
+  (define-key html-mode-map (kbd "/") nil))
+(add-hook 'html-mode-hook 'html-mode-hook-fun)
 
 ;;;; org-mode
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(defun org-mode-hook-fun ()
+  (org-bullets-mode 1))
+(add-hook 'org-mode-hook 'org-mode-hook-fun)
 
 ;;;; python
 (defun python-mode-hook-fun ()
@@ -1728,9 +1735,15 @@ REGEX is the regex to align by."
 
 ;;;; shell-script
 (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode)
-(add-hook 'sh-mode-hook
-          (lambda ()
-            (flycheck-mode 1)))
+(defun sh-mode-hook-fun ()
+  (flycheck-mode 1))
+(add-hook 'sh-mode-hook 'sh-mode-hook-fun)
+
+;;;; haskell
+(defun haskell-mode-hook-fun ()
+  (highlight-indent-guides-mode 1))
+(add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
+
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)
   "
@@ -1766,9 +1779,9 @@ REGEX is the regex to align by."
 (define-key eriks-map (kbd "t") 'hydra-ggtags/body)
 
 ;;; diminish
-(add-hook 'autopair-mode-hook
-          (lambda ()
-            (diminish 'autopair-mode)))
+(defun autopair-mode-hook-fun ()
+  (diminish 'autopair-mode))
+(add-hook 'autopair-mode-hook 'autopair-mode-hook-fun)
 
 (diminish 'counsel-mode)
 (diminish 'which-key-mode)
@@ -1778,9 +1791,9 @@ REGEX is the regex to align by."
 (diminish 'company-mode)
 (diminish 'yas-minor-mode)
 
-(add-hook 'auto-revert-mode-hook
-          (lambda ()
-            (diminish 'auto-revert-mode)))
+(defun auto-revert-mode-hook-fun ()
+  (diminish 'auto-revert-mode))
+(add-hook 'auto-revert-mode-hook 'auto-revert-mode-hook-fun)
 
 (diminish 'my-keys-minor-mode " mk")
 
@@ -1791,9 +1804,9 @@ REGEX is the regex to align by."
 (diminish 'projectile-mode)
 
 ;;doesnt run :(
-(add-hook 'abbrev-mode-hook
-          (lambda ()
-            (diminish 'abbrev-mode)))
+(defun abbrev-mode-hook-fun ()
+  (diminish 'abbrev-mode))
+(add-hook 'abbrev-mode-hook 'abbrev-mode-hook-fun)
 
 (diminish 'eldoc-mode)
 
