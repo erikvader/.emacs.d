@@ -1740,9 +1740,9 @@ REGEX is the regex to align by."
 (add-hook 'sh-mode-hook 'sh-mode-hook-fun)
 
 ;;;; haskell
-(defun haskell-mode-hook-fun ()
-  (highlight-indent-guides-mode 1))
-(add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
+;; (defun haskell-mode-hook-fun ()
+;;   (highlight-indent-guides-mode 1))
+;; (add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
 
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)

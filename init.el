@@ -143,6 +143,7 @@
      (quote local-map)
      mode-line-minor-mode-keymap)))
  '(rm-whitelist nil)
+ '(select-enable-clipboard nil)
  '(sentence-end-double-space nil)
  '(show-trailing-whitespace nil)
  '(size-indication-mode nil)
