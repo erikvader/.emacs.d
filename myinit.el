@@ -1744,6 +1744,11 @@ REGEX is the regex to align by."
 ;;   (highlight-indent-guides-mode 1))
 ;; (add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
 
+;;;; diff
+(defun diff-mode-hook-fun ()
+  (diff-auto-refine-mode -1))
+(add-hook 'diff-mode-hook 'diff-mode-hook-fun)
+
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)
   "
