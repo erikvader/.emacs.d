@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: optional_parameter
+# key: op
+# --
+\$\{${1:var}:+"\$$1"\}$0
