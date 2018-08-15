@@ -229,6 +229,7 @@ when set to nil)."
 (define-key eriks-map (kbd "gb") 'magit-blame)
 (define-key eriks-map (kbd "gt") 'git-timemachine)
 (define-key eriks-map (kbd "gv") 'vc-annotate)
+(define-key eriks-map (kbd "gw") 'what-the-commit-insert)
 
 (define-key eriks-map (kbd "U") 'counsel-unicode-char)
 
