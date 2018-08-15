@@ -270,8 +270,9 @@ when set to nil)."
 ;; (define-key my-keys-map [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
 ;; (define-key my-keys-map [remap scroll-up-command] 'golden-ratio-scroll-screen-up)
 
-(projectile-global-mode t)
-(counsel-projectile-mode)
+(projectile-mode)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;;(counsel-projectile-mode)
 
 (defun ggtags-mode-hook-fun ()
   (setq ggtags-mode-line-project-name nil))
