@@ -253,6 +253,7 @@ when set to nil)."
 (require 'rotate-text)
 ;; (require 'eyebrowse)
 ;;(require 'switch-window)
+(require 'avy)
 
 ;;;; random
 (sml/setup)
@@ -305,6 +306,7 @@ when set to nil)."
 
 ;; no timeout ("infinite" timeout)
 (setq avy-timeout-seconds nil)
+(add-to-list 'avy-orders-alist '(avy-goto-char-timer . avy-order-closest))
 
 (defun eriks/avy-binary-search ()
   "Do a binary search to find a character on the current line"
