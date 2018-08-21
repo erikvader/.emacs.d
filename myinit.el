@@ -274,7 +274,7 @@ when set to nil)."
 
 (projectile-mode)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;;(counsel-projectile-mode)
+(counsel-projectile-mode)
 
 (defun ggtags-mode-hook-fun ()
   (setq ggtags-mode-line-project-name nil))
