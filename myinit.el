@@ -537,6 +537,7 @@ Only does all of this on visible frames (might not always work)"
 (evil-indent-plus-default-bindings) ;;ii iI ai aI iJ aJ
 
 (define-key evil-emacs-state-map [escape] 'evil-normal-state)
+(define-key evil-insert-state-map (kbd "S-SPC") (lambda () (interactive) (insert ?\s)))
 
 ;; (defmacro eriks/look-in-global-map (key)
 ;;   `(lambda ()
