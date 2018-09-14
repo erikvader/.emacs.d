@@ -1490,7 +1490,7 @@ target character"
 
 (evil-mode 1)
 
-(defun LaTeX-mode-hook-fun ()
+(defun LaTeX-mode-hook-textobj-fun ()
   ;; (add-to-list 'evil-surround-pairs-alist '(?f . erik-evil-surround-latex-macro))
   (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
   (evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
@@ -1501,7 +1501,7 @@ target character"
   (evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
   (evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
   (evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))
-(add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-fun)
+(add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-textobj-fun)
 
 ;;;;; modifications
 
