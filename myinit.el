@@ -412,6 +412,14 @@ when set to nil)."
 
 (define-key my-keys-map (kbd "C-x C-b") 'ibuffer)
 
+;;;; MATLAB
+
+(require 'matlab)
+
+(defun matlab-mode-hook-fun ()
+  (run-hooks 'prog-mode-hook))
+(add-hook 'matlab-mode-hook 'matlab-mode-hook-fun)
+
 ;;;; latex
 
 (require 'latex)
