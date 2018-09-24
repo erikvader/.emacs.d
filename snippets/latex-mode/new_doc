@@ -2,21 +2,22 @@
 # name: new_doc
 # key: new
 # --
-\documentclass[12pt,a4paper]{${1:article}}
+\documentclass[12pt,a4paper]{article}
 \usepackage[swedish]{babel} %göra så att autogenererade saker blir på svenska
 \usepackage[T1]{fontenc} %rendera åäö bättre
 \usepackage[utf8]{inputenc} %använda utf-8
 \usepackage[parfill]{parskip} %gör så att styckena blir den "rätta" sorten
-${2:\usepackage{mathtools}}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{fullpage}
 
-\title{${3:title}}
-\author{${4:authour}}
-\date{}
+\title{${1:title}}
+\author{${2:authour}}
 
 \begin{document}
-${5:\maketitle
+${3:\maketitle
 \tableofcontents
-	
+
 \pagebreak
 }
 $0

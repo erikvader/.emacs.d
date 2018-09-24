@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: tabley
+# key: tabley
+# --
+\begin{center}
+  \begin{tabulary}{0.7\textwidth}{$1}
+    $0
+  \end{tabulary}
+\end{center}
