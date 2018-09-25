@@ -1503,9 +1503,14 @@ target character"
 
 (evil-mode 1)
 
+(defun latex-surround-env ()
+  (let ((ename (or (read-from-minibuffer "environment: ") "")))
+    (cons (format "\\begin{%s}" ename) (format "\\end{%s}" ename))))
+
 (defun LaTeX-mode-hook-textobj-fun ()
   ;; (add-to-list 'evil-surround-pairs-alist '(?f . erik-evil-surround-latex-macro))
   (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
+  (add-to-list 'evil-surround-pairs-alist '(?m . latex-surround-env))
   (evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
   (evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
   (evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
