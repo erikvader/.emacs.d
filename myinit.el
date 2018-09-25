@@ -117,6 +117,11 @@
 
 (defun noop () "Does pretty much (exactly) nothing" (interactive))
 
+(recentf-mode)
+(setq recentf-max-menu-items 25)
+(define-key my-keys-map (kbd "C-x C-r") 'counsel-recentf)
+(run-at-time nil (* 5 60) 'recentf-save-list)
+
 ;;; my custom functions
 (defun eval-last-sexp-replace ()
   "Runs `eval-last-sexp' and replaces the sexp with the evaluated value"
