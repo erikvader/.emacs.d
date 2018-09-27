@@ -121,6 +121,7 @@
 (setq recentf-max-menu-items 25)
 (define-key my-keys-map (kbd "C-x C-r") 'counsel-recentf)
 (run-at-time nil (* 5 60) 'recentf-save-list)
+(add-to-list 'recentf-exclude "recentf")
 
 ;;; my custom functions
 (defun eval-last-sexp-replace ()
@@ -244,6 +245,8 @@ when set to nil)."
 (define-key eriks-map (kbd "w e") 'delete-trailing-whitespace)
 
 (define-key eriks-map (kbd "T") 'toggle-truncate-lines)
+
+(define-key eriks-map (kbd "f") 'counsel-file-jump)
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
