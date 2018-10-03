@@ -1,6 +1,5 @@
 # -*- mode: snippet -*-
 # name: section_alt
-# key: seca
+# key: secc
 # --
-\section{${1:name}}
-$0
+\section${1:*}{$0}

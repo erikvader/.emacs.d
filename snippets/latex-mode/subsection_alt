@@ -1,6 +1,5 @@
 # -*- mode: snippet -*-
 # name: subsection_alt
-# key: suba
+# key: subb
 # --
-\subsection{${1:name}}
-$0
+\subsection${1:*}{$0}
