@@ -82,6 +82,8 @@
    `(vertical-border ((,class (:foreground ,bg2))))
    `(warning ((,class (:foreground ,warning))))
    `(whitespace-trailing ((,class :inherit trailing-whitespace)))
+   ;; anzu
+   `(anzu-mode-line ((,class (:foreground ,hot-pink))))
    ;; syntax
    `(font-lock-builtin-face ((,class (:foreground ,builtin))))
    `(font-lock-comment-face ((,class (:foreground ,comment))))

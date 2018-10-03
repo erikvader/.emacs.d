@@ -254,6 +254,7 @@ when set to nil)."
 (require 'seq)
 (require 'multiple-cursors)
 (require 'evil)
+(require 'evil-anzu)
 (require 'evil-numbers)
 ;;(require 'framemove)
 (require 'smartparens-config)
@@ -824,6 +825,12 @@ open-line doesn't indent the new line in any way)"
 ;; (define-key evil-normal-state-map (kbd "gtr") 'eriks-region-switch)
 ;; (define-key evil-normal-state-map (kbd "gtR") 'eriks-region-switch-abort)
 
+;;;;; evil-args
+
+(require 'evil-args)
+(define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+(define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+
 ;;;;; nerd commenter
 (require 'evil-nerd-commenter)
 
@@ -1313,9 +1320,12 @@ target character"
 ;;;;; multiple cursors
 ;; yank fix
 ;; https://github.com/gabesoft/evil-mc/issues/70
-(defun evil-mc-after-cursors-deleted-fun ()
+(defun evil-mc-hotfix ()
+  "`evil-was-yanked-without-register' can get the wrong value
+sometimes, ruining normal yanking :("
+  (interactive)
   (setq evil-was-yanked-without-register t))
-(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-after-cursors-deleted-fun)
+(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-hotfix)
 
 (defvar evil-mc-key-map
   (let ((map (make-sparse-keymap))
