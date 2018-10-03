@@ -118,9 +118,12 @@
 (defun noop () "Does pretty much (exactly) nothing" (interactive))
 
 (recentf-mode)
-(setq recentf-max-menu-items 25)
+(setq recentf-max-menu-items 50)
 (define-key my-keys-map (kbd "C-x C-r") 'counsel-recentf)
-(run-at-time nil (* 5 60) 'recentf-save-list)
+(defun recentf-save-list-silent ()
+  (let ((inhibit-message t))
+    (recentf-save-list)))
+(run-at-time nil (* 5 60) 'recentf-save-list-silent)
 (add-to-list 'recentf-exclude "recentf")
 
 ;;; my custom functions
