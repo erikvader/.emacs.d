@@ -559,6 +559,9 @@ Only does all of this on visible frames (might not always work)"
 (define-key evil-emacs-state-map [escape] 'evil-normal-state)
 (define-key evil-insert-state-map (kbd "S-SPC") (lambda () (interactive) (insert ?\s)))
 
+(define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
+(define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
+
 ;; (defmacro eriks/look-in-global-map (key)
 ;;   `(lambda ()
 ;;      (interactive)
