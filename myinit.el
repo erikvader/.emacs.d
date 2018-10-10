@@ -257,6 +257,7 @@ when set to nil)."
 (require 'seq)
 (require 'multiple-cursors)
 (require 'evil)
+(require 'evil-matchit)
 (require 'evil-anzu)
 (require 'evil-numbers)
 ;;(require 'framemove)
@@ -555,6 +556,8 @@ Only does all of this on visible frames (might not always work)"
 (setq evil-emacs-state-cursor '(hollow))
 
 (evil-indent-plus-default-bindings) ;;ii iI ai aI iJ aJ
+
+(global-evil-matchit-mode)
 
 (define-key evil-emacs-state-map [escape] 'evil-normal-state)
 (define-key evil-insert-state-map (kbd "S-SPC") (lambda () (interactive) (insert ?\s)))
