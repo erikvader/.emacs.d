@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mathvpadding
+# key: mvp
+# --
+\addtolength{\jot}{0.5em}

@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: fancy_titlepage
+# key: fancytitlepage
+# --
+\begin{titlepage}
+
+  \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+  \center
+
+  \textsc{\LARGE Uppsala University}\\[1.5cm]
+  \includegraphics[scale=.1]{Uppsala_University_seal_svg.png}\\[1cm]
+  \textsc{\Large Course name}\\[0.5cm]
+  \textsc{\large course code}\\[0.5cm]
+
+  \HRule \\[0.4cm]
+  { \huge \bfseries Title}\\[0.4cm]
+  \HRule \\[1.5cm]
+
+  \begin{minipage}{0.4\textwidth}
+    \begin{flushleft} \large
+      \emph{Author:}\\
+      first name \textsc{last name}\\
+    \end{flushleft}
+  \end{minipage}\\[2cm]
+
+  {\large \today}\\[2cm]
+
+  \vfill
+
+\end{titlepage}

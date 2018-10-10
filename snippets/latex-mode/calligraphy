@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: calligraphy
+# key: calligraphy
+# --
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+\newcommand{\LL}{\pazocal{L}}
