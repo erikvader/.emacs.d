@@ -1239,12 +1239,13 @@ side of the sexp"
   "Same as `avy-goto-char-in-line' except that it doesn't include the
 target character"
   (interactive "cchar:")
-  (avy--process
-   (eriks/avy--regex-candidates-exclusive
-    (regexp-quote (string char))
-    (line-beginning-position)
-    (line-end-position))
-   (avy--style-fn avy-style)))
+  (avy-with avy-goto-char
+    (avy--process
+     (eriks/avy--regex-candidates-exclusive
+      (regexp-quote (string char))
+      (line-beginning-position)
+      (line-end-position))
+     (avy--style-fn avy-style))))
 
 (evil-define-avy-motion eriks/avy-goto-char-in-line-exclusive inclusive)
 (define-key evil-motion-state-map (kbd ".") 'evil-eriks/avy-goto-char-in-line-exclusive)
