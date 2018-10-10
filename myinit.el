@@ -1247,6 +1247,20 @@ target character"
       (line-end-position))
      (avy--style-fn avy-style))))
 
+(defun eriks/avy-order-closest-single (x)
+  "`avy-order-closest' doesn't like x on the form (p1 . w), but likes ((p1 . p2) . w)"
+  (avy-order-closest `((,(car x) . ,(car x)) . ,(cdr x))))
+
+(defun eriks/avy-goto-line-first-non-blank ()
+  (interactive)
+  (avy-with eriks/avy-goto-line-first-non-blank
+    (let ((points (nconc (evilem--collect #'evil-next-line-first-non-blank)
+                         (evilem--collect #'evil-previous-line-first-non-blank))))
+      (avy--process points (avy--style-fn avy-style)))))
+
+(add-to-list 'avy-orders-alist '(eriks/avy-goto-line-first-non-blank . eriks/avy-order-closest-single))
+(evil-define-avy-motion eriks/avy-goto-line-first-non-blank line)
+
 (evil-define-avy-motion eriks/avy-goto-char-in-line-exclusive inclusive)
 (define-key evil-motion-state-map (kbd ".") 'evil-eriks/avy-goto-char-in-line-exclusive)
 
@@ -1255,8 +1269,8 @@ target character"
 
 (define-key evil-motion-state-map (kbd ";") 'avy-goto-char-timer)
 
-(define-key evil-motion-state-map (kbd "+") 'evilem-motion-next-line-first-non-blank)
-(define-key evil-motion-state-map (kbd "-") 'evilem-motion-previous-line-first-non-blank)
+(define-key evil-normal-state-map (kbd "-") 'negative-argument)
+(define-key evil-motion-state-map (kbd "+") 'evil-eriks/avy-goto-line-first-non-blank)
 (define-key evil-motion-state-map (kbd "J") 'evilem-motion-next-line-first-non-blank)
 (define-key evil-motion-state-map (kbd "K") 'evilem-motion-previous-line-first-non-blank)
 
