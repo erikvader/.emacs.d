@@ -126,6 +126,13 @@
 (run-at-time nil (* 5 60) 'recentf-save-list-silent)
 (add-to-list 'recentf-exclude "recentf")
 
+(defun describe-keymap (map)
+  "Nicely shows all bindings in map"
+  (interactive "sMap: ")
+  (when map
+    (with-output-to-temp-buffer "*describe keymap*"
+      (princ (substitute-command-keys (format "\\{%s}" map))))))
+
 ;;; my custom functions
 (defun eval-last-sexp-replace ()
   "Runs `eval-last-sexp' and replaces the sexp with the evaluated value"
@@ -250,6 +257,8 @@ when set to nil)."
 (define-key eriks-map (kbd "T") 'toggle-truncate-lines)
 
 (define-key eriks-map (kbd "f") 'counsel-file-jump)
+
+(define-key eriks-map (kbd "k") 'describe-keymap)
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
