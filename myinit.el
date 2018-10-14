@@ -259,6 +259,9 @@ when set to nil)."
 (define-key eriks-map (kbd "f") 'counsel-file-jump)
 
 (define-key eriks-map (kbd "k") 'describe-keymap)
+
+(define-key eriks-map (kbd "o") 'browse-url-at-point)
+
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
