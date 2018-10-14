@@ -317,6 +317,12 @@ when set to nil)."
 (counsel-mode 1)
 (define-key my-keys-map (kbd "C-s") 'swiper)
 (define-key ivy-minibuffer-map (kbd "<escape>") 'keyboard-escape-quit)
+(define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
+(define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
+(define-key ivy-minibuffer-map (kbd "C-u") 'ivy-kill-line)
+(define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
+(define-key ivy-minibuffer-map (kbd "C-b") 'ivy-scroll-down-command)
+(define-key ivy-minibuffer-map (kbd "C-f") 'ivy-scroll-up-command)
 ;; compatability with dwm-mode
 ;; (define-key ivy-mode-map [remap switch-to-buffer] nil)
 ;; (define-key ivy-mode-map [remap switch-to-buffer-other-window] nil)
