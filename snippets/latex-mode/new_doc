@@ -9,7 +9,7 @@
 \usepackage[parfill]{parskip} %gör så att styckena blir den "rätta" sorten
 \usepackage{mathtools}
 \usepackage{float}
-\usepackage{fullpage}
+\usepackage[margin=1in]{geometry}
 
 \title{${1:title}}
 \author{${2:authour}}
@@ -18,7 +18,7 @@
 ${3:\maketitle
 \tableofcontents
 
-\pagebreak
+\newpage
 }
 $0
 

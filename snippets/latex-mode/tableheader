@@ -2,4 +2,4 @@
 # name: tableheader
 # key: th
 # --
-\multicolumn{1}{${1:|c|}}{\textbf{$0}}
+\multicolumn{${1:1}}{${2:|c|}}{\textbf{$0}}

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: figure
+# key: fig
+# --
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{${1:path}}
+  \caption{$2}
+  \label{fig:$3}
+\end{figure}$0
