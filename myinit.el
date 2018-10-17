@@ -371,6 +371,17 @@ when set to nil)."
 
 (define-key eriks-map (kbd ",") 'eriks/avy-binary-search)
 
+(defun eriks/avy-goto-char-timer-advice (f &rest rest)
+  "Advice to rebind SPC to RET."
+  (let ((old-read-char (symbol-function #'read-char)))
+    (flet ((read-char (&rest re)
+                      (let ((key (apply old-read-char re)))
+                        (if (= key 32)
+                            13
+                          key))))
+      (apply f rest))))
+(advice-add 'avy-goto-char-timer :around #'eriks/avy-goto-char-timer-advice)
+
 ;;;; smartparens
 ;; remove defaults
 (sp-pair "\\\\(" nil :actions :rem)
