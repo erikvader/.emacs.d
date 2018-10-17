@@ -319,6 +319,7 @@ when set to nil)."
 (define-key ivy-minibuffer-map (kbd "<escape>") 'keyboard-escape-quit)
 (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
 (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
+(define-key ivy-minibuffer-map (kbd "C-l") 'ivy-done)
 (define-key ivy-minibuffer-map (kbd "C-u") 'ivy-kill-line)
 (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
 (define-key ivy-minibuffer-map (kbd "C-b") 'ivy-scroll-down-command)
