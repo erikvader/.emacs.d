@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: ftable
+# key: ftable
+# --
+\begin{table}[H]
+  \centering
+  \begin{tabular}{$1}
+    $0
+  \end{tabular}
+  \caption{}
+  \label{tab:tab}
+\end{table}
