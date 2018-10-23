@@ -133,6 +133,15 @@
     (with-output-to-temp-buffer "*describe keymap*"
       (princ (substitute-command-keys (format "\\{%s}" map))))))
 
+(defun delete-trailing-lines ()
+  (interactive)
+  (and
+   ;; Really the end of buffer.
+   (= (goto-char (point-max)) (1+ (buffer-size)))
+   (<= (skip-chars-backward "\n") -2)
+   (region-modifiable-p (1+ (point)) (point-max))
+   (delete-region (1+ (point)) (point-max))))
+
 ;;; my custom functions
 (defun eval-last-sexp-replace ()
   "Runs `eval-last-sexp' and replaces the sexp with the evaluated value"
@@ -645,6 +654,7 @@ Only does all of this on visible frames (might not always work)"
 ;;   )
 
 (evil-set-initial-state 'dired-mode 'emacs)
+(evil-set-initial-state 'org-mode 'normal)
 
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
@@ -1845,9 +1855,72 @@ REGEX is the regex to align by."
 (add-hook 'html-mode-hook 'html-mode-hook-fun)
 
 ;;;; org-mode
-(defun org-mode-hook-fun ()
+(require 'evil-org)
+(add-hook 'org-mode-hook 'evil-org-mode)
+(evil-org-set-key-theme '(textobjects insert navigation additional todo))
+(evil-define-key 'normal evil-org-mode-map
+  (kbd "go") (evil-org-define-eol-command org-insert-heading-after-current)
+  (kbd "gO") (evil-org-define-bol-command org-insert-heading))
+
+;; (require 'evil-org-agenda)
+;; (evil-org-agenda-set-keys)
+(setq org-agenda-files '("~/Dropbox/org"))
+(define-key eriks-map (kbd "a") 'org-agenda)
+
+(defun find-my-org-agenda-files ()
+  "Visit any org file in `org-agenda-files'"
+  (interactive)
+  (find-file
+   (ivy-read "Org Agenda file: "
+             (org-agenda-files)
+             :require-match t)))
+(define-key eriks-map (kbd "o") 'find-my-org-agenda-files)
+
+;;;;; org bullets and pretty stuff
+(require 'org-bullets)
+
+(setq org-bullets-bullet-list '("▶" "▼" "◀" "▲"))
+
+(defun org-mode-bullets-hook-fun ()
   (org-bullets-mode 1))
-(add-hook 'org-mode-hook 'org-mode-hook-fun)
+(add-hook 'org-mode-hook 'org-mode-bullets-hook-fun)
+
+(setq org-ellipsis "↴")
+(set-face-attribute 'org-ellipsis nil :foreground "burlywood" :height 0.9)
+
+;;;;; org auto format
+(defcustom eriks/org-auto-format nil "try to format org mode files")
+(make-variable-buffer-local 'eriks/org-auto-format)
+(add-to-list 'safe-local-variable-values '(eriks/org-auto-format . t))
+(defun org-auto-format-hook ()
+  "run `eriks/org-format' if file local variable `eriks/org-auto-format' is set."
+  (when (and (derived-mode-p 'org-mode) eriks/org-auto-format)
+    (eriks/org-format)))
+(add-hook 'hack-local-variables-hook 'org-auto-format-hook)
+
+(defun eriks/org-format ()
+  "Tries to neatly format an Org mode file.
+What it tries to do:
+  - make sure that there is exactly one empty line before any top level heading
+  - deletes trailing lines"
+  (interactive)
+  (save-excursion
+    (beginning-of-buffer)
+    (cl-labels ((donext ()
+                        (let ((p (re-search-forward "^\\* " nil t)))
+                          (when p
+                            (save-excursion
+                              (forward-line -1)
+                              (just-one-line))
+                            (donext))))
+                (just-one-line ()
+                               (end-of-line)
+                               (let ((cur (point)))
+                                 (skip-chars-backward " \t\n")
+                                 (delete-region cur (point)))
+                               (newline)))
+      (donext)
+      (delete-trailing-lines))))
 
 ;;;; python
 (defun python-mode-hook-fun ()
@@ -1938,4 +2011,6 @@ REGEX is the regex to align by."
 (add-hook 'abbrev-mode-hook 'abbrev-mode-hook-fun)
 
 (diminish 'eldoc-mode)
+
+(diminish 'evil-org-mode)
 
