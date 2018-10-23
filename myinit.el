@@ -389,13 +389,14 @@ when set to nil)."
 
 (defun eriks/avy-goto-char-timer-advice (f &rest rest)
   "Advice to rebind SPC to RET."
-  (let ((old-read-char (symbol-function #'read-char)))
-    (flet ((read-char (&rest re)
-                      (let ((key (apply old-read-char re)))
-                        (if (= key 32)
-                            13
-                          key))))
-      (apply f rest))))
+  ;; why doesn't both old-read-char and read-char refer to the new temporary lambda?
+  (cl-letf* ((old-read-char (symbol-function #'read-char))
+             ((symbol-function #'read-char) (lambda (&rest re)
+                                             (let ((key (apply old-read-char re)))
+                                               (if (= key 32)
+                                                   13
+                                                 key)))))
+    (apply f rest)))
 (advice-add 'avy-goto-char-timer :around #'eriks/avy-goto-char-timer-advice)
 
 ;;;; smartparens
@@ -1352,6 +1353,7 @@ target character"
 (define-key evil-motion-state-map (kbd "SPC ,") 'avy-goto-char)
 
 (define-key evil-motion-state-map (kbd ";") 'avy-goto-char-timer)
+(define-key evil-motion-state-map (kbd "SPC SPC") 'avy-goto-char-timer)
 
 (define-key evil-normal-state-map (kbd "-") 'negative-argument)
 (define-key evil-motion-state-map (kbd "+") 'evil-eriks/avy-goto-line-first-non-blank)
@@ -1496,7 +1498,7 @@ sometimes, ruining normal yanking :("
 
 ;;;;; ggtags
 
-(define-key evil-normal-state-map (kbd "SPC SPC") 'ggtags-find-tag-dwim)
+;; (define-key evil-normal-state-map (kbd "SPC SPC") 'ggtags-find-tag-dwim)
 (define-key evil-normal-state-map (kbd "H-o") 'ggtags-prev-mark)
 (define-key evil-normal-state-map (kbd "H-i") 'ggtags-next-mark)
 
