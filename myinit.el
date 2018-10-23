@@ -1,6 +1,9 @@
 
 ;;; fonts
 
+;; GNU unifont as fallback font
+(set-fontset-font "fontset-default" nil (font-spec :size 20 :name "unifont"))
+
 ;; tilde fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
 (setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
@@ -269,7 +272,9 @@ when set to nil)."
 
 (define-key eriks-map (kbd "k") 'describe-keymap)
 
-(define-key eriks-map (kbd "o") 'browse-url-at-point)
+(define-key eriks-map (kbd "u") 'browse-url-at-point)
+
+(define-key eriks-map (kbd "C-r") 'revert-buffer)
 
 ;;; packages
 ;;;; requires
@@ -788,7 +793,7 @@ The map to bind 'trigger' in is by default `evil-normal-state-map' (evil normal 
       (eriks-evil-capitalize-operator (point) end))))
 
 (define-key evil-insert-state-map (kbd "M-c") 'evil-capitalize-last-word)
-(define-key my-keys-map (kbd "M-c") 'evil-capitalize-last-word)
+(define-key evil-normal-state-map (kbd "M-c") 'evil-capitalize-last-word)
 
 (defvar evil-open-line-modes '((haskell-mode . same-as-prev)
                                (prog-mode . according-to-mode))
