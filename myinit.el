@@ -105,12 +105,12 @@
 (global-set-key (kbd "<prior>") nil)
 (global-set-key (kbd "<next>") nil)
 
-(define-key my-keys-map (kbd "C-+") 'er/expand-region)
-(define-key my-keys-map (kbd "M-s q") 'isearch-query-replace-regexp)
-(define-key my-keys-map (kbd "M-s r") 'isearch-forward-regexp)
-(define-key my-keys-map (kbd "M-s R") 'isearch-backward-regexp)
-(define-key my-keys-map (kbd "M-s s") 'isearch-forward)
-(define-key my-keys-map (kbd "M-s S") 'isearch-backward)
+;; (define-key my-keys-map (kbd "C-+") 'er/expand-region)
+;; (define-key my-keys-map (kbd "M-s q") 'isearch-query-replace-regexp)
+;; (define-key my-keys-map (kbd "M-s r") 'isearch-forward-regexp)
+;; (define-key my-keys-map (kbd "M-s R") 'isearch-backward-regexp)
+;; (define-key my-keys-map (kbd "M-s s") 'isearch-forward)
+;; (define-key my-keys-map (kbd "M-s S") 'isearch-backward)
 
 (setq line-move-visual nil)
 (setq browse-url-browser-function 'browse-url-generic browse-url-generic-program "xdg-open")
@@ -278,7 +278,6 @@ when set to nil)."
 (require 'seq)
 (require 'multiple-cursors)
 (require 'evil)
-(require 'evil-matchit)
 (require 'evil-anzu)
 (require 'evil-numbers)
 ;;(require 'framemove)
@@ -534,20 +533,20 @@ see `eriks/latex-autocompile-toggle'"
 (frames-only-mode)
 (setq frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops nil)
 
-(define-key my-keys-map (kbd "S-<right>") 'windmove-right)
-(define-key my-keys-map (kbd "S-<left>") 'windmove-left)
-(define-key my-keys-map (kbd "S-<up>") 'windmove-up)
-(define-key my-keys-map (kbd "S-<down>") 'windmove-down)
+;; (define-key my-keys-map (kbd "S-<right>") 'windmove-right)
+;; (define-key my-keys-map (kbd "S-<left>") 'windmove-left)
+;; (define-key my-keys-map (kbd "S-<up>") 'windmove-up)
+;; (define-key my-keys-map (kbd "S-<down>") 'windmove-down)
 
-(define-key my-keys-map (kbd "C-<right>") 'enlarge-window-horizontally)
-(define-key my-keys-map (kbd "C-<left>") 'shrink-window-horizontally)
-(define-key my-keys-map (kbd "C-<up>") 'enlarge-window)
-(define-key my-keys-map (kbd "C-<down>") 'shrink-window)
+;; (define-key my-keys-map (kbd "C-<right>") 'enlarge-window-horizontally)
+;; (define-key my-keys-map (kbd "C-<left>") 'shrink-window-horizontally)
+;; (define-key my-keys-map (kbd "C-<up>") 'enlarge-window)
+;; (define-key my-keys-map (kbd "C-<down>") 'shrink-window)
 
-(define-key my-keys-map (kbd "C-S-<right>") 'buf-move-right)
-(define-key my-keys-map (kbd "C-S-<left>") 'buf-move-left)
-(define-key my-keys-map (kbd "C-S-<up>") 'buf-move-up)
-(define-key my-keys-map (kbd "C-S-<down>") 'buf-move-down)
+;; (define-key my-keys-map (kbd "C-S-<right>") 'buf-move-right)
+;; (define-key my-keys-map (kbd "C-S-<left>") 'buf-move-left)
+;; (define-key my-keys-map (kbd "C-S-<up>") 'buf-move-up)
+;; (define-key my-keys-map (kbd "C-S-<down>") 'buf-move-down)
 
 (define-key my-keys-map (kbd "C-x 1") 'delete-other-visible-frames)
 (define-key my-keys-map (kbd "C-x 2") 'make-frame-command)
@@ -630,13 +629,16 @@ Only does all of this on visible frames (might not always work)"
 
 (evil-indent-plus-default-bindings) ;;ii iI ai aI iJ aJ
 
-(global-evil-matchit-mode)
-
 (define-key evil-emacs-state-map [escape] 'evil-normal-state)
 (define-key evil-insert-state-map (kbd "S-SPC") (lambda () (interactive) (insert ?\s)))
 
 (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
 (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
+
+(define-key evil-insert-state-map (kbd "<up>") 'noop)
+(define-key evil-insert-state-map (kbd "<left>") 'noop)
+(define-key evil-insert-state-map (kbd "<right>") 'noop)
+(define-key evil-insert-state-map (kbd "<down>") 'noop)
 
 ;; (defmacro eriks/look-in-global-map (key)
 ;;   `(lambda ()
@@ -1981,9 +1983,6 @@ What it tries to do:
 (define-key eriks-map (kbd "t") 'hydra-ggtags/body)
 
 ;;; diminish
-(defun autopair-mode-hook-fun ()
-  (diminish 'autopair-mode))
-(add-hook 'autopair-mode-hook 'autopair-mode-hook-fun)
 
 (diminish 'counsel-mode)
 (diminish 'which-key-mode)
@@ -1992,10 +1991,6 @@ What it tries to do:
 
 (diminish 'company-mode)
 (diminish 'yas-minor-mode)
-
-(defun auto-revert-mode-hook-fun ()
-  (diminish 'auto-revert-mode))
-(add-hook 'auto-revert-mode-hook 'auto-revert-mode-hook-fun)
 
 (diminish 'my-keys-minor-mode " mk")
 
