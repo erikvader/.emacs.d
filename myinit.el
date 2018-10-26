@@ -1418,74 +1418,49 @@ target character"
 (require 'evil-exchange)
 (evil-exchange-install)
 
-;;;;; multiple cursors
-;; yank fix
-;; https://github.com/gabesoft/evil-mc/issues/70
-(defun evil-mc-hotfix ()
-  "`evil-was-yanked-without-register' can get the wrong value
-sometimes, ruining normal yanking :("
-  (interactive)
-  (setq evil-was-yanked-without-register t))
-(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-hotfix)
+;;;;; evil-multiedit
+(require 'evil-multiedit)
 
-(defvar evil-mc-key-map
-  (let ((map (make-sparse-keymap))
-        (keys '(("gmm"   . evil-mc-make-all-cursors)
-                ("gmu"   . evil-mc-undo-all-cursors)
-                ("gms"   . evil-mc-pause-cursors)
-                ("gmr"   . evil-mc-resume-cursors)
-                ("gmf"   . evil-mc-make-and-goto-first-cursor)
-                ("gml"   . evil-mc-make-and-goto-last-cursor)
-                ("gmh"   . evil-mc-make-cursor-here)
-                ("gmj"   . evil-mc-make-cursor-move-next-line)
-                ("gmk"   . evil-mc-make-cursor-move-prev-line)
-                ("C-S-n" . evil-mc-make-cursor-move-next-line)
-                ("C-S-p" . evil-mc-make-cursor-move-prev-line)
-                ("gmN"   . evil-mc-skip-and-goto-next-cursor)
-                ("gmP"   . evil-mc-skip-and-goto-prev-cursor)
-                ("gmn"   . evil-mc-skip-and-goto-next-match)
-                ("gmp"   . evil-mc-skip-and-goto-prev-match)
-                ("M-n"   . evil-mc-make-and-goto-next-cursor)
-                ("M-p"   . evil-mc-make-and-goto-prev-cursor)
-                ("C-n"   . evil-mc-make-and-goto-next-match)
-                ("C-p"   . evil-mc-make-and-goto-prev-match)
-                ("gm+"   . evil-mc-inc-num-at-each-cursor)
-                ("gm-"   . evil-mc-dec-num-at-each-cursor)
-                ;; ("C-S-t" . evil-mc-skip-and-goto-next-match)
-                )))
-    (dolist (key-data keys)
-      (evil-define-key 'normal map (kbd (car key-data)) (cdr key-data))
-      (evil-define-key 'visual map (kbd (car key-data)) (cdr key-data)))
-    map))
+(setq evil-iedit-follow-matches t)
 
-(setq evil-mc-one-cursor-show-mode-line-text nil)
-(setq evil-mc-mode-line-text-cursor-color nil)
-(setq evil-mc-mode-line-text-inverse-colors nil)
-(setq evil-mc-mode-line-text-cursor-color nil)
-(require 'evil-mc)
-(require 'evil-mc-extras)
+(define-key iedit-mode-occurrence-keymap (kbd "M-n") nil)
+(define-key iedit-mode-occurrence-keymap (kbd "M-p") nil)
 
-(add-to-list 'evil-mc-known-commands '(evil-surround-edit (:default . evil-mc-execute-default-evil-surround-region)))
+;; Highlights all matches of the selection in the buffer.
+(define-key evil-visual-state-map "R" 'evil-iedit-match-all)
 
-(dolist (cmd '(eval-last-sexp-replace
-               sp-end-of-sexp
-               sp-beginning-of-sexp
-               sp-up-sexp
-               sp-backward-up-sexp
-               sp-down-sexp
-               sp-backward-down-sexp))
-  (add-to-list 'evil-mc-known-commands `(,cmd (:default . ,cmd))))
+;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
+;; incrementally add the next unmatched match.
+(define-key evil-normal-state-map (kbd "C-n") 'evil-iedit-match-and-next)
+;; Match selected region.
+(define-key evil-visual-state-map (kbd "C-n") 'evil-multiedit-match-and-next)
+;; Insert marker at point
+(define-key evil-insert-state-map (kbd "C-n") 'evil-multiedit-toggle-marker-here)
 
-;; Temporary fix for bug with change command with multiple cursors
-;; https://github.com/gabesoft/evil-mc/issues/63
-(defun evil-mc-before-cursors-created-fun ()
-  (setq-default evil-move-cursor-back t))
-(add-hook 'evil-mc-before-cursors-created 'evil-mc-before-cursors-created-fun)
-(defun evil-mc-after-cursors-deleted-fun ()
-  (setq-default evil-move-cursor-back nil))
-(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-after-cursors-deleted-fun)
+;; Same as M-d but in reverse.
+(define-key evil-normal-state-map (kbd "C-p") 'evil-multiedit-match-and-prev)
+(define-key evil-visual-state-map (kbd "C-p") 'evil-multiedit-match-and-prev)
 
-(global-evil-mc-mode 1)
+;; OPTIONAL: If you prefer to grab symbols rather than words, use
+;; `evil-multiedit-match-symbol-and-next` (or prev).
+
+;; Restore the last group of multiedit regions.
+(define-key evil-normal-state-map (kbd "gm") 'evil-multiedit-restore)
+
+;; RET will toggle the region under the cursor
+(define-key evil-multiedit-state-map (kbd "<return>") 'evil-multiedit-toggle-or-restrict-region)
+
+;; ...and in visual mode, RET will disable all fields outside the selected region
+(define-key evil-motion-state-map (kbd "<return>") 'evil-multiedit-toggle-or-restrict-region)
+
+;; For moving between edit regions
+(define-key evil-multiedit-state-map (kbd "M-n") 'evil-multiedit-next)
+(define-key evil-multiedit-state-map (kbd "M-p") 'evil-multiedit-prev)
+(define-key evil-multiedit-insert-state-map (kbd "M-n") 'evil-multiedit-next)
+(define-key evil-multiedit-insert-state-map (kbd "M-p") 'evil-multiedit-prev)
+
+;; Ex command that allows you to invoke evil-multiedit with a regular expression, e.g.
+(evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match)
 
 ;;;;; ggtags
 
