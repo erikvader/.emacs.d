@@ -286,7 +286,6 @@ when set to nil)."
 (require 'seq)
 (require 'multiple-cursors)
 (require 'evil)
-(require 'evil-anzu)
 (require 'evil-numbers)
 ;;(require 'framemove)
 (require 'smartparens-config)
