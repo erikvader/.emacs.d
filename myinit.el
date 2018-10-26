@@ -1816,6 +1816,76 @@ REGEX is the regex to align by."
   "close everything on exit"
   (delete-frame))
 
+;;;; org-mode
+(require 'evil-org)
+(add-hook 'org-mode-hook 'evil-org-mode)
+(evil-org-set-key-theme '(textobjects insert navigation additional todo))
+(evil-define-key 'normal evil-org-mode-map
+  (kbd "go") (evil-org-define-eol-command org-insert-heading-after-current)
+  (kbd "gO") (evil-org-define-bol-command org-insert-heading))
+
+;; (require 'evil-org-agenda)
+;; (evil-org-agenda-set-keys)
+(setq org-agenda-files '("~/Dropbox/org"))
+(define-key eriks-map (kbd "a") 'org-agenda)
+
+(defun find-my-org-agenda-files ()
+  "Visit any org file in `org-agenda-files'"
+  (interactive)
+  (find-file
+   (ivy-read "Org Agenda file: "
+             (org-agenda-files)
+             :require-match t)))
+(define-key eriks-map (kbd "o") 'find-my-org-agenda-files)
+
+;;;;; org bullets and pretty stuff
+(require 'org-bullets)
+
+(setq org-bullets-bullet-list '("▶" "▼" "◀" "▲"))
+
+(defun org-mode-bullets-hook-fun ()
+  (org-bullets-mode 1))
+(add-hook 'org-mode-hook 'org-mode-bullets-hook-fun)
+
+(setq org-ellipsis "↴")
+(set-face-attribute 'org-ellipsis nil :foreground "burlywood" :height 0.9)
+
+;;;;; org auto format
+(add-to-list 'safe-local-variable-values '(eval eriks/org-format))
+
+(defun eriks/org-format ()
+  "Tries to neatly format an Org mode file.
+What it tries to do:
+  - make sure that there is exactly one empty line before any top level heading
+  - deletes trailing lines"
+  (interactive)
+  (save-excursion
+    (beginning-of-buffer)
+    (cl-labels ((donext ()
+                        (let ((p (re-search-forward "^\\* " nil t)))
+                          (when p
+                            (save-excursion
+                              (forward-line -1)
+                              (just-one-line))
+                            (donext))))
+                (just-one-line ()
+                               (end-of-line)
+                               (let ((cur (point)))
+                                 (skip-chars-backward " \t\n")
+                                 (delete-region cur (point)))
+                               (newline)))
+      (donext)
+      (delete-trailing-lines))))
+
+;;;;; evil-org-mode bug
+(defun eriks/evil-org-select-an-element-fix (_f element)
+  "Used `region-beginning' before without checking if `region-active-p' or similar."
+  (list (min
+         (if (region-active-p) (region-beginning) (point))
+         (org-element-property :begin element))
+        (org-element-property :end element)))
+(advice-add 'evil-org-select-an-element :around #'eriks/evil-org-select-an-element-fix)
+
 ;;; mode hooks
 ;;;; prog-mode
 (defun prog-mode-hook-fun ()
@@ -1857,74 +1927,6 @@ REGEX is the regex to align by."
   (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
   (define-key html-mode-map (kbd "/") nil))
 (add-hook 'html-mode-hook 'html-mode-hook-fun)
-
-;;;; org-mode
-(require 'evil-org)
-(add-hook 'org-mode-hook 'evil-org-mode)
-(evil-org-set-key-theme '(textobjects insert navigation additional todo))
-(evil-define-key 'normal evil-org-mode-map
-  (kbd "go") (evil-org-define-eol-command org-insert-heading-after-current)
-  (kbd "gO") (evil-org-define-bol-command org-insert-heading))
-
-;; (require 'evil-org-agenda)
-;; (evil-org-agenda-set-keys)
-(setq org-agenda-files '("~/Dropbox/org"))
-(define-key eriks-map (kbd "a") 'org-agenda)
-
-(defun find-my-org-agenda-files ()
-  "Visit any org file in `org-agenda-files'"
-  (interactive)
-  (find-file
-   (ivy-read "Org Agenda file: "
-             (org-agenda-files)
-             :require-match t)))
-(define-key eriks-map (kbd "o") 'find-my-org-agenda-files)
-
-;;;;; org bullets and pretty stuff
-(require 'org-bullets)
-
-(setq org-bullets-bullet-list '("▶" "▼" "◀" "▲"))
-
-(defun org-mode-bullets-hook-fun ()
-  (org-bullets-mode 1))
-(add-hook 'org-mode-hook 'org-mode-bullets-hook-fun)
-
-(setq org-ellipsis "↴")
-(set-face-attribute 'org-ellipsis nil :foreground "burlywood" :height 0.9)
-
-;;;;; org auto format
-(defcustom eriks/org-auto-format nil "try to format org mode files")
-(make-variable-buffer-local 'eriks/org-auto-format)
-(add-to-list 'safe-local-variable-values '(eriks/org-auto-format . t))
-(defun org-auto-format-hook ()
-  "run `eriks/org-format' if file local variable `eriks/org-auto-format' is set."
-  (when (and (derived-mode-p 'org-mode) eriks/org-auto-format)
-    (eriks/org-format)))
-(add-hook 'hack-local-variables-hook 'org-auto-format-hook)
-
-(defun eriks/org-format ()
-  "Tries to neatly format an Org mode file.
-What it tries to do:
-  - make sure that there is exactly one empty line before any top level heading
-  - deletes trailing lines"
-  (interactive)
-  (save-excursion
-    (beginning-of-buffer)
-    (cl-labels ((donext ()
-                        (let ((p (re-search-forward "^\\* " nil t)))
-                          (when p
-                            (save-excursion
-                              (forward-line -1)
-                              (just-one-line))
-                            (donext))))
-                (just-one-line ()
-                               (end-of-line)
-                               (let ((cur (point)))
-                                 (skip-chars-backward " \t\n")
-                                 (delete-region cur (point)))
-                               (newline)))
-      (donext)
-      (delete-trailing-lines))))
 
 ;;;; python
 (defun python-mode-hook-fun ()
