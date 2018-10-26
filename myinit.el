@@ -669,60 +669,52 @@ Only does all of this on visible frames (might not always work)"
 
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
-(define-key evil-normal-state-map (kbd "SPC x") 'eriks/run-bc-on-region)
-(define-key evil-normal-state-map (kbd "SPC X") 'eriks/run-bc-on-region-fixed)
+(define-key evil-normal-state-map (kbd "SPC x") 'eriks/calc-eval-region)
+(define-key evil-normal-state-map (kbd "SPC X") 'eriks/calc-convert-bases)
 
 (define-key evil-normal-state-map (kbd "C-d") 'golden-ratio-scroll-screen-up)
 (define-key evil-normal-state-map (kbd "C-u") 'golden-ratio-scroll-screen-down)
 (define-key evil-visual-state-map (kbd "C-d") 'evil-scroll-down)
 (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
-(defvar eriks/bc-scale 5 "The default scale value to use in `eriks/run-bc-on-region'")
+(defun eriks/calc-eval-region (arg beg end)
+  "runs `calc-eval' on the active region, preserves newlines.
+Only works on one line at a time.
 
-;; (defun eriks/bc-set-default-scale (scale)
-;;   "Changes the default global value of scale that is used in
-;; `eriks/run-bc-on-region'"
-;;   (interactive "Nscale=")
-;;   (setq eriks/bc-scale scale))
-
-(defun eriks/run-bc-on-region (arg beg end &optional fixed)
-  "Evaluates the region as a command to bc and replaces it with the
-result.
-
-example:
-  region: ibase=16; FF
-  after: 255
-
-  region: 3+3
-  after: 6
-
-Math functions:
-  s (x):   The sine of x, x is in radians.
-  c (x):   The cosine of x, x is in radians.
-  a (x):   The arctangent of x, arctangent returns radians.
-  l (x):   The natural logarithm of x.
-  e (x):   The exponential function of raising e to the value x.
-  j (n,x): The bessel function of integer order n of x.
-
-If fixed is t, then truncate the result to the value of scale.
-"
+Set the output base with `calc-radix'.
+With any prefix argument, remove the base indicator in the output (16#FF -> FF)"
   (interactive "P\nr")
   (when (region-active-p)
     (let* ((s (delete-and-extract-region beg end))
            (has-newline (equal (substring s -1 nil) "\n"))
-           shell-res
-           (scale (or (and arg (prefix-numeric-value arg)) eriks/bc-scale 0)))
-      (when has-newline
-        (setq s (substring s 0 -1)))
-      (setq shell-res (replace-regexp-in-string "\\\\\n" "" (shell-command-to-string (format "echo \"scale=%s; %s%s%s\" | bc -l" scale (if fixed "(" "") s (if fixed ") / 1" "")))))
-      (unless has-newline
-        (setq shell-res (substring shell-res 0 -1)))
+           (shell-res (calc-eval s)))
+      (when arg
+        (setq shell-res (replace-regexp-in-string "^[[:digit:]]+#" "" shell-res)))
       (insert shell-res)
-      (setq eriks/bc-scale scale))))
+      (when has-newline
+        (insert "\n")))))
 
-(defun eriks/run-bc-on-region-fixed (arg beg end)
-  (interactive "P\nr")
-  (eriks/run-bc-on-region arg beg end t))
+(defun eriks/calc-convert-bases (ibase obase beg end)
+  "Converts a number in selection to another with the prompted bases."
+  (interactive
+   (if (region-active-p)
+       (list (read-number "input base: " 10)
+             (read-number "output base: " 10)
+             (region-beginning) (region-end))
+     (message "no selection active")
+     (list nil nil nil nil)))
+  (when (and ibase obase beg end)
+    (let* ((s (delete-and-extract-region beg end))
+           (has-newline (equal (substring s -1 nil) "\n"))
+           shell-res
+           (inhibit-message t)
+           (old-radix calc-number-radix))
+      (calc-radix obase)
+      (setq shell-res (replace-regexp-in-string "^[[:digit:]]+#" "" (calc-eval (format "%s#%s" ibase s))))
+      (insert shell-res)
+      (when has-newline
+        (insert "\n"))
+      (calc-radix old-radix))))
 
 (defun evil-what-cursor (&optional arg)
   "Extension of `what-cursor-position' that also shows how the
