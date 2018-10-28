@@ -666,6 +666,8 @@ Only does all of this on visible frames (might not always work)"
 (evil-set-initial-state 'dired-mode 'emacs)
 (evil-set-initial-state 'org-mode 'normal)
 (evil-set-initial-state 'Man-mode 'motion)
+(evil-set-initial-state 'help-mode 'motion)
+(evil-set-initial-state 'conf-mode 'normal)
 
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
@@ -1786,8 +1788,9 @@ REGEX is the regex to align by."
 (add-hook 'org-mode-hook 'evil-org-mode)
 (evil-org-set-key-theme '(textobjects insert navigation additional todo))
 (evil-define-key 'normal evil-org-mode-map
-  (kbd "go") (evil-org-define-eol-command org-insert-heading-after-current)
-  (kbd "gO") (evil-org-define-bol-command org-insert-heading))
+  (kbd "go") (evil-org-define-eol-command org-insert-heading-respect-content)
+  (kbd "gO") (evil-org-define-bol-command org-insert-heading)
+  (kbd "T")  (evil-org-define-eol-command org-insert-todo-heading-respect-content))
 
 ;; (require 'evil-org-agenda)
 ;; (evil-org-agenda-set-keys)
