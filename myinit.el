@@ -1363,19 +1363,15 @@ target character"
 (evilem-define (kbd "SPC [[") 'sp-backward-sexp)
 (evilem-define (kbd "SPC []") 'sp-previous-sexp)
 
-(evilem-define (kbd "SPC {") 'sp-backward-up-sexp)
-(evilem-define (kbd "SPC }") 'sp-up-sexp)
-(evilem-define (kbd "SPC M-[") 'sp-backward-down-sexp)
-(evilem-define (kbd "SPC M-]") 'sp-down-sexp)
-(evilem-define (kbd "SPC (") 'sp-beginning-of-sexp)
-(evilem-define (kbd "SPC )") 'sp-end-of-sexp)
-
 (evilem-define (kbd "SPC ]s") 'forward-sentence)
 (evilem-define (kbd "SPC [s") 'backward-sentence)
-(evilem-define (kbd "SPC ]p") 'forward-paragraph)
-(evilem-define (kbd "SPC [p") 'backward-paragraph)
 
 (evilem-define (kbd "SPC [i") 'eriks-up-indentation)
+
+(evilem-define (kbd "SPC [u") 'sp-backward-up-sexp)
+(evilem-define (kbd "SPC ]u") 'sp-up-sexp)
+(evilem-define (kbd "SPC [d") 'sp-backward-down-sexp)
+(evilem-define (kbd "SPC ]d") 'sp-down-sexp)
 
 ;;;;; motion map
 (define-key evil-motion-state-map (kbd "[m") 'evil-backward-section-begin)
@@ -1383,23 +1379,16 @@ target character"
 (define-key evil-motion-state-map (kbd "]m") 'evil-forward-section-begin)
 (define-key evil-motion-state-map (kbd "]M") 'evil-forward-section-end)
 
-(evil-remap "[<" "F<" evil-motion-state-map)
-(evil-remap "[>" "F>" evil-motion-state-map)
-(evil-remap "]<" "f<" evil-motion-state-map)
-(evil-remap "]>" "f>" evil-motion-state-map)
-
 (define-key evil-motion-state-map (kbd "]s") 'forward-sentence)
 (define-key evil-motion-state-map (kbd "[s") 'backward-sentence)
-(define-key evil-motion-state-map (kbd "]p") 'forward-paragraph)
-(define-key evil-motion-state-map (kbd "[p") 'backward-paragraph)
 
 (define-key evil-motion-state-map (kbd "][") 'sp-next-sexp)
 (define-key evil-motion-state-map (kbd "]]") 'sp-forward-sexp) ;; sp-forward-parallel-sexp
 (define-key evil-motion-state-map (kbd "[[") 'sp-backward-sexp)
 (define-key evil-motion-state-map (kbd "[]") 'sp-previous-sexp)
 
-(define-key evil-motion-state-map (kbd "[d") 'beginning-of-defun)
-(define-key evil-motion-state-map (kbd "]d") 'end-of-defun)
+(define-key evil-motion-state-map (kbd "[f") 'beginning-of-defun)
+(define-key evil-motion-state-map (kbd "]f") 'end-of-defun)
 
 (define-key evil-motion-state-map (kbd "[i") 'eriks-up-indentation)
 
@@ -1409,10 +1398,10 @@ target character"
 (define-key evil-motion-state-map (kbd "[ SPC") 'eriks-skip-space-backwards)
 (define-key evil-motion-state-map (kbd "] SPC") 'eriks-skip-space)
 
-(define-key evil-motion-state-map (kbd "{") 'sp-backward-up-sexp)
-(define-key evil-motion-state-map (kbd "}") 'sp-up-sexp)
-(define-key evil-motion-state-map (kbd "M-[") 'sp-backward-down-sexp)
-(define-key evil-motion-state-map (kbd "M-]") 'sp-down-sexp)
+(define-key evil-motion-state-map (kbd "[u") 'sp-backward-up-sexp)
+(define-key evil-motion-state-map (kbd "]u") 'sp-up-sexp)
+(define-key evil-motion-state-map (kbd "[d") 'sp-backward-down-sexp)
+(define-key evil-motion-state-map (kbd "]d") 'sp-down-sexp)
 (define-key evil-motion-state-map (kbd "(") 'sp-beginning-of-sexp)
 (define-key evil-motion-state-map (kbd ")") 'sp-end-of-sexp)
 
