@@ -1412,17 +1412,17 @@ target character"
 ;;;;; evil-multiedit
 (require 'evil-multiedit)
 
-(setq evil-iedit-follow-matches t)
+(setq evil-multiedit-follow-matches t)
 
 (define-key iedit-mode-occurrence-keymap (kbd "M-n") nil)
 (define-key iedit-mode-occurrence-keymap (kbd "M-p") nil)
 
 ;; Highlights all matches of the selection in the buffer.
-(define-key evil-visual-state-map "R" 'evil-iedit-match-all)
+(define-key evil-visual-state-map "R" 'evil-multiedit-match-all)
 
 ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
 ;; incrementally add the next unmatched match.
-(define-key evil-normal-state-map (kbd "C-n") 'evil-iedit-match-and-next)
+(define-key evil-normal-state-map (kbd "C-n") 'evil-multiedit-match-and-next)
 ;; Match selected region.
 (define-key evil-visual-state-map (kbd "C-n") 'evil-multiedit-match-and-next)
 ;; Insert marker at point
