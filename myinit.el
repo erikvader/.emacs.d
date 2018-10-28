@@ -665,14 +665,15 @@ Only does all of this on visible frames (might not always work)"
 
 (evil-set-initial-state 'dired-mode 'emacs)
 (evil-set-initial-state 'org-mode 'normal)
+(evil-set-initial-state 'Man-mode 'motion)
 
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
 (define-key evil-normal-state-map (kbd "SPC ;") 'set-variable)
 (define-key evil-normal-state-map (kbd "SPC x") 'eriks/calc-eval-region)
 (define-key evil-normal-state-map (kbd "SPC X") 'eriks/calc-convert-bases)
 
-(define-key evil-normal-state-map (kbd "C-d") 'golden-ratio-scroll-screen-up)
-(define-key evil-normal-state-map (kbd "C-u") 'golden-ratio-scroll-screen-down)
+(define-key evil-motion-state-map (kbd "C-d") 'golden-ratio-scroll-screen-up)
+(define-key evil-motion-state-map (kbd "C-u") 'golden-ratio-scroll-screen-down)
 (define-key evil-visual-state-map (kbd "C-d") 'evil-scroll-down)
 (define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
 
@@ -762,6 +763,7 @@ The map to bind 'trigger' in is by default `evil-normal-state-map' (evil normal 
 ;; (define-key evil-visual-state-map (kbd "C-k") (concat ":m '<-2" (kbd "RET") "gv=gv"))
 
 (define-key evil-normal-state-map (kbd "<backspace>") 'evil-ex-nohighlight)
+(define-key evil-motion-state-map (kbd "<backspace>") 'evil-ex-nohighlight)
 
 (evil-remap "C-@" "@@")
 
@@ -1925,6 +1927,13 @@ What it tries to do:
 (defun diff-mode-hook-fun ()
   (diff-auto-refine-mode -1))
 (add-hook 'diff-mode-hook 'diff-mode-hook-fun)
+
+;;;; man-mode
+(require 'man)
+(define-key Man-mode-map (kbd "q") 'kill-buffer-and-frame)
+(defun man-mode-hook-fun ()
+  (face-remap-set-base 'default '(:foreground "#f8f8f2")))
+(add-hook 'Man-mode-hook 'man-mode-hook-fun)
 
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)

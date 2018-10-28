@@ -245,6 +245,10 @@
    `(mu4e-cited-7-face ((,class (:foreground ,fg3))))
    `(mu4e-header-marks-face ((,class (:foreground ,type))))
    `(mu4e-view-url-number-face ((,class (:foreground ,type))))
+   ;; man-mode
+   `(Man-overstrike ((,class (:weight bold :foreground ,rainbow-4))))
+   `(Man-underline ((,class (:weight bold :foreground ,rainbow-3))))
+   ;; `(Man-inverse ((,class (:weight bold :foreground ,rainbow-3))))
    ;; org
    `(org-agenda-date ((,class (:foreground ,rainbow-2 :underline nil))))
    `(org-agenda-dimmed-todo-face ((,class (:foreground ,comment))))
