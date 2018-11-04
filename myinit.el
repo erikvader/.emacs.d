@@ -400,10 +400,10 @@ when set to nil)."
 
 ;;;; smartparens
 ;; remove defaults
-(sp-pair "\\\\(" nil :actions :rem)
-(sp-pair "\\{"   nil :actions :rem)
-(sp-pair "\\("   nil :actions :rem)
-(sp-pair "\\\""  nil :actions :rem)
+;(sp-pair "\\\\(" nil :actions :rem)
+;(sp-pair "\\{"   nil :actions :rem)
+;(sp-pair "\\("   nil :actions :rem)
+;(sp-pair "\\\""  nil :actions :rem)
 
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
