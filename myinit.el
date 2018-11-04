@@ -666,7 +666,6 @@ Only does all of this on visible frames (might not always work)"
 (evil-set-initial-state 'dired-mode 'emacs)
 (evil-set-initial-state 'org-mode 'normal)
 (evil-set-initial-state 'Man-mode 'motion)
-(evil-set-initial-state 'help-mode 'motion)
 (evil-set-initial-state 'conf-mode 'normal)
 
 (define-key evil-normal-state-map (kbd "SPC :") 'eval-expression)
@@ -1085,10 +1084,36 @@ Uses a default face unless C-u is used."
 (evil-define-key 'normal evil-surround-mode-map "gS" 'evil-Surround-edit)
 
 ;;;;; evil collection typ
-;; (setq evil-want-integration nil)
-;; (require 'evil-collection)
-;; (require 'evil-collection-calc)
-;; (evil-collection-calc-setup)
+(require 'evil-collection-help)
+(defun evil-collection-help-setup ()
+  "Set up `evil' bindings for `help'."
+  (evil-set-initial-state 'help-mode 'normal)
+  (evil-collection-inhibit-insert-state 'help-mode-map)
+  (evil-collection-define-key 'normal 'help-mode-map
+    ;; motion
+    (kbd "C-f") 'scroll-up-command
+    (kbd "C-b") 'scroll-down-command
+    (kbd "<tab>") 'forward-button
+    (kbd "<backtab>") 'backward-button
+
+    (kbd "C-o") 'help-go-back
+    (kbd "C-i") 'help-go-forward
+
+    "go" 'push-button
+    "gO" 'push-button
+    (kbd "<return>") 'push-button
+
+    "g?" 'describe-mode
+    "gr" 'revert-buffer
+    "<" 'help-go-back
+    ">" 'help-go-forward
+    "r" 'help-follow
+
+    ;; quit
+    "q" 'quit-window
+    "ZQ" 'evil-quit
+    "ZZ" 'quit-window))
+(evil-collection-help-setup)
 
 ;;;;;; outline minor mode
 (evil-define-key '(normal visual motion) outline-minor-mode-map

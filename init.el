@@ -98,6 +98,7 @@
  '(evil-shift-width 3)
  '(evil-want-C-d-scroll nil)
  '(evil-want-Y-yank-to-eol t)
+ '(evil-want-keybinding nil)
  '(expand-region-fast-keys-enabled t)
  '(eyebrowse-mode-line-style (quote always))
  '(fci-rule-color "#14151E")
