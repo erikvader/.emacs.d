@@ -1815,7 +1815,12 @@ REGEX is the regex to align by."
 (evil-define-key 'normal evil-org-mode-map
   (kbd "go") (evil-org-define-eol-command org-insert-heading-respect-content)
   (kbd "gO") (evil-org-define-bol-command org-insert-heading)
-  (kbd "T")  (evil-org-define-eol-command org-insert-todo-heading-respect-content))
+  (kbd "T")  (evil-org-define-eol-command org-insert-todo-heading-respect-content)
+  (kbd "H-j") 'org-forward-element
+  (kbd "H-k") 'org-backward-element
+  (kbd "H-h") 'org-up-element
+  (kbd "H-l") 'org-down-element
+  (kbd "H-u") 'evil-org-top)
 
 ;; (require 'evil-org-agenda)
 ;; (evil-org-agenda-set-keys)
@@ -1830,6 +1835,8 @@ REGEX is the regex to align by."
              (org-agenda-files)
              :require-match t)))
 (define-key eriks-map (kbd "o") 'find-my-org-agenda-files)
+
+(define-key org-mode-map (kbd "C-c s") 'counsel-org-goto-all)
 
 ;;;;; org bullets and pretty stuff
 (require 'org-bullets)
