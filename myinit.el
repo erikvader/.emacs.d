@@ -1735,10 +1735,10 @@ REGEX is the regex to align by."
 (global-git-gutter+-mode 1)
 ;; (git-gutter+-toggle-fringe)
 
-(define-key eriks-map (kbd "gg") 'git-gutter+-mode) ; Turn on/off in the current buffer
-(define-key eriks-map (kbd "gG") 'global-git-gutter+-mode) ; Turn on/off globally
+(define-key eriks-map (kbd "gg") 'git-gutter+-mode)
 (define-key eriks-map (kbd "gj") 'git-gutter+-next-hunk)
 (define-key eriks-map (kbd "gk") 'git-gutter+-previous-hunk)
+(define-key eriks-map (kbd "gr") 'git-gutter+-revert-hunk)
 
 ;;;; rotate-text
 (setq rotate-text-symbols nil)
