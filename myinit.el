@@ -1200,7 +1200,7 @@ Uses a default face unless C-u is used."
 ;; (define-key evil-normal-state-map (kbd "SPC x") 'eriks/delete-empty-parens)
 
 (define-key evil-normal-state-map (kbd "SPC u") 'undo-tree-visualize)
-(define-key evil-normal-state-map (kbd "SPC .") 'repeat)
+(define-key evil-normal-state-map (kbd ";") 'repeat)
 
 (define-key evil-normal-state-map (kbd "SPC p]") 'sp-forward-slurp-sexp)
 (define-key evil-normal-state-map (kbd "SPC p[") 'sp-backward-slurp-sexp)
@@ -1372,7 +1372,7 @@ target character"
 (define-key evil-motion-state-map (kbd ",") 'avy-goto-char-in-line)
 (define-key evil-motion-state-map (kbd "SPC ,") 'avy-goto-char)
 
-(define-key evil-motion-state-map (kbd ";") 'avy-goto-char-timer)
+;; (define-key evil-motion-state-map (kbd ";") 'avy-goto-char-timer)
 (define-key evil-motion-state-map (kbd "SPC SPC") 'avy-goto-char-timer)
 
 (define-key evil-normal-state-map (kbd "-") 'negative-argument)
