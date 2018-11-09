@@ -294,6 +294,7 @@ when set to nil)."
 ;; (require 'eyebrowse)
 ;;(require 'switch-window)
 (require 'avy)
+(require 'hide-lines)
 
 ;;;; random
 (sml/setup)
@@ -327,6 +328,11 @@ when set to nil)."
 ;;                                             (equal "myinit.el"
 ;;                                                     (replace-regexp-in-string "\\(^.*/\\).*?$" "" buffer-file-name nil nil 1)))
 ;;                                        (linum-mode -1))))
+
+(define-key evil-normal-state-map (kbd "SPC h l") 'hide-lines-not-matching)
+(define-key evil-normal-state-map (kbd "SPC h L") 'hide-lines-matching)
+(define-key evil-normal-state-map (kbd "SPC h s") 'hide-lines-show-all)
+
 ;;;; ivy, swiper and counsel
 (ivy-mode 1)
 (counsel-mode 1)
