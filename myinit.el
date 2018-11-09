@@ -1942,6 +1942,12 @@ What it tries to do:
   (flycheck-mode 1))
 (add-hook 'sh-mode-hook 'sh-mode-hook-fun)
 
+;;;; rust
+(defun rust-mode-hook-fun ()
+  (flycheck-mode 1)
+  (flycheck-rust-setup))
+(add-hook 'rust-mode-hook 'rust-mode-hook-fun)
+
 ;;;; haskell
 ;; (defun haskell-mode-hook-fun ()
 ;;   (highlight-indent-guides-mode 1))
