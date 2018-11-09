@@ -232,6 +232,7 @@
 ;;(load-file "~/.emacs.d/inits/c-saker.el")
 
 (blink-cursor-mode 0)
+(setq frame-title-format "Emacs - %b")
 
 ;;load init
 (load-file "~/.emacs.d/myinit.el")
