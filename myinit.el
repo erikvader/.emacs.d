@@ -447,33 +447,18 @@ when set to nil)."
 (setq ibuffer-saved-filter-groups
       (quote (("default"
                ("dired" (mode . dired-mode))
-               ;;("perl" (mode . cperl-mode))
-               ;;("erc" (mode . erc-mode))
-               ;; ("planner" (or
-               ;;             (name . "^\\*Calendar\\*$")
-               ;;             (name . "^diary$")
-               ;;             (mode . muse-mode)))
                ("emacs" (or
                          (name . "^\\*scratch\\*$")
                          (name . "^\\*Messages\\*$")
                          (name . "^\\*dashboard\\*$")
                          (mode . help-mode)
                          (name . "^\\*Customize.*")))
-               ("magit" (name . "^\\*magit:.*"))
-               ;; ("gnus" (or
-               ;;          (mode . message-mode)
-               ;;          (mode . bbdb-mode)
-               ;;          (mode . mail-mode)
-               ;;          (mode . gnus-group-mode)
-               ;;          (mode . gnus-summary-mode)
-               ;;          (mode . gnus-article-mode)
-               ;;          (name . "^\\.bbdb$")
-               ;;          (name . "^\\.newsrc-dribble")))
+               ;; ("magit" (name . "^\\*magit:.*"))
                ))))
 
-(defun ibuffer-mode-hook-fun ()
-  (ibuffer-switch-to-saved-filter-groups "default"))
-(add-hook 'ibuffer-mode-hook 'ibuffer-mode-hook-fun)
+;; (defun ibuffer-mode-hook-fun ()
+;;   (ibuffer-switch-to-saved-filter-groups "default"))
+;; (add-hook 'ibuffer-mode-hook 'ibuffer-mode-hook-fun)
 
 (define-key my-keys-map (kbd "C-x C-b") 'ibuffer)
 
@@ -944,12 +929,6 @@ open-line doesn't indent the new line in any way)"
   (browse-url
    (concat website (url-hexify-string search))))
 
-(defun search-online-google (search)
-  (interactive "sSearch: ")
-  (search-online "http://google.com/search?q=" search))
-
-(define-key evil-normal-state-map (kbd "SPC s G") 'search-online-google)
-
 (defun search-online-javadoc (search)
   (interactive "sSearch: ")
   (search-online "http://javadocs.org/" search))
@@ -965,9 +944,7 @@ open-line doesn't indent the new line in any way)"
            (url-hexify-string
             (.eeo/make-url-args beg end type)))))
 
-(define-key evil-normal-state-map (kbd "SPC s g") 'evil-operator-google-search)
 (define-key evil-normal-state-map (kbd "SPC s j") 'eriks-evil-javadoc-search-operator)
-(define-key evil-visual-state-map (kbd "SPC s g") 'evil-operator-google-search)
 (define-key evil-visual-state-map (kbd "SPC s j") 'eriks-evil-javadoc-search-operator)
 
 (evil-define-operator eriks-evil-swiper-operator (beg end type)
@@ -1022,6 +999,8 @@ open-line doesn't indent the new line in any way)"
 (define-key evil-normal-state-map (kbd "SPC s M") 'dmoccur)
 (define-key evil-normal-state-map (kbd "SPC s N") 'moccur)
 (define-key evil-normal-state-map (kbd "SPC s O") 'occur-by-moccur)
+
+(define-key evil-normal-state-map (kbd "SPC s g") 'grep-find)
 
 (define-key evil-normal-state-map (kbd "SPC s f") 'find-dired)
 
@@ -1435,8 +1414,8 @@ target character"
 (define-key evil-motion-state-map (kbd "]u") 'sp-up-sexp)
 (define-key evil-motion-state-map (kbd "[d") 'sp-backward-down-sexp)
 (define-key evil-motion-state-map (kbd "]d") 'sp-down-sexp)
-(define-key evil-motion-state-map (kbd "(") 'sp-beginning-of-sexp)
-(define-key evil-motion-state-map (kbd ")") 'sp-end-of-sexp)
+(evil-define-key 'motion prog-mode-map (kbd "(") 'sp-beginning-of-sexp)
+(evil-define-key 'motion prog-mode-map (kbd ")") 'sp-end-of-sexp)
 
 ;;;;; evil-exchange
 (require 'evil-exchange)
