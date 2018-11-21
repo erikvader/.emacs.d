@@ -141,7 +141,7 @@
  '(org-tags-column 0)
  '(package-selected-packages
    (quote
-    (flycheck-rust hide-lines rust-mode evil-multiedit evil-org auctex-latexmk evil-args company matlab-mode what-the-commit highlight-indent-guides vdiff-magit vdiff lua-mode heaven-and-hell arduino-mode ace-window frames-only-mode evil-collection git-timemachine evil-exchange git-gutter-fringe+ yasnippet-snippets wgrep-ag ag drag-stuff which-key smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile outshine org-bullets multiple-cursors markdown-mode magit linum-relative hydra haskell-snippets haskell-mode golden-ratio-scroll-screen ggtags flycheck expand-region evil-nerd-commenter evil-mc-extras evil-lion evil-indent-plus evil-extra-operator disable-mouse diminish counsel-projectile counsel color-moccur charmap buffer-move browse-kill-ring auctex)))
+    (lorem-ipsum flycheck-rust hide-lines rust-mode evil-multiedit evil-org auctex-latexmk evil-args company matlab-mode what-the-commit highlight-indent-guides vdiff-magit vdiff lua-mode heaven-and-hell arduino-mode ace-window frames-only-mode evil-collection git-timemachine evil-exchange git-gutter-fringe+ yasnippet-snippets wgrep-ag ag drag-stuff which-key smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile outshine org-bullets multiple-cursors markdown-mode magit linum-relative hydra haskell-snippets haskell-mode golden-ratio-scroll-screen ggtags flycheck expand-region evil-nerd-commenter evil-mc-extras evil-lion evil-indent-plus evil-extra-operator disable-mouse diminish counsel-projectile counsel color-moccur charmap buffer-move browse-kill-ring auctex)))
  '(perl-continued-brace-offset -3)
  '(perl-continued-statement-offset 3)
  '(perl-indent-level 3)
