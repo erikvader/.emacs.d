@@ -1010,6 +1010,7 @@ open-line doesn't indent the new line in any way)"
 (define-key evil-normal-state-map (kbd "SPC s a r") 'ag-regexp)
 (define-key evil-normal-state-map (kbd "SPC s a R") 'ag-project-regexp)
 (define-key evil-normal-state-map (kbd "SPC s a P") 'ag-project)
+(define-key evil-normal-state-map (kbd "SPC s a d") 'ag-dired)
 
 (setq evil-operator-moccur-grep-find-key (kbd "SPC s m"))
 (require 'evil-operator-moccur)
@@ -1917,7 +1918,8 @@ What it tries to do:
 (defun python-mode-hook-fun ()
   (setq evil-shift-width python-indent-offset)
   (flycheck-mode 1)
-  (highlight-indent-guides-mode 1))
+  (highlight-indent-guides-mode 1)
+  (diminish 'highlight-indent-guides-mode))
 
 (add-hook 'python-mode-hook 'python-mode-hook-fun)
 
