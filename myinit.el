@@ -15,11 +15,19 @@
        ))
   "Face to highlight FIXME and TODO")
 
+(defface eriks-note-face
+  '((t :foreground "chartreuse1"
+       :background "gray10"
+       :weight bold
+       ))
+  "Face to highlight NOTE")
+
 (defun add-todo-font-lock ()
   (interactive)
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\):" 1 'eriks-fix-later-face t)
-                            ("\\<\\(TODO\\):" 1 'eriks-fix-later-face t))))
+                            ("\\<\\(TODO\\):" 1 'eriks-fix-later-face t)
+                            ("\\<\\(NOTE\\):" 1 'eriks-note-face t))))
 
 (defface hi-red
   '((t :foreground "black"
