@@ -287,6 +287,8 @@ when set to nil)."
 
 (define-key eriks-map (kbd "C-r") 'revert-buffer)
 
+(define-key eriks-map (kbd "m") 'man)
+
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
