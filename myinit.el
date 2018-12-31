@@ -1928,6 +1928,7 @@ What it tries to do:
 (defun python-mode-hook-fun ()
   (setq evil-shift-width python-indent-offset)
   (flycheck-mode 1)
+  (setq-local flycheck-check-syntax-automatically '(save mode-enabled))
   (highlight-indent-guides-mode 1)
   (diminish 'highlight-indent-guides-mode))
 
@@ -1946,9 +1947,12 @@ What it tries to do:
 (add-hook 'rust-mode-hook 'rust-mode-hook-fun)
 
 ;;;; haskell
-;; (defun haskell-mode-hook-fun ()
-;;   (highlight-indent-guides-mode 1))
-;; (add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
+(defun haskell-mode-hook-fun ()
+  ;; (highlight-indent-guides-mode 1)
+  (flycheck-mode 1)
+  (flycheck-select-checker 'haskell-hlint)
+  )
+(add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
 
 ;;;; diff
 (defun diff-mode-hook-fun ()
