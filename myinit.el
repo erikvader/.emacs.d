@@ -1882,6 +1882,17 @@ What it tries to do:
         (org-element-property :end element)))
 (advice-add 'evil-org-select-an-element :around #'eriks/evil-org-select-an-element-fix)
 
+;;;;; remove done tasks
+(defun org-remove-done-tasks ()
+  "delete all headers marked as DONE on the current subtree"
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-mark-subtree)
+     (delete-region (region-beginning) (region-end))
+     (setq org-map-continue-from (outline-previous-heading)))
+   "/DONE" 'tree))
+
 ;;; mode hooks
 ;;;; prog-mode
 (defun prog-mode-hook-fun ()
