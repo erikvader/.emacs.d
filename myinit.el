@@ -1793,17 +1793,6 @@ REGEX is the regex to align by."
 
 (define-key git-timemachine-mode-map (kbd "c") 'eriks/git-timemachine-show-commit)
 
-;;;; vdiff
-(require 'vdiff)
-
-(define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
-
-(setq vdiff-auto-refine t)
-
-(defun vdiff-close-everything (buf1 buf2)
-  "close everything on exit"
-  (delete-frame))
-
 ;;;; org-mode
 (require 'evil-org)
 (add-hook 'org-mode-hook 'evil-org-mode)
