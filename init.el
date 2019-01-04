@@ -89,6 +89,8 @@
  '(eclim-auto-save nil)
  '(eclim-eclipse-dirs (quote ("~/bin/eclipse-neon")))
  '(eclim-executable "~/bin/eclipse-neon/eclim")
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(evil-cross-lines t)
  '(evil-default-state (quote emacs))
  '(evil-move-beyond-eol t)
