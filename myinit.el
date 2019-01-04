@@ -533,8 +533,6 @@ see `eriks/latex-autocompile-toggle'"
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 
 ;;;; windows
-;; (require 'dwm)
-;; (dwm-mode 1)
 
 (require 'ace-window)
 (define-key my-keys-map (kbd "C-x o") 'ace-window)
@@ -542,30 +540,7 @@ see `eriks/latex-autocompile-toggle'"
 (frames-only-mode)
 (setq frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops nil)
 
-;; (define-key my-keys-map (kbd "S-<right>") 'windmove-right)
-;; (define-key my-keys-map (kbd "S-<left>") 'windmove-left)
-;; (define-key my-keys-map (kbd "S-<up>") 'windmove-up)
-;; (define-key my-keys-map (kbd "S-<down>") 'windmove-down)
-
-;; (define-key my-keys-map (kbd "C-<right>") 'enlarge-window-horizontally)
-;; (define-key my-keys-map (kbd "C-<left>") 'shrink-window-horizontally)
-;; (define-key my-keys-map (kbd "C-<up>") 'enlarge-window)
-;; (define-key my-keys-map (kbd "C-<down>") 'shrink-window)
-
-;; (define-key my-keys-map (kbd "C-S-<right>") 'buf-move-right)
-;; (define-key my-keys-map (kbd "C-S-<left>") 'buf-move-left)
-;; (define-key my-keys-map (kbd "C-S-<up>") 'buf-move-up)
-;; (define-key my-keys-map (kbd "C-S-<down>") 'buf-move-down)
-
-(define-key my-keys-map (kbd "C-x 1") 'delete-other-visible-frames)
-(define-key my-keys-map (kbd "C-x 2") 'make-frame-command)
-(define-key my-keys-map (kbd "C-x 0") 'delete-frame)
 (define-key my-keys-map (kbd "C-x C-0") 'kill-buffer-and-frame)
-
-(define-key my-keys-map (kbd "C-x 4 1") 'delete-other-windows)
-(define-key my-keys-map (kbd "C-x 4 2") 'split-window-below)
-(define-key my-keys-map (kbd "C-x 4 0") 'delete-window)
-(define-key my-keys-map (kbd "C-x 4 C-0") 'kill-buffer-and-window)
 
 (defun kill-buffer-and-frame ()
   "Kills the current buffer, if successful then delete the frame."
@@ -577,49 +552,6 @@ see `eriks/latex-autocompile-toggle'"
   (when (kill-buffer)
     (delete-frame)))
 
-;;TODO: doesn't work in emacs 25
-(defun delete-other-visible-frames (&optional frame)
-  "Delete all frames on FRAME's terminal, except FRAME.
-If FRAME uses another frame's minibuffer, the minibuffer frame is
-left untouched.  Do not delete any of FRAME's child frames.  If
-FRAME is a child frame, delete its siblings only.  FRAME must be
-a live frame and defaults to the selected one.
-
-Only does all of this on visible frames (might not always work)"
-  (interactive)
-  (setq frame (window-normalize-frame frame))
-  (let ((minibuffer-frame (window-frame (minibuffer-window frame)))
-        (this (next-frame frame 'visible))
-        (parent (frame-parent frame))
-        next)
-    ;; In a first round consider minibuffer-less frames only.
-    (while (not (eq this frame))
-      (setq next (next-frame this 'visible))
-      (unless (or (eq (window-frame (minibuffer-window this)) this)
-                  ;; When FRAME is a child frame, delete its siblings
-                  ;; only.
-                  (and parent (not (eq (frame-parent this) parent)))
-                  ;; Do not delete a child frame of FRAME.
-                  (eq (frame-parent this) frame))
-        (delete-frame this))
-      (setq this next))
-    ;; In a second round consider all remaining frames.
-    (setq this (next-frame frame 'visible))
-    (while (not (eq this frame))
-      (setq next (next-frame this 'visible))
-      (unless (or (eq this minibuffer-frame)
-                  ;; When FRAME is a child frame, delete its siblings
-                  ;; only.
-                  (and parent (not (eq (frame-parent this) parent)))
-                  ;; Do not delete a child frame of FRAME.
-                  (eq (frame-parent this) frame))
-        (delete-frame this))
-      (setq this next))))
-
-;; (define-key my-keys-map (kbd "M-<left>") 'winner-undo)
-;; (define-key my-keys-map (kbd "M-<right>") 'winner-redo)
-
-;;(setq framemove-hook-into-windmove t)
 ;;;; evil
 ;;;;; setup
 (setq evil-emacs-state-modes nil)
@@ -1872,7 +1804,7 @@ What it tries to do:
 (advice-add 'evil-org-select-an-element :around #'eriks/evil-org-select-an-element-fix)
 
 ;;;;; remove done tasks
-(defun org-remove-done-tasks ()
+(defun erik/org-remove-done-tasks ()
   "delete all headers marked as DONE on the current subtree"
   (interactive)
   (org-map-entries
