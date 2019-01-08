@@ -433,7 +433,7 @@ when set to nil)."
 ;;;; outshine
 ;; (setq outshine-use-speed-commands t)
 (defun outline-minor-mode-hook-fun ()
-  (outshine-hook-function)
+  (outshine-mode)
   (define-key outline-minor-mode-map [remap self-insert-command] nil) ;;remove annyoing remap to outshine-self-insert-command
   )
 (add-hook 'outline-minor-mode-hook 'outline-minor-mode-hook-fun)
