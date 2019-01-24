@@ -289,6 +289,18 @@ when set to nil)."
 
 (define-key eriks-map (kbd "m") 'man)
 
+(defun eriks/toggle-show-trailing-whitespace (&optional ARG)
+  "Toggle `show-trailing-whitespace'. If ARG, then set to t instead of toggling."
+  (interactive "P")
+  (setq show-trailing-whitespace
+        (if ARG
+            t
+          (null show-trailing-whitespace)))
+  (if (interactive-p)
+      (message "show trailing whitespace is %s" (if show-trailing-whitespace "on" "off"))))
+
+(define-key eriks-map (kbd "w t") 'eriks/toggle-show-trailing-whitespace)
+
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
@@ -1821,7 +1833,7 @@ What it tries to do:
   ;; (evil-set-initial-state major-mode 'normal)
   (show-smartparens-mode t)
   (smartparens-mode t)
-  (setq show-trailing-whitespace t)
+  (eriks/toggle-show-trailing-whitespace t)
   (rainbow-delimiters-mode t)
   (add-todo-font-lock))
 (add-hook 'prog-mode-hook 'prog-mode-hook-fun)
