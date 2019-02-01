@@ -1892,6 +1892,8 @@ What it tries to do:
 (add-hook 'rust-mode-hook 'rust-mode-hook-fun)
 
 ;;;; haskell
+(put 'haskell-indentation-left-offset 'safe-local-variable 'integerp)
+
 (defun haskell-mode-hook-fun ()
   ;; (highlight-indent-guides-mode 1)
   (flycheck-mode 1)
