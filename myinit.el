@@ -1840,9 +1840,9 @@ What it tries to do:
 
 ;;;; common c
 (defun c-mode-common-hook-fun ()
-  (run-hooks 'abbrev-mode-hook) ;;för att den inte verkar göra det själv
   (setq-local comment-start "//")
-  (setq-local comment-end ""))
+  (setq-local comment-end "")
+  (abbrev-mode -1))
 (add-hook 'c-mode-common-hook 'c-mode-common-hook-fun)
 
 ;;;; c
@@ -1964,11 +1964,6 @@ What it tries to do:
 (diminish 'smartparens-mode)
 
 (diminish 'projectile-mode)
-
-;;doesnt run :(
-(defun abbrev-mode-hook-fun ()
-  (diminish 'abbrev-mode))
-(add-hook 'abbrev-mode-hook 'abbrev-mode-hook-fun)
 
 (diminish 'eldoc-mode)
 

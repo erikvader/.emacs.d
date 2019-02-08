@@ -161,6 +161,7 @@
      mode-line-minor-mode-keymap)))
  '(rm-whitelist nil)
  '(rust-indent-offset 3)
+ '(save-abbrevs nil)
  '(select-enable-clipboard nil)
  '(sentence-end-double-space nil)
  '(show-trailing-whitespace nil)
