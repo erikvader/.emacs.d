@@ -136,6 +136,7 @@
  '(neo-show-hidden-files t)
  '(neo-window-fixed-size t)
  '(org-agenda-skip-scheduled-if-done t)
+ '(org-blank-before-new-entry (quote ((heading) (plain-list-item))))
  '(org-indent-indentation-per-level 1)
  '(org-pretty-entities t)
  '(org-src-window-setup (quote current-window))
