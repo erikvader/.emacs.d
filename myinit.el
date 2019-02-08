@@ -544,6 +544,8 @@ see `eriks/latex-autocompile-toggle'"
 (define-key company-active-map (kbd "<escape>") 'company-abort)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
+(define-key company-active-map (kbd "C-j") 'company-select-next)
+(define-key company-active-map (kbd "C-k") 'company-select-previous)
 
 ;;;; windows
 
