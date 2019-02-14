@@ -715,7 +715,14 @@ The map to bind 'trigger' in is by default `evil-normal-state-map' (evil normal 
 (define-key evil-normal-state-map (kbd "<backspace>") 'evil-ex-nohighlight)
 (define-key evil-motion-state-map (kbd "<backspace>") 'evil-ex-nohighlight)
 
-(evil-remap "C-@" "@@")
+;; (evil-remap "C-@" "@@")
+(defun eriks/evil-better-record-macro (_)
+  "When done recording a macro, set `evil-last-register' to the newly
+recorded register so that `evil-execute-macro' will believe that this
+macro was the last executed one."
+  (when (and evil-this-macro defining-kbd-macro)
+    (setq evil-last-register evil-this-macro)))
+(advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
 
 (require 'evil-latex-textobjects)
 
