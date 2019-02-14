@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tablevpadding
-# key: tvp
-# --
-\renewcommand{\arraystretch}{$0}

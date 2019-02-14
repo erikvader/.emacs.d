@@ -9,6 +9,7 @@
 \usepackage[parfill]{parskip} %gör så att styckena blir den "rätta" sorten
 \usepackage{mathtools}
 \usepackage{float}
+\usepackage{enumerate}
 \usepackage[margin=1in]{geometry}
 
 \title{${1:title}}

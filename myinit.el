@@ -533,8 +533,9 @@ see `eriks/latex-autocompile-toggle'"
 (defun LaTeX-mode-hook-fun ()
   ;; (modify-syntax-entry ?$ "\"" LaTeX-mode-syntax-table) ;;make $ act like string so smartparens can navigate with it.
   (add-hook 'after-save-hook 'eriks/latex-compile-on-save nil t)
-  ;; (define-key LaTeX-mode-map [remap beginning-of-defun] 'LaTeX-find-matching-begin)
-  ;; (define-key LaTeX-mode-map [remap end-of-defun] 'LaTeX-find-matching-end)
+  (dolist (i '(paragraph-start paragraph-separate))
+    (set i (default-value i)))
+  (TeX-source-correlate-mode 1)
   (run-hooks 'prog-mode-hook))
 (add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-fun)
 
@@ -1372,8 +1373,8 @@ target character"
 (define-key evil-motion-state-map (kbd "]u") 'sp-up-sexp)
 (define-key evil-motion-state-map (kbd "[d") 'sp-backward-down-sexp)
 (define-key evil-motion-state-map (kbd "]d") 'sp-down-sexp)
-(evil-define-key 'motion prog-mode-map (kbd "(") 'sp-beginning-of-sexp)
-(evil-define-key 'motion prog-mode-map (kbd ")") 'sp-end-of-sexp)
+(define-key evil-motion-state-map (kbd "(") 'sp-beginning-of-sexp)
+(define-key evil-motion-state-map (kbd ")") 'sp-end-of-sexp)
 
 ;;;;; evil-exchange
 (require 'evil-exchange)
@@ -1746,7 +1747,7 @@ REGEX is the regex to align by."
 (evil-org-set-key-theme '(textobjects insert navigation additional todo))
 (evil-define-key 'normal evil-org-mode-map
   (kbd "go") (evil-org-define-eol-command org-insert-heading-respect-content)
-  (kbd "gO") (evil-org-define-bol-command org-insert-heading)
+  (kbd "gO") (evil-org-define-eol-command org-insert-subheading)
   (kbd "T")  (evil-org-define-eol-command org-insert-todo-heading-respect-content)
   (kbd "H-j") 'org-forward-element
   (kbd "H-k") 'org-backward-element
