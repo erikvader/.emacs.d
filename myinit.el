@@ -1732,14 +1732,7 @@ REGEX is the regex to align by."
 
 ;;;; git-timemachine
 (require 'git-timemachine)
-(defun eriks/git-timemachine-show-commit ()
-  "Show info about the currently visiting commit"
-  (interactive)
-  (if (fboundp 'magit-show-commit)
-      (magit-show-commit (car git-timemachine-revision))
-    (message "You need to install magit for this")))
-
-(define-key git-timemachine-mode-map (kbd "c") 'eriks/git-timemachine-show-commit)
+(define-key git-timemachine-mode-map (kbd "c") 'git-timemachine-show-commit)
 
 ;;;; org-mode
 (require 'evil-org)
