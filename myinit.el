@@ -317,6 +317,7 @@ when set to nil)."
 ;;(require 'switch-window)
 (require 'avy)
 (require 'hide-lines)
+(require 'highlight-indent-guides)
 
 ;;;; random
 (sml/setup)
@@ -446,7 +447,6 @@ when set to nil)."
 ;; (setq outshine-use-speed-commands t)
 (defun outline-minor-mode-hook-fun ()
   (outshine-mode)
-  (diminish 'outshine-mode)
   (define-key outline-minor-mode-map [remap self-insert-command] nil) ;;remove annyoing remap to outshine-self-insert-command
   )
 (add-hook 'outline-minor-mode-hook 'outline-minor-mode-hook-fun)
@@ -1877,8 +1877,7 @@ What it tries to do:
   (setq evil-shift-width python-indent-offset)
   (flycheck-mode 1)
   (setq-local flycheck-check-syntax-automatically '(save mode-enabled))
-  (highlight-indent-guides-mode 1)
-  (diminish 'highlight-indent-guides-mode))
+  (highlight-indent-guides-mode 1))
 
 (add-hook 'python-mode-hook 'python-mode-hook-fun)
 
@@ -1901,6 +1900,7 @@ What it tries to do:
   ;; (highlight-indent-guides-mode 1)
   (flycheck-mode 1)
   (flycheck-select-checker 'haskell-hlint)
+  (haskell-doc-mode 1)
   )
 (add-hook 'haskell-mode-hook 'haskell-mode-hook-fun)
 
@@ -1952,23 +1952,34 @@ What it tries to do:
 
 ;;; diminish
 
-(diminish 'counsel-mode)
-(diminish 'which-key-mode)
-(diminish 'ivy-mode)
-(diminish 'undo-tree-mode)
+(require 'diminish)
+(defmacro diminish-after (FILE MODE &optional TO-WHAT)
+  "runs `diminish' with MODE and TO-WHAT after FILE has loaded"
+  (let ((f FILE))
+    `(if (featurep ,f)
+         (eval-after-load ,f (quote (diminish ,MODE ,TO-WHAT)))
+       (warn "featurep not satisfied for %s" ,f))))
 
-(diminish 'company-mode)
-(diminish 'yas-minor-mode)
+(diminish-after 'counsel 'counsel-mode)
+(diminish-after 'which-key 'which-key-mode)
+(diminish-after 'ivy 'ivy-mode)
+(diminish-after 'undo-tree 'undo-tree-mode)
+
+(diminish-after 'company 'company-mode)
+(diminish-after 'yasnippet 'yas-minor-mode)
 
 (diminish 'my-keys-minor-mode " mk")
 
-(diminish 'outline-minor-mode (propertize " O" 'face '(:foreground "green")))
+(diminish-after 'outline 'outline-minor-mode (propertize " O" 'face '(:foreground "green")))
 
-(diminish 'smartparens-mode)
+(diminish-after 'smartparens 'smartparens-mode)
 
-(diminish 'projectile-mode)
+(diminish-after 'projectile 'projectile-mode)
 
-(diminish 'eldoc-mode)
+(diminish-after 'eldoc 'eldoc-mode " Doc")
 
-(diminish 'evil-org-mode)
+(diminish-after 'evil-org 'evil-org-mode)
 
+(diminish-after 'highlight-indent-guides 'highlight-indent-guides-mode)
+
+(diminish-after 'outshine 'outshine-mode)
