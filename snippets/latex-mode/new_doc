@@ -17,8 +17,9 @@
 
 \begin{document}
 ${3:\maketitle
+\thispagestyle{empty}
+\newpage
 \tableofcontents
-
 \newpage
 }
 $0
