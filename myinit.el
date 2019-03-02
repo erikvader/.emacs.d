@@ -716,13 +716,6 @@ The map to bind 'trigger' in is by default `evil-normal-state-map' (evil normal 
 (define-key evil-motion-state-map (kbd "<backspace>") 'evil-ex-nohighlight)
 
 ;; (evil-remap "C-@" "@@")
-(defun eriks/evil-better-record-macro (_)
-  "When done recording a macro, set `evil-last-register' to the newly
-recorded register so that `evil-execute-macro' will believe that this
-macro was the last executed one."
-  (when (and evil-this-macro defining-kbd-macro)
-    (setq evil-last-register evil-this-macro)))
-(advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
 
 (require 'evil-latex-textobjects)
 
@@ -868,6 +861,18 @@ open-line doesn't indent the new line in any way)"
 ;; (define-key evil-normal-state-map (kbd "gt C-l") 'subword-transpose)
 ;; (define-key evil-normal-state-map (kbd "gtr") 'eriks-region-switch)
 ;; (define-key evil-normal-state-map (kbd "gtR") 'eriks-region-switch-abort)
+
+;;;;; macro
+(defun eriks/evil-better-record-macro (_)
+  "When done recording a macro, set `evil-last-register' to the newly
+recorded register so that `evil-execute-macro' will believe that this
+macro was the last executed one."
+  (when (and evil-this-macro defining-kbd-macro)
+    (setq evil-last-register evil-this-macro)))
+(advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
+
+(define-key evil-normal-state-map (kbd "SPC q") 'kmacro-insert-counter)
+(define-key evil-normal-state-map (kbd "SPC Q") 'kmacro-set-counter)
 
 ;;;;; evil-args
 
