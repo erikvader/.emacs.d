@@ -184,6 +184,7 @@
  '(standard-indent 3)
  '(text-scale-mode-step 1.05)
  '(tool-bar-mode nil)
+ '(undo-tree-enable-undo-in-region nil)
  '(undo-tree-mode-lighter " untree")
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
