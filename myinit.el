@@ -301,6 +301,19 @@ when set to nil)."
 
 (define-key eriks-map (kbd "w t") 'eriks/toggle-show-trailing-whitespace)
 
+(defun eriks/clone-indirect-buffer-other-window (NEWNAME DISPLAY-FLAG &optional NORECORD)
+  (interactive
+   (progn
+     (if (get major-mode 'no-clone-indirect)
+	 (error "Cannot indirectly clone a buffer in %s mode" mode-name))
+     (list (if current-prefix-arg
+	       (read-buffer "Name of indirect buffer: " (current-buffer))
+             (concat (buffer-name) "[clone]"))
+	   t)))
+  (clone-indirect-buffer-other-window NEWNAME DISPLAY-FLAG NORECORD))
+
+(define-key eriks-map (kbd "c") 'eriks/clone-indirect-buffer-other-window)
+
 ;;; packages
 ;;;; requires
 (require 'smart-mode-line)
