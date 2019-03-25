@@ -461,6 +461,7 @@ when set to nil)."
 (defun outline-minor-mode-hook-fun ()
   (outshine-mode)
   (define-key outline-minor-mode-map [remap self-insert-command] nil) ;;remove annyoing remap to outshine-self-insert-command
+  (define-key outshine-mode-map [remap self-insert-command] nil)
   )
 (add-hook 'outline-minor-mode-hook 'outline-minor-mode-hook-fun)
 
@@ -609,6 +610,10 @@ see `eriks/latex-autocompile-toggle'"
 (define-key evil-insert-state-map (kbd "<left>") 'noop)
 (define-key evil-insert-state-map (kbd "<right>") 'noop)
 (define-key evil-insert-state-map (kbd "<down>") 'noop)
+
+;; fix https://github.com/company-mode/company-mode/issues/15
+(eval-after-load 'company
+  '(evil-declare-change-repeat 'company-complete))
 
 ;; (defmacro eriks/look-in-global-map (key)
 ;;   `(lambda ()
@@ -952,6 +957,7 @@ macro was the last executed one."
 
 (define-key evil-normal-state-map (kbd "SPC s s") 'eriks-evil-swiper-operator)
 (define-key evil-visual-state-map (kbd "SPC s s") 'eriks-evil-swiper-operator)
+(define-key evil-visual-state-map (kbd "C-s") 'eriks-evil-swiper-operator)
 
 (define-key evil-normal-state-map (kbd "SPC s S") 'swiper)
 
@@ -1767,6 +1773,7 @@ REGEX is the regex to align by."
   (kbd "go") (evil-org-define-eol-command org-insert-heading-respect-content)
   (kbd "gO") (evil-org-define-eol-command org-insert-subheading)
   (kbd "T")  (evil-org-define-eol-command org-insert-todo-heading-respect-content)
+  (kbd "gt") (evil-org-define-eol-command org-insert-todo-subheading)
   (kbd "H-j") 'org-forward-element
   (kbd "H-k") 'org-backward-element
   (kbd "H-h") 'org-up-element

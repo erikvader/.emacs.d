@@ -94,6 +94,7 @@
  '(epa-pinentry-mode (quote loopback))
  '(evil-cross-lines t)
  '(evil-default-state (quote emacs))
+ '(evil-ex-visual-char-range t)
  '(evil-move-beyond-eol t)
  '(evil-move-cursor-back nil)
  '(evil-repeat-move-cursor nil)
