@@ -784,23 +784,27 @@ open-line doesn't indent the new line in any way)"
   (interactive "P")
   (let ((start-ind (current-indentation))
         (raw (equal ARG '(4)))
+        (in-comment (nth 4 (syntax-ppss)))
         method)
     (just-one-space 0)
-    (open-line 1)
-    (save-excursion
-      (forward-char)
-      (unless (eolp)
-        (if (and (numberp ARG) (>= ARG 0))
-            (indent-to ARG)
-          (setq method (or (cdr (find-if #'derived-mode-p
-                                         evil-open-line-modes
-                                         :key 'car))
-                           'same-as-prev))
-          (if raw (setq method (if (eq method 'same-as-prev) 'according-to-mode 'same-as-prev)))
-          (cond ((eq method 'according-to-mode)
-                 (indent-according-to-mode))
-                ((eq method 'same-as-prev)
-                 (indent-to start-ind))))))))
+    (if in-comment
+        (save-excursion
+          (comment-indent-new-line))
+      (open-line 1)
+      (save-excursion
+        (forward-char)
+        (unless (eolp)
+          (if (and (numberp ARG) (>= ARG 0))
+              (indent-to ARG)
+            (setq method (or (cdr (find-if #'derived-mode-p
+                                           evil-open-line-modes
+                                           :key 'car))
+                             'same-as-prev))
+            (if raw (setq method (if (eq method 'same-as-prev) 'according-to-mode 'same-as-prev)))
+            (cond ((eq method 'according-to-mode)
+                   (indent-according-to-mode))
+                  ((eq method 'same-as-prev)
+                   (indent-to start-ind)))))))))
 
 (defun evil-open-line-above (ARG)
   "same as `evil-open-line' except that it is more like gO<esc>"
@@ -818,46 +822,53 @@ open-line doesn't indent the new line in any way)"
     (end-of-line)
     (newline ARG)))
 
-(defun evil-open-line-below-comment ()
-  (interactive)
-  (end-of-line)
-  (indent-new-comment-line)
-  (evil-insert 1))
-
-(defun evil-open-line-above-comment ()
-  (interactive)
-  (evil-open-line-below-comment)
-  (transpose-lines 1)
-  (forward-line -2)
-  (end-of-line)
-  (evil-insert 1))
-
 ;;opposite to J (join-lines)
 (define-key evil-normal-state-map (kbd "S") 'evil-open-line)
 (define-key evil-normal-state-map (kbd "<return>")   'evil-open-line-below)
 (define-key evil-normal-state-map (kbd "S-<return>") 'evil-open-line-above)
-;; (define-key evil-normal-state-map (kbd "gO") 'evil-open-line-above)
-;; (define-key evil-normal-state-map (kbd "go") 'evil-open-line-below)
-(define-key evil-normal-state-map (kbd "SPC o") 'evil-open-line-below-comment)
-(define-key evil-normal-state-map (kbd "SPC O") 'evil-open-line-above-comment)
 
-(define-key evil-normal-state-map (kbd "C-M-j") 'indent-new-comment-line)
+(defun eriks/evil-open-below ()
+  "pretty much the same as `evil-open-below' except that this
+continues a comment if we are in one"
+  (interactive)
+  (unless (eq evil-want-fine-undo t)
+    (evil-start-undo-step))
+  (push (point) buffer-undo-list)
+  (end-of-line)
+  (comment-indent-new-line)
+  (evil-insert-state 1))
+
+(define-key evil-normal-state-map (kbd "SPC o") 'eriks/evil-open-below)
 
 ;; copy of the normal evil-join
-(evil-define-operator eriks/evil-join-no-space (beg end)
-  "Join the selected lines and remove all whitespace"
-  :motion evil-line
-  (let ((count (count-lines beg end)))
-    (when (> count 1)
-      (setq count (1- count)))
-    (goto-char beg)
-    (dotimes (var count)
-      (join-line 1)
-      (just-one-space 0))))
+(defmacro eriks/evil-join-template (name doc &rest BODY)
+  "Creates an evil operator named 'eriks/evil-join-{name}' that runs
+BODY after each time a line is joined."
+  `(evil-define-operator ,(intern (concat "eriks/evil-join-" (symbol-name name))) (beg end)
+     ,(concat "Join the selected lines, but with a twist!\n" doc)
+     :motion evil-line
+     (let ((count (count-lines beg end)))
+       (when (> count 1)
+         (setq count (1- count)))
+       (goto-char beg)
+       (dotimes (var count)
+         (join-line 1)
+         ,@BODY))))
+
+(eriks/evil-join-template no-space
+ "This one with no space inbetween"
+ (just-one-space 0))
+
+(eriks/evil-join-template no-comment
+ "This one removes comments defined in `comment-start-skip'"
+ (when (looking-at (concat "\\( *\\)" comment-start-skip))
+   (replace-match "\\1")
+   (goto-char (match-beginning 0))))
 
 (define-key evil-normal-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
 (define-key evil-visual-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
-(define-key evil-visual-state-map (kbd "J") 'evil-join)
+(define-key evil-normal-state-map (kbd "J") 'eriks/evil-join-no-comment)
+(define-key evil-visual-state-map (kbd "J") 'eriks/evil-join-no-comment)
 
 (define-key evil-normal-state-map (kbd "K") 'noop)
 (define-key evil-visual-state-map (kbd "K") 'noop)
