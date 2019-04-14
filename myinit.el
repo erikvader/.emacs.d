@@ -129,7 +129,7 @@
 (defun noop () "Does pretty much (exactly) nothing" (interactive))
 
 (recentf-mode)
-(setq recentf-max-menu-items 50)
+(setq recentf-max-menu-items 500)
 (define-key my-keys-map (kbd "C-x C-r") 'counsel-recentf)
 (defun recentf-save-list-silent ()
   (let ((inhibit-message t))
@@ -780,7 +780,10 @@ Indents the new line if it is not empty.
  - else indent to the same amount as the previous line
 
 Assumes `left-margin' is 0 or that there is no fill prefix (that
-open-line doesn't indent the new line in any way)"
+open-line doesn't indent the new line in any way)
+
+If the line to be split is a comment, run `comment-indent-new-line'
+instead (splits, adds comment chars and indents)."
   (interactive "P")
   (let ((start-ind (current-indentation))
         (raw (equal ARG '(4)))
