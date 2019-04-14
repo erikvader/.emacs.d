@@ -209,7 +209,6 @@
      (340 . "#e7c547")
      (360 . "DarkOliveGreen3"))))
  '(vc-annotate-very-old-color nil)
- '(yas-also-auto-indent-first-line t)
  '(yas-expand-only-for-last-commands (quote (self-insert-command org-self-insert-command))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

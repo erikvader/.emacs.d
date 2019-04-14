@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: note
-# key: n
+# key: no
 # --
 `comment-start`NOTE: $0`comment-end`

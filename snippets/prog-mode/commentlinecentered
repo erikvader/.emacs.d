@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: commentlinecentered
 # key: colc
+# expand-env: ((yas-indent-line 'fixed))
 # copied from cob
 # --
 ${1:$(let* ((col (current-column))

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: comment headline
+# key: coh
+# expand-env: ((yas-indent-line 'fixed))
+# --
+`(yas-trimmed-comment-start)` ${1:$(make-string (string-width yas-text) ?\=)}`(eriks/yas-comment-end)`
+`(yas-trimmed-comment-start)` ${1:comment}`(eriks/yas-comment-end)`
+`(yas-trimmed-comment-start)` ${1:$(make-string (string-width yas-text) ?\=)}`(eriks/yas-comment-end)`$0

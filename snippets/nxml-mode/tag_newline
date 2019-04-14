@@ -1,6 +1,7 @@
 #contributor : Anders Bach Nielsen <abachn@abachn.net>
 #name : <tag> \n...\n</tag>
 #key: tn
+#expand-env: ((yas-also-indent-empty-lines t))
 # --
 <${1:tag}>
   $0
