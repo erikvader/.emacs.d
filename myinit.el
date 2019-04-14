@@ -52,7 +52,8 @@
    rhtml-mode-hook
    sgml-mode-hook
    html-mode-hook
-   mhtml-mode-hook))
+   mhtml-mode-hook
+   rjsx-mode-hook))
 
 (require 'heaven-and-hell)
 ;; Default is 'light
@@ -1954,6 +1955,14 @@ What it tries to do:
 (defun man-mode-hook-fun ()
   (face-remap-set-base 'default '(:foreground "#f8f8f2")))
 (add-hook 'Man-mode-hook 'man-mode-hook-fun)
+
+;;;; rjsx-mode
+(sp-local-pair '(js-jsx-mode js2-jsx-mode rjsx-mode) "<" nil :actions :rem)
+(defun rjsx-mode-hook-fun ()
+  (define-key rjsx-mode-map "<" nil)
+  (define-key rjsx-mode-map (kbd "C-d") nil)
+  (define-key rjsx-mode-map ">" nil))
+(add-hook 'rjsx-mode-hook #'rjsx-mode-hook-fun)
 
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)
