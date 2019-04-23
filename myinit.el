@@ -456,6 +456,7 @@ when set to nil)."
   (indent-according-to-mode))
 
 (sp-local-pair '(c-mode java-mode css-mode js-mode rust-mode) "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+(sp-local-pair '(js-mode) "[" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
 
 ;;;; outshine
 ;; (setq outshine-use-speed-commands t)
