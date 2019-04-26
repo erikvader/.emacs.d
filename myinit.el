@@ -1903,6 +1903,8 @@ What it tries to do:
   (add-hook l-mode 'lisp-modes-hook))
 
 ;;;; html
+(put 'sgml-basic-offset 'safe-local-variable 'integerp)
+
 (defun close-tag-stay ()
   (interactive)
   (save-excursion
