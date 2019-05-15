@@ -868,7 +868,8 @@ BODY after each time a line is joined."
  "This one removes comments defined in `comment-start-skip'"
  (when (looking-at (concat "\\( *\\)" comment-start-skip))
    (replace-match "\\1")
-   (goto-char (match-beginning 0))))
+   (goto-char (match-beginning 0))
+   (just-one-space)))
 
 (define-key evil-normal-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
 (define-key evil-visual-state-map (kbd "SPC J") 'eriks/evil-join-no-space)
