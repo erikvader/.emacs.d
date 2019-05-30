@@ -279,6 +279,7 @@ when set to nil)."
 (define-key eriks-map (kbd "w e") 'delete-trailing-whitespace)
 
 (define-key eriks-map (kbd "T") 'toggle-truncate-lines)
+(define-key eriks-map (kbd "W") 'toggle-word-wrap)
 
 (define-key eriks-map (kbd "f") 'counsel-file-jump)
 
@@ -1783,6 +1784,10 @@ REGEX is the regex to align by."
 (define-key git-timemachine-mode-map (kbd "c") 'git-timemachine-show-commit)
 
 ;;;; org-mode
+(defun eriks/org-mode-hook-fun ()
+  (toggle-truncate-lines 1)
+  (toggle-word-wrap 1))
+(add-hook 'org-mode-hook 'eriks/org-mode-hook-fun)
 (require 'evil-org)
 (add-hook 'org-mode-hook 'evil-org-mode)
 (evil-org-set-key-theme '(textobjects insert navigation additional todo))
