@@ -851,7 +851,7 @@ continues a comment if we are in one"
   "Creates an evil operator named 'eriks/evil-join-{name}' that runs
 BODY after each time a line is joined."
   `(evil-define-operator ,(intern (concat "eriks/evil-join-" (symbol-name name))) (beg end)
-     ,(concat "Join the selected lines, but with a twist!\n" doc)
+     ,(concat "Join the selected lines just as `evil-join', but with a twist!\n" doc)
      :motion evil-line
      (let ((count (count-lines beg end)))
        (when (> count 1)
@@ -867,7 +867,8 @@ BODY after each time a line is joined."
 
 (eriks/evil-join-template no-comment
  "This one removes comments defined in `comment-start-skip'"
- (when (looking-at (concat "\\( *\\)" comment-start-skip))
+ (when (and (nth 4 (syntax-ppss)) ; if previous line is a comment
+            (looking-at (concat "\\( *\\)" comment-start-skip)))
    (replace-match "\\1")
    (goto-char (match-beginning 0))
    (just-one-space)))
