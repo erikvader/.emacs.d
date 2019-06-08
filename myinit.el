@@ -1977,6 +1977,9 @@ What it tries to do:
   (define-key rjsx-mode-map ">" nil))
 (add-hook 'rjsx-mode-hook #'rjsx-mode-hook-fun)
 
+;;;; m4-mode
+(sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))
+
 ;;; hydras
 (defhydra hydra-ggtags (:color blue :hint nil)
   "
