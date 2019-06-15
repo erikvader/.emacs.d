@@ -1967,7 +1967,7 @@ What it tries to do:
 (add-hook 'Man-mode-hook 'man-mode-hook-fun)
 
 ;;;; javascript-mode
-(add-hook 'js-mode-hook 'js2-minor-mode)
+;; (add-hook 'js-mode-hook 'js2-minor-mode)
 
 ;;;; rjsx-mode
 (sp-local-pair '(js-jsx-mode js2-jsx-mode rjsx-mode) "<" nil :actions :rem)
