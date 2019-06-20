@@ -287,9 +287,11 @@ when set to nil)."
 
 (define-key eriks-map (kbd "u") 'browse-url-at-point)
 
-(define-key eriks-map (kbd "C-r") 'revert-buffer)
+(define-key eriks-map (kbd "r") 'revert-buffer)
 
 (define-key eriks-map (kbd "m") 'man)
+
+(define-key eriks-map (kbd "d") 'deadgrep)
 
 (defun eriks/toggle-show-trailing-whitespace (&optional ARG)
   "Toggle `show-trailing-whitespace'. If ARG, then set to t instead of toggling."
@@ -374,18 +376,16 @@ when set to nil)."
 ;;;; ivy, swiper and counsel
 (ivy-mode 1)
 (counsel-mode 1)
+(define-key counsel-mode-map [remap describe-bindings] nil)
 (define-key my-keys-map (kbd "C-s") 'swiper)
+(define-key my-keys-map (kbd "M-s") 'counsel-rg)
 (define-key ivy-minibuffer-map (kbd "<escape>") 'keyboard-escape-quit)
 (define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line)
 (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line)
-(define-key ivy-minibuffer-map (kbd "C-l") 'ivy-done)
 (define-key ivy-minibuffer-map (kbd "C-u") 'ivy-kill-line)
 (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
 (define-key ivy-minibuffer-map (kbd "C-b") 'ivy-scroll-down-command)
 (define-key ivy-minibuffer-map (kbd "C-f") 'ivy-scroll-up-command)
-;; compatability with dwm-mode
-;; (define-key ivy-mode-map [remap switch-to-buffer] nil)
-;; (define-key ivy-mode-map [remap switch-to-buffer-other-window] nil)
 (setq ivy-use-selectable-prompt t)
 
 ;;;; avy
@@ -1011,14 +1011,6 @@ macro was the last executed one."
 (define-key evil-normal-state-map (kbd "SPC s g") 'grep-find)
 
 (define-key evil-normal-state-map (kbd "SPC s f") 'find-dired)
-
-(define-key evil-normal-state-map (kbd "SPC s a p") 'projectile-ag)
-(define-key evil-normal-state-map (kbd "SPC s a c") 'counsel-ag)
-(define-key evil-normal-state-map (kbd "SPC s a a") 'ag)
-(define-key evil-normal-state-map (kbd "SPC s a r") 'ag-regexp)
-(define-key evil-normal-state-map (kbd "SPC s a R") 'ag-project-regexp)
-(define-key evil-normal-state-map (kbd "SPC s a P") 'ag-project)
-(define-key evil-normal-state-map (kbd "SPC s a d") 'ag-dired)
 
 (setq evil-operator-moccur-grep-find-key (kbd "SPC s m"))
 (require 'evil-operator-moccur)
