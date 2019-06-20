@@ -2,7 +2,7 @@
 ;;; fonts
 
 ;; GNU unifont as fallback font
-(set-fontset-font "fontset-default" nil (font-spec :size 20 :name "unifont"))
+(set-fontset-font "fontset-default" nil (font-spec :size 20 :name "DejaVu Sans Mono"))
 
 ;; tilde fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
