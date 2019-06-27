@@ -1778,7 +1778,7 @@ REGEX is the regex to align by."
 
 ;;;; org-mode
 (defun eriks/org-mode-hook-fun ()
-  (toggle-truncate-lines 1)
+  (toggle-truncate-lines 0)
   (toggle-word-wrap 1))
 (add-hook 'org-mode-hook 'eriks/org-mode-hook-fun)
 (require 'evil-org)
