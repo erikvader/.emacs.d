@@ -9,3 +9,6 @@ session.*
 /.mc-lists.el
 /TAGS
 /transient
+/*.old
+/backups
+/auto_saves

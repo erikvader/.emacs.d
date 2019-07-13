@@ -238,8 +238,15 @@
    `(magit-section-heading        ((,class (:foreground ,keyword :weight bold))))
    `(magit-section-highlight      ((,class (:background ,bg2))))
    ;; mode-line
-   `(mode-line ((,class (:foreground, darkest-black :background ,hot-pink :box nil))))
-   `(mode-line-inactive ((,class (:foreground ,fg1 :background ,bg3 :box nil))))
+   `(mode-line ((,class (:foreground "gray60" :background "gray10" :box nil))))
+   `(mode-line-inactive ((,class (:foreground "gray60" :background "gray30" :box nil))))
+   ;; smart-mode line
+   '(mode-line-buffer-id ((t :inherit sml/filename :foreground nil :background nil))) 
+   '(sml/global    ((t :foreground "gray70" :inverse-video nil)))
+   '(sml/modes     ((t :inherit sml/global :foreground "White")))
+   '(sml/filename  ((t :inherit sml/global :foreground "#eab700" :weight bold)))
+   '(sml/prefix    ((t :inherit sml/global :foreground "#bf6000")))
+   '(sml/read-only ((t :inherit sml/not-modified :foreground "DeepSkyBlue")))
    ;; mu4e
    `(mu4e-cited-1-face ((,class (:foreground ,fg2))))
    `(mu4e-cited-7-face ((,class (:foreground ,fg3))))
@@ -449,9 +456,9 @@
 
 
 ;;;###autoload
-(when load-file-name
-  (add-to-list 'custom-theme-load-path
-               (file-name-as-directory (file-name-directory load-file-name))))
+;;(when load-file-name
+;;  (add-to-list 'custom-theme-load-path
+;;               (file-name-as-directory (file-name-directory load-file-name))))
 
 (provide-theme 'dracula)
 
