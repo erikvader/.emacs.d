@@ -1,5 +1,6 @@
 (use-package magit
   :ensure t
+  :after evil
   :general
   ('normal
    :prefix eriks/leader

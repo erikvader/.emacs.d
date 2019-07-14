@@ -21,7 +21,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit drag-stuff smart-mode-line use-package golden-ratio-scroll-screen general evil diminish)))
+    (which-key counsel ivy magit drag-stuff smart-mode-line use-package golden-ratio-scroll-screen general evil diminish)))
  '(use-package-always-demand t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

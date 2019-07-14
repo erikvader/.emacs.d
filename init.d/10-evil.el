@@ -30,8 +30,7 @@
    "<backspace>" 'evil-ex-nohighlight)
   :config
   (evil-mode 1)
-  (defconst eriks/leader "SPC"
-    "My leader key for evil"))
+  (defconst eriks/leader "SPC" "My leader key for evil"))
 
 (use-package golden-ratio-scroll-screen
   :ensure t

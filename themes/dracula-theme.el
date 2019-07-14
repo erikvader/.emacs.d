@@ -97,6 +97,10 @@
    `(font-lock-type-face ((,class (:foreground ,type ))))
    `(font-lock-variable-name-face ((,class (:foreground ,var))))
    `(font-lock-warning-face ((,class (:foreground ,warning :background ,bg2))))
+   ;; markers
+   `(todo-face ((,class (:foreground "orange1" :background "gray10" :weight bold))) t)
+   `(fixme-face ((,class (:inherit todo-face))) t)
+   `(note-face ((,class (:foreground "chartreuse1" :background "gray10" :weight bold))) t)
    ;; auto-complete
    `(ac-completion-face ((,class (:underline t :foreground ,keyword))))
    ;; company
