@@ -9,4 +9,4 @@
   :general
   ("C-x C-r" 'recentf-open-files)
   :custom
-  (recentf-max-menu-items 500))
+  (recentf-max-saved-items 100))

@@ -5,9 +5,7 @@
 (setq-default inhibit-startup-screen t)
 (setq-default frame-title-format "Emacs - %b")
 (setq-default cursor-type 'bar)
-(add-to-list 'default-frame-alist '(font . "Ubuntu Mono 14"))
 (setq-default blink-matching-paren nil)
-(load-theme 'dracula t nil)
 (hl-line-mode 1)
 
 ;; variables
