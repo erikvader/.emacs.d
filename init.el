@@ -6,11 +6,11 @@
   (package-refresh-contents))
 
 ;; fix load-paths
-;; TODO: göra en const som pekar på directoriet ist?
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
 (mapc
  (lambda (x) (add-to-list 'load-path x))
  (directory-files (concat user-emacs-directory "submodules") t "^[^.]" t))
+(add-to-list 'load-path (concat user-emacs-directory "requires"))
 
 ;; no more customize!
 (setq-default custom-file "/tmp/emacs-custom-file")
