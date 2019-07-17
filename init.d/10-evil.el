@@ -20,12 +20,13 @@
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
   ('insert
-   "<up>" 'noop
-   "<left>" 'noop
-   "<down>" 'noop
-   "<right>" 'noop)
+   "<up>" 'ignore
+   "<left>" 'ignore
+   "<down>" 'ignore
+   "<right>" 'ignore)
   ('normal
-   "<backspace>" 'evil-ex-nohighlight)
+   "<backspace>" 'evil-ex-nohighlight
+   ";" 'repeat)
   ('normal
    :prefix eriks/leader
    "q" 'kmacro-insert-counter
@@ -101,7 +102,7 @@
   ('(normal visual)
    "J" 'eriks/evil-join-no-comment)
   ('(normal visual)
-   "K" 'noop))
+   "K" 'ignore))
 
 (use-package eriks-evil-random
   :after evil
@@ -144,3 +145,14 @@
    'evil-surround-mode-map
    "gs" 'evil-surround-edit
    "gS" 'evil-Surround-edit))
+
+(use-package eriks-evil-column-numbers
+  :after evil
+  :general
+  ('visual
+   :prefix eriks/leader
+   :infix "i"
+   "n" 'eriks/evil-column-numbers-insert-numbers
+   "z" 'eriks/evil-column-numbers-insert-numbers-zero
+   "l" 'eriks/evil-column-numbers-insert-letters
+   "i" 'eriks/evil-column-numbers-insert))

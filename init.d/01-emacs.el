@@ -29,9 +29,6 @@
 ;; remove lockfiles
 (setq-default create-lockfiles nil)
 
-;; handy functions
-(defun noop (&rest rest) "Does nothing, successfully!" (interactive))
-
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
 (setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
