@@ -6,6 +6,14 @@
 (use-package eldoc
   :diminish eldoc-mode)
 
+(use-package rainbow-delimiters
+  :ensure t
+  :ghook 'prog-mode-hook)
+
+(defun eriks/prog-mode-show-trailing-whitespace ()
+  (setq show-trailing-whitespace t))
+(add-hook 'prog-mode-hook #'eriks/prog-mode-show-trailing-whitespace)
+
 ;; latex
 ;;(require 'latex)
 ;;(require 'auctex-latexmk)

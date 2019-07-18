@@ -24,3 +24,12 @@
    "gt" 'git-timemachine)
   ('git-timemachine-mode-map
    "c" 'git-timemachine-show-commit))
+
+(use-package what-the-commit
+  :ensure t
+  :after evil
+  :general
+  ('normal
+   :prefix eriks/leader
+   :infix "g"
+   "w" 'what-the-commit-insert))

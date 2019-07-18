@@ -156,3 +156,17 @@
    "z" 'eriks/evil-column-numbers-insert-numbers-zero
    "l" 'eriks/evil-column-numbers-insert-letters
    "i" 'eriks/evil-column-numbers-insert))
+
+(use-package eriks-delete-empty-parens
+  :after evil
+  :general
+  ('normal
+   :prefix eriks/leader
+   "s" 'eriks/delete-empty-parens)
+  ('insert "C-s" 'eriks/delete-empty-parens))
+
+(use-package eriks-line-cleanup
+  :after evil
+  :general
+  ('(normal insert)
+   "C-a" 'eriks/line-cleanup-dwim))
