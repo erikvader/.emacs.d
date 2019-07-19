@@ -101,6 +101,10 @@
    `(todo-face ((,class (:foreground "orange1" :background "gray10" :weight bold))))
    `(fixme-face ((,class (:inherit todo-face))))
    `(note-face ((,class (:foreground "chartreuse1" :background "gray10" :weight bold))))
+   ;; git-gutter-fringe+
+   `(git-gutter-fr+-modified ((,class (:foreground "yellow" :background "yellow"))))
+   `(git-gutter-fr+-deleted ((,class (:foreground "red" :background "red"))))
+   `(git-gutter-fr+-added ((,class (:foreground "green" :background "green"))))
    ;; auto-complete
    `(ac-completion-face ((,class (:underline t :foreground ,keyword))))
    ;; company

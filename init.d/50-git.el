@@ -33,3 +33,19 @@
    :prefix eriks/leader
    :infix "g"
    "w" 'what-the-commit-insert))
+
+(use-package git-gutter-fringe+
+  :ensure t
+  :diminish git-gutter+-mode
+  :custom
+  (git-gutter-fr+-side 'right-fringe)
+  :config
+  (global-git-gutter+-mode 1)
+  :general
+  ('normal
+   :prefix eriks/leader
+   :infix "g"
+   "g" 'git-gutter+-mode
+   "j" 'git-gutter+-next-hunk
+   "k" 'git-gutter+-previous-hunk
+   "r" 'git-gutter+-revert-hunk))

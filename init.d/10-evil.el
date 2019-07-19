@@ -16,6 +16,8 @@
   (evil-want-keybinding nil)
   :general
   ('emacs "<escape>" 'evil-exit-emacs-state)
+  ('motion
+   "SPC" nil)
   (evil-ex-completion-map
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
@@ -26,7 +28,8 @@
    "<right>" 'ignore)
   ('normal
    "<backspace>" 'evil-ex-nohighlight
-   ";" 'repeat)
+   ";" 'repeat
+   "-" 'negative-argument)
   ('normal
    :prefix eriks/leader
    "q" 'kmacro-insert-counter
@@ -108,7 +111,7 @@
   :after evil
   :general
   ('normal
-   :prefix eriks/leader 
+   :prefix eriks/leader
    "g8" 'eriks/evil-what-cursor))
 
 (use-package evil-nerd-commenter
@@ -170,3 +173,42 @@
   :general
   ('(normal insert)
    "C-a" 'eriks/line-cleanup-dwim))
+
+(use-package evil-exchange
+  :ensure t
+  :after evil
+  :config
+  (evil-exchange-install))
+
+(use-package evil-multiedit
+  :ensure t
+  :after evil
+  :custom
+  (evil-multiedit-follow-matches t)
+  :general
+  ('iedit-mode-occurrence-keymap
+   "M-n" nil
+   "M-p" nil)
+  ('(normal visual)
+   "C-n" 'evil-multiedit-match-and-next
+   "C-p" 'evil-multiedit-match-and-prev)
+  ('evil-multiedit-state-map
+   "M-n" 'evil-multiedit-next
+   "M-p" 'evil-multiedit-prev))
+
+(use-package eriks-evil-line-to
+  :after evil
+  :general
+  ('inner
+   "l" 'eriks/evil-inside-line-text-object)
+  ('outer
+   "l" 'eriks/evil-outside-line-text-object))
+
+(use-package evil-lion
+  :ensure t
+  :after evil
+  :general
+  ('normal
+   :prefix "g"
+   "a" 'evil-lion-left
+   "A" 'evil-lion-right))

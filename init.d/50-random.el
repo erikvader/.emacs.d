@@ -46,3 +46,13 @@
   (frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops nil)
   :general
   ("C-x C-0" 'kill-buffer-and-frame))
+
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)

@@ -19,7 +19,7 @@
            (or flags "")
            (if (and padding
                     (numberp padding)
-                    (> 0 padding))
+                    (> padding 0))
                (number-to-string padding)
              "")
            specifier)))

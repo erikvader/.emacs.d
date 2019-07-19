@@ -2,40 +2,13 @@
   :ensure t
   :custom
   (avy-keys '(?h ?g ?j ?f ?k ?d ?l ?s))
-  ;; no timeout ("infinite" timeout)
-  (avy-timeout-seconds nil)
+  (avy-timeout-seconds nil) ;; no timeout ("infinite" timeout)
+  (avy-all-windows 'all-frames)
+  (avy-background t)
+  (avy-highlight-first nil)
+  (avy-style 'at-full)
   :config
   (add-to-list 'avy-orders-alist '(avy-goto-char-timer . avy-order-closest))
-
-  (defun eriks/avy-binary-search ()
-    "Do a binary search to find a character on the current line"
-    (interactive)
-    (cl-labels ((b-search (min max)
-                          (when (< min max)
-                            (let* ((avy-keys '(?j ?k ?l))
-                                   points
-                                   (middle (floor (+ min max) 2)))
-                              (goto-char middle)
-                              ;; special case when only two candidates
-                              (if (not (= middle min))
-                                  (setq points (list min middle max))
-                                (setq points (list middle max))
-                                (setq avy-keys '(?j ?l)))
-                              (avy--process points (avy--style-fn avy-style))
-                              (cond
-                               ((= (point) middle))
-                               ((< (point) middle)
-                                (b-search min (1- middle)))
-                               ((> (point) middle)
-                                (b-search (1+ middle) max)))))))
-      (let* ((beg (save-excursion
-                    (back-to-indentation)
-                    (point)))
-             (end (save-excursion
-                    (move-end-of-line nil)
-                    (point))))
-        (b-search beg end))))
-
   (defun eriks/avy-goto-char-timer-advice (f &rest rest)
     "Advice to make SPC do the same thing as RET in avy timer."
     (cl-letf* ((old-read-char (symbol-function #'read-char))
@@ -46,3 +19,34 @@
                                                     key)))))
       (apply f rest)))
   (advice-add 'avy-goto-char-timer :around #'eriks/avy-goto-char-timer-advice))
+
+(use-package evil-easymotion
+  :after (:and evil avy)
+  :general
+  ('motion
+   "J" 'evilem-motion-next-line-first-non-blank
+   "K" 'evilem-motion-previous-line-first-non-blank)
+  ('motion
+   :prefix eriks/leader
+   "w" #'evilem-motion-forward-word-begin
+   "W" #'evilem-motion-forward-WORD-begin
+   "e" #'evilem-motion-forward-word-end
+   "E" #'evilem-motion-forward-WORD-end
+   "b" #'evilem-motion-backward-word-begin
+   "B" #'evilem-motion-backward-WORD-begin
+   "t" #'evilem-motion-find-char-to
+   "T" #'evilem-motion-find-char-to-backward
+   "f" #'evilem-motion-find-char
+   "F" #'evilem-motion-find-char-backward))
+
+(use-package eriks-evil-avy-motions
+  :after (:and avy evil evil-easymotion)
+  :general
+  ('motion
+   "." 'evil-eriks/avy-goto-char-in-line-exclusive
+   "," 'avy-goto-char-in-line
+   "+" 'evil-eriks/avy-goto-line-first-non-blank)
+  ('motion
+   :prefix eriks/leader
+   "SPC" 'avy-goto-char-timer
+   "," 'avy-goto-char))
