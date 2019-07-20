@@ -278,7 +278,7 @@
    `(org-document-info-keyword ((,class (:foreground ,comment))))
    `(org-document-title ((,class (:weight bold :foreground ,rainbow-5 :height 1.44))))
    `(org-done ((,class (:foreground ,rainbow-6))))
-   `(org-ellipsis ((,class (:foreground ,comment))))
+   `(org-ellipsis ((,class (:foreground "burlywood" :height 0.9))))
    `(org-footnote ((,class (:foreground ,rainbow-8))))
    `(org-formula ((,class (:foreground ,rainbow-4))))
    `(org-headline-done ((,class (:foreground ,comment :bold nil :strike-through t))))
@@ -379,6 +379,18 @@
    `(web-mode-string-face ((,class (:foreground ,str))))
    `(web-mode-type-face ((,class (:inherit ,font-lock-type-face))))
    `(web-mode-warning-face ((,class (:inherit ,font-lock-warning-face))))
+   ;; highlight-indent-guides
+   `(highlight-indent-guides-character-face ((,class (:foreground "dim gray"))))
+   `(highlight-indent-guides-top-character-face ((,class (:foreground "dark gray"))))
+   ;; ediff
+   `(ediff-even-diff-A ((,class (:background "gray25"))))
+   `(ediff-even-diff-Ancestor ((,class (:inherit ediff-even-diff-A))))
+   `(ediff-even-diff-B ((,class (:inherit ediff-even-diff-A))))
+   `(ediff-even-diff-C ((,class (:inherit ediff-even-diff-A))))
+   `(ediff-odd-diff-A ((,class (:inherit ediff-odd-diff-Ancestor))))
+   `(ediff-odd-diff-Ancestor ((,class (:inherit ediff-even-diff-A))))
+   `(ediff-odd-diff-B ((,class (:inherit ediff-odd-diff-Ancestor))))
+   `(ediff-odd-diff-C ((,class (:inherit ediff-odd-diff-Ancestor))))
    ;; which-func
    `(which-func ((,class (:inherit ,font-lock-function-name-face))))
    `(dired-directory ((,class (:foreground ,func :weight normal))))

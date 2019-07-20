@@ -4,9 +4,9 @@
 [submodule "submodules/evil-latex-textobjects"]
 	path = submodules/evil-latex-textobjects
 	url = https://github.com/hpdeifel/evil-latex-textobjects.git
-[submodule "submodules/evil-plugins"]
-	path = submodules/evil-plugins
-	url = https://github.com/tarao/evil-plugins.git
 [submodule "submodules/evil-surround"]
 	path = submodules/evil-surround
 	url = https://github.com/erikvader/evil-surround.git
+[submodule "submodules/evil-org-mode"]
+	path = submodules/evil-org-mode
+	url = https://github.com/erikvader/evil-org-mode

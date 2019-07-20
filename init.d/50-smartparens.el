@@ -48,9 +48,7 @@
    "]" 'sp-forward-slurp-sexp
    "[" 'sp-backward-slurp-sexp
    "}" 'sp-forward-barf-sexp
-   "{" 'sp-backward-barf-sexp
-   "u" 'sp-splice-sexp
-   "d" 'sp-splice-sexp-killing-around)
+   "{" 'sp-backward-barf-sexp)
   ('motion
    "][" 'sp-next-sexp
    "]]" 'sp-forward-sexp ;; sp-forward-parallel-sexp

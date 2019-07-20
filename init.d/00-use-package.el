@@ -11,15 +11,12 @@
   :ensure t)
 
 (use-package general
-  :ensure t
-  :config
-  (defmacro eriks/general-def-each (&rest lists)
-    "Runs `general-def' with arguments from each list in LISTS."
-    `(progn
-       ,@(mapcar (lambda (y) (cons 'general-def y)) lists)))
-  (defmacro eriks/general-def-evil (&rest body)
-    "Runs `eriks/general-def-each' with BODY, but waits for evil to load."
-    `(with-eval-after-load 'evil
-       (eriks/general-def-each
-        ,@body))))
+  :ensure t)
+
+(defun eriks/add-to-lists (list items)
+  "Same as `add-to-list' except that ITEMS is a list of elements to be
+added."
+  (mapc (lambda (i)
+          (add-to-list list i))
+        items))
 

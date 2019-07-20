@@ -37,7 +37,9 @@
    "t" #'evilem-motion-find-char-to
    "T" #'evilem-motion-find-char-to-backward
    "f" #'evilem-motion-find-char
-   "F" #'evilem-motion-find-char-backward))
+   "F" #'evilem-motion-find-char-backward
+   "j" #'evilem-motion-next-line
+   "k" #'evilem-motion-previous-line))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)

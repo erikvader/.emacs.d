@@ -64,6 +64,8 @@
   :ensure t
   :after evil
   :diminish
+  :custom
+  (undo-tree-enable-undo-in-region nil)
   :config
   (global-undo-tree-mode 1)
   :general
@@ -166,7 +168,8 @@
   ('normal
    :prefix eriks/leader
    "s" 'eriks/delete-empty-parens)
-  ('insert "C-s" 'eriks/delete-empty-parens))
+  ('insert
+   "C-s" 'eriks/delete-empty-parens))
 
 (use-package eriks-line-cleanup
   :after evil
@@ -189,6 +192,8 @@
   ('iedit-mode-occurrence-keymap
    "M-n" nil
    "M-p" nil)
+  ('evil-multiedit-state-map
+   "<return>" 'evil-multiedit-toggle-or-restrict-region)
   ('(normal visual)
    "C-n" 'evil-multiedit-match-and-next
    "C-p" 'evil-multiedit-match-and-prev)

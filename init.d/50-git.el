@@ -1,6 +1,8 @@
 (use-package magit
   :ensure t
   :after evil
+  :custom
+  (magit-bury-buffer-function 'magit-mode-quit-window)
   :general
   ('normal
    :prefix eriks/leader

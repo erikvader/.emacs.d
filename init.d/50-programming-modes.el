@@ -1,78 +1,112 @@
 ;; general
 (setq-default standard-indent 3)
 
-;; all of them
-;; lisp
 (use-package eldoc
+  :defer t
   :diminish eldoc-mode)
 
 (use-package rainbow-delimiters
   :ensure t
+  :defer t
   :ghook 'prog-mode-hook)
 
 (defun eriks/prog-mode-show-trailing-whitespace ()
   (setq show-trailing-whitespace t))
 (add-hook 'prog-mode-hook #'eriks/prog-mode-show-trailing-whitespace)
 
-;; latex
-;;(require 'latex)
-;;(require 'auctex-latexmk)
-;;(setq auctex-latexmk-inherit-TeX-PDF-mode t)
-;;(auctex-latexmk-setup)
-;;
-;;;; default viewer
-;;(setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "Zathura")
-;;
-;;(define-key LaTeX-mode-map (kbd "C-c e") 'TeX-error-overview)
-;;
-;;(defvar eriks/latex-autocompile nil "Whether the current buffer's after-save-hook should compile the document")
-;;(make-variable-buffer-local 'eriks/latex-autocompile)
-;;(defvar eriks/latex-autocompile-command nil "TeX command to auto compile with")
-;;(make-variable-buffer-local 'eriks/latex-autocompile-command)
-;;
-;;(defun eriks/latex-autocompile-toggle ()
-;;  "Toggles whether the document should be compiled after each save or not.
-;;Queries the command to use when toggling on."
-;;  (interactive)
-;;  (setq eriks/latex-autocompile-command nil)
-;;  (when (not eriks/latex-autocompile)
-;;    (setq eriks/latex-autocompile-command (TeX-command-query (TeX-master-file nil nil t))))
-;;  (setq eriks/latex-autocompile (and (not eriks/latex-autocompile)
-;;                                     eriks/latex-autocompile-command))
-;;  (message "auto compilation is %s" (if eriks/latex-autocompile "on" "off")))
-;;
-;;(define-key LaTeX-mode-map (kbd "C-c a") 'eriks/latex-autocompile-toggle)
-;;
-;;(defun eriks/latex-compile-on-save ()
-;;  "Auto compile on save if enabled.
-;;see `eriks/latex-autocompile-toggle'"
-;;  (when (and eriks/latex-autocompile
-;;             eriks/latex-autocompile-command)
-;;    (TeX-command eriks/latex-autocompile-command 'TeX-active-master)))
-;;
-;;(defun LaTeX-mode-hook-fun ()
-;;  ;; (modify-syntax-entry ?$ "\"" LaTeX-mode-syntax-table) ;;make $ act like string so smartparens can navigate with it.
-;;  (add-hook 'after-save-hook 'eriks/latex-compile-on-save nil t)
-;;  (dolist (i '(paragraph-start paragraph-separate))
-;;    (set i (default-value i)))
-;;  (TeX-source-correlate-mode 1)
-;;  (run-hooks 'prog-mode-hook))
-;;(add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-fun)
+(use-package cc-mode
+  :defer t
+  :custom
+  (c-basic-offset 3)
+  :gfhook
+  ('c-mode-common-hook (cl-defun c-mode-common-hook-fun ()
+                         (setq-local comment-start "//")
+                         (setq-local comment-end "")
+                         (abbrev-mode -1))))
 
-;; (defun latex-surround-env ()
-;;   (let ((ename (or (read-from-minibuffer "environment: ") "")))
-;;     (cons (format "\\begin{%s}" ename) (format "\\end{%s}" ename))))
+(use-package flycheck
+  :defer t
+  :ensure t
+  :custom
+  (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
+  :ghook
+  'c-mode-hook
+  'sh-mode-hook
+  :gfhook
+  ('python-mode-hook (cl-defun python-flycheck-hook-fun ()
+                       (flycheck-mode 1)
+                       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
+  ('rust-mode-hook (cl-defun rust-flycheck-hook-fun ()
+                     (flycheck-mode 1)
+                     (flycheck-rust-setup)))
+  ('haskell-mode-hook (cl-defun haskell-flycheck-hook-fun ()
+                        (flycheck-mode 1)
+                        (flycheck-select-checker 'haskell-hlint))))
 
-;; (defun LaTeX-mode-hook-textobj-fun ()
-;;   ;; (add-to-list 'evil-surround-pairs-alist '(?f . erik-evil-surround-latex-macro))
-;;   (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
-;;   (add-to-list 'evil-surround-pairs-alist '(?m . latex-surround-env))
-;;   (evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
-;;   (evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
-;;   (evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
-;;   (evil-define-outer-local-textobject "\\" 'evil-latex-textobjects-a-math)
-;;   (evil-define-inner-local-textobject "f" 'evil-latex-textobjects-inner-macro)
-;;   (evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
-;;   (evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
-;;   (evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))
-;; (add-hook 'LaTeX-mode-hook 'LaTeX-mode-hook-textobj-fun)
+(use-package sgml-mode
+  :defer t
+  :config
+  (put 'sgml-basic-offset 'safe-local-variable 'integerp)
+  (defun close-tag-stay ()
+    (interactive)
+    (save-excursion
+      (sgml-close-tag)))
+  :gfhook
+  ('html-mode-hook (cl-defun html-mode-hook-fun ()
+                     (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
+                     (define-key html-mode-map (kbd "/") nil))))
+
+(use-package python-mode
+  :defer t
+  :custom
+  (python-indent-offset 3)
+  :gfhook
+  (nil (cl-defun python-evil-shift-hook-fun ()
+         (when (featurep 'evil)
+           (setq-local evil-shift-width python-indent-offset)))))
+
+(use-package highlight-indent-guides
+  :defer t
+  :ensure t
+  :custom
+  (highlight-indent-guides-auto-character-face-perc 40)
+  (highlight-indent-guides-auto-enabled nil)
+  (highlight-indent-guides-auto-top-character-face-perc 70)
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive 'top)
+  :ghook 'python-mode-hook)
+
+(use-package sh-mode
+  :defer t
+  :config
+  (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
+
+(use-package haskell-mode
+  :defer t
+  :ensure t
+  :gfhook #'haskell-doc-mode)
+
+(use-package diff-mode
+  :defer t
+  :gfhook (nil (cl-defun diff-mode-hook-fun ()
+                 (diff-auto-refine-mode -1))))
+
+(use-package man
+  :defer t
+  :general
+  ('Man-mode-map
+   "q" #'kill-buffer-and-frame)
+  :gfhook
+  ('Man-mode-hook (cl-defun man-mode-hook-fun ()
+                    (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
+
+(use-package rust-mode
+  :ensure t
+  :defer t
+  :custom
+  (rust-indent-offset 3))
+
+(use-package flycheck-rust
+  :ensure t
+  :defer t
+  :after (:and rust-mode flycheck))

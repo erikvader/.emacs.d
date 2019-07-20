@@ -1,3 +1,13 @@
+(defun eriks/delete-trailing-lines ()
+  "Delete empty lines at the end of the current buffer."
+  (interactive)
+  (and
+   ;; Really the end of buffer.
+   (= (goto-char (point-max)) (1+ (buffer-size)))
+   (<= (skip-chars-backward "\n") -2)
+   (region-modifiable-p (1+ (point)) (point-max))
+   (delete-region (1+ (point)) (point-max))))
+
 (defun eriks/delete-trailing-this-line ()
   "Removes trailing whitespace from the current line."
   (interactive)

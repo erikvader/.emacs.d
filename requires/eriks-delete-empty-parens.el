@@ -19,9 +19,4 @@ immediately before the opening paren."
       (when (not ok)
         (message "There wasn't anything to remove...")))))
 
-(eriks/general-def-evil
- ('normal :prefix eriks/leader
-  "s" 'eriks/delete-empty-parens)
- ('insert "C-s" 'eriks/delete-empty-parens))
-
 (provide 'eriks-delete-empty-parens)
