@@ -26,8 +26,6 @@
 
 (use-package eriks-latex-autocompile
   :after tex-mode
-  :diminish
-  :ghook 'LaTeX-mode-hook
   :general
-  ('eriks-latex-autocompile-mode-map
+  ('LaTeX-mode-map
    "C-c a" 'eriks/latex-autocompile-toggle))
