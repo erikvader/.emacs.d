@@ -14,6 +14,10 @@
   (evil-want-C-d-scroll nil)
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
+  (evil-emacs-state-modes nil) ;TODO: dired-mode
+  (evil-motion-state-modes '(Man-mode))
+  (evil-insert-state-modes nil)
+  (evil-normal-state-modes '(prog-mode org-mode conf-mode latex-mode))
   :general
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
@@ -27,7 +31,8 @@
    "<down>" 'ignore
    "<right>" 'ignore)
   ('normal
-   "<backspace>" 'evil-ex-nohighlight
+   "<backspace>" 'evil-ex-nohighlight)
+  ('(normal visual)
    ";" 'repeat
    "-" 'negative-argument)
   ('normal
@@ -36,14 +41,16 @@
    "Q" 'kmacro-set-counter)
   :config
   (evil-mode 1)
-  (setq-default evil-emacs-state-modes nil)
-  (setq-default evil-motion-state-modes nil)
-  (setq-default evil-insert-state-modes nil)
-  (setq-default evil-normal-state-modes '(prog-mode))
-  (evil-set-initial-state 'dired-mode 'emacs)
-  (evil-set-initial-state 'org-mode 'normal)
-  (evil-set-initial-state 'Man-mode 'motion)
-  (evil-set-initial-state 'conf-mode 'normal))
+  (defmacro eriks/evil-define-inner-local-textobject (key func)
+    "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
+    `(progn
+       (define-key evil-visual-state-local-map   (kbd ,(concat "i " key)) ,func)
+       (define-key evil-operator-state-local-map (kbd ,(concat "i " key)) ,func)))
+  (defmacro eriks/evil-define-outer-local-textobject (key func)
+    "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
+    `(progn
+       (define-key evil-visual-state-local-map   (kbd ,(concat "a " key)) ,func)
+       (define-key evil-operator-state-local-map (kbd ,(concat "a " key)) ,func))))
 
 (use-package golden-ratio-scroll-screen
   :ensure t
@@ -149,7 +156,11 @@
   ('normal
    'evil-surround-mode-map
    "gs" 'evil-surround-edit
-   "gS" 'evil-Surround-edit))
+   "gS" 'evil-Surround-edit)
+  :gfhook
+  ('LaTeX-mode-hook (cl-defun latex-evil-surround-hook ()
+                      (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
+                      (add-to-list 'evil-surround-pairs-alist '(?m . latex-surround-env)))))
 
 (use-package eriks-evil-column-numbers
   :after evil
@@ -217,3 +228,16 @@
    :prefix "g"
    "a" 'evil-lion-left
    "A" 'evil-lion-right))
+
+(use-package evil-latex-textobjects
+  :after (:and evil tex-mode)
+  :gfhook
+  ('LaTeX-mode-hook (cl-defun latex-evil-latex-textobjects-hook ()
+                      (eriks/evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
+                      (eriks/evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
+                      (eriks/evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
+                      (eriks/evil-define-outer-local-textobject "\\" 'evil-latex-textobjects-a-math)
+                      (eriks/evil-define-inner-local-textobject "f" 'evil-latex-textobjects-inner-macro)
+                      (eriks/evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
+                      (eriks/evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
+                      (eriks/evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))))
