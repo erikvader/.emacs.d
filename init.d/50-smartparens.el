@@ -59,7 +59,9 @@
    "[d" 'sp-backward-down-sexp
    "]d" 'sp-down-sexp
    "(" 'sp-beginning-of-sexp
-   ")" 'sp-end-of-sexp))
+   ")" 'sp-end-of-sexp)
+  ('insert
+   "C-u" 'sp-up-sexp))
 
 (use-package smartparens-config
   :after smartparens)

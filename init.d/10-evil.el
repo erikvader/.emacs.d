@@ -14,11 +14,20 @@
   (evil-want-C-d-scroll nil)
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
-  (evil-emacs-state-modes nil) ;TODO: dired-mode
-  (evil-motion-state-modes '(Man-mode))
+  (evil-emacs-state-modes nil)
+  (evil-motion-state-modes '(Man-mode help-mode))
   (evil-insert-state-modes nil)
   (evil-normal-state-modes '(prog-mode org-mode conf-mode latex-mode))
   :general
+  ('motion
+   'help-mode-map
+   "<tab>" 'forward-button
+   "<backtab>" 'backward-button
+   "C-o" 'help-go-back
+   "C-i" 'help-go-forward
+   "<return>" 'push-button
+   "g" 'revert-buffer
+   "q" 'quit-window)
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
    "SPC" nil)
@@ -29,7 +38,8 @@
    "<up>" 'ignore
    "<left>" 'ignore
    "<down>" 'ignore
-   "<right>" 'ignore)
+   "<right>" 'ignore
+   "C-e" 'end-of-line)
   ('normal
    "<backspace>" 'evil-ex-nohighlight)
   ('(normal visual)
@@ -56,7 +66,7 @@
   :ensure t
   :after evil
   :general
-  ('normal
+  ('motion
    "C-d" 'golden-ratio-scroll-screen-up
    "C-u" 'golden-ratio-scroll-screen-down)
   ('visual

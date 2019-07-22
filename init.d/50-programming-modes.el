@@ -68,6 +68,7 @@
 (use-package highlight-indent-guides
   :defer t
   :ensure t
+  :diminish
   :custom
   (highlight-indent-guides-auto-character-face-perc 40)
   (highlight-indent-guides-auto-enabled nil)
