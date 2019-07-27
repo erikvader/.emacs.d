@@ -44,3 +44,10 @@ because they are stored like that in keymaps."
      (let ((new (remove-key ,keymap (listify-key-sequence (kbd ,key)))))
        (when (keymapp new)
          (setq ,keymap new)))))
+
+(defun eriks/add-to-lists (list items)
+  "Same as `add-to-list' except that ITEMS is a list of elements to be
+added."
+  (mapc (lambda (i)
+          (add-to-list list i))
+        items))

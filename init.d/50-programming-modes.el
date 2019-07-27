@@ -56,7 +56,7 @@
                      (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
                      (define-key html-mode-map (kbd "/") nil))))
 
-(use-package python-mode
+(use-package python
   :defer t
   :custom
   (python-indent-offset 3)

@@ -13,10 +13,5 @@
 (use-package general
   :ensure t)
 
-(defun eriks/add-to-lists (list items)
-  "Same as `add-to-list' except that ITEMS is a list of elements to be
-added."
-  (mapc (lambda (i)
-          (add-to-list list i))
-        items))
-
+(use-package pkg-info
+  :ensure t)

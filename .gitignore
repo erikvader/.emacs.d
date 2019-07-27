@@ -12,3 +12,4 @@ session.*
 /*.old
 /backups
 /auto_saves
+/tramp

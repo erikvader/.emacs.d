@@ -15,20 +15,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default sentence-end-double-space nil)
 
-;; move auto saves
-(defconst autosave-dir (concat user-emacs-directory "auto_saves" "/"))
-(make-directory autosave-dir t)
-(setq-default auto-save-file-name-transforms
-      `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
-
-;; move backups
-(defconst backup-dir (concat user-emacs-directory "backups" "/"))
-(make-directory backup-dir t)
-(add-to-list 'backup-directory-alist `("." . ,backup-dir))
-
-;; remove lockfiles
-(setq-default create-lockfiles nil)
-
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
 (setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
@@ -36,3 +22,6 @@
 
 ;; remove annoying keybinds
 (general-unbind "<home>" "<end>" "<prior>" "<next>")
+
+;; enable disabled commands
+(put 'narrow-to-region 'disabled nil)
