@@ -14,6 +14,7 @@
 (setq-default column-number-mode t)
 (setq-default indent-tabs-mode nil)
 (setq-default sentence-end-double-space nil)
+(setq-default select-enable-clipboard nil)
 
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)

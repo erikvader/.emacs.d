@@ -119,10 +119,8 @@
    "<return>" 'eriks/evil-open-line-below
    "S-<return>" 'eriks/evil-open-line-above)
   ('(normal visual)
-   :prefix eriks/leader
-   "J" 'eriks/evil-join-no-space)
-  ('(normal visual)
-   "J" 'eriks/evil-join-no-comment)
+   "gJ" 'eriks/evil-join-no-space
+   "J"  'eriks/evil-join-no-comment)
   ('(normal visual)
    "K" 'ignore))
 
