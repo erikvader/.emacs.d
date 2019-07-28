@@ -39,3 +39,9 @@
   :after (:and ivy counsel)
   :general
   ("C-s" 'counsel-grep-or-swiper))
+
+(use-package counsel-projectile
+  :ensure t
+  :after (:and projectile counsel)
+  :config
+  (counsel-projectile-mode 1))

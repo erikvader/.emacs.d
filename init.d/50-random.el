@@ -23,12 +23,6 @@
   :custom
   (projectile-completion-system 'ivy))
 
-(use-package counsel-projectile
-  :ensure t
-  :after (:all projectile counsel)
-  :config
-  (counsel-projectile-mode 1))
-
 (use-package frames-only-mode
   :ensure t
   :config
