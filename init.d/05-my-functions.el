@@ -52,6 +52,16 @@ added."
           (add-to-list list i))
         items))
 
+(defun eriks/init-warn (&rest warn-args)
+  "Runs `warn' with WARN-ARGS and also sends a notification with the
+same message if there aren't any frames open. This is a nice way to
+display warnings during startup of an Emacs instance started in daemon
+mode."
+  (apply #'warn warn-args)
+  (unless (eq (framep (selected-frame)) 'x)
+    (require 'notifications)
+    (notifications-notify :title "Emacs Warning" :body (apply #'format warn-args))))
+
 (defmacro eriks/hotfix (package version &rest body)
   "Executes BODY but warns using `eriks/init-warn' if the version of
   PACKAGE is not VERSION."
