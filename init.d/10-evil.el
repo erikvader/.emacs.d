@@ -27,7 +27,11 @@
    "C-i" 'help-go-forward
    "<return>" 'push-button
    "g" 'revert-buffer
-   "q" 'quit-window)
+   "q" 'quit-window
+   "<backspace>" 'evil-ex-nohighlight)
+  ('motion
+   'Man-mode-map
+   "<backspace>" 'evil-ex-nohighlight)
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
    "SPC" nil)
