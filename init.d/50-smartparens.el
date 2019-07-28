@@ -3,6 +3,7 @@
   :after evil
   :diminish
   :config
+  (require 'smartparens-config)
   (defun eriks/create-newline-and-enter-sexp (&rest _ignored)
     "Open a new brace or bracket expression, with relevant newlines and indentation."
     (newline)
@@ -40,9 +41,7 @@
    "a" 'sp-extract-after-sexp
    "u" 'sp-splice-sexp
    "k" 'sp-kill-sexp
-   "d" 'sp-splice-sexp-killing-around
-   "l" 'sp-move-sexp-forward
-   "h" 'sp-move-sexp-back)
+   "d" 'sp-splice-sexp-killing-around)
   ('normal
    :prefix eriks/leader
    "]" 'sp-forward-slurp-sexp
@@ -56,6 +55,8 @@
    "[]" 'sp-previous-sexp
    "[u" 'sp-backward-up-sexp
    "]u" 'sp-up-sexp
+   "}"  'sp-up-sexp
+   "{"  'sp-backward-up-sexp
    "[d" 'sp-backward-down-sexp
    "]d" 'sp-down-sexp
    "(" 'sp-beginning-of-sexp
@@ -63,5 +64,15 @@
   ('insert
    "C-u" 'sp-up-sexp))
 
-(use-package smartparens-config
-  :after smartparens)
+(use-package evil-cleverparens
+  :ensure t
+  :after (:and smartparens evil)
+  :general
+  ('inner
+   "d" 'evil-cp-inner-defun)
+  ('outer
+   "d" 'evil-cp-a-defun)
+  ('normal
+   'lisp-mode-shared-map
+   "M-j" 'evil-cp-drag-forward
+   "M-k" 'evil-cp-drag-backward))
