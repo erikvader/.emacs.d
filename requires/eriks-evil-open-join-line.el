@@ -70,9 +70,10 @@ instead (splits, adds comment chars and indents)."
     (newline ARG)))
 
 ;; copy of the normal evil-join
-(defmacro eriks/evil-join-template (name doc &rest BODY)
+(defmacro eriks/evil--join-template (name doc &rest body)
   "Creates an evil operator named 'eriks/evil-join-{name}' that runs
-BODY after each time a line is joined."
+BODY to join each line. With BODY equal to '(join-line 1)' this becomes
+the exact same as `evil-join'."
   `(evil-define-operator ,(intern (concat "eriks/evil-join-" (symbol-name name))) (beg end)
      ,(concat "Join the selected lines just as `evil-join', but with a twist!\n" doc)
      :motion evil-line
@@ -81,21 +82,39 @@ BODY after each time a line is joined."
          (setq count (1- count)))
        (goto-char beg)
        (dotimes (var count)
-         (join-line 1)
-         ,@BODY))))
+         ,@body))))
 
-(eriks/evil-join-template
+(defun eriks/evil--join-remove-comment ()
+  "If below line was a comment then remove the comment delimeters as
+specified in `comment-start-skip' and put one space between the
+lines."
+  (when (and (nth 4 (syntax-ppss)) ; if previous line is a comment
+             (looking-at (concat "\\( *\\)" comment-start-skip)))
+    (replace-match "\\1")
+    (goto-char (match-beginning 0))
+    (fixup-whitespace) ;; run `join-line's function to fixup whitespace
+    ))
+
+(eriks/evil--join-template
  no-space
- "This one with no space inbetween"
+ "This one removes comments defined in `comment-start-skip' and
+removes all space between."
+ (join-line 1)
+ (eriks/evil--join-remove-comment)
  (just-one-space 0))
 
-(eriks/evil-join-template
+(eriks/evil--join-template
  no-comment
- "This one removes comments defined in `comment-start-skip'"
- (when (and (nth 4 (syntax-ppss)) ; if previous line is a comment
-            (looking-at (concat "\\( *\\)" comment-start-skip)))
-   (replace-match "\\1")
-   (goto-char (match-beginning 0))
-   (just-one-space)))
+ "This one removes comments defined in `comment-start-skip' and leaves
+space according to `fixup-whitespace'"
+ (join-line 1)
+ (eriks/evil--join-remove-comment))
+
+(eriks/evil--join-template
+ no-comment-backward
+ "This one is the same as `eriks/evil-join-no-comment' except that
+this join the current line to the one above instead of below."
+ (join-line)
+ (eriks/evil--join-remove-comment))
 
 (provide 'eriks-evil-open-join-line)

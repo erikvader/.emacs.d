@@ -19,6 +19,8 @@
   (evil-insert-state-modes nil)
   (evil-normal-state-modes '(prog-mode org-mode conf-mode latex-mode))
   :general
+  ('(normal visual)
+   "K" 'ignore)
   ('motion
    'help-mode-map
    "<tab>" 'forward-button
@@ -121,12 +123,11 @@
   ('normal
    "S" 'eriks/evil-open-line
    "<return>" 'eriks/evil-open-line-below
-   "S-<return>" 'eriks/evil-open-line-above)
+   "S-<return>" 'eriks/evil-open-line-above
+   "M-^" 'eriks/evil-join-no-comment-backward)
   ('(normal visual)
    "gJ" 'eriks/evil-join-no-space
-   "J"  'eriks/evil-join-no-comment)
-  ('(normal visual)
-   "K" 'ignore))
+   "J"  'eriks/evil-join-no-comment))
 
 (use-package eriks-evil-random
   :after evil
