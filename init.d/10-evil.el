@@ -11,7 +11,8 @@
   (evil-move-cursor-back nil)
   (evil-search-module 'evil-search)
   (evil-shift-width 3)
-  (evil-want-C-d-scroll nil)
+  (evil-want-C-d-scroll t)
+  (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
   (evil-emacs-state-modes nil)
@@ -20,7 +21,10 @@
   (evil-normal-state-modes '(prog-mode org-mode conf-mode latex-mode))
   :general
   ('(normal visual)
-   "K" 'ignore)
+   "M-u" 'universal-argument)
+  (universal-argument-map
+   "M-u" 'universal-argument-more
+   "C-u" nil)
   ('motion
    'help-mode-map
    "<tab>" 'forward-button
@@ -77,11 +81,7 @@
    "C-u" 'golden-ratio-scroll-screen-down)
   ('visual
    "C-d" 'evil-scroll-down
-   "C-u" 'evil-scroll-up)
-  ("M-u" 'universal-argument)
-  (universal-argument-map
-   "M-u" 'universal-argument-more
-   "C-u" nil))
+   "C-u" 'evil-scroll-up))
 
 (use-package undo-tree
   :ensure t
@@ -124,7 +124,9 @@
    "S" 'eriks/evil-open-line
    "<return>" 'eriks/evil-open-line-below
    "S-<return>" 'eriks/evil-open-line-above
-   "M-^" 'eriks/evil-join-no-comment-backward)
+   "K" 'eriks/evil-join-no-comment-backward)
+  ('visual
+   "K" 'eriks/evil-join-no-comment)
   ('(normal visual)
    "gJ" 'eriks/evil-join-no-space
    "J"  'eriks/evil-join-no-comment))

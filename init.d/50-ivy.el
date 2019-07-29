@@ -38,7 +38,8 @@
   :ensure t
   :after (:and ivy counsel)
   :general
-  ("C-s" 'counsel-grep-or-swiper))
+  ('counsel-mode-map
+   "C-s" 'counsel-grep-or-swiper))
 
 (use-package counsel-projectile
   :ensure t

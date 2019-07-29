@@ -23,7 +23,7 @@
 (use-package evil-easymotion
   :after (:and evil avy)
   :general
-  ('motion
+  ('operator
    "J" 'evilem-motion-next-line-first-non-blank
    "K" 'evilem-motion-previous-line-first-non-blank)
   ('motion
