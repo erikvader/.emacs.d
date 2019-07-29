@@ -232,6 +232,12 @@
   ('outer
    "l" 'eriks/evil-outside-line-text-object))
 
+(use-package eriks-fix-last-shift-mistake
+  :after evil
+  :general
+  ('insert
+   "M-c" 'eriks/fix-last-shift-mistake))
+
 (use-package evil-lion
   :ensure t
   :after evil
