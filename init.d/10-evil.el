@@ -123,13 +123,11 @@
   ('normal
    "S" 'eriks/evil-open-line
    "<return>" 'eriks/evil-open-line-below
-   "S-<return>" 'eriks/evil-open-line-above
-   "K" 'eriks/evil-join-no-comment-backward)
-  ('visual
-   "K" 'eriks/evil-join-no-comment)
+   "S-<return>" 'eriks/evil-open-line-above)
   ('(normal visual)
    "gJ" 'eriks/evil-join-no-space
-   "J"  'eriks/evil-join-no-comment))
+   "J"  'eriks/evil-join-no-comment
+   "K"  'eriks/evil-join-no-comment-backward))
 
 (use-package eriks-evil-random
   :after evil

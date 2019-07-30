@@ -69,20 +69,33 @@ instead (splits, adds comment chars and indents)."
     (end-of-line)
     (newline ARG)))
 
-;; copy of the normal evil-join
 (defmacro eriks/evil--join-template (name doc &rest body)
   "Creates an evil operator named 'eriks/evil-join-{name}' that runs
-BODY to join each line. With BODY equal to '(join-line 1)' this becomes
-the exact same as `evil-join'."
-  `(evil-define-operator ,(intern (concat "eriks/evil-join-" (symbol-name name))) (beg end)
-     ,(concat "Join the selected lines just as `evil-join', but with a twist!\n" doc)
-     :motion evil-line
-     (let ((count (count-lines beg end)))
-       (when (> count 1)
-         (setq count (1- count)))
-       (goto-char beg)
-       (dotimes (var count)
-         ,@body))))
+BODY after each line is joined.
+
+With no BODY this is exactly the same as `evil-join'.
+
+The first value in BODY can be the special value :backwards. If this
+value is present, then the current line is joined to the one above
+instead of the one below."
+  (let* ((backwards (eq (car body) :backwards))
+         (body (or (when (eq (car body) :backwards)
+                     (cdr body))
+                   body)))
+    `(evil-define-operator ,(intern (concat "eriks/evil-join-" (symbol-name name))) (beg end)
+       ,(concat "Join the selected lines just as `evil-join', but with a twist!\n" doc)
+       :motion evil-line
+       (let ((count (count-lines beg end)))
+         (when (> count 1)
+           (setq count (1- count)))
+         (goto-char ,(if backwards
+                         '(if (= (char-before end) ?\n)
+                              (1- end)
+                            end)
+                       'beg))
+         (dotimes (var count)
+           (join-line ,(not backwards))
+           ,@body)))))
 
 (defun eriks/evil--join-remove-comment ()
   "If below line was a comment then remove the comment delimeters as
@@ -92,14 +105,13 @@ lines."
              (looking-at (concat "\\( *\\)" comment-start-skip)))
     (replace-match "\\1")
     (goto-char (match-beginning 0))
-    (fixup-whitespace) ;; run `join-line's function to fixup whitespace
-    ))
+    (fixup-whitespace) ;; use `join-line's sub-procedure to fix up whitespace
+    ))                 ;; again after comment delimiter is gone
 
 (eriks/evil--join-template
  no-space
  "This one removes comments defined in `comment-start-skip' and
 removes all space between."
- (join-line 1)
  (eriks/evil--join-remove-comment)
  (just-one-space 0))
 
@@ -107,14 +119,13 @@ removes all space between."
  no-comment
  "This one removes comments defined in `comment-start-skip' and leaves
 space according to `fixup-whitespace'"
- (join-line 1)
  (eriks/evil--join-remove-comment))
 
 (eriks/evil--join-template
  no-comment-backward
  "This one is the same as `eriks/evil-join-no-comment' except that
 this join the current line to the one above instead of below."
- (join-line)
+ :backwards
  (eriks/evil--join-remove-comment))
 
 (provide 'eriks-evil-open-join-line)
