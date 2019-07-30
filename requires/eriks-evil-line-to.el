@@ -1,37 +1,39 @@
 (require 'thingatpt)
 
-(defun eriks/bounds-of-line (&rest keywords)
+(cl-defun eriks/bounds-of-line (&key include-indentation include-newline (cons-fun #'cons))
   "Just as `bounds-of-thing-at-point' with 'line as argument, this
 function returns the bounds of the current line in a cons (beg . end).
 
 This function differs by excluding any newline character at the end of
 the line and by not including leading whitespace.
 
-This function accepts the following options in KEYWORDS:
+This function accepts the following options as keyword arguments:
 
-:include-indentation  Include leading whitespace
-:evil-range           Return the result by calling `evil-range' instead
-                      of `cons'
+:include-indentation  Include leading whitespace (default nil)
+:include-newline      Include trailing newline (default nil)
+:cons-fun             Function called with beginning and end position
+                        of line to yield the return value of this
+                        function (default #'`cons')
 "
   (let* ((reg (bounds-of-thing-at-point 'line))
-         (beg (if (memq :include-indentation keywords)
+         (beg (if include-indentation
                   (car reg)
                 (save-excursion
                   (back-to-indentation)
                   (point))))
-         (end (if (= (char-before (cdr reg)) ?\n)
+         (end (if (and (not include-newline)
+                       (= (char-before (cdr reg)) ?\n))
                   (1- (cdr reg))
                 (cdr reg))))
-    (if (memq :evil-range keywords)
-        (evil-range beg end)
-      (cons beg end))))
+    (funcall cons-fun beg end)))
 
 (evil-define-text-object eriks/evil-inside-line-text-object (count &optional beg end type)
   "Text object to select everything in a line but ignoring leading whitespace."
-  (eriks/bounds-of-line :evil-range))
+  (eriks/bounds-of-line :cons-fun #'evil-range))
 
 (evil-define-text-object eriks/evil-outside-line-text-object (count &optional beg end type)
   "Text object to select everything in a line including leading whitespace."
-  (eriks/bounds-of-line :evil-range :include-indentation))
+  (eriks/bounds-of-line :cons-fun #'evil-range
+                        :include-indentation t))
 
 (provide 'eriks-evil-line-to)
