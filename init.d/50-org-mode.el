@@ -8,6 +8,7 @@
   (org-src-window-setup 'current-window)
   (org-startup-folded nil)
   (org-startup-indented t)
+  (org-use-sub-superscripts '{})
   (org-tags-column 0)
   :gfhook
   (nil (cl-defun org-wrap-lines-hook-fun ()
