@@ -42,3 +42,6 @@
    "gO" (evil-org-define-eol-command org-insert-subheading)
    "T"  (evil-org-define-eol-command org-insert-todo-heading-respect-content)
    "gt" (evil-org-define-eol-command org-insert-todo-subheading)))
+
+(use-package eriks-org-spaced-mode
+  :after org)
