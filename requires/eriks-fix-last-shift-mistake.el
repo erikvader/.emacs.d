@@ -9,7 +9,7 @@ function would fix it to \"Awesome\"."
         end
         (bound (bounds-of-thing-at-point 'word)))
     (unless bound
-      (error "not inside a word"))
+      (user-error "Not inside a word"))
     (save-excursion
       (goto-char (car bound))
       (while (search-forward-regexp "[[:upper:]]\\([[:upper:]]\\)+" (cdr bound) t)

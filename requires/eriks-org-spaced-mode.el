@@ -53,7 +53,7 @@ is non-nil then remove all added spacing."
 for better readability."
   nil " Spc" nil
   (unless (derived-mode-p 'org-mode)
-    (error "not in org-mode"))
+    (user-error "Not in org-mode"))
   (if eriks/org-spaced-mode
       (progn
         (eriks/spaced-spacify-buffer)

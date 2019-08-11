@@ -277,7 +277,7 @@
    `(org-document-info ((,class (:foreground ,rainbow-8))))
    `(org-document-info-keyword ((,class (:foreground ,comment))))
    `(org-document-title ((,class (:weight bold :foreground ,rainbow-5 :height 1.44))))
-   `(org-done ((,class (:foreground ,rainbow-6))))
+   `(org-done ((,class (:foreground ,rainbow-6 :bold t))))
    `(org-ellipsis ((,class (:foreground "burlywood" :height 0.9))))
    `(org-footnote ((,class (:foreground ,rainbow-8))))
    `(org-formula ((,class (:foreground ,rainbow-4))))
