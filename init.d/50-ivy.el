@@ -36,10 +36,10 @@
 
 (use-package swiper
   :ensure t
-  :after (:and ivy counsel)
+  :after ivy
   :general
-  ('counsel-mode-map
-   "C-s" 'counsel-grep-or-swiper))
+  ('normal
+   "C-s" 'swiper))
 
 (use-package counsel-projectile
   :ensure t
