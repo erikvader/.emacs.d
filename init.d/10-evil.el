@@ -189,9 +189,6 @@
 (use-package eriks-delete-empty-parens
   :after evil
   :general
-  ('normal
-   :prefix eriks/leader
-   "s" 'eriks/delete-empty-parens)
   ('insert
    "C-s" 'eriks/delete-empty-parens))
 
@@ -260,3 +257,10 @@
                       (eriks/evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
                       (eriks/evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
                       (eriks/evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))))
+
+(use-package eriks-evil-add-to-search-history
+  :after evil
+  :general
+  ('normal
+   :prefix eriks/leader
+   "s" 'eriks/evil-add-to-search-history))
