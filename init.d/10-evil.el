@@ -204,24 +204,6 @@
   :config
   (evil-exchange-install))
 
-(use-package evil-multiedit
-  :ensure t
-  :after evil
-  :custom
-  (evil-multiedit-follow-matches t)
-  :general
-  ('iedit-mode-occurrence-keymap
-   "M-n" nil
-   "M-p" nil)
-  ('evil-multiedit-state-map
-   "<return>" 'evil-multiedit-toggle-or-restrict-region)
-  ('(normal visual)
-   "C-n" 'evil-multiedit-match-and-next
-   "C-p" 'evil-multiedit-match-and-prev)
-  ('evil-multiedit-state-map
-   "M-n" 'evil-multiedit-next
-   "M-p" 'evil-multiedit-prev))
-
 (use-package eriks-evil-line-to
   :after evil
   :general
