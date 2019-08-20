@@ -38,7 +38,7 @@
   :ensure t
   :after ivy
   :general
-  ('normal
+  ('(normal ivy-mode-map)
    "C-s" 'swiper))
 
 (use-package counsel-projectile
