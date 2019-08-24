@@ -78,7 +78,7 @@
    `(minibuffer-prompt ((,class (:bold t :foreground ,keyword))))
    `(region ((,class (:inverse-video t)))) ;;:background ,erik-region :foreground ,bg1
    `(show-paren-match ((,class (:underline t :weight extra-bold :foreground ,fg3)))) ;;:background ,erik-paren-match :foreground, darkest-black
-   `(trailing-whitespace ((,class :foreground nil :background ,erik-trailing)))
+   `(trailing-whitespace ((,class :background ,erik-trailing :underline (:color "salmon" :style wave))))
    `(vertical-border ((,class (:foreground ,bg2))))
    `(warning ((,class (:foreground ,warning))))
    `(whitespace-trailing ((,class :inherit trailing-whitespace)))
