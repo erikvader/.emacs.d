@@ -53,13 +53,14 @@ is non-nil then remove all added spacing."
 for better readability."
   nil " Spc" nil
   (unless (derived-mode-p 'org-mode)
+    (setq eriks/org-spaced-mode nil)
     (user-error "Not in org-mode"))
   (if eriks/org-spaced-mode
       (progn
         (eriks/spaced-spacify-buffer)
-        (add-hook 'after-change-functions #'eriks/spaced-after-change))
+        (add-hook 'after-change-functions #'eriks/spaced-after-change nil t))
     (eriks/spaced-spacify-buffer t)
-    (remove-hook 'after-change-functions #'eriks/spaced-after-change)))
+    (remove-hook 'after-change-functions #'eriks/spaced-after-change t)))
 
 (defvar-local eriks/startup--org-spaced-mode nil
   "If non-nil then start `eriks/org-spaced-mode' when entering org-mode buffer.")
