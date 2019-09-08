@@ -31,6 +31,7 @@
   (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
   :ghook
   'c-mode-hook
+  'c++-mode-hook
   'sh-mode-hook
   :gfhook
   ('python-mode-hook (cl-defun python-flycheck-hook-fun ()
