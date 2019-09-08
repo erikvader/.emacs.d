@@ -36,9 +36,6 @@
   ('python-mode-hook (cl-defun python-flycheck-hook-fun ()
                        (flycheck-mode 1)
                        (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
-  ('rust-mode-hook (cl-defun rust-flycheck-hook-fun ()
-                     (flycheck-mode 1)
-                     (flycheck-rust-setup)))
   ('haskell-mode-hook (cl-defun haskell-flycheck-hook-fun ()
                         (flycheck-mode 1)
                         (flycheck-select-checker 'haskell-hlint))))
@@ -110,4 +107,8 @@
 (use-package flycheck-rust
   :ensure t
   :defer t
-  :after (:and rust-mode flycheck))
+  :after (:and rust-mode flycheck)
+  :gfhook
+  ('rust-mode-hook (cl-defun rust-flycheck-hook-fun ()
+                     (flycheck-mode 1)
+                     (flycheck-rust-setup))))
