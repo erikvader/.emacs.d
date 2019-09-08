@@ -28,4 +28,4 @@
   :after tex-mode
   :general
   ('LaTeX-mode-map
-   "C-c a" 'eriks/latex-autocompile-toggle))
+   "C-c a" 'eriks/latex-autocompile-mode))
