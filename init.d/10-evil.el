@@ -51,7 +51,8 @@
    "<right>" 'ignore
    "C-e" 'end-of-line)
   ('normal
-   "<backspace>" 'evil-ex-nohighlight)
+   "<backspace>" 'evil-ex-nohighlight
+   "C-@" "@@")
   ('(normal visual)
    ";" 'repeat
    "-" 'negative-argument)
