@@ -247,3 +247,11 @@
   ('normal
    :prefix eriks/leader
    "s" 'eriks/evil-add-to-search-history))
+
+(use-package eriks-evil-highlight
+  :after evil
+  :general
+  ('(normal visual)
+   :prefix eriks/leader
+   "h" 'eriks/evil-highlight
+   "H" 'eriks/evil-unhighlight))
