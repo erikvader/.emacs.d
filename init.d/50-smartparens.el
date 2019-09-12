@@ -11,7 +11,7 @@
     (forward-line -1)
     (indent-according-to-mode))
   (sp-local-pair
-   '(c-mode java-mode css-mode js-mode rust-mode)
+   '(c-mode java-mode css-mode js-mode rust-mode ess-r-mode)
    "{" nil :post-handlers '((eriks/create-newline-and-enter-sexp "RET")))
   (sp-local-pair
    '(js-mode)

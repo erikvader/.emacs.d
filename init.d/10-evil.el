@@ -16,7 +16,7 @@
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
   (evil-emacs-state-modes nil)
-  (evil-motion-state-modes '(Man-mode help-mode))
+  (evil-motion-state-modes '(Man-mode help-mode ess-r-help-mode))
   (evil-insert-state-modes nil)
   (evil-normal-state-modes '(prog-mode org-mode conf-mode latex-mode))
   :general

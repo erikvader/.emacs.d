@@ -113,3 +113,10 @@
   ('rust-mode-hook (cl-defun rust-flycheck-hook-fun ()
                      (flycheck-mode 1)
                      (flycheck-rust-setup))))
+
+(use-package ess
+  :ensure t
+  :defer t
+  :custom
+  (ess-help-own-frame t)
+  (ess-use-ido nil))
