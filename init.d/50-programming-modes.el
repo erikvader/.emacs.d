@@ -119,4 +119,6 @@
   :defer t
   :custom
   (ess-help-own-frame t)
-  (ess-use-ido nil))
+  (ess-use-ido nil)
+  (ess-use-flymake nil)
+  (ess-history-file nil))
