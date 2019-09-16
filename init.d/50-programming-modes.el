@@ -121,4 +121,5 @@
   (ess-help-own-frame t)
   (ess-use-ido nil)
   (ess-use-flymake nil)
-  (ess-history-file nil))
+  (ess-history-file nil)
+  (ess-style 'RStudio))
