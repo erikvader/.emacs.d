@@ -13,3 +13,4 @@ session.*
 /backups
 /auto_saves
 /tramp
+/eshell

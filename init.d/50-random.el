@@ -73,3 +73,8 @@
   :custom
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
+
+(use-package ibuffer
+  :defer t
+  :general
+  ("C-x C-b" 'ibuffer))
