@@ -18,6 +18,10 @@
   :defer t
   :custom
   (c-basic-offset 3)
+  (c-offsets-alist '((inlambda . 0))) ;; indent lambda body to the left
+  (c-default-style '((java-mode . "java")
+                     (awk-mode . "awk")
+                     (other . "linux")))
   :gfhook
   ('c-mode-common-hook (cl-defun c-mode-common-hook-fun ()
                          (setq-local comment-start "//")
