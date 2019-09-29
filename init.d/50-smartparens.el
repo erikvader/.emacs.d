@@ -53,10 +53,8 @@
    "]]" 'sp-forward-sexp ;; sp-forward-parallel-sexp
    "[[" 'sp-backward-sexp
    "[]" 'sp-previous-sexp
-   "[u" 'sp-backward-up-sexp
-   "]u" 'sp-up-sexp
-   "}"  'sp-up-sexp
-   "{"  'sp-backward-up-sexp
+   "[{" 'sp-backward-up-sexp
+   "]}" 'sp-up-sexp
    "[d" 'sp-backward-down-sexp
    "]d" 'sp-down-sexp
    "(" 'sp-beginning-of-sexp
@@ -71,8 +69,4 @@
   ('inner
    "d" 'evil-cp-inner-defun)
   ('outer
-   "d" 'evil-cp-a-defun)
-  ('normal
-   'lisp-mode-shared-map
-   "M-j" 'evil-cp-drag-forward
-   "M-k" 'evil-cp-drag-backward))
+   "d" 'evil-cp-a-defun))
