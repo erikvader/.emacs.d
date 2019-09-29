@@ -82,7 +82,9 @@
    "C-u" 'golden-ratio-scroll-screen-down)
   ('visual
    "C-d" 'evil-scroll-down
-   "C-u" 'evil-scroll-up))
+   "C-u" 'evil-scroll-up)
+  ([remap scroll-down-command] 'golden-ratio-scroll-screen-down
+   [remap scroll-up-command]   'golden-ratio-scroll-screen-up))
 
 (use-package undo-tree
   :ensure t
