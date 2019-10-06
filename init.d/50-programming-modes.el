@@ -134,3 +134,18 @@
   (ess-use-flymake nil)
   (ess-history-file nil)
   (ess-style 'RStudio))
+
+(use-package comint
+  :defer t
+  :init
+  (eriks/evil-set-initial-state 'comint-mode 'normal)
+  :general
+  ('normal
+   'comint-mode-map
+   "C-k" 'comint-previous-input
+   "C-j" 'comint-next-input
+   "<return>" 'comint-send-input)
+  ('motion
+   'comint-mode-map
+   "G" 'end-of-buffer
+   "^" 'comint-bol))
