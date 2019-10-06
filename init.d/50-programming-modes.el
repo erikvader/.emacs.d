@@ -101,6 +101,9 @@
   :general
   ('Man-mode-map
    "q" #'kill-buffer-and-frame)
+  ('motion
+   'Man-mode-map
+   "<backspace>" 'evil-ex-nohighlight)
   :gfhook
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
