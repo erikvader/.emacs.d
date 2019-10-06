@@ -1,5 +1,8 @@
 
 (use-package org
+  :defer t
+  :init
+  (eriks/evil-set-initial-state 'org-mode 'normal)
   :custom
   (org-blank-before-new-entry '((heading) (plain-list-item)))
   (org-edit-src-content-indentation 0)

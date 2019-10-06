@@ -15,10 +15,6 @@
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
-  (evil-emacs-state-modes nil)
-  (evil-motion-state-modes '(Man-mode help-mode ess-r-help-mode))
-  (evil-insert-state-modes nil)
-  (evil-normal-state-modes '(prog-mode org-mode conf-mode latex-mode))
   :general
   ('(normal visual)
    "M-u" 'universal-argument)
@@ -62,6 +58,12 @@
    "Q" 'kmacro-set-counter)
   :config
   (evil-mode 1)
+  ;; Doesn't work to set these in :custom, They overwrite later calls
+  ;; to `evil-set-initial-state' for some reason.
+  (setq evil-emacs-state-modes nil
+        evil-motion-state-modes '(help-mode)
+        evil-insert-state-modes nil
+        evil-normal-state-modes '(prog-mode conf-mode))
   (defmacro eriks/evil-define-inner-local-textobject (key func)
     "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
     `(progn

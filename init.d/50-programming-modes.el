@@ -96,6 +96,8 @@
 
 (use-package man
   :defer t
+  :init
+  (eriks/evil-set-initial-state 'Man-mode 'motion)
   :general
   ('Man-mode-map
    "q" #'kill-buffer-and-frame)
@@ -121,6 +123,8 @@
 (use-package ess
   :ensure t
   :defer t
+  :init
+  (eriks/evil-set-initial-state 'ess-r-help-mode 'motion)
   :custom
   (ess-help-own-frame t)
   (ess-use-ido nil)

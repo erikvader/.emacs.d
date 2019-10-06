@@ -69,3 +69,9 @@ mode."
      (unless (equal (pkg-info-package-version ,package) ,version)
        (eriks/init-warn "\"%s\" got updated and hotfix maybe no longer applies" ,package))
      ,@body))
+
+(defun eriks/evil-set-initial-state (mode state)
+  "Runs `evil-set-initial-state' if it exists, i.e. evil is loaded."
+  (when (functionp 'evil-set-initial-state)
+    (evil-set-initial-state mode state)))
+

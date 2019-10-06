@@ -3,6 +3,8 @@
   :defer t
   :config
   (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "Zathura")
+  :init
+  (eriks/evil-set-initial-state 'latex-mode 'normal)
   :custom
   (LaTeX-item-indent 0)
   :general
