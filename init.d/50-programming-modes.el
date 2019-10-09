@@ -128,7 +128,12 @@
   :defer t
   :init
   (eriks/evil-set-initial-state 'ess-r-help-mode 'motion)
+  :general
+  ('inferior-ess-r-mode-map
+   "C-d" nil
+   [remap comint-send-input] 'inferior-ess-send-input)
   :custom
+  (ess-ask-for-ess-directory nil)
   (ess-help-own-frame t)
   (ess-use-ido nil)
   (ess-use-flymake nil)
@@ -148,4 +153,8 @@
   ('motion
    'comint-mode-map
    "G" 'end-of-buffer
-   "^" 'comint-bol))
+   "^" 'comint-bol)
+  ('insert
+   'comint-mode-map
+   "<up>" 'comint-previous-input
+   "<down>" 'comint-next-input))
