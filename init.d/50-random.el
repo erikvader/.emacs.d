@@ -78,3 +78,16 @@
   :defer t
   :general
   ("C-x C-b" 'ibuffer))
+
+(use-package dumb-jump
+  :ensure t
+  :defer t
+  :custom
+  (dumb-jump-selector 'ivy)
+  :config
+  (advice-add 'dumb-jump-go :before (cl-defun eriks/dumb-jump-go-evil-advice (&rest r)
+                                      (evil-set-jump)))
+  :general
+  ('normal
+   "gd" 'dumb-jump-go
+   "gD" 'dumb-jump-quick-look))
