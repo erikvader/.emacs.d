@@ -18,7 +18,8 @@
   :defer t
   :custom
   (c-basic-offset 3)
-  (c-offsets-alist '((inlambda . 0))) ;; indent lambda body to the left
+  (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
+                     (cpp-macro . 0))) ;; indent macro normally
   (c-default-style '((java-mode . "java")
                      (awk-mode . "awk")
                      (other . "linux")))
