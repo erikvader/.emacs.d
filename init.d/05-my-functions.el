@@ -2,13 +2,23 @@
   "Executes BODY while forcing `switch-to-buffer-other-window' and
 `display-buffer' to always open in the current window, if possible
 (see `switch-to-buffer' and its last argument FORCE-SAME-WINDOW
-when set to nil)."
-  `(cl-letf (((symbol-function 'switch-to-buffer-other-window)
-              (lambda (BUFFER-OR-NAME &rest args)
-                (switch-to-buffer BUFFER-OR-NAME)))
-             ((symbol-function 'display-buffer)
-              (lambda (BUFFER-OR-NAME &rest args)
-                (get-buffer-window (switch-to-buffer BUFFER-OR-NAME)))))
+when set to nil). This also makes the window created to close it's
+frame when `quit-window':ed depending on `frame-auto-hide-function'
+and other stuff."
+  `(cl-letf* ((org-switch-to-buffer (symbol-function 'switch-to-buffer))
+              ((symbol-function 'switch-to-buffer)
+               (lambda (buffer-or-name &rest args)
+                 (let* ((buf (apply org-switch-to-buffer buffer-or-name args))
+                        (win (get-buffer-window buf)))
+                   (display-buffer-record-window 'frame win buf)
+                   (set-window-prev-buffers win nil)
+                   buf)))
+              ((symbol-function 'switch-to-buffer-other-window)
+               (lambda (buffer-or-name &rest args)
+                 (switch-to-buffer buffer-or-name)))
+              ((symbol-function 'display-buffer)
+               (lambda (buffer-or-name &rest args)
+                 (get-buffer-window (switch-to-buffer buffer-or-name)))))
      ,@BODY))
 
 (defmacro eriks/unset-key (keymap key)

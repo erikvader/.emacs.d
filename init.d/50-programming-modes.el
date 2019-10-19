@@ -100,8 +100,6 @@
   :init
   (eriks/evil-set-initial-state 'Man-mode 'motion)
   :general
-  ('Man-mode-map
-   "q" #'kill-buffer-and-frame)
   ('motion
    'Man-mode-map
    "f" 'man-follow
