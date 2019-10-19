@@ -104,6 +104,10 @@
    "q" #'kill-buffer-and-frame)
   ('motion
    'Man-mode-map
+   "f" 'man-follow
+   "C-n" 'Man-next-section
+   "C-p" 'Man-previous-section
+   "s" 'Man-goto-section
    "<backspace>" 'evil-ex-nohighlight)
   :gfhook
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
