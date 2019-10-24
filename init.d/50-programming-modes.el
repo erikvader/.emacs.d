@@ -134,6 +134,7 @@
   :general
   ('inferior-ess-r-mode-map
    "C-d" nil
+   "C-y" nil
    [remap comint-send-input] 'inferior-ess-send-input)
   :custom
   (ess-ask-for-ess-directory nil)
