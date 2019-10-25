@@ -8,7 +8,8 @@
    :prefix eriks/leader
    :infix "g"
    "s" 'magit-status
-   "b" 'magit-blame)
+   "b" 'magit-blame
+   "f" 'magit-find-file)
   :config
   (add-to-list 'evil-buffer-regexps
                '("^COMMIT_EDITMSG$" . insert))
