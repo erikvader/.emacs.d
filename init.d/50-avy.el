@@ -3,7 +3,7 @@
   :custom
   (avy-keys '(?h ?g ?j ?f ?k ?d ?l ?s))
   (avy-timeout-seconds nil) ;; no timeout ("infinite" timeout)
-  (avy-all-windows 'all-frames)
+  (avy-all-windows nil)
   (avy-background t)
   (avy-highlight-first nil)
   (avy-style 'at-full)
@@ -39,14 +39,17 @@
    "f" #'evilem-motion-find-char
    "F" #'evilem-motion-find-char-backward
    "j" #'evilem-motion-next-line
-   "k" #'evilem-motion-previous-line))
+   "k" #'evilem-motion-previous-line)
+  ('motion
+   "t" #'evilem-motion-find-char-to-inline
+   "T" #'evilem-motion-find-char-to-backward-inline
+   "f" #'evilem-motion-find-char-inline
+   "F" #'evilem-motion-find-char-backward-inline))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)
   :general
   ('motion
-   "." 'evil-eriks/avy-goto-char-in-line-exclusive
-   "," 'avy-goto-char-in-line
    "+" 'evil-eriks/avy-goto-line-first-non-blank)
   ('motion
    :prefix eriks/leader
