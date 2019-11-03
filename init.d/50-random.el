@@ -23,39 +23,6 @@
   :custom
   (projectile-completion-system 'ivy))
 
-(use-package frames-only-mode
-  :ensure t
-  :config
-  (frames-only-mode 1)
-  (defun kill-buffer-and-frame ()
-    "Kills the current buffer, if successful then delete the frame."
-    (interactive)
-    (when (and
-           (buffer-modified-p)
-           (y-or-n-p "Current buffer is modified, save?"))
-      (save-buffer))
-    (when (kill-buffer)
-      (delete-frame)))
-  :custom
-  (frames-only-mode-use-window-functions
-   '(calendar
-     report-emacs-bug
-     checkdoc-show-diagnostics
-     checkdoc
-     undo-tree-visualize ;; undo-tree moves focus between frames on every action
-     Custom-newline ;; customize actions window
-     ))
-  (frames-only-mode-kill-frame-when-buffer-killed-buffer-list
-   '("*RefTeX Select*"
-     "*Help*"
-     "*Popup Help*"
-     "*Completions*"
-     "widget-choose" ;; actually close customize's action window
-     ))
-  (frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops nil)
-  :general
-  ("C-x C-0" 'kill-buffer-and-frame))
-
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode

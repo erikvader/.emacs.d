@@ -2,6 +2,10 @@
   :ensure t
   :init
   (defconst eriks/leader "SPC" "My leader key for evil")
+  (defun eriks/evil-set-initial-state (mode state)
+    "Runs `evil-set-initial-state' if evil is loaded"
+    (when (featurep 'evil)
+      (evil-set-initial-state mode state)))
   :custom
   (evil-emacs-state-cursor '(hollow))
   (evil-cross-lines t)
@@ -93,6 +97,7 @@
   (undo-tree-enable-undo-in-region nil)
   :config
   (global-undo-tree-mode 1)
+  (eriks/frames-only-use-window-funcs 'undo-tree-visualize) ;; undo-tree moves focus between frames on every action
   :general
   ('normal
    "U" 'undo-tree-redo)
