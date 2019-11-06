@@ -50,7 +50,8 @@
   :after (:and avy evil evil-easymotion)
   :general
   ('motion
-   "+" 'evil-eriks/avy-goto-line-first-non-blank)
+   "+" 'evil-eriks/avy-goto-line-first-non-blank
+   "," 'avy-goto-char-in-line)
   ('motion
    :prefix eriks/leader
    "SPC" 'avy-goto-char-timer
