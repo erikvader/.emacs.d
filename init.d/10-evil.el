@@ -130,7 +130,8 @@
   ('normal
    "S" 'eriks/evil-open-line
    "<return>" 'eriks/evil-open-line-below
-   "S-<return>" 'eriks/evil-open-line-above)
+   "S-<return>" 'eriks/evil-open-line-above
+   "go" 'eriks/evil-open-below-comment)
   ('(normal visual)
    "gJ" 'eriks/evil-join-no-space
    "J"  'eriks/evil-join-no-comment

@@ -69,6 +69,17 @@ instead (splits, adds comment chars and indents)."
     (end-of-line)
     (newline ARG)))
 
+(defun eriks/evil-open-below-comment ()
+  "Pretty much the same as `evil-open-below' except that this
+continues a comment if we are in one"
+  (interactive)
+  (unless (eq evil-want-fine-undo t)
+    (evil-start-undo-step))
+  (push (point) buffer-undo-list)
+  (end-of-line)
+  (comment-indent-new-line)
+  (evil-insert-state 1))
+
 (defmacro eriks/evil--join-template (name doc &rest body)
   "Creates an evil operator named 'eriks/evil-join-{name}' that runs
 BODY after each line is joined.
