@@ -58,3 +58,9 @@
   ('normal
    "gd" 'dumb-jump-go
    "gD" 'dumb-jump-quick-look))
+
+(use-package eriks-random-stuff
+  :general
+  ('normal
+   :prefix eriks/leader
+   "o" 'eriks/spawn-external-terminal))
