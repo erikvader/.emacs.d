@@ -37,7 +37,9 @@
    "<backspace>" 'evil-ex-nohighlight)
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
-   "SPC" nil)
+   "SPC" nil
+   "M-e" 'evil-forward-sentence-begin
+   "M-a" 'evil-backward-sentence-begin)
   (evil-ex-completion-map
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
@@ -56,7 +58,8 @@
   ('normal
    :prefix eriks/leader
    "q" 'kmacro-insert-counter
-   "Q" 'kmacro-set-counter)
+   "Q" 'kmacro-set-counter
+   "&" 'evil-ex-repeat-substitute-with-flags)
   :config
   (evil-mode 1)
   ;; Doesn't work to set these in :custom, They overwrite later calls
