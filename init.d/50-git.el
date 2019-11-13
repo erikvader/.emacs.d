@@ -42,6 +42,7 @@
   (git-gutter-fr+-side 'right-fringe)
   :config
   (global-git-gutter+-mode 1)
+  (eriks/frames-only-use-window-funcs 'git-gutter+-revert-hunk)
   :general
   ('normal
    :prefix eriks/leader
