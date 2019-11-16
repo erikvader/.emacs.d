@@ -68,6 +68,12 @@
          (when (featurep 'evil)
            (setq-local evil-shift-width python-indent-offset)))))
 
+(use-package pyvenv
+  :ensure t
+  :after python
+  :config
+  (pyvenv-mode 1))
+
 (use-package highlight-indent-guides
   :defer t
   :ensure t
