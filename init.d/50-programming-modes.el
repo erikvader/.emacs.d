@@ -72,6 +72,8 @@
   :ensure t
   :after python
   :config
+  ;; needed for this to work in eshell
+  (setq eshell-modify-global-environment t)
   (pyvenv-mode 1))
 
 (use-package highlight-indent-guides
