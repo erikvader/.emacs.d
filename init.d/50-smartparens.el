@@ -2,21 +2,21 @@
   :ensure t
   :after evil
   :diminish
+  :after-config-hook t
   :config
   (require 'smartparens-config)
-  (defun eriks/create-newline-and-enter-sexp (&rest _ignored)
+  (defun eriks/create--newline-and-enter-sexp (&rest _ignored)
     "Open a new brace or bracket expression, with relevant newlines and indentation."
     (newline)
     (indent-according-to-mode)
     (forward-line -1)
     (indent-according-to-mode))
-  (sp-local-pair
-   '(c-mode java-mode css-mode js-mode rust-mode ess-r-mode c++-mode)
-   "{" nil :post-handlers '((eriks/create-newline-and-enter-sexp "RET")))
-  (sp-local-pair
-   '(js-mode)
-   "[" nil :post-handlers '((eriks/create-newline-and-enter-sexp "RET")))
-  (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))
+  (defun eriks/sp-open-on (paren modes)
+    "Makes all delimeter openers in paren \"open\" after enter has been pressed."
+    (when (stringp paren)
+      (setq paren (list paren)))
+    (dolist (i paren)
+      (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")))))
   :ghook ('prog-mode-hook '(show-smartparens-mode smartparens-mode))
   :custom
   (sp-autodelete-closing-pair nil)

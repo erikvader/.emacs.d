@@ -50,8 +50,10 @@
 (use-package ivy-xref
   :ensure t
   :after ivy
+  :after-config
+  ('frames-only-mode
+   (eriks/frames-only-use-window-funcs 'ivy-xref-show-xrefs)) ;; spawns a buffer that is immediately closed
   :config
-  (eriks/frames-only-use-window-funcs 'ivy-xref-show-xrefs) ;; spawns a buffer that is immediately closed
   (if (< emacs-major-version 27)
       (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
     (setq xref-show-definitions-function #'ivy-xref-show-defs)))

@@ -16,6 +16,9 @@
 
 (use-package cc-mode
   :defer t
+  :after-config
+  ('smartparens
+   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode)))
   :custom
   (c-basic-offset 3)
   (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
@@ -105,8 +108,9 @@
 
 (use-package man
   :defer t
-  :init
-  (eriks/evil-set-initial-state 'Man-mode 'motion)
+  :after-config
+  ('evil
+   (evil-set-initial-state 'Man-mode 'motion))
   :general
   ('motion
    'Man-mode-map
@@ -122,6 +126,9 @@
 (use-package rust-mode
   :ensure t
   :defer t
+  :after-config
+  ('smartparens
+   (eriks/sp-open-on "{" 'rust-mode))
   :custom
   (rust-indent-offset 3))
 
@@ -137,8 +144,11 @@
 (use-package ess
   :ensure t
   :defer t
-  :init
-  (eriks/evil-set-initial-state 'ess-r-help-mode 'motion)
+  :after-config
+  ('evil
+   (evil-set-initial-state 'ess-r-help-mode 'motion))
+  ('smartparens
+   (eriks/sp-open-on "{" 'ess-r-mode))
   :general
   ('inferior-ess-r-mode-map
    "C-d" nil
@@ -154,8 +164,9 @@
 
 (use-package comint
   :defer t
-  :init
-  (eriks/evil-set-initial-state 'comint-mode 'normal)
+  :after-config
+  ('evil
+   (evil-set-initial-state 'comint-mode 'normal))
   :general
   ('normal
    'comint-mode-map
@@ -170,3 +181,13 @@
    'comint-mode-map
    "<up>" 'comint-previous-input
    "<down>" 'comint-next-input))
+
+(use-package m4-mode
+  :after-config
+  ('smartparens
+   (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))))
+
+(use-package js
+  :after-config
+  ('smartparens
+   (eriks/sp-open-on '("[" "{") 'js-mode)))
