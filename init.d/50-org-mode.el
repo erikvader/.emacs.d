@@ -1,6 +1,5 @@
 
 (use-package org
-  :defer t
   :after-config
   ('evil
    (evil-set-initial-state 'org-mode 'normal))
