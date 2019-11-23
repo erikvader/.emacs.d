@@ -12,7 +12,7 @@ function would fix it to \"Awesome\"."
       (user-error "Not inside a word"))
     (save-excursion
       (goto-char (car bound))
-      (while (search-forward-regexp "[[:upper:]]\\([[:upper:]]\\)+" (cdr bound) t)
+      (while (search-forward-regexp "[[:upper:]]+\\([[:upper:]]\\)" (cdr bound) t)
         (setq beg (match-beginning 1)
               end (match-end 1)))
       (when (and beg end)
