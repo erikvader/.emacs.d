@@ -114,8 +114,15 @@
   ('(normal visual)
    "M-k" 'drag-stuff-up
    "M-j" 'drag-stuff-down
-   "M-h" 'drag-stuff-left
-   "M-l" 'drag-stuff-right))
+   "M-b" 'drag-stuff-left
+   "M-f" 'drag-stuff-right))
+
+(use-package eriks-evil-drag-line
+  :after evil
+  :general
+  ('(normal visual)
+   "M-h" 'eriks/evil-drag-line-left
+   "M-l" 'eriks/evil-drag-line-right))
 
 (use-package evil-args
   :ensure t
