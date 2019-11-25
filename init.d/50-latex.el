@@ -9,6 +9,8 @@
   :after-config
   ('evil
    (evil-set-initial-state 'latex-mode 'normal))
+  ('frames-only-mode
+   (eriks/frames-only-use-window-funcs 'TeX-next-error))
   :custom
   (LaTeX-item-indent 0)
   :general
