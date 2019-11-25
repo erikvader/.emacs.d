@@ -232,7 +232,7 @@
 (use-package eriks-fix-last-shift-mistake
   :after evil
   :general
-  ('insert
+  ('(insert normal)
    "M-c" 'eriks/fix-last-shift-mistake))
 
 (use-package evil-lion
