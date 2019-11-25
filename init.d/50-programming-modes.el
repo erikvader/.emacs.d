@@ -19,6 +19,9 @@
   :after-config
   ('smartparens
    (eriks/sp-open-on "{" '(c-mode java-mode c++-mode)))
+  ('flycheck
+   (eriks/flycheck-add c-mode-hook (flycheck-mode 1))
+   (eriks/flycheck-add c++-mode-hook (flycheck-mode 1)))
   :custom
   (c-basic-offset 3)
   (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
@@ -33,21 +36,12 @@
                          (abbrev-mode -1))))
 
 (use-package flycheck
-  :defer t
   :ensure t
-  :custom
-  (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
-  :ghook
-  'c-mode-hook
-  'c++-mode-hook
-  'sh-mode-hook
-  :gfhook
-  ('python-mode-hook (cl-defun python-flycheck-hook-fun ()
-                       (flycheck-mode 1)
-                       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
-  ('haskell-mode-hook (cl-defun haskell-flycheck-hook-fun ()
-                        (flycheck-mode 1)
-                        (flycheck-select-checker 'haskell-hlint))))
+  :after-config-hook t
+  :config
+  (defmacro eriks/flycheck-add (hook &rest body)
+    (let ((fun-name (intern (concat "flycheck-" (symbol-name hook) "-fun"))))
+      `(add-hook (quote ,hook) (cl-defun ,fun-name () ,@body)))))
 
 (use-package sgml-mode
   :defer t
@@ -64,6 +58,12 @@
 
 (use-package python
   :defer t
+  :after-config
+  ('flycheck
+   (customize-set-variable 'flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
+   (eriks/flycheck-add python-mode-hook
+                       (flycheck-mode 1)
+                       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
   :custom
   (python-indent-offset 3)
   :gfhook
@@ -93,12 +93,20 @@
 
 (use-package sh-mode
   :defer t
+  :after-config
+  ('flycheck
+   (eriks/flycheck-add sh-mode-hook (flycheck-mode 1)))
   :config
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
 
 (use-package haskell-mode
   :defer t
   :ensure t
+  :after-config
+  ('flycheck
+   (eriks/flycheck-add haskell-mode-hook
+                       (flycheck-mode 1)
+                       (flycheck-select-checker 'haskell-hlint)))
   :gfhook #'haskell-doc-mode)
 
 (use-package diff-mode
@@ -136,10 +144,11 @@
   :ensure t
   :defer t
   :after (:and rust-mode flycheck)
-  :gfhook
-  ('rust-mode-hook (cl-defun rust-flycheck-hook-fun ()
-                     (flycheck-mode 1)
-                     (flycheck-rust-setup))))
+  :after-config
+  ('flycheck
+   (eriks/flycheck-add rust-mode-hook
+                       (flycheck-mode 1)
+                       (flycheck-rust-setup))))
 
 (use-package ess
   :ensure t
