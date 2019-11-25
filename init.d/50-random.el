@@ -65,6 +65,40 @@
    :prefix eriks/leader
    "o" 'eriks/spawn-external-terminal))
 
+(use-package pdf-tools
+  :ensure t
+  :after-config
+  ('evil
+   (evil-set-initial-state 'pdf-view-mode 'emacs))
+  :custom
+  (pdf-view-display-size 'fit-page)
+  :config
+  (pdf-tools-install :no-query-p t)
+  :general
+  ('pdf-view-mode-map
+   [remap swiper] 'isearch-forward
+   "C-s" 'isearch-forward
+   "/" 'isearch-forward
+   "i" 'pdf-occur
+   "q" 'image-kill-buffer
+   "w" 'pdf-view-fit-page-to-window
+   "W" 'pdf-view-fit-width-to-window
+   "j" 'pdf-view-next-line-or-next-page
+   "k" 'pdf-view-previous-line-or-previous-page
+   "." 'pdf-view-next-page-command
+   "," 'pdf-view-previous-page-command
+   "H" 'image-bob
+   "L" 'image-eob
+   "y" 'pdf-view-kill-ring-save
+   "g" 'pdf-view-goto-page
+   "n" 'pdf-history-forward
+   "p" 'pdf-history-backward)
+  ('pdf-links-minor-mode-map
+   "f" 'pdf-links-action-perform
+   "F" 'pdf-links-isearch-link)
+  ('isearch-mode-map
+   "<escape>" 'isearch-abort))
+
 (use-package frames-only-mode
   :ensure t
   :after-config-hook t

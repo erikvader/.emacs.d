@@ -5,7 +5,7 @@
   ('flycheck
    (eriks/flycheck-add LaTeX-mode-hook (flycheck-mode 1)))
   :config
-  (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "Zathura")
+  (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
   :after-config
   ('evil
    (evil-set-initial-state 'latex-mode 'normal))
@@ -15,6 +15,7 @@
   ('LaTeX-mode-map
    "C-c e" 'TeX-error-overview)
   :gfhook
+  ('TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
   ('LaTeX-mode-hook `(TeX-source-correlate-mode
                       ,(cl-defun latex-restore-paragraphs-hook ()
                          (dolist (i '(paragraph-start paragraph-separate))
