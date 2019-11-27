@@ -22,6 +22,10 @@
 
 (use-package evil-easymotion
   :after (:and evil avy)
+  :config
+  (defmacro eriks/bind-in-macro (normal-command in-macro-command)
+    `(general-predicate-dispatch ,normal-command
+       (or defining-kbd-macro executing-kbd-macro) ,in-macro-command))
   :general
   ('operator
    "J" 'evilem-motion-next-line-first-non-blank
@@ -39,7 +43,12 @@
    "f" #'evilem-motion-find-char
    "F" #'evilem-motion-find-char-backward
    "j" #'evilem-motion-next-line
-   "k" #'evilem-motion-previous-line))
+   "k" #'evilem-motion-previous-line)
+  ('motion
+   "t" (eriks/bind-in-macro 'evilem-motion-find-char-to-inline 'evil-find-char-to)
+   "T" (eriks/bind-in-macro 'evilem-motion-find-char-to-backward-inline 'evil-find-char-to-backward)
+   "f" (eriks/bind-in-macro 'evilem-motion-find-char-inline 'evil-find-char)
+   "F" (eriks/bind-in-macro 'evilem-motion-find-char-backward-inline 'evil-find-char-backward)))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)
