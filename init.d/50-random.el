@@ -74,12 +74,16 @@
   (pdf-view-display-size 'fit-page)
   :config
   (pdf-tools-install :no-query-p t)
+  (defun eriks/pdf-goto-page (arg)
+    "Goto first page if no prefix argument, otherwise goto page ARG."
+    (interactive "p")
+    (pdf-view-goto-page arg))
   :general
   ('pdf-view-mode-map
    [remap swiper] 'isearch-forward
    "C-s" 'isearch-forward
    "/" 'isearch-forward
-   "i" 'pdf-occur
+   "O" 'pdf-occur
    "q" 'image-kill-buffer
    "w" 'pdf-view-fit-page-to-window
    "W" 'pdf-view-fit-width-to-window
@@ -90,9 +94,12 @@
    "H" 'image-bob
    "L" 'image-eob
    "y" 'pdf-view-kill-ring-save
-   "g" 'pdf-view-goto-page
+   "g" 'eriks/pdf-goto-page
+   "G" 'pdf-view-last-page
    "n" 'pdf-history-forward
-   "p" 'pdf-history-backward)
+   "p" 'pdf-history-backward
+   "C-o" 'pdf-history-backward
+   "C-i" 'pdf-history-forward)
   ('pdf-links-minor-mode-map
    "f" 'pdf-links-action-perform
    "F" 'pdf-links-isearch-link)
