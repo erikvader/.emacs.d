@@ -24,6 +24,22 @@
    :prefix eriks/leader
    "gt" 'git-timemachine))
 
+(use-package git-walktree
+  :ensure t
+  :config
+  (evil-set-initial-state 'git-walktree-mode 'emacs)
+  (defun eriks/git-walktree-show-commit ()
+    (interactive)
+    (magit-show-commit git-walktree-current-commitish))
+  :gfhook
+  ('git-walktree-blob-mode-hook 'eriks/force-emacs-initial-state)
+  :general
+  ('(git-walktree-mode-map git-walktree-blob-mode-map)
+   "c" 'eriks/git-walktree-show-commit)
+  ('normal
+   :prefix eriks/leader
+   "gT" 'git-walktree))
+
 (use-package what-the-commit
   :ensure t
   :general

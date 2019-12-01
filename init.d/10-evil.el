@@ -64,6 +64,14 @@
         evil-motion-state-modes '(help-mode)
         evil-insert-state-modes nil
         evil-normal-state-modes '(prog-mode conf-mode))
+  (defun eriks/force-emacs-initial-state ()
+    "A handy way to set initial state for a minor mode. The buffer's
+normal initial state is ignored."
+    (evil-emacs-state)
+    (setq-local evil-buffer-regexps nil)
+    (setq-local evil-motion-state-modes nil)
+    (setq-local evil-insert-state-modes nil)
+    (setq-local evil-normal-state-modes nil))
   (defmacro eriks/evil-define-inner-local-textobject (key func)
     "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
     `(progn
