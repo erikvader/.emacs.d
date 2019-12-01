@@ -53,3 +53,14 @@
    "j" 'git-gutter+-next-hunk
    "k" 'git-gutter+-previous-hunk
    "r" 'git-gutter+-revert-hunk))
+
+(use-package git-messenger
+  :ensure t
+  :custom
+  (git-messenger:use-magit-popup t)
+  (git-messenger:show-detail t)
+  :general
+  ('normal
+   :prefix eriks/leader
+   :infix "g"
+   "m" 'git-messenger:popup-message))
