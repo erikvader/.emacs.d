@@ -69,7 +69,7 @@
    `(ffap ((,class (:foreground ,fg4))))
    `(fringe ((,class (:background ,bg1 :foreground ,fg4))))
    `(highlight ((,class (:foreground ,fg3 :background ,bg3))))
-   `(hl-line ((t (:background "gray10"))))
+   `(hl-line ((t (:background "gray15"))))
    `(info-quoted-name ((,class (:foreground ,builtin))))
    `(info-string ((,class (:foreground ,str))))
    `(lazy-highlight ((,class (:foreground ,fg2 :background ,bg3))))
