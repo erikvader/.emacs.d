@@ -67,9 +67,6 @@
 
 (use-package pdf-tools
   :ensure t
-  :after-config
-  ('evil
-   (evil-set-initial-state 'pdf-view-mode 'emacs))
   :custom
   (pdf-view-display-size 'fit-page)
   :config
@@ -78,6 +75,7 @@
     "Goto first page if no prefix argument, otherwise goto page ARG."
     (interactive "p")
     (pdf-view-goto-page arg))
+  (evil-set-initial-state 'pdf-view-mode 'emacs)
   :general
   ('pdf-view-mode-map
    [remap swiper] 'isearch-forward

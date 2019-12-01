@@ -1,8 +1,6 @@
-
 (use-package org
-  :after-config
-  ('evil
-   (evil-set-initial-state 'org-mode 'normal))
+  :config
+  (evil-set-initial-state 'org-mode 'normal)
   :custom
   (org-blank-before-new-entry '((heading) (plain-list-item)))
   (org-edit-src-content-indentation 0)

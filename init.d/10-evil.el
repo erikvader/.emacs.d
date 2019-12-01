@@ -1,6 +1,5 @@
 (use-package evil
   :ensure t
-  :after-config-hook t
   :init
   (defconst eriks/leader "SPC" "My leader key for evil")
   :custom
@@ -78,7 +77,6 @@
 
 (use-package golden-ratio-scroll-screen
   :ensure t
-  :after evil
   :general
   ('motion
    "C-d" 'golden-ratio-scroll-screen-up
@@ -91,7 +89,6 @@
 
 (use-package undo-tree
   :ensure t
-  :after evil
   :diminish
   :custom
   (undo-tree-enable-undo-in-region nil)
@@ -109,7 +106,6 @@
 
 (use-package drag-stuff
   :ensure t
-  :after evil
   :general
   ('(normal visual)
    "M-k" 'drag-stuff-up
@@ -118,7 +114,6 @@
    "M-f" 'drag-stuff-right))
 
 (use-package eriks-evil-drag-line
-  :after evil
   :general
   ('(normal visual)
    "M-h" 'eriks/evil-drag-line-left
@@ -126,7 +121,6 @@
 
 (use-package evil-args
   :ensure t
-  :after evil
   :general
   ('inner
    "a" 'evil-inner-arg)
@@ -134,7 +128,6 @@
    "a" 'evil-outer-arg))
 
 (use-package eriks-evil-open-join-line
-  :after evil
   :general
   ('normal
    "S" 'eriks/evil-open-line
@@ -147,7 +140,6 @@
    "K"  'eriks/evil-join-no-comment-backward))
 
 (use-package eriks-evil-random
-  :after evil
   :config
   (advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
   :general
@@ -156,7 +148,6 @@
 
 (use-package evil-nerd-commenter
   :ensure t
-  :after evil
   :general
   ('normal
    "gc" 'evilnc-comment-operator
@@ -169,14 +160,12 @@
 (use-package evil-extra-operator
   ;; has an operator for highlighting too
   :ensure t
-  :after evil
   :general
   ('(normal visual)
    "gp" 'evil-operator-clone
    "gr" 'evil-operator-eval))
 
 (use-package evil-surround
-  :after evil
   :config
   (global-evil-surround-mode 1)
   :general
@@ -194,7 +183,6 @@
                       (add-to-list 'evil-surround-pairs-alist '(?m . latex-surround-env)))))
 
 (use-package eriks-evil-column-numbers
-  :after evil
   :general
   ('visual
    :prefix eriks/leader
@@ -205,25 +193,21 @@
    "i" 'eriks/evil-column-numbers-insert))
 
 (use-package eriks-delete-empty-parens
-  :after evil
   :general
   ('insert
    "C-s" 'eriks/delete-empty-parens))
 
 (use-package eriks-line-cleanup
-  :after evil
   :general
   ('(normal insert)
    "C-a" 'eriks/line-cleanup-dwim))
 
 (use-package evil-exchange
   :ensure t
-  :after evil
   :config
   (evil-exchange-install))
 
 (use-package eriks-evil-line-to
-  :after evil
   :general
   ('inner
    "l" 'eriks/evil-inside-line-text-object)
@@ -231,14 +215,12 @@
    "l" 'eriks/evil-outside-line-text-object))
 
 (use-package eriks-fix-last-shift-mistake
-  :after evil
   :general
   ('(insert normal)
    "M-c" 'eriks/fix-last-shift-mistake))
 
 (use-package evil-lion
   :ensure t
-  :after evil
   :general
   ('normal
    :prefix "g"
@@ -260,7 +242,6 @@
 
 (use-package eriks-evil-add-to-search-history
   :disabled
-  :after evil
   :general
   ('normal
    :prefix eriks/leader
@@ -268,7 +249,6 @@
 
 (use-package evil-multiedit
   :ensure t
-  :after evil
   :custom
   (evil-multiedit-follow-matches t)
   :general
@@ -287,7 +267,6 @@
    "R" 'evil-multiedit-match-all))
 
 (use-package eriks-evil-highlight
-  :after evil
   :general
   ('(normal visual)
    :prefix eriks/leader

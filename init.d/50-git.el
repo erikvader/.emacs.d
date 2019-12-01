@@ -1,6 +1,5 @@
 (use-package magit
   :ensure t
-  :after evil
   :custom
   (magit-bury-buffer-function 'magit-mode-quit-window)
   :general
@@ -17,7 +16,6 @@
 
 (use-package git-timemachine
   :ensure t
-  :after evil
   :config
   (add-to-list 'evil-buffer-regexps
                '("^timemachine:" . emacs))
@@ -28,7 +26,6 @@
 
 (use-package what-the-commit
   :ensure t
-  :after evil
   :general
   ('normal
    :prefix eriks/leader

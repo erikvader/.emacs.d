@@ -1,6 +1,5 @@
 (use-package smartparens
   :ensure t
-  :after evil
   :diminish
   :after-config-hook t
   :config

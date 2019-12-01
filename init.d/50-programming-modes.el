@@ -115,9 +115,6 @@
 
 (use-package man
   :defer t
-  :after-config
-  ('evil
-   (evil-set-initial-state 'Man-mode 'motion))
   :custom
   (Man-width 80)
   :general
@@ -131,6 +128,7 @@
    "<backspace>" 'evil-ex-nohighlight
    "U" 'eriks/Man-update-manpage)
   :config
+  (evil-set-initial-state 'Man-mode 'motion)
   (defun eriks/Man-update-manpage ()
     "Run `Man-update-manpage' but make sure it fills to window width
 by temporarily setting `Man-width' to nil."
@@ -163,9 +161,9 @@ by temporarily setting `Man-width' to nil."
 (use-package ess
   :ensure t
   :defer t
+  :config
+  (evil-set-initial-state 'ess-r-help-mode 'motion)
   :after-config
-  ('evil
-   (evil-set-initial-state 'ess-r-help-mode 'motion))
   ('smartparens
    (eriks/sp-open-on "{" 'ess-r-mode))
   :general
@@ -183,9 +181,8 @@ by temporarily setting `Man-width' to nil."
 
 (use-package comint
   :defer t
-  :after-config
-  ('evil
-   (evil-set-initial-state 'comint-mode 'normal))
+  :config
+  (evil-set-initial-state 'comint-mode 'normal)
   :general
   ('normal
    'comint-mode-map
