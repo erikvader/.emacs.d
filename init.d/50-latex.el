@@ -1,13 +1,12 @@
 (use-package tex-mode
   :ensure auctex
   :defer t
-  :after-config
-  ('flycheck
-   (eriks/flycheck-add LaTeX-mode-hook (flycheck-mode 1)))
   :config
   (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
   (evil-set-initial-state 'latex-mode 'normal)
   :after-config
+  ('flycheck
+   (eriks/flycheck-add LaTeX-mode-hook (flycheck-mode 1)))
   ('frames-only-mode
    (eriks/frames-only-use-window-funcs 'TeX-next-error))
   :custom

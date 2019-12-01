@@ -66,6 +66,9 @@
                        (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
   :custom
   (python-indent-offset 3)
+  :general
+  ('inferior-python-mode-map
+   "C-d" nil)
   :gfhook
   (nil (cl-defun python-evil-shift-hook-fun ()
          (when (featurep 'evil)
