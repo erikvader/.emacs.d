@@ -122,6 +122,7 @@
   :general
   ('motion
    'Man-mode-map
+   "q" 'quit-window-kill
    "f" 'man-follow
    "C-n" 'Man-next-section
    "C-p" 'Man-previous-section

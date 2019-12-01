@@ -1,25 +1,17 @@
-(defmacro same-buffer (&rest BODY)
-  "Executes BODY while forcing `switch-to-buffer-other-window' and
-`display-buffer' to always open in the current window, if possible
-(see `switch-to-buffer' and its last argument FORCE-SAME-WINDOW
-when set to nil). This also makes the window created to close it's
-frame when `quit-window':ed depending on `frame-auto-hide-function'
-and other stuff."
-  `(cl-letf* ((org-switch-to-buffer (symbol-function 'switch-to-buffer))
-              ((symbol-function 'switch-to-buffer)
-               (lambda (buffer-or-name &rest args)
-                 (let* ((buf (apply org-switch-to-buffer buffer-or-name args))
-                        (win (get-buffer-window buf)))
-                   (display-buffer-record-window 'frame win buf)
-                   (set-window-prev-buffers win nil)
-                   buf)))
-              ((symbol-function 'switch-to-buffer-other-window)
-               (lambda (buffer-or-name &rest args)
-                 (switch-to-buffer buffer-or-name)))
-              ((symbol-function 'display-buffer)
-               (lambda (buffer-or-name &rest args)
-                 (get-buffer-window (switch-to-buffer buffer-or-name)))))
-     ,@BODY))
+(defun quit-window-kill (&optional not-kill window)
+  "Same as `quit-window' except it's kill-argument has opposite meaning."
+  (interactive "P")
+  (quit-window (not not-kill) window))
+
+(defmacro popup-frame (&rest body)
+  "Runs BODY while displaying all new buffers in new separate frames
+instead."
+  `(let ((display-buffer-overriding-action '(display-buffer-pop-up-frame
+                                             ;; emacsclient gives error if no frames are open, saying that it doesn't
+                                             ;; know if a GUI frame or a terminal frame should be spawned.
+                                             ;; This forces it to use GUI frames in all cases (or something like that)
+                                             (pop-up-frame-parameters . ((window-system . x))))))
+     ,@body))
 
 (defmacro eriks/unset-key (keymap key)
   "Completely removes KEY from KEYMAP. Just binding it to nil still
