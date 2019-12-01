@@ -103,13 +103,29 @@
 
 (use-package haskell-mode
   :defer t
+  :diminish interactive-haskell-mode
   :ensure t
   :after-config
   ('flycheck
    (eriks/flycheck-add haskell-mode-hook
                        (flycheck-mode 1)
                        (flycheck-select-checker 'haskell-hlint)))
-  :gfhook #'haskell-doc-mode)
+  :gfhook
+  #'haskell-doc-mode
+  #'interactive-haskell-mode)
+
+(use-package haskell-interactive-mode
+  :defer t
+  :config
+  (evil-set-initial-state 'haskell-interactive-mode 'normal)
+  :general
+  ('normal
+   'haskell-interactive-mode-map
+   "C-k" 'haskell-interactive-mode-history-previous
+   "C-j" 'haskell-interactive-mode-history-next
+   "^" 'haskell-interactive-mode-bol
+   "G" "M-> ^"
+   "RET" 'haskell-interactive-mode-return))
 
 (use-package diff-mode
   :defer t
