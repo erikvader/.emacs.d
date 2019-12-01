@@ -148,9 +148,10 @@
 
 (use-package eriks-evil-random
   :after evil
+  :config
+  (advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
   :general
   ('normal
-   :prefix eriks/leader
    "g8" 'eriks/evil-what-cursor))
 
 (use-package evil-nerd-commenter

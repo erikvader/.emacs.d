@@ -6,7 +6,7 @@ character can be inserted (if possible) with `evil-insert-digraph'"
   (interactive "P")
   (message "")
   (what-cursor-position arg)
-  (let ((s (find
+  (let ((s (cl-find
             (following-char)
             (append evil-digraphs-table-user evil-digraphs-table)
             :key #'cdr)))
@@ -23,6 +23,5 @@ recorded register so that `evil-execute-macro' will believe that this
 macro was the last executed one."
   (when (and evil-this-macro defining-kbd-macro)
     (setq evil-last-register evil-this-macro)))
-(advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
 
 (provide 'eriks-evil-random)
