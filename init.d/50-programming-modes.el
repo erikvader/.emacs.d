@@ -125,7 +125,7 @@
    "C-j" 'haskell-interactive-mode-history-next
    "^" 'haskell-interactive-mode-bol
    "G" "M-> ^"
-   "RET" 'haskell-interactive-mode-return))
+   "<return>" 'haskell-interactive-mode-return))
 
 (use-package diff-mode
   :defer t
