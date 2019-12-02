@@ -165,17 +165,30 @@ by temporarily setting `Man-width' to nil."
   ('smartparens
    (eriks/sp-open-on "{" 'rust-mode))
   :custom
-  (rust-indent-offset 3))
+  (rust-indent-offset 3)
+  :gfhook
+  #'flycheck)
 
 (use-package flycheck-rust
   :ensure t
-  :defer t
-  :after (:and rust-mode flycheck)
+  :after rust-mode
   :after-config
   ('flycheck
    (eriks/flycheck-add rust-mode-hook
                        (flycheck-mode 1)
                        (flycheck-rust-setup))))
+
+(use-package racer
+  :ensure t
+  :after rust-mode
+  :general
+  ('normal
+   'racer-mode-map
+   "C-]" 'racer-find-definition) ;TODO: advice this for evil jump back
+  :gfhook
+  ;TODO: eldoc-mode??
+  ;; ('racer-mode-hook 'eldoc-mode)
+  ('rust-mode-hook 'racer-mode))
 
 (use-package ess
   :ensure t
