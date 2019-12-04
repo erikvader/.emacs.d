@@ -114,6 +114,16 @@
   #'haskell-doc-mode
   #'interactive-haskell-mode)
 
+(use-package hindent
+  :ensure t
+  :general
+  ('normal
+   'haskell-mode-map
+   "M-q" 'hindent-reformat-decl-or-fill)
+  ('visual
+   'haskell-mode-map
+   "M-q" 'hindent-reformat-region))
+
 (use-package haskell-interactive-mode
   :defer t
   :config
