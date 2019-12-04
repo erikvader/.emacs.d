@@ -3,14 +3,36 @@
   (interactive "P")
   (quit-window (not not-kill) window))
 
-(defmacro popup-frame (&rest body)
-  "Runs BODY while displaying all new buffers in new separate frames
-instead."
-  `(let ((display-buffer-overriding-action '(display-buffer-pop-up-frame
-                                             ;; emacsclient gives error if no frames are open, saying that it doesn't
-                                             ;; know if a GUI frame or a terminal frame should be spawned.
-                                             ;; This forces it to use GUI frames in all cases (or something like that)
-                                             (pop-up-frame-parameters . ((window-system . x))))))
+(defun eriks/display-buffer-same-window (buffer alist)
+  "A rule thingy for `display-buffer'. Run
+`display-buffer-same-window' but also mark the opened window to
+have spawned the frame by itself. This makes it play nice with
+`frames-only-mode' because spawned frames will close themselves
+when `quit-window' is run.
+
+See `same-buffer'."
+  (let ((w (display-buffer-same-window buffer alist)))
+    (when (windowp w)
+      (display-buffer-record-window 'frame w buffer)
+      (set-window-prev-buffers w nil))
+    w))
+
+(defmacro same-buffer (&rest body)
+  "Run BODY with `display-buffer-overriding-action' set to
+  `eriks/display-same-window'. In other words, this will run BODY and
+  open all new buffers in the same window. The purpose of this macro
+  is to have emacsclient play nicely with `frames-only-mode'.
+
+Example:
+  emacsclient -n -c -e '(same-buffer (find-file \"asd\"))'
+This will open a new frame visiting \"asd\". When the buffer is
+`quit-window':ed the spawned frame will close itself.
+
+One could also use `display-buffer-pop-up-frame' instead, but that
+will not allow for prompts like the too-large-file warning to work and
+it will not allow for `man' to know how wide it's window is."
+  `(let ((display-buffer-overriding-action '(eriks/display-buffer-same-window
+                                             (inhibit-same-window . nil))))
      ,@body))
 
 (defmacro eriks/unset-key (keymap key)
