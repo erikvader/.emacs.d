@@ -47,6 +47,9 @@ state bindings from evil and other things that can't be compared with `eq'.
 
 Key sequences with meta (\"M-a\") has to be rewritten as \"<ESC> a\"
 because they are stored like that in keymaps."
+  ;; TODO: maybe `map-keymap-internal' and `listify-key-sequence' can
+  ;; be helpful to improve this? Basically run a filter on all keys and
+  ;; only keep those that we want to keep.
   `(cl-labels ((remove-key (map keys)
                            (cond ((and (null keys)
                                        (not (keymapp map)))

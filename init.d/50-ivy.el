@@ -30,7 +30,8 @@
    [remap describe-bindings] nil
    [remap recentf-open-files] 'counsel-recentf
    "M-s" 'counsel-rg)
-  ('normal 'counsel-mode-map
+  ('normal
+   'counsel-mode-map
    :prefix eriks/leader
    "y" 'counsel-yank-pop)
   ('counsel-find-file-map
