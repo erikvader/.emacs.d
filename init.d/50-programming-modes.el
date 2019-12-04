@@ -144,8 +144,6 @@
 
 (use-package man
   :defer t
-  :custom
-  (Man-width 80)
   :general
   ('motion
    'Man-mode-map
@@ -154,16 +152,9 @@
    "C-n" 'Man-next-section
    "C-p" 'Man-previous-section
    "s" 'Man-goto-section
-   "<backspace>" 'evil-ex-nohighlight
-   "U" 'eriks/Man-update-manpage)
+   "<backspace>" 'evil-ex-nohighlight)
   :config
   (evil-set-initial-state 'Man-mode 'motion)
-  (defun eriks/Man-update-manpage ()
-    "Run `Man-update-manpage' but make sure it fills to window width
-by temporarily setting `Man-width' to nil."
-    (interactive)
-    (let ((Man-width nil))
-      (Man-update-manpage)))
   :gfhook
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
