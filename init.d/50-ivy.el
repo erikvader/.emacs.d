@@ -32,7 +32,9 @@
    "M-s" 'counsel-rg)
   ('normal 'counsel-mode-map
    :prefix eriks/leader
-   "y" 'counsel-yank-pop))
+   "y" 'counsel-yank-pop)
+  ('counsel-find-file-map
+   "<tab>" 'ivy-alt-done))
 
 (use-package swiper
   :ensure t
