@@ -217,6 +217,8 @@
   :config
   (evil-set-initial-state 'comint-mode 'normal)
   :general
+  ('comint-mode-map
+   "C-c C-k" 'comint-clear-buffer)
   ('normal
    'comint-mode-map
    "C-k" 'comint-previous-input
