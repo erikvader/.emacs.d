@@ -4,9 +4,8 @@
 (use-package cc-mode
   :disabled
   :defer t
-  :after-config
-  ('smartparens
-   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode)))
+  :config
+  (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
   :custom
   (c-basic-offset 3)
   (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
@@ -37,12 +36,6 @@
 (use-package python
   :disabled
   :defer t
-  ;; :after-config
-  ;; ('flycheck
-  ;;  (customize-set-variable 'flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
-  ;;  (eriks/flycheck-add python-mode-hook
-  ;;                      (flycheck-mode 1)
-  ;;                      (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
   :custom
   (python-indent-offset 3)
   :general
@@ -126,9 +119,8 @@
 (use-package rust-mode
   :ensure t
   :defer t
-  :after-config
-  ('smartparens
-   (eriks/sp-open-on "{" 'rust-mode))
+  :config
+  (eriks/sp-open-on "{" 'rust-mode)
   :custom
   (rust-indent-offset 3))
 
@@ -138,9 +130,7 @@
   :defer t
   :config
   (evil-set-initial-state 'ess-r-help-mode 'motion)
-  :after-config
-  ('smartparens
-   (eriks/sp-open-on "{" 'ess-r-mode))
+  (eriks/sp-open-on "{" 'ess-r-mode)
   :general
   ('inferior-ess-r-mode-map
    "C-d" nil
@@ -155,12 +145,10 @@
   (ess-style 'RStudio))
 
 (use-package m4-mode
-  :after-config
-  ('smartparens
-   (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))))
+  :config
+  (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate)))
 
 (use-package js
   :disabled
-  :after-config
-  ('smartparens
-   (eriks/sp-open-on '("[" "{") 'js-mode)))
+  :config
+  (eriks/sp-open-on '("[" "{") 'js-mode))

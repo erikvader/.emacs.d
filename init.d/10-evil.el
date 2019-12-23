@@ -97,23 +97,6 @@ normal initial state is ignored."
   ;;  [remap scroll-up-command]   'golden-ratio-scroll-screen-up)
   )
 
-(use-package undo-tree
-  :ensure t
-  :diminish
-  :custom
-  (undo-tree-enable-undo-in-region nil)
-  :after-config
-  ('frames-only-mode
-   (eriks/frames-only-use-window-funcs 'undo-tree-visualize)) ;; undo-tree moves focus between frames on every action
-  :config
-  (global-undo-tree-mode 1)
-  :general
-  ('normal
-   "U" 'undo-tree-redo)
-  ('normal
-   :prefix eriks/leader
-   "u" 'undo-tree-visualize))
-
 (use-package drag-stuff
   :ensure t
   :general

@@ -1,7 +1,6 @@
 (use-package smartparens
   :ensure t
   :diminish
-  :after-config-hook t
   :config
   (require 'smartparens-config)
   (defun eriks/create--newline-and-enter-sexp (&rest _ignored)

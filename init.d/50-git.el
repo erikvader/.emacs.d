@@ -53,11 +53,9 @@
   :diminish git-gutter+-mode
   :custom
   (git-gutter-fr+-side 'right-fringe)
-  :after-config
-  ('frames-only-mode
-   (eriks/frames-only-use-window-funcs 'git-gutter+-revert-hunk))
   :config
   (global-git-gutter+-mode 1)
+  (eriks/frames-only-use-window-funcs 'git-gutter+-revert-hunk)
   :general
   ('normal
    :prefix eriks/leader
