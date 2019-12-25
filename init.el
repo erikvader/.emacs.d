@@ -1,9 +1,6 @@
 ;; init package
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://melpa.org/packages/"))
-;; NOTE: workaround for elpa
-;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/etw48ux?utm_source=share&utm_medium=web2x
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (package-initialize)
 
 ;; facilities for checking how long ago it was since a
