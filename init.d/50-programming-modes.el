@@ -54,10 +54,10 @@
   ;; (setq eshell-modify-global-environment t)
   (pyvenv-mode 1))
 
-(use-package sh-mode
-  :disabled
+(use-package sh-script
   :defer t
   :config
+  (eriks/sp-open-on "{" 'sh-mode)
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
 
 (use-package haskell-mode
