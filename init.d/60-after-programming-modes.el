@@ -20,5 +20,5 @@
   'python-mode-hook
   'rust-mode-hook
   'sh-mode-hook
-  'haskell-mode
+  'haskell-mode-hook
   'LaTeX-mode-hook)
