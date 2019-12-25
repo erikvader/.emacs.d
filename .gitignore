@@ -16,3 +16,4 @@ session.*
 /eshell
 /bookmarks
 /.lsp-session*
+/.package-last-refresh

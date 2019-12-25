@@ -5,6 +5,36 @@
 ;; https://www.reddit.com/r/emacs/comments/cdei4p/failed_to_download_gnu_archive_bad_request/etw48ux?utm_source=share&utm_medium=web2x
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (package-initialize)
+
+;; facilities for checking how long ago it was since a
+;; `package-refresh-contents' was run
+(defvar eriks/package-last-refresh-file (concat user-emacs-directory ".package-last-refresh")
+  "File where the timestamp of when the last time `package-refresh-contents' was called.")
+
+(defun eriks/save-package-refresh (&rest _args)
+  "Saves that package contents were refreshed now."
+  (with-temp-file eriks/package-last-refresh-file
+    (insert (format-time-string "%s"))))
+
+(advice-add 'package-refresh-contents :before 'eriks/save-package-refresh)
+
+(defun eriks/refresh-package-p (days)
+  "Returns non-nil if it was atleast DAYS days since the last time
+package contents were last refreshed (`package-refresh-contents').
+
+If `eriks/package-last-refresh-file' doesn't exists, then is
+non-nil returned because it is assumed that a package refresh has
+never happened (DAYS is actually compared against 1970-01-01, so
+it should always be non-nil unless DAYS is really large)."
+  (let ((last-refresh (if (file-exists-p eriks/package-last-refresh-file)
+                          (with-temp-buffer
+                            (insert-file-contents eriks/package-last-refresh-file)
+                            (string-to-number (buffer-string)))
+                        0))
+        (now (string-to-number (format-time-string "%s"))))
+    (> now (+ last-refresh (* days 60 60 24)))))
+
+;; initialize `package-user-dir' if it doesn't exist
 (unless (file-exists-p package-user-dir)
   (package-refresh-contents))
 

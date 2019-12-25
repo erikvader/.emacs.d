@@ -89,10 +89,10 @@ mode."
     (require 'notifications)
     (notifications-notify :title "Emacs Warning" :body (apply #'format warn-args))))
 
-(defmacro eriks/hotfix (package version &rest body)
+(defmacro eriks/hotfix (package &rest body)
   "Executes BODY but warns using `eriks/init-warn' if the version of
   PACKAGE is not VERSION."
   `(progn
-     (unless (equal (pkg-info-package-version ,package) ,version)
+     (when (epl-package-outdated-p ,package)
        (eriks/init-warn "\"%s\" got updated and hotfix maybe no longer applies" ,package))
      ,@body))
