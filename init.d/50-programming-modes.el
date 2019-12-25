@@ -116,6 +116,12 @@
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
 
+(use-package make-mode
+  :defer t
+  :gfhook
+  ('makefile-mode-hook (cl-defun eriks/makefile-mode-tab-width-fun ()
+                         (setq-local tab-width 4))))
+
 (use-package rust-mode
   :ensure t
   :defer t
