@@ -5,9 +5,15 @@
   (lsp-enable-snippet nil)
   (lsp-enable-indentation nil)
   (lsp-enable-symbol-highlighting nil)
+  (lsp-keep-workspace-alive nil)
   :gfhook
   ('rust-mode-hook 'lsp) ;; rustup component add rls rust-analysis rust-src
-  ('python-mode-hook 'lsp) ;; pacman -S python-language-server python-pyflakes python-rope flake8 python-pycodestyle yapf python-pydocstyle
+  ('python-mode-hook 'lsp) ;; pacman -S python-language-server python-pyflakes python-pylint
+  :general
+  ('normal
+   'lsp-mode-map
+   :prefix eriks/leader
+   "a" 'lsp-execute-code-action)
   :config
   (defun lsp-toggle-highlighting ()
     "Toggles highlight.
@@ -50,6 +56,7 @@ source: https://github.com/emacs-lsp/lsp-mode/issues/214#discussion_r242426774"
   (lsp-ui-sideline-delay 1)
   :general
   ('normal
+   'lsp-ui-mode-map
    :prefix eriks/leader
    "d" 'lsp-ui-doc-glance))
 
