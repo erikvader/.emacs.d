@@ -1,5 +1,4 @@
 (use-package cc-mode
-  :disabled
   :defer t
   :config
   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
@@ -16,7 +15,6 @@
                          (abbrev-mode -1))))
 
 (use-package sgml-mode
-  :disabled
   :defer t
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
@@ -30,7 +28,6 @@
                      (define-key html-mode-map (kbd "/") nil))))
 
 (use-package python
-  :disabled
   :defer t
   :general
   ('inferior-python-mode-map
@@ -41,7 +38,6 @@
            (setq-local evil-shift-width python-indent-offset)))))
 
 (use-package pyvenv
-  :disabled
   :ensure t
   :config
   ;; needed for this to work in eshell
@@ -55,7 +51,6 @@
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
 
 (use-package haskell-mode
-  :disabled
   :defer t
   :diminish interactive-haskell-mode
   :ensure t
@@ -64,7 +59,6 @@
   #'interactive-haskell-mode)
 
 (use-package hindent
-  :disabled
   :ensure t
   :general
   ('normal
@@ -75,7 +69,6 @@
    "M-q" 'hindent-reformat-region))
 
 (use-package haskell-interactive-mode
-  :disabled
   :defer t
   :config
   (evil-set-initial-state 'haskell-interactive-mode 'normal)
@@ -123,7 +116,6 @@
   (eriks/sp-open-on "{" 'rust-mode))
 
 (use-package ess
-  :disabled
   :ensure t
   :defer t
   :config
@@ -147,6 +139,5 @@
   (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate)))
 
 (use-package js
-  :disabled
   :config
   (eriks/sp-open-on '("[" "{") 'js-mode))
