@@ -12,13 +12,12 @@
 
 (use-package flycheck
   :ensure t
-  :config
-  ;; (flycheck-select-checker 'haskell-hlint)
+  :gfhook
+  ('haskell-mode-hook (cl-defun eriks/haskell-select-hlint ()
+                        (flycheck-select-checker 'haskell-hlint)))
   :ghook
   'c-mode-hook
   'c++-mode-hook
-  'python-mode-hook
-  'rust-mode-hook
   'sh-mode-hook
   'haskell-mode-hook
   'LaTeX-mode-hook)
