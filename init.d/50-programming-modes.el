@@ -1,13 +1,9 @@
-;; general
-(setq-default standard-indent 3)
-
 (use-package cc-mode
   :disabled
   :defer t
   :config
   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
   :custom
-  (c-basic-offset 3)
   (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
                      (cpp-macro . 0))) ;; indent macro normally
   (c-default-style '((java-mode . "java")
@@ -36,8 +32,6 @@
 (use-package python
   :disabled
   :defer t
-  :custom
-  (python-indent-offset 3)
   :general
   ('inferior-python-mode-map
    "C-d" nil)
@@ -126,9 +120,7 @@
   :ensure t
   :defer t
   :config
-  (eriks/sp-open-on "{" 'rust-mode)
-  :custom
-  (rust-indent-offset 3))
+  (eriks/sp-open-on "{" 'rust-mode))
 
 (use-package ess
   :disabled

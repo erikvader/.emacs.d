@@ -53,3 +53,10 @@
   :config
   (global-eldoc-mode)
   :diminish eldoc-mode)
+
+;; python-mode already does this by itself
+(use-package dtrt-indent
+  :ensure t
+  :diminish
+  :config
+  (dtrt-indent-global-mode))

@@ -10,7 +10,6 @@
   (evil-move-beyond-eol t)
   (evil-move-cursor-back nil)
   (evil-search-module 'evil-search)
-  (evil-shift-width 3)
   (evil-want-C-d-scroll t)
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
