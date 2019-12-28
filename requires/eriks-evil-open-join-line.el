@@ -108,6 +108,14 @@ instead of the one below."
            (join-line ,(not backwards))
            ,@body)))))
 
+(defun eriks/evil--join-method-call ()
+  "If it looks like we have joined a method call, then remove the
+space between"
+  (when (save-excursion
+          (forward-char -1)
+          (looking-at "\\s) \\.\\sw"))
+    (delete-char 1)))
+
 (defun eriks/evil--join-remove-comment ()
   "If below line was a comment then remove the comment delimeters as
 specified in `comment-start-skip' and put one space between the
@@ -130,13 +138,15 @@ removes all space between."
  no-comment
  "This one removes comments defined in `comment-start-skip' and leaves
 space according to `fixup-whitespace'"
- (eriks/evil--join-remove-comment))
+ (eriks/evil--join-remove-comment)
+ (eriks/evil--join-method-call))
 
 (eriks/evil--join-template
  no-comment-backward
  "This one is the same as `eriks/evil-join-no-comment' except that
 this join the current line to the one above instead of below."
  :backwards
- (eriks/evil--join-remove-comment))
+ (eriks/evil--join-remove-comment)
+ (eriks/evil--join-method-call))
 
 (provide 'eriks-evil-open-join-line)
