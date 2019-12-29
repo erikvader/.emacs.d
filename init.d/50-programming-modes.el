@@ -31,11 +31,7 @@
   :defer t
   :general
   ('inferior-python-mode-map
-   "C-d" nil)
-  :gfhook
-  (nil (cl-defun python-evil-shift-hook-fun ()
-         (when (featurep 'evil)
-           (setq-local evil-shift-width python-indent-offset)))))
+   "C-d" nil))
 
 (use-package pyvenv
   :ensure t

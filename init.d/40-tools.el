@@ -55,6 +55,7 @@
   :diminish eldoc-mode)
 
 ;; python-mode already does this by itself
+;; `python-indent-guess-indent-offset'
 (use-package dtrt-indent
   :ensure t
   :diminish
