@@ -6,9 +6,9 @@
   (lsp-enable-indentation nil)
   (lsp-enable-symbol-highlighting nil)
   (lsp-keep-workspace-alive nil)
-  :gfhook
-  ('rust-mode-hook 'lsp) ;; rustup component add rls rust-analysis rust-src
-  ('python-mode-hook 'lsp) ;; pacman -S python-language-server python-pyflakes python-pylint
+  ;; :gfhook
+  ;; ('rust-mode-hook 'lsp) ;; rustup component add rls rust-analysis rust-src
+  ;; ('python-mode-hook 'lsp) ;; pacman -S python-language-server python-pyflakes python-pylint
   :general
   ('normal
    'lsp-mode-map

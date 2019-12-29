@@ -12,12 +12,19 @@
 
 (use-package flycheck
   :ensure t
+  :custom
+  (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
   :gfhook
-  ('haskell-mode-hook (cl-defun eriks/haskell-select-hlint ()
+  ('haskell-mode-hook (cl-defun eriks/flycheck-haskell-hook ()
+                        (flycheck-mode 1)
                         (flycheck-select-checker 'haskell-hlint)))
+  ('python-mode-hook (cl-defun eriks/flycheck-python-hook ()
+                       (flycheck-mode 1)
+                       (flycheck-select-checker 'python-pylint)
+                       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
   :ghook
   'c-mode-hook
   'c++-mode-hook
   'sh-mode-hook
-  'haskell-mode-hook
+  'rust-mode-hook
   'LaTeX-mode-hook)
