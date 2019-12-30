@@ -6,7 +6,9 @@
   (company-idle-delay nil)
   :general
   ('(insert normal)
-   "C-SPC" 'company-complete)
+   'company-mode-map
+   "C-SPC" 'company-complete
+   "C-S-SPC" 'company-other-backend)
   ('company-active-map
    "<escape>" 'company-abort
    "C-j" 'company-select-next
