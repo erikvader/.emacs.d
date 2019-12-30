@@ -60,6 +60,11 @@ source: https://github.com/emacs-lsp/lsp-mode/issues/214#discussion_r242426774"
    :prefix eriks/leader
    "d" 'lsp-ui-doc-glance))
 
+(use-package lsp-ui-sideline
+  :after flycheck
+  :gfhook
+  ('flycheck-mode-hook 'lsp-ui-sideline-mode))
+
 (use-package company-lsp
   :ensure t
   :after (:and company lsp-mode)
