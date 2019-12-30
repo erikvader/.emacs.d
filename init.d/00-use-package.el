@@ -17,11 +17,10 @@
   :ensure t
   :config
   (defun eriks/check-and-notify-updates ()
-    "Prints and notifies how many updates are available.
-Also removes itself from `package--post-download-archives-hook'"
-    (remove-hook 'package--post-download-archives-hook 'eriks/check-and-notify-updates)
-    (when-let ((out-pkgs (epl-outdated-packages)))
-      (let ((msg (format "There are %d updates available" (length out-pkgs))))
+    "Prints and notifies how many updates are available."
+    (let* ((out-pkgs (epl-outdated-packages))
+           (msg (format "There are %d updates available" (length out-pkgs))))
+      (when out-pkgs
         (message "%s" msg)
         (require 'notifications)
         (notifications-notify :title "Emacs Updates"
@@ -29,5 +28,5 @@ Also removes itself from `package--post-download-archives-hook'"
 
   (when (eriks/refresh-package-p 4)
     (message "%s" "refreshing package contents...")
-    (add-hook 'package--post-download-archives-hook 'eriks/check-and-notify-updates)
-    (package-refresh-contents t)))
+    (package-refresh-contents))
+  (eriks/check-and-notify-updates))
