@@ -26,5 +26,4 @@
   'c-mode-hook
   'c++-mode-hook
   'sh-mode-hook
-  'rust-mode-hook
   'LaTeX-mode-hook)
