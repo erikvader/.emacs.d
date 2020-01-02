@@ -26,4 +26,6 @@
   'c-mode-hook
   'c++-mode-hook
   'sh-mode-hook
+  'rjsx-mode-hook
+  'js-mode-hook
   'LaTeX-mode-hook)

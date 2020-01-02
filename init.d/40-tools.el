@@ -63,3 +63,8 @@
   :diminish
   :config
   (dtrt-indent-global-mode))
+
+(use-package add-node-modules-path
+  :ensure t
+  :config
+  (add-to-list 'safe-local-eval-forms '(add-node-modules-path)))

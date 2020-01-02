@@ -1,3 +1,6 @@
+(defun eriks/show-paren-alt-hook ()
+  (face-remap-set-base 'show-paren-match '(:underline t)))
+
 (use-package cc-mode
   :defer t
   :config
@@ -26,6 +29,12 @@
   ('html-mode-hook (cl-defun html-mode-hook-fun ()
                      (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
                      (define-key html-mode-map (kbd "/") nil))))
+
+(use-package mhtml-mode
+  :config
+  (add-to-list 'sp-navigate-consider-sgml-tags 'mhtml-mode)
+  :gfhook
+  'eriks/show-paren-alt-hook)
 
 (use-package python
   :defer t
@@ -137,3 +146,16 @@
 (use-package js
   :config
   (eriks/sp-open-on '("[" "{") 'js-mode))
+
+(use-package rjsx-mode
+  :ensure t
+  :custom
+  (js2-basic-offset 2)
+  :config
+  (add-to-list 'sp-navigate-consider-sgml-tags 'rjsx-mode)
+  :gfhook
+  'eriks/show-paren-alt-hook)
+
+(use-package css-mode
+  :config
+  (eriks/sp-open-on "{" 'css-mode))
