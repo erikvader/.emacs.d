@@ -6,9 +6,9 @@
   (lsp-enable-indentation nil)
   (lsp-enable-symbol-highlighting nil)
   (lsp-keep-workspace-alive nil)
-  ;; :gfhook
-  ;; ('rust-mode-hook 'lsp) ;; rustup component add rls rust-analysis rust-src
-  ;; ('python-mode-hook 'lsp) ;; pacman -S python-language-server python-pyflakes python-pylint
+  :gfhook
+  ('rust-mode-hook 'eriks/lsp-if-already-started) ;; rustup component add rls rust-analysis rust-src
+  ('python-mode-hook 'eriks/lsp-if-already-started) ;; pacman -S python-language-server python-pyflakes python-pylint
   :general
   ('normal
    'lsp-mode-map
@@ -38,7 +38,25 @@ source: https://github.com/emacs-lsp/lsp-mode/issues/214#discussion_r242426774"
         (lsp-signature)
       (lsp-hover)))
   (remove-hook 'lsp-eldoc-hook 'lsp-hover)
-  (add-hook 'lsp-eldoc-hook 'eriks/lsp-hover-or-signature-help))
+  (add-hook 'lsp-eldoc-hook 'eriks/lsp-hover-or-signature-help)
+
+  (defun eriks/lsp-if-already-started ()
+    "Runs `lsp' only if it would connect to an already running
+server on some workspace."
+    (interactive)
+    (when (buffer-file-name)
+      (let* ((session (lsp-session))
+             (sess-folder (lsp-find-session-folder session (buffer-file-name)))
+             (project-root (and sess-folder
+                                (lsp-cannonical-file-name sess-folder)))
+             (clients (lsp--find-clients)))
+        (when (and project-root
+                   (seq-some (lambda (client)
+                               ;;TODO: (lsp--find-multiroot-workspace session client project-root)
+                               ;; this wanted?? What is a multiroot workspace?
+                               (lsp--find-workspace session client project-root))
+                             clients))
+          (lsp))))))
 
 (use-package lsp-pyls
   :custom
