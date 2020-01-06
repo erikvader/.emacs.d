@@ -29,3 +29,10 @@
   'rjsx-mode-hook
   'js-mode-hook
   'LaTeX-mode-hook)
+
+(use-package flycheck-rust
+  :ensure t
+  :gfhook
+  ('rust-mode-hook (cl-defun eriks/flycheck-rust-hook ()
+                     (flycheck-mode 1)
+                     (flycheck-rust-setup))))
