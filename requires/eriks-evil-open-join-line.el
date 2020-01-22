@@ -110,10 +110,17 @@ instead of the one below."
 
 (defun eriks/evil--join-method-call ()
   "If it looks like we have joined a method call, then remove the
-space between"
-  (when (save-excursion
-          (forward-char -1)
-          (looking-at "\\s) \\.\\sw"))
+space between. This will only do something if we are in
+prog-mode, outside of comments and outside of strings."
+  (when (and (save-excursion
+               (forward-char -1)
+               (looking-at "\\(\\s)\\|\\sw\\) \\.\\sw"))
+             (derived-mode-p 'prog-mode)
+             (let ((syn (syntax-ppss)))
+               (and
+                (not (nth 3 syn)) ;; outside of string
+                (not (nth 4 syn)) ;; outside of comment
+                )))
     (delete-char 1)))
 
 (defun eriks/evil--join-remove-comment ()
