@@ -17,6 +17,8 @@
                          (dolist (i '(paragraph-start paragraph-separate))
                            (set i (default-value i))))
                       ,(cl-defun latex-run-prog-mode-hook ()
+                         ;TODO: do I want to do it this way?
+                         ; why not add all hooks I want run explicitly?
                          (run-hooks 'prog-mode-hook)))))
 
 (use-package auctex-latexmk

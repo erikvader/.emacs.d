@@ -19,9 +19,11 @@
                         (flycheck-mode 1)
                         (flycheck-select-checker 'haskell-hlint)))
   ('python-mode-hook (cl-defun eriks/flycheck-python-hook ()
-                       (flycheck-mode 1)
-                       (flycheck-select-checker 'python-pylint)
-                       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
+                       ;; don't mess up lsp settings for flycheck
+                       (unless lsp-mode
+                         (flycheck-mode 1)
+                         (flycheck-select-checker 'python-pylint)
+                         (setq-local flycheck-check-syntax-automatically '(save mode-enable)))))
   :ghook
   'c-mode-hook
   'c++-mode-hook
@@ -34,5 +36,7 @@
   :ensure t
   :gfhook
   ('rust-mode-hook (cl-defun eriks/flycheck-rust-hook ()
-                     (flycheck-mode 1)
-                     (flycheck-rust-setup))))
+                     ;; don't mess up lsp settings for flycheck
+                     (unless lsp-mode
+                       (flycheck-mode 1)
+                       (flycheck-rust-setup)))))
