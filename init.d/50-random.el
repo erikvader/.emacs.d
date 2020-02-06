@@ -87,6 +87,8 @@
    "W" 'pdf-view-fit-width-to-window
    "j" 'pdf-view-next-line-or-next-page
    "k" 'pdf-view-previous-line-or-previous-page
+   "h" 'image-backward-hscroll
+   "l" 'image-forward-hscroll
    "." 'pdf-view-next-page-command
    "," 'pdf-view-previous-page-command
    "H" 'image-bob
