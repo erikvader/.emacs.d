@@ -159,3 +159,6 @@
 (use-package css-mode
   :config
   (eriks/sp-open-on "{" 'css-mode))
+
+(use-package elixir-mode
+  :ensure t)

@@ -40,3 +40,8 @@
                      (unless lsp-mode
                        (flycheck-mode 1)
                        (flycheck-rust-setup)))))
+
+(use-package flycheck-elixir
+  :ensure t
+  :gfhook
+  ('elixir-mode-hook 'flycheck-mode))
