@@ -264,3 +264,8 @@ normal initial state is ignored."
    :prefix eriks/leader
    "h" 'eriks/evil-highlight
    "H" 'eriks/evil-unhighlight))
+
+(use-package evil-indent-plus
+  :ensure t
+  :config
+  (evil-indent-plus-default-bindings))
