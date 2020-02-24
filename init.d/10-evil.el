@@ -269,3 +269,9 @@ normal initial state is ignored."
   :ensure t
   :config
   (evil-indent-plus-default-bindings))
+
+(use-package eriks-evil-visual-shift
+  :general
+  ('visual
+   "<" 'eriks/evil-shift-left-visual
+   ">" 'eriks/evil-shift-right-visual))
