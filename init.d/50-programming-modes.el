@@ -6,6 +6,7 @@
   :config
   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
   :custom
+  (c-basic-offset 4)
   (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
                      (cpp-macro . 0))) ;; indent macro normally
   (c-default-style '((java-mode . "java")
