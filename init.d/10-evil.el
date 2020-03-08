@@ -275,3 +275,6 @@ normal initial state is ignored."
   ('visual
    "<" 'eriks/evil-shift-left-visual
    ">" 'eriks/evil-shift-right-visual))
+
+(use-package evil-collection
+  :ensure t)

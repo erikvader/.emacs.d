@@ -37,6 +37,8 @@
 
 (use-package ediff
   :defer t
+  :config
+  (evil-collection-ediff-setup)
   :custom
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
