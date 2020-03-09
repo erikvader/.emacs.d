@@ -68,3 +68,6 @@
   :ensure t
   :config
   (add-to-list 'safe-local-eval-forms '(add-node-modules-path)))
+
+(use-package hydra
+  :ensure t)
