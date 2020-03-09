@@ -77,6 +77,11 @@
     "Goto first page if no prefix argument, otherwise goto page ARG."
     (interactive "p")
     (pdf-view-goto-page arg))
+  (defun eriks/pdf-view-kill-ring-save-clipboard ()
+    "Runs `pdf-view-kill-ring-save' but save to system clipboard."
+    (interactive)
+    (let ((select-enable-clipboard t))
+      (pdf-view-kill-ring-save)))
   (evil-set-initial-state 'pdf-view-mode 'emacs)
   :general
   ('pdf-view-mode-map
@@ -95,7 +100,7 @@
    "," 'pdf-view-previous-page-command
    "H" 'image-bob
    "L" 'image-eob
-   "y" 'pdf-view-kill-ring-save
+   "y" 'eriks/pdf-view-kill-ring-save-clipboard
    "g" 'eriks/pdf-goto-page
    "G" 'pdf-view-last-page
    "n" 'pdf-history-forward
