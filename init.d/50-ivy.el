@@ -12,7 +12,8 @@
    "C-u" 'ivy-kill-line
    "C-w" 'ivy-backward-kill-word
    "C-b" 'ivy-scroll-down-command
-   "C-f" 'ivy-scroll-up-command)
+   "C-f" 'ivy-scroll-up-command
+   "TAB" 'ivy-alt-done)
   ('ivy-switch-buffer-map
    "<delete>" 'ivy-switch-buffer-kill)
   :custom
