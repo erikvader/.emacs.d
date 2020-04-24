@@ -96,3 +96,14 @@ mode."
      (when (epl-package-outdated-p ,package)
        (eriks/init-warn "\"%s\" got updated and hotfix maybe no longer applies" ,package))
      ,@body))
+
+;TODO: use sexp before point instead
+(defun eriks/eval-replace ()
+  "Evaluates the sexp at point and replaces it with the result."
+  (interactive)
+  (let ((b (bounds-of-thing-at-point 'sexp))
+        (buf (current-buffer)))
+    (when (and b buf)
+      (goto-char (car b))
+      (princ (eval (read buf)) buf)
+      (kill-region (car b) (cdr b)))))

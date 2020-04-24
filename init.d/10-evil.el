@@ -46,7 +46,8 @@
    "C-e" 'end-of-line)
   ('normal
    "<backspace>" 'evil-ex-nohighlight
-   "C-@" "@@")
+   "C-@" "@@"
+   "C-x M-e" 'eriks/eval-replace)
   ('(normal visual)
    ";" 'repeat
    "-" 'negative-argument)
@@ -54,7 +55,8 @@
    :prefix eriks/leader
    "q" 'kmacro-insert-counter
    "Q" 'kmacro-set-counter
-   "&" 'evil-ex-repeat-substitute-with-flags)
+   "&" 'evil-ex-repeat-substitute-with-flags
+   "i" 'browse-url-at-point)
   :config
   (evil-mode 1)
   ;; Doesn't work to set these in :custom, They overwrite later calls
