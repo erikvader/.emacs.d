@@ -27,3 +27,5 @@
 
 ;; enable disabled commands
 (put 'narrow-to-region 'disabled nil)
+
+(general-def "C-c C-o" 'browse-url-at-point)

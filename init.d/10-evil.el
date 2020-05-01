@@ -55,8 +55,7 @@
    :prefix eriks/leader
    "q" 'kmacro-insert-counter
    "Q" 'kmacro-set-counter
-   "&" 'evil-ex-repeat-substitute-with-flags
-   "i" 'browse-url-at-point)
+   "&" 'evil-ex-repeat-substitute-with-flags)
   :config
   (evil-mode 1)
   ;; Doesn't work to set these in :custom, They overwrite later calls
