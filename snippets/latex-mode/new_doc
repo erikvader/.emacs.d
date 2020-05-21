@@ -7,7 +7,7 @@
 \usepackage[T1]{fontenc} %rendera åäö bättre
 \usepackage[utf8]{inputenc} %använda utf-8
 \usepackage[parfill]{parskip} %gör så att styckena blir den "rätta" sorten
-\usepackage[format=hang,labelfont=bf]{caption}
+\usepackage[indention=0.5cm]{caption}
 \usepackage{mathtools}
 \usepackage{float}
 \usepackage{enumerate}
