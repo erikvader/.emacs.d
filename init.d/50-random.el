@@ -83,6 +83,7 @@
     (let ((select-enable-clipboard t))
       (pdf-view-kill-ring-save)))
   (evil-set-initial-state 'pdf-view-mode 'emacs)
+  (eriks/frames-only-use-window-funcs 'pdf-outline)
   :general
   ('pdf-view-mode-map
    [remap swiper] 'isearch-forward
@@ -111,7 +112,9 @@
    "f" 'pdf-links-action-perform
    "F" 'pdf-links-isearch-link)
   ('isearch-mode-map
-   "<escape>" 'isearch-abort))
+   "<escape>" 'isearch-abort)
+  ('pdf-outline-buffer-mode-map
+   "RET" 'pdf-outline-follow-link-and-quit))
 
 (use-package wgrep
   :ensure t)
