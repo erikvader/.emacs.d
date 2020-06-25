@@ -43,7 +43,10 @@
   :after ivy
   :general
   ('(normal ivy-mode-map)
-   "C-s" 'swiper))
+   "C-s" 'swiper)
+  ('(normal visual)
+   :prefix eriks/leader
+   "s" 'swiper-thing-at-point))
 
 (use-package counsel-projectile
   :ensure t

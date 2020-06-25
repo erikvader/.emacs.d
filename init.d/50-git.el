@@ -2,6 +2,7 @@
   :ensure t
   :custom
   (magit-bury-buffer-function 'magit-mode-quit-window)
+  (magit-diff-refine-hunk t)
   :general
   ('normal
    :prefix eriks/leader
