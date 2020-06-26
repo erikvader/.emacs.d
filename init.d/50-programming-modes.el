@@ -163,3 +163,13 @@
 
 (use-package elixir-mode
   :ensure t)
+
+(use-package lua-mode
+  :ensure t
+  :custom
+  (lua-indent-level 4)
+  :config
+  (sp-local-pair 'lua-mode "if" nil :actions nil)
+  (sp-local-pair 'lua-mode "while" nil :actions nil)
+  (sp-local-pair 'lua-mode "for" nil :actions nil)
+  (sp-local-pair 'lua-mode "function" nil :actions nil))
