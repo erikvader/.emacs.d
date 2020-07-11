@@ -36,23 +36,14 @@
   :ghook 'org-mode-hook
   :config
   (evil-org-set-key-theme '(textobjects insert additional todo))
-  (defhydra eriks/hydra-evil-org-navigation (:timeout 3)
-    "navigating"
-    ("h" org-up-element)
-    ("l" org-down-element)
-    ("k" org-backward-element)
-    ("j" org-forward-element)
-    ("H" evil-org-top)
-    ("<tab>" org-cycle))
   :general
-  ('motion
+  ('(normal visual)
    'evil-org-mode-map
-   :prefix "g"
-   "h" 'eriks/hydra-evil-org-navigation/org-up-element
-   "l" 'eriks/hydra-evil-org-navigation/org-down-element
-   "k" 'eriks/hydra-evil-org-navigation/org-backward-element
-   "j" 'eriks/hydra-evil-org-navigation/org-forward-element
-   "H" 'eriks/hydra-evil-org-navigation/evil-org-top)
+   "H" 'org-up-element
+   "L" 'org-down-element
+   "K" 'org-backward-element
+   "J" 'org-forward-element
+   "C-S-h" 'evil-org-top)
   ('normal
    'evil-org-mode-map
    "go" (evil-org-define-eol-command org-insert-heading-respect-content)
