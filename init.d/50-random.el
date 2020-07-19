@@ -6,6 +6,7 @@
   (sml/setup))
 
 (use-package which-key
+  :disabled
   :ensure t
   :diminish
   :config
