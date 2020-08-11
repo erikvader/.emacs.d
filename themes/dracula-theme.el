@@ -23,6 +23,7 @@
       (fg2 "#e2e2dc")
       (fg3 "#ccccc7")
       (fg4 "#b6b6b2")
+      (fg5 "#90a5ae") ;; darker fg1
       (dracula-bg "#282a36")
       (bg1 "#000000")
       (bg2 "#373844")
@@ -79,6 +80,7 @@
    `(region ((,class (:inverse-video t)))) ;;:background ,erik-region :foreground ,bg1
    `(show-paren-match ((,class (:underline t :weight extra-bold :foreground ,fg3)))) ;;:background ,erik-paren-match :foreground, darkest-black
    `(trailing-whitespace ((,class :background ,erik-trailing :underline (:color "salmon" :style wave))))
+   `(tab-face ((,class (:strike-through t :foreground ,fg5))))
    `(vertical-border ((,class (:foreground ,bg2))))
    `(warning ((,class (:foreground ,warning))))
    `(whitespace-trailing ((,class :inherit trailing-whitespace)))

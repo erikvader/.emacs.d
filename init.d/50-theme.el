@@ -2,6 +2,7 @@
 (defface todo-face '((t . (:inherit default))) "face for TODO")
 (defface fixme-face '((t . (:inherit default))) "face for FIXME")
 (defface note-face '((t . (:inherit default))) "face for NOTE")
+(defface tab-face '((t . (:inherit default))) "face for tabs")
 (load-theme 'dracula t nil)
 
 ;; font
@@ -16,4 +17,15 @@
      ("\\<\\(TODO\\):" 1 'todo-face t)
      ("\\<\\(NOTE\\):" 1 'note-face t))))
 
+(defun eriks/add-tab-font-lock ()
+  (font-lock-add-keywords
+   nil
+   '(("\t" 0 'tab-face t))))
+
 (add-hook 'prog-mode-hook #'eriks/add-marker-font-locks)
+(add-hook 'prog-mode-hook #'eriks/add-tab-font-lock)
+
+(defun eriks/prog-mode-show-trailing-whitespace ()
+  (setq show-trailing-whitespace t))
+
+(add-hook 'prog-mode-hook #'eriks/prog-mode-show-trailing-whitespace)

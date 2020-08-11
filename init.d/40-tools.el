@@ -41,10 +41,6 @@
    "<up>" 'comint-previous-input
    "<down>" 'comint-next-input))
 
-(defun eriks/prog-mode-show-trailing-whitespace ()
-  (setq show-trailing-whitespace t))
-(add-hook 'prog-mode-hook #'eriks/prog-mode-show-trailing-whitespace)
-
 (use-package rainbow-delimiters
   :ensure t
   :defer t

@@ -16,6 +16,7 @@
 (setq-default sentence-end-double-space nil)
 (setq-default select-enable-clipboard nil)
 (setq-default large-file-warning-threshold (* 1000 1000 20))
+(setq-default tab-width 4)
 
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
