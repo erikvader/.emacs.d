@@ -16,32 +16,36 @@
   (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
   :gfhook
   ('haskell-mode-hook (cl-defun eriks/flycheck-haskell-hook ()
-                        (flycheck-mode 1)
-                        (flycheck-select-checker 'haskell-hlint)))
+                        (when (flycheck-may-enable-mode)
+                          (flycheck-mode 1)
+                          (flycheck-select-checker 'haskell-hlint))))
   ('python-mode-hook (cl-defun eriks/flycheck-python-hook ()
                        ;; don't mess up lsp settings for flycheck
-                       (unless lsp-mode
+                       (when (and (not lsp-mode)
+                                  (flycheck-may-enable-mode))
                          (flycheck-mode 1)
                          (flycheck-select-checker 'python-pylint)
                          (setq-local flycheck-check-syntax-automatically '(save mode-enable)))))
-  :ghook
-  'c-mode-hook
-  'c++-mode-hook
-  'sh-mode-hook
-  'rjsx-mode-hook
-  'js-mode-hook
-  'LaTeX-mode-hook)
+  :gfhook
+  ('(c-mode-hook
+     c++-mode-hook
+     sh-mode-hook
+     rjsx-mode-hook
+     js-mode-hook
+     LaTeX-mode-hook)
+   'flycheck-mode-on-safe))
 
 (use-package flycheck-rust
   :ensure t
   :gfhook
   ('rust-mode-hook (cl-defun eriks/flycheck-rust-hook ()
                      ;; don't mess up lsp settings for flycheck
-                     (unless lsp-mode
+                     (when (and (not lsp-mode)
+                                (flycheck-may-enable-mode))
                        (flycheck-mode 1)
                        (flycheck-rust-setup)))))
 
 (use-package flycheck-elixir
   :ensure t
   :gfhook
-  ('elixir-mode-hook 'flycheck-mode))
+  ('elixir-mode-hook 'flycheck-mode-on-safe))
