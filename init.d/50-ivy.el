@@ -24,6 +24,8 @@
   :ensure t
   :after ivy
   :diminish
+  :custom
+  (counsel-rg-base-command "rg --with-filename --no-heading --line-number --color never --smart-case %s")
   :config
   (counsel-mode 1)
   :general
