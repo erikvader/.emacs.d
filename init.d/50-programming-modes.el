@@ -147,8 +147,6 @@
 
 (use-package rjsx-mode
   :ensure t
-  :custom
-  (js2-basic-offset 2)
   :config
   (add-to-list 'sp-navigate-consider-sgml-tags 'rjsx-mode)
   :gfhook
