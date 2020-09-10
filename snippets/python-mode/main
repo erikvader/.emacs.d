@@ -1,9 +1,11 @@
 # -*- mode: snippet -*-
 # name: main
 # key: main
+# Manual indentation thingies are necessary because yasnippet-snippets
+# adds a hook turning auto indentation off in python-mode.
 # --
 def main():
-   pass$0
+$>   pass$0
 
 if __name__ == "__main__":
-   main()
+$>   main()
