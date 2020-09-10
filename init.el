@@ -1,7 +1,8 @@
 ;; init package
 (require 'package)
 (add-to-list 'package-archives '("melpa-stable" . "https://melpa.org/packages/"))
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
 
 ;; facilities for checking how long ago it was since a
 ;; `package-refresh-contents' was run

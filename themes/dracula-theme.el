@@ -273,7 +273,7 @@
    `(org-agenda-dimmed-todo-face ((,class (:foreground ,comment))))
    `(org-agenda-done ((,class (:foreground ,rainbow-6))))
    `(org-agenda-structure ((,class (:foreground ,rainbow-3))))
-   `(org-block ((,class :background ,dracula-bg)))
+   `(org-block ((,class :background ,dracula-bg :extend t)))
    `(org-code ((,class (:foreground ,rainbow-7))))
    `(org-column ((,class (:background ,bg4))))
    `(org-column-title ((,class (:inherit org-column :weight bold :underline t))))
