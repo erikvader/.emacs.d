@@ -8,7 +8,9 @@
   :custom
   (c-basic-offset 4)
   (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
-                     (cpp-macro . 0))) ;; indent macro normally
+                     (cpp-macro . 0) ;; indent macro normally
+                     (arglist-intro . +) ;; put function arguments to the left
+                     (arglist-close . 0))) ;; -||-
   (c-default-style '((java-mode . "java")
                      (awk-mode . "awk")
                      (other . "linux")))
