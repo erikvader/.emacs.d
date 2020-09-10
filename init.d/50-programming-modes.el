@@ -168,3 +168,7 @@
   (sp-local-pair 'lua-mode "while" nil :actions nil)
   (sp-local-pair 'lua-mode "for" nil :actions nil)
   (sp-local-pair 'lua-mode "function" nil :actions nil))
+
+(use-package minizinc-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode)))

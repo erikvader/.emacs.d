@@ -32,7 +32,8 @@
      sh-mode-hook
      rjsx-mode-hook
      js-mode-hook
-     LaTeX-mode-hook)
+     LaTeX-mode-hook
+     minizinc-mode-hook)
    'flycheck-mode-on-safe))
 
 (use-package flycheck-rust
