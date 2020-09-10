@@ -91,6 +91,7 @@
    "C-s" 'isearch-forward
    "/" 'isearch-forward
    "O" 'pdf-occur
+   "r" 'image-rotate
    "q" 'quit-window-kill
    "w" 'pdf-view-fit-page-to-window
    "W" 'pdf-view-fit-width-to-window
