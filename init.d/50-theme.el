@@ -8,6 +8,13 @@
 ;; font
 (add-to-list 'default-frame-alist '(font . "Ubuntu Mono 14"))
 
+;; column line
+(add-hook 'prog-mode-hook
+          (cl-defun eriks/activate-display-fill-column ()
+            (setq fill-column 90)
+            (setq display-fill-column-indicator t)
+            (setq display-fill-column-indicator-character ?│)))
+
 ;; font-locks
 (defun eriks/add-marker-font-locks ()
   "Makes FIXME, TODO and NOTE get highlighted in current buffer"
