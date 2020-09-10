@@ -108,6 +108,7 @@
   :config
   (evil-set-initial-state 'Man-mode 'motion)
   :gfhook
+  ('Man-mode-hook 'scroll-lock-mode)
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
 

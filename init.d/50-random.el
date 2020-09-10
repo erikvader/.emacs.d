@@ -134,3 +134,14 @@
   ('normal
    :prefix eriks/leader
    "u" 'undo-tree-visualize))
+
+(use-package scroll-lock
+  :general
+  ('normal
+   :prefix eriks/leader
+   "l" 'scroll-lock-mode)
+  ('scroll-lock-mode-map
+   [remap evil-next-line] 'scroll-lock-next-line
+   [remap evil-previous-line] 'scroll-lock-previous-line
+   [remap evil-forward-paragraph] 'scroll-lock-forward-paragraph
+   [remap evil-backward-paragraph] 'scroll-lock-backward-paragraph))
