@@ -18,6 +18,11 @@
 (setq-default large-file-warning-threshold (* 1000 1000 20))
 (setq-default tab-width 4)
 
+;; require final newlines in prog modes
+(add-hook 'prog-mode-hook (cl-defun eriks/require-newline ()
+                            "sets `require-final-newline' to t locally"
+                            (setq-local require-final-newline t)))
+
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
 (setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
