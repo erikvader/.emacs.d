@@ -30,16 +30,6 @@ source: https://github.com/emacs-lsp/lsp-mode/issues/515#issuecomment-564665576"
       (lsp--info "Highlighting disabled."))
      (t (user-error "Current server does not support highlights?"))))
 
-  (defun eriks/lsp-hover-or-signature-help ()
-    "Do the hover action thingy when in non-insert and the signature help
-    thingy when in insert.
-source: https://github.com/emacs-lsp/lsp-mode/issues/214#discussion_r242426774"
-    (if (evil-insert-state-p)
-        (lsp-signature)
-      (lsp-hover)))
-  (remove-hook 'lsp-eldoc-hook 'lsp-hover)
-  (add-hook 'lsp-eldoc-hook 'eriks/lsp-hover-or-signature-help)
-
   (defun eriks/lsp-if-already-started ()
     "Runs `lsp' only if it would connect to an already running
 server on some workspace."
@@ -48,7 +38,7 @@ server on some workspace."
       (let* ((session (lsp-session))
              (sess-folder (lsp-find-session-folder session (buffer-file-name)))
              (project-root (and sess-folder
-                                (lsp-cannonical-file-name sess-folder)))
+                                (lsp-canonical-file-name sess-folder)))
              (clients (lsp--find-clients)))
         (when (and project-root
                    (seq-some (lambda (client)
@@ -82,15 +72,3 @@ server on some workspace."
   :after flycheck
   :gfhook
   ('flycheck-mode-hook 'lsp-ui-sideline-mode))
-
-(use-package company-lsp
-  :ensure t
-  :after (:and company lsp-mode)
-  :custom
-  (company-lsp-enable-snippet nil)
-  :config
-  (push 'company-lsp company-backends)
-   ;; Disable client-side cache because the LSP server does a better job.
-  (setq company-transformers nil
-        company-lsp-async t
-        company-lsp-cache-candidates nil))
