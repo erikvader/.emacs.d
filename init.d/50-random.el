@@ -29,6 +29,7 @@
   :diminish yas-minor-mode
   :custom
   (yas-expand-only-for-last-commands '(self-insert-command org-self-insert-command))
+  (yas-also-indent-empty-lines t)
   :config
   (yas-global-mode 1))
 
