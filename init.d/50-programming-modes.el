@@ -5,13 +5,16 @@
   :defer t
   :config
   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
+  (c-add-style "eriks-java"
+               '("java" (c-offsets-alist
+                         (arglist-intro . +)
+                         (arglist-close . 0))))
+  ;TODO: for C++ or something
+  ;; (inlambda . 0) ;; indent lambda body to the left
+  ;; (cpp-macro . 0) ;; indent macro normally))
   :custom
   (c-basic-offset 4)
-  (c-offsets-alist '((inlambda . 0) ;; indent lambda body to the left
-                     (cpp-macro . 0) ;; indent macro normally
-                     (arglist-intro . +) ;; put function arguments to the left
-                     (arglist-close . 0))) ;; -||-
-  (c-default-style '((java-mode . "java")
+  (c-default-style '((java-mode . "eriks-java")
                      (awk-mode . "awk")
                      (other . "linux")))
   :gfhook
