@@ -104,7 +104,10 @@
    "C-n" 'Man-next-section
    "C-p" 'Man-previous-section
    "s" 'Man-goto-section
-   "<backspace>" 'evil-ex-nohighlight)
+   "<backspace>" 'evil-ex-nohighlight
+   "d" 'scroll-up-command
+   "u" 'scroll-down-command
+   "U" 'Man-update-manpage)
   :config
   (evil-set-initial-state 'Man-mode 'motion)
   :gfhook
