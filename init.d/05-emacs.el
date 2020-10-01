@@ -20,10 +20,13 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 
-;; require final newlines in prog modes
-(add-hook 'prog-mode-hook (cl-defun eriks/require-newline ()
-                            "sets `require-final-newline' to t locally"
-                            (setq-local require-final-newline t)))
+;; require final newlines everywhere
+(setq-default require-final-newline t)
+(defun disable-require-final-newline ()
+  (interactive)
+  (setq-local require-final-newline nil)
+  (when (called-interactively-p 'interactive)
+    (message "%s %s" "require-final-newline is now" require-final-newline)))
 
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)

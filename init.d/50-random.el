@@ -30,6 +30,8 @@
   :custom
   (yas-expand-only-for-last-commands '(self-insert-command org-self-insert-command))
   (yas-also-indent-empty-lines t)
+  :gfhook
+  ('snippet-mode-hook #'disable-require-final-newline)
   :config
   (yas-global-mode 1))
 
