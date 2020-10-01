@@ -76,8 +76,3 @@
    :prefix eriks/leader
    :infix "g"
    "m" 'git-messenger:popup-message))
-
-(use-package smerge-mode
-  :defer t
-  :gfhook (nil (cl-defun smerge-mode-hook-fun ()
-                 (diff-auto-refine-mode -1))))

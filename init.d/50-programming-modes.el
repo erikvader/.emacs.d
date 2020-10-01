@@ -91,8 +91,8 @@
 
 (use-package diff-mode
   :defer t
-  :gfhook (nil (cl-defun diff-mode-hook-fun ()
-                 (diff-auto-refine-mode -1))))
+  :custom
+  (diff-refine nil))
 
 (use-package man
   :defer t
