@@ -40,3 +40,10 @@
 (put 'narrow-to-region 'disabled nil)
 
 (general-def "C-c C-o" 'browse-url-at-point)
+
+(general-def
+  'indent-rigidly-map
+  "h" 'indent-rigidly-left
+  "l" 'indent-rigidly-right
+  "H" 'indent-rigidly-left-to-tab-stop
+  "L" 'indent-rigidly-right-to-tab-stop)
