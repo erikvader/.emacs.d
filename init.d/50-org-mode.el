@@ -1,6 +1,7 @@
 (use-package org
   :config
   (evil-set-initial-state 'org-mode 'normal)
+  (setq org-ellipsis "↴")
   :custom
   (org-blank-before-new-entry '((heading) (plain-list-item)))
   (org-edit-src-content-indentation 0)
@@ -18,14 +19,6 @@
   :general
   ('org-mode-map
    "C-c s" 'counsel-org-goto-all))
-
-(use-package org-bullets
-  :ensure t
-  :after org
-  :custom
-  (org-ellipsis "↴")
-  (org-bullets-bullet-list '("▶" "▼" "◀" "▲"))
-  :ghook 'org-mode-hook)
 
 (use-package eriks-org-utils
   :after org)
