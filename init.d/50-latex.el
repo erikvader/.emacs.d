@@ -22,7 +22,6 @@
                          (run-hooks 'prog-mode-hook)))))
 
 (use-package auctex-latexmk
-  :disabled
   :ensure t
   :after tex-mode
   :config
