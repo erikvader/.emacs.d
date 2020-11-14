@@ -154,12 +154,20 @@
   :config
   (eriks/sp-open-on '("[" "{") 'js-mode))
 
+(use-package json-mode
+  :ensure t)
+
 (use-package rjsx-mode
   :ensure t
   :config
   (add-to-list 'sp-navigate-consider-sgml-tags 'rjsx-mode)
   :gfhook
   'eriks/show-paren-alt-hook)
+
+(use-package typescript-mode
+  :ensure t
+  :config
+  (eriks/sp-open-on '("[" "{") 'typescript-mode))
 
 (use-package css-mode
   :config

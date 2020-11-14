@@ -14,26 +14,30 @@
   :ensure t
   :custom
   (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
+  :init
+  (cl-defun eriks/flycheck-haskell-hook ()
+    (when (flycheck-may-enable-mode)
+      (flycheck-mode 1)
+      (flycheck-select-checker 'haskell-hlint)))
+
+  (cl-defun eriks/flycheck-python-hook ()
+    ;; don't mess up lsp settings for flycheck
+    (when (and (not lsp-mode)
+               (flycheck-may-enable-mode))
+      (flycheck-mode 1)
+      (flycheck-select-checker 'python-pylint)
+      (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
+
+  (cl-defun eriks/flycheck-js-hook ()
+    (when (functionp 'add-node-modules-path)
+      (add-node-modules-path))
+    (flycheck-mode-on-safe))
   :gfhook
-  ('haskell-mode-hook (cl-defun eriks/flycheck-haskell-hook ()
-                        (when (flycheck-may-enable-mode)
-                          (flycheck-mode 1)
-                          (flycheck-select-checker 'haskell-hlint))))
-  ('python-mode-hook (cl-defun eriks/flycheck-python-hook ()
-                       ;; don't mess up lsp settings for flycheck
-                       (when (and (not lsp-mode)
-                                  (flycheck-may-enable-mode))
-                         (flycheck-mode 1)
-                         (flycheck-select-checker 'python-pylint)
-                         (setq-local flycheck-check-syntax-automatically '(save mode-enable)))))
-  :gfhook
-  ('(c-mode-hook
-     c++-mode-hook
-     sh-mode-hook
-     rjsx-mode-hook
-     js-mode-hook
-     LaTeX-mode-hook
-     minizinc-mode-hook)
+  ('haskell-mode-hook 'eriks/flycheck-haskell-hook)
+  ('python-mode-hook 'eriks/flycheck-python-hook)
+  ('(js-mode-hook typescript-mode-hook 'rjsx-mode-hook)
+   'eriks/flycheck-js-hook)
+  ('(c-mode-hook c++-mode-hook sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
    'flycheck-mode-on-safe))
 
 (use-package flycheck-rust

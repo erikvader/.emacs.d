@@ -60,7 +60,11 @@
   :config
   (dtrt-indent-global-mode))
 
+;TODO: how does this interact with tramp?
 (use-package add-node-modules-path
   :ensure t
   :config
   (add-to-list 'safe-local-eval-forms '(add-node-modules-path)))
+
+(use-package format-all
+  :ensure t)
