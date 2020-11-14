@@ -240,25 +240,6 @@ normal initial state is ignored."
    :prefix eriks/leader
    "s" 'eriks/evil-add-to-search-history))
 
-(use-package evil-multiedit
-  :ensure t
-  :custom
-  (evil-multiedit-follow-matches t)
-  :general
-  ('(normal visual)
-   "C-S-n" 'evil-multiedit-match-and-next
-   "C-S-p" 'evil-multiedit-match-and-prev)
-  ('iedit-mode-occurrence-keymap
-   "M-n" nil
-   "M-p" nil)
-  ('(evil-multiedit-state-map evil-multiedit-insert-state-map)
-   "M-n" 'evil-multiedit-next
-   "M-p" 'evil-multiedit-prev)
-  ('evil-multiedit-state-map
-   "<return>" 'evil-multiedit-toggle-or-restrict-region)
-  ('visual
-   "R" 'evil-multiedit-match-all))
-
 (use-package eriks-evil-highlight
   :general
   ('(normal visual)

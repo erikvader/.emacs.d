@@ -149,3 +149,15 @@
    [remap evil-previous-line] 'scroll-lock-previous-line
    [remap evil-forward-paragraph] 'scroll-lock-forward-paragraph
    [remap evil-backward-paragraph] 'scroll-lock-backward-paragraph))
+
+(use-package iedit
+  :ensure t
+  :general
+  ('normal
+   'iedit-mode-keymap
+   "<escape>" 'iedit-mode))
+
+(use-package flyspell
+  :general
+  ('flyspell-mode-map
+   "C-;" nil))
