@@ -54,16 +54,12 @@
 
 (use-package dumb-jump
   :ensure t
-  :defer t
   :custom
   (dumb-jump-selector 'ivy)
-  :config
-  (advice-add 'dumb-jump-go :before (cl-defun eriks/dumb-jump-go-evil-advice (&rest r)
-                                      (evil-set-jump)))
-  :general
-  ('normal
-   "gd" 'dumb-jump-go
-   "gD" 'dumb-jump-quick-look))
+  (dumb-jump-default-project nil)
+  (dumb-jump-prefer-searcher 'rg)
+  :gfhook
+  ('xref-backend-functions 'dumb-jump-xref-activate))
 
 (use-package eriks-random-stuff
   :general
