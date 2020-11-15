@@ -14,6 +14,7 @@
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
+  (evil-undo-system 'undo-tree)
   :general
   ('(normal visual)
    "M-u" 'universal-argument)
@@ -47,7 +48,8 @@
   ('normal
    "<backspace>" 'evil-ex-nohighlight
    "C-@" "@@"
-   "C-x M-e" 'eriks/eval-replace)
+   "C-x M-e" 'eriks/eval-replace
+   "U" 'evil-redo)
   ('(normal visual)
    ";" 'repeat
    "-" 'negative-argument)

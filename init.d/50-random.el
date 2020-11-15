@@ -130,8 +130,6 @@
   (global-undo-tree-mode 1)
   :general
   ('normal
-   "U" 'undo-tree-redo)
-  ('normal
    :prefix eriks/leader
    "u" 'undo-tree-visualize))
 
