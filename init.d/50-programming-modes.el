@@ -166,6 +166,13 @@
 
 (use-package typescript-mode
   :ensure t
+  :gfhook
+  ('typescript-mode-hook (cl-defun eriks/typescript-hook-fun ()
+                           (setq-local comment-start-skip "\\(//+\\|/?\\*+\\)\\s *")
+                           (setq-local eriks/evil-open-line-comment-fun
+                                       (lambda ()
+                                         (js2-line-break)
+                                         (indent-according-to-mode)))))
   :config
   (eriks/sp-open-on '("[" "{") 'typescript-mode))
 
