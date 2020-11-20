@@ -11,6 +11,9 @@ if we are in major-mode 'mode'
   same-as-prev      = same indentation as the previous line
   according-to-mode = call `indent-according-to-mode'")
 
+(defvar eriks/evil-open-line-comment-fun 'comment-indent-new-line
+  "Function to create a new comment line for all relevant open line functions.")
+
 (defun eriks/evil-open-line (ARG)
   "open-line for evil, designed to be the opposite of J (join-lines).
 
@@ -23,7 +26,7 @@ Indents the new line if it is not empty.
 Assumes `left-margin' is 0 or that there is no fill prefix (that
 open-line doesn't indent the new line in any way)
 
-If the line to be split is a comment, run `comment-indent-new-line'
+If the line to be split is a comment, run `eriks/evil-open-line-comment-fun'
 instead (splits, adds comment chars and indents)."
   (interactive "P")
   (let ((start-ind (current-indentation))
@@ -33,7 +36,7 @@ instead (splits, adds comment chars and indents)."
     (just-one-space 0)
     (if in-comment
         (save-excursion
-          (comment-indent-new-line))
+          (funcall eriks/evil-open-line-comment-fun))
       (open-line 1)
       (save-excursion
         (forward-char)
@@ -71,13 +74,13 @@ instead (splits, adds comment chars and indents)."
 
 (defun eriks/evil-open-below-comment ()
   "Pretty much the same as `evil-open-below' except that this
-continues a comment if we are in one"
+continues a comment if we are in one. See `eriks/evil-open-line-comment-fun'."
   (interactive)
   (unless (eq evil-want-fine-undo t)
     (evil-start-undo-step))
   (push (point) buffer-undo-list)
   (end-of-line)
-  (comment-indent-new-line)
+  (funcall eriks/evil-open-line-comment-fun)
   (evil-insert-state 1))
 
 (defmacro eriks/evil--join-template (name doc &rest body)
