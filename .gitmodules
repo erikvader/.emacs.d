@@ -13,3 +13,6 @@
 [submodule "submodules/minizinc-mode"]
 	path = submodules/minizinc-mode
 	url = https://github.com/erikvader/minizinc-mode
+[submodule "submodules/apheleia"]
+	path = submodules/apheleia
+	url = https://github.com/raxod502/apheleia

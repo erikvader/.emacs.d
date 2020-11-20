@@ -66,5 +66,5 @@
   :config
   (add-to-list 'safe-local-eval-forms '(add-node-modules-path)))
 
-(use-package format-all
-  :ensure t)
+(use-package apheleia
+  :diminish "Aph")
