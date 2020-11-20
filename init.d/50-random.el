@@ -155,3 +155,23 @@
   :general
   ('flyspell-mode-map
    "C-;" nil))
+
+(use-package treemacs
+  :ensure t
+  :config
+  (defun eriks/treemacs-visit-n-quit (&optional arg)
+    (treemacs-visit-node-no-split t)
+    (treemacs-quit arg))
+  :custom
+  (treemacs-default-visit-action 'eriks/treemacs-visit-n-quit)
+  :general
+  ('normal
+   :prefix eriks/leader
+   "M" 'treemacs
+   "m" 'treemacs-select-window))
+
+(use-package treemacs-evil
+  :ensure t)
+
+(use-package treemacs-projectile
+  :ensure t)
