@@ -125,7 +125,10 @@
   :ensure t
   :defer t
   :config
-  (eriks/sp-open-on "{" 'rust-mode))
+  (eriks/sp-open-on "{" 'rust-mode)
+  :general
+  ('rust-mode-map
+   "C-c C-f" nil))
 
 (use-package ess
   :ensure t

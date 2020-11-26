@@ -67,4 +67,9 @@
   (add-to-list 'safe-local-eval-forms '(add-node-modules-path)))
 
 (use-package apheleia
-  :diminish "Aph")
+  :diminish "Aph"
+  :config
+  (setf (alist-get 'rustfmt apheleia-formatters) '("rustfmt"))
+  (setf (alist-get 'rust-mode apheleia-mode-alist) 'rustfmt)
+  :general
+  ("C-c C-f" 'apheleia-format-buffer))
