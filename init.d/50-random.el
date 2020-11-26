@@ -146,10 +146,19 @@
 
 (use-package iedit
   :ensure t
+  :config
+  (evil-define-operator eriks/evil-iedit-restrict (beg end type)
+    "Restrict iedit by using an evil motion."
+    :move-point nil
+    (interactive "<R>")
+    (unless iedit-mode
+      (user-error "not in iedit-mode"))
+    (iedit-restrict-region beg end))
   :general
   ('normal
    'iedit-mode-keymap
-   "<escape>" 'iedit-mode))
+   "<escape>" 'iedit-mode
+   "M-r" 'eriks/evil-iedit-restrict))
 
 (use-package flyspell
   :general
