@@ -72,3 +72,7 @@ server on some workspace."
   :after flycheck
   :gfhook
   ('flycheck-mode-hook 'lsp-ui-sideline-mode))
+
+(use-package lsp-rust
+  :custom
+  (lsp-rust-clippy-preference "on"))
