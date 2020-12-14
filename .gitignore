@@ -8,7 +8,7 @@ session.*
 /ac-comphist.dat
 /.mc-lists.el
 /TAGS
-/transient
+/transient/history.el
 /*.old
 /backups
 /auto_saves
