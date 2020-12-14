@@ -155,6 +155,7 @@
       (user-error "not in iedit-mode"))
     (iedit-restrict-region beg end))
   :general
+  ("M-r" nil)
   ('normal
    'iedit-mode-keymap
    "<escape>" 'iedit-mode
