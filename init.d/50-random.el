@@ -155,10 +155,12 @@
       (user-error "not in iedit-mode"))
     (iedit-restrict-region beg end))
   :general
-  ("M-r" nil)
+  ('global
+   "M-r" nil)
   ('normal
    'iedit-mode-keymap
-   "<escape>" 'iedit-mode
+   "<escape>" 'iedit-mode)
+  ('iedit-mode-keymap
    "M-r" 'eriks/evil-iedit-restrict))
 
 (use-package flyspell
