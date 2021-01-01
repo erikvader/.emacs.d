@@ -13,6 +13,7 @@
 (use-package flycheck
   :ensure t
   :custom
+  (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   :init
   (cl-defun eriks/flycheck-haskell-hook ()
     (when (flycheck-may-enable-mode)
@@ -25,6 +26,7 @@
                (flycheck-may-enable-mode))
       (flycheck-mode 1)
       (flycheck-select-checker 'python-pylint)
+      (flycheck-disable-checker 'python-mypy)
       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
 
   (cl-defun eriks/flycheck-js-hook ()
@@ -34,7 +36,7 @@
   :gfhook
   ('haskell-mode-hook 'eriks/flycheck-haskell-hook)
   ('python-mode-hook 'eriks/flycheck-python-hook)
-  ('(js-mode-hook typescript-mode-hook 'rjsx-mode-hook)
+  ('(js-mode-hook typescript-mode-hook rjsx-mode-hook)
    'eriks/flycheck-js-hook)
   ('(c-mode-hook c++-mode-hook sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
    'flycheck-mode-on-safe))
