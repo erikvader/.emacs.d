@@ -13,7 +13,6 @@
 (use-package flycheck
   :ensure t
   :custom
-  (flycheck-pylintrc (concat user-emacs-directory ".flycheck-pylintrc"))
   :init
   (cl-defun eriks/flycheck-haskell-hook ()
     (when (flycheck-may-enable-mode)
