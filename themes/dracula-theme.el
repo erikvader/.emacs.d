@@ -129,6 +129,8 @@
    `(diff-hl-insert ((,class (:foreground ,rainbow-6 :background ,rainbow-6))))
    ;; diff
    `(diff-refine-added ((,class (:background "#229922"))))
+   ;; vdiff
+   `(vdiff-change-face ((,class (:background "#606000"))))
    ;; enh-ruby
    `(enh-ruby-heredoc-delimiter-face ((,class (:foreground ,str))))
    `(enh-ruby-op-face ((,class (:foreground ,keyword))))

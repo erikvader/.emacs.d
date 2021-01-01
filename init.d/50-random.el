@@ -47,6 +47,16 @@
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package vdiff
+  :ensure t
+  :general
+  ('normal
+   '(vdiff-mode-map vdiff-3way-mode-map)
+   "[h" 'vdiff-previous-hunk
+   "]h" 'vdiff-next-hunk)
+  ('vdiff-mode-map
+   "C-c" vdiff-mode-prefix-map))
+
 (use-package ibuffer
   :defer t
   :general
