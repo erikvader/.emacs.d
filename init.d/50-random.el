@@ -197,3 +197,17 @@
 
 (use-package treemacs-projectile
   :ensure t)
+
+(use-package help-mode
+  :gfhook 'scroll-lock-mode
+  :general
+  ('motion
+   'help-mode-map
+   "<tab>" 'forward-button
+   "<backtab>" 'backward-button
+   "C-o" 'help-go-back
+   "C-i" 'help-go-forward
+   "<return>" 'push-button
+   "r" 'revert-buffer
+   "q" 'quit-window
+   "<backspace>" 'evil-ex-nohighlight))

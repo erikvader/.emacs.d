@@ -21,16 +21,6 @@
   (universal-argument-map
    "M-u" 'universal-argument-more
    "C-u" nil)
-  ('motion
-   'help-mode-map
-   "<tab>" 'forward-button
-   "<backtab>" 'backward-button
-   "C-o" 'help-go-back
-   "C-i" 'help-go-forward
-   "<return>" 'push-button
-   "g" 'revert-buffer
-   "q" 'quit-window
-   "<backspace>" 'evil-ex-nohighlight)
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
    "SPC" nil
