@@ -13,7 +13,8 @@
    "C-w" 'ivy-backward-kill-word
    "C-b" 'ivy-scroll-down-command
    "C-f" 'ivy-scroll-up-command
-   "TAB" 'ivy-alt-done)
+   "TAB" 'ivy-alt-done
+   "M-TAB" 'ivy-partial)
   ('ivy-switch-buffer-map
    "<delete>" 'ivy-switch-buffer-kill)
   :custom
@@ -36,9 +37,7 @@
   ('normal
    'counsel-mode-map
    :prefix eriks/leader
-   "y" 'counsel-yank-pop)
-  ('counsel-find-file-map
-   "<tab>" 'ivy-alt-done))
+   "y" 'counsel-yank-pop))
 
 (use-package swiper
   :ensure t
@@ -49,12 +48,6 @@
   ('(normal visual)
    :prefix eriks/leader
    "s" 'swiper-thing-at-point))
-
-(use-package counsel-projectile
-  :ensure t
-  :after (:and projectile counsel)
-  :config
-  (counsel-projectile-mode 1))
 
 (use-package ivy-xref
   :ensure t
