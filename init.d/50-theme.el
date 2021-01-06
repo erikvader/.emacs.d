@@ -24,13 +24,17 @@
      ("\\<\\(TODO\\):" 1 'todo-face t)
      ("\\<\\(NOTE\\):" 1 'note-face t))))
 
+(add-hook 'prog-mode-hook #'eriks/add-marker-font-locks)
+
 (defun eriks/add-tab-font-lock ()
+  "Display tabs in the current buffer using `tab-face'."
+  (interactive)
   (font-lock-add-keywords
    nil
    '(("\t" 0 'tab-face t))))
 
-(add-hook 'prog-mode-hook #'eriks/add-marker-font-locks)
 (add-hook 'prog-mode-hook #'eriks/add-tab-font-lock)
+(add-hook 'text-mode-hook #'eriks/add-tab-font-lock)
 
 (defun eriks/prog-mode-show-trailing-whitespace ()
   (setq show-trailing-whitespace t))
