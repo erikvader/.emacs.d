@@ -51,8 +51,7 @@ server on some workspace."
 (use-package lsp-pyls
   :custom
   (lsp-pyls-plugins-pycodestyle-enabled nil)
-  (lsp-pyls-plugins-pylint-enabled t)
-  (lsp-pyls-plugins-pylint-args (vector (concat "--rcfile=" user-emacs-directory ".flycheck-pylintrc"))))
+  (lsp-pyls-plugins-pylint-enabled t))
 
 (use-package lsp-ui
   :ensure t
