@@ -21,7 +21,14 @@
   ('c-mode-common-hook (cl-defun c-mode-common-hook-fun ()
                          (setq-local comment-start "//")
                          (setq-local comment-end "")
-                         (abbrev-mode -1))))
+                         (abbrev-mode -1)))
+  :general
+  ('normal
+   '(c-mode-map c++-mode-map)
+   "gf" #'ff-find-other-file))
+
+(use-package cmake-mode
+  :ensure t)
 
 (use-package sgml-mode
   :defer t

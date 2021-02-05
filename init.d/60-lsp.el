@@ -80,3 +80,10 @@ server on some workspace."
   ;; rustup component add rls rust-analysis rust-src
   ('rust-mode-hook 'eriks/lsp-if-already-started))
 
+(use-package ccls
+  :ensure t
+  ;; :custom
+  ;; (ccls-sem-highlight-method 'font-lock)
+  :gfhook
+  ;; pacman -S ccls
+  ('(c-mode-hook c++-mode-hook) 'eriks/lsp-if-already-started))

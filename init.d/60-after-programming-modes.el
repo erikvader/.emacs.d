@@ -33,12 +33,21 @@
     (when (functionp 'add-node-modules-path)
       (add-node-modules-path))
     (flycheck-mode-on-safe))
+
+  (cl-defun eriks/flycheck-c-hook ()
+    ;; don't mess up lsp settings for flycheck
+    (when (and (not lsp-mode)
+               (flycheck-may-enable-mode))
+      (flycheck-mode 1)))
+
   :gfhook
   ('haskell-mode-hook 'eriks/flycheck-haskell-hook)
   ('python-mode-hook 'eriks/flycheck-python-hook)
   ('(js-mode-hook typescript-mode-hook rjsx-mode-hook)
    'eriks/flycheck-js-hook)
-  ('(c-mode-hook c++-mode-hook sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
+  ('(c-mode-hook c++-mode-hook)
+   'eriks/flycheck-c-hook)
+  ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
    'flycheck-mode-on-safe))
 
 (use-package flycheck-rust
