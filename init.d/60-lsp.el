@@ -6,9 +6,7 @@
   (lsp-enable-indentation nil)
   (lsp-enable-symbol-highlighting nil)
   (lsp-keep-workspace-alive nil)
-  :gfhook
-  ('rust-mode-hook 'eriks/lsp-if-already-started) ;; rustup component add rls rust-analysis rust-src
-  ('python-mode-hook 'eriks/lsp-if-already-started) ;; pacman -S python-language-server python-pyflakes python-pylint
+  (lsp-headerline-breadcrumb-enable nil)
   :general
   ('normal
    'lsp-mode-map
@@ -48,11 +46,6 @@ server on some workspace."
                              clients))
           (lsp))))))
 
-(use-package lsp-pyls
-  :custom
-  (lsp-pyls-plugins-pycodestyle-enabled nil)
-  (lsp-pyls-plugins-pylint-enabled t))
-
 (use-package lsp-ui
   :ensure t
   :after (:and lsp-mode flycheck)
@@ -72,6 +65,18 @@ server on some workspace."
   :gfhook
   ('flycheck-mode-hook 'lsp-ui-sideline-mode))
 
+(use-package lsp-pyls
+  :custom
+  (lsp-pyls-plugins-pycodestyle-enabled nil)
+  (lsp-pyls-plugins-pylint-enabled t)
+  :gfhook
+  ;; pacman -S python-language-server python-pyflakes python-pylint
+  ('python-mode-hook 'eriks/lsp-if-already-started))
+
 (use-package lsp-rust
   :custom
-  (lsp-rust-clippy-preference "on"))
+  (lsp-rust-clippy-preference "on")
+  :gfhook
+  ;; rustup component add rls rust-analysis rust-src
+  ('rust-mode-hook 'eriks/lsp-if-already-started))
+
