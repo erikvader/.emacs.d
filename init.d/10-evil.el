@@ -45,6 +45,7 @@
    "-" 'negative-argument)
   ('normal
    :prefix eriks/leader
+   "C-o" 'browse-url-at-point
    "q" 'kmacro-insert-counter
    "Q" 'kmacro-set-counter
    "&" 'evil-ex-repeat-substitute-with-flags)
