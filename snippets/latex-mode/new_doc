@@ -10,7 +10,7 @@
 \usepackage[indention=0.5cm]{caption}
 \usepackage{mathtools}
 \usepackage{float}
-\usepackage{enumerate}
+\usepackage{enumitem}
 \usepackage[margin=1in]{geometry}
 
 \title{${1:title}}
