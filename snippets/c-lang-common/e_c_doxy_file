@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 #name: e_c_doxy_file
-#key: /cfile
+#key: doxfile
 #group: doxygen
 # --
 /// \file ${1:`(file-name-nondirectory(buffer-file-name))`}
