@@ -3,23 +3,20 @@
   :defer t
   :config
   (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
-  (evil-set-initial-state 'latex-mode 'normal)
+  (evil-set-initial-state 'tex-mode 'normal)
   (eriks/frames-only-use-window-funcs 'TeX-next-error)
   :custom
   (LaTeX-item-indent 0)
   :general
-  ('LaTeX-mode-map
+  ('TeX-mode-map
    "C-c e" 'TeX-error-overview)
   :gfhook
   ('TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
-  ('LaTeX-mode-hook `(TeX-source-correlate-mode
-                      ,(cl-defun latex-restore-paragraphs-hook ()
-                         (dolist (i '(paragraph-start paragraph-separate))
-                           (set i (default-value i))))
-                      ,(cl-defun latex-run-prog-mode-hook ()
-                         ;TODO: do I want to do it this way?
-                         ; why not add all hooks I want run explicitly?
-                         (run-hooks 'prog-mode-hook)))))
+  ('TeX-mode-hook `(TeX-source-correlate-mode
+                    ,(cl-defun latex-run-prog-mode-hook ()
+                       ;;TODO: do I want to do it this way?
+                       ;; why not add all hooks I want run explicitly?
+                       (run-hooks 'prog-mode-hook)))))
 
 (use-package auctex-latexmk
   :ensure t
@@ -29,8 +26,12 @@
   :custom
   (auctex-latexmk-inherit-TeX-PDF-mode t))
 
+(use-package bibtex
+  :config
+  (evil-set-initial-state 'bibtex-mode 'normal))
+
 (use-package eriks-latex-autocompile
   :after tex-mode
   :general
-  ('LaTeX-mode-map
+  ('(TeX-mode-map bibtex-mode-map)
    "C-c a" 'eriks/latex-autocompile-mode))
