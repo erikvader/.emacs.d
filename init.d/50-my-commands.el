@@ -18,3 +18,7 @@
         (set-visited-file-name new-name nil t)))))
 
 (defalias 'rename-current-file-n-buffer #'eriks/rename-current-file)
+
+(defun eriks/diction-region (beg end)
+  (interactive "r")
+  (shell-command-on-region beg end "diction -L en_GB -bs"))

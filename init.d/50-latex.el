@@ -5,6 +5,11 @@
   (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
   (evil-set-initial-state 'tex-mode 'normal)
   (eriks/frames-only-use-window-funcs 'TeX-next-error)
+  (defun eriks/latex-flyspell-mode-enable ()
+    (interactive)
+    (setq-local ispell-local-dictionary "british")
+    (flyspell-mode)
+    (setq ispell-parser 'tex))
   :custom
   (LaTeX-item-indent 0)
   :general
