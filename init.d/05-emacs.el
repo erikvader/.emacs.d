@@ -7,7 +7,7 @@
 (setq-default cursor-type 'bar)
 (setq-default blink-matching-paren nil)
 (global-hl-line-mode t)
-(setq-default column-number-indicator-zero-based nil) ;TODO: verkar inte funka i SML
+(setq-default column-number-indicator-zero-based nil)
 
 ;; variables
 (setq-default line-move-visual nil)

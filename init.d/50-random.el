@@ -3,7 +3,11 @@
   :init
   (setq-default sml/theme nil)
   :config
-  (sml/setup))
+  (sml/setup)
+  (unless column-number-indicator-zero-based
+    (require 'cl)
+    (customize-set-variable 'sml/col-number-format
+                            (cl-substitute ?C ?c sml/col-number-format))))
 
 (use-package which-key
   :disabled
