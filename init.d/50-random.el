@@ -85,6 +85,10 @@
   :ensure t
   :custom
   (pdf-view-display-size 'fit-page)
+  :gfhook
+  ('pdf-view-mode-hook (cl-defun eriks/pdf-view-no-evil-cursor ()
+                         "A bug where the cursor creates a thin border around the pages."
+                         (setq-local evil-emacs-state-cursor '(nil))))
   :config
   (pdf-tools-install :no-query-p t)
   (defun eriks/pdf-goto-page (arg)
