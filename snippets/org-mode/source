@@ -1,6 +1,5 @@
 # key: <s
 # name: source
 # --
-#+BEGIN_SRC $1
-$0
+#+BEGIN_SRC $0
 #+END_SRC
