@@ -60,6 +60,9 @@ it should always be non-nil unless DAYS is really large)."
 ;; no more customize!
 (setq-default custom-file "/tmp/emacs-custom-file")
 
+;; load common lisp for everyone!
+(require 'cl)
+
 ;; load everything
 (mapc #'load
       (directory-files (concat user-emacs-directory "init.d") t "\\.elc?$" nil))

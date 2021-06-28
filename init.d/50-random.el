@@ -5,7 +5,6 @@
   :config
   (sml/setup)
   (unless column-number-indicator-zero-based
-    (require 'cl)
     (customize-set-variable 'sml/col-number-format
                             (cl-substitute ?C ?c sml/col-number-format))))
 
