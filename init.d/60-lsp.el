@@ -44,7 +44,19 @@ server on some workspace."
                                ;; this wanted?? What is a multiroot workspace?
                                (lsp--find-workspace session client project-root))
                              clients))
-          (lsp))))))
+          (lsp)))))
+
+  (defun eriks/lsp-install-format-on-save-hooks-toggle ()
+    "Toggle whether `lsp-format-buffer' should be run before save."
+    (interactive)
+    (if (and (local-variable-p 'before-save-hook)
+             (memq #'lsp-format-buffer before-save-hook))
+        (progn
+          (remove-hook 'before-save-hook #'lsp-format-buffer t)
+          (message "no longer formatting on save"))
+      ;TODO: does order with `lsp--before-save' matter?
+      (add-hook 'before-save-hook #'lsp-format-buffer nil t)
+      (message "formatting on save enabled"))))
 
 (use-package lsp-ui
   :ensure t
@@ -87,3 +99,6 @@ server on some workspace."
   :gfhook
   ;; pacman -S ccls
   ('(c-mode-hook c++-mode-hook) 'eriks/lsp-if-already-started))
+
+(use-package lsp-java
+  :ensure t)
