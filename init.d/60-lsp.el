@@ -98,7 +98,7 @@ server on some workspace."
   ;; (ccls-sem-highlight-method 'font-lock)
   :gfhook
   ;; pacman -S ccls
-  ('(c-mode-hook c++-mode-hook) 'eriks/lsp-if-already-started))
+  ('(c-mode-hook c++-mode-hook java-mode-hook) 'eriks/lsp-if-already-started))
 
 (use-package lsp-java
   :ensure t)
