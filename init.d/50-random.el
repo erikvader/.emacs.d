@@ -218,3 +218,8 @@
    "r" 'revert-buffer
    "q" 'quit-window
    "<backspace>" 'evil-ex-nohighlight))
+
+(use-package dired
+  :general
+  ('dired-mode-map
+   "q" 'quit-window-kill))
