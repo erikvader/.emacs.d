@@ -173,14 +173,26 @@
     (unless iedit-mode
       (user-error "not in iedit-mode"))
     (iedit-restrict-region beg end))
+
+  (defun eriks/iedit-reactivate-normal-state (&rest _rest)
+    "Workaround for keybinds in normal state when iedit is
+active. The keybinds don't realize they should be active unless
+normal state is reactivated."
+    (evil-normal-state))
+  (advice-add 'iedit-mode :after #'eriks/iedit-reactivate-normal-state)
   :general
-  ('global
-   "M-r" nil)
+  ('(normal visual)
+   "gR" 'iedit-mode)
   ('normal
    'iedit-mode-keymap
    "<escape>" 'iedit-mode)
-  ('iedit-mode-keymap
-   "M-r" 'eriks/evil-iedit-restrict))
+  ('normal
+   'iedit-mode-occurrence-keymap
+   "gr" 'eriks/evil-iedit-restrict
+   "gt" 'iedit-toggle-selection
+   "gf" 'iedit-restrict-function
+   "gl" 'iedit-restrict-current-line
+   "C" 'iedit-delete-occurrences))
 
 (use-package flyspell
   :general
