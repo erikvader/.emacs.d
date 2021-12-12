@@ -41,4 +41,22 @@ Uses a default face unless C-u is used."
    (read-regexp "highlight" "" 'evil-ex-search-history)
    (null (equal arg '(4)))))
 
+(defun eriks/evil-search-highlight-current-symbol ()
+  "Put the current symbol at point in the search history. If
+search highlighting in evil is activated this will highlight the
+current thing."
+  (interactive)
+  (let ((thing (thing-at-point 'symbol t))
+        re)
+    (when (stringp thing)
+      (setq re (concat "\\_<" (regexp-quote thing) "\\_>"))
+      (when (boundp 'swiper-history)
+        (cl-pushnew re swiper-history))
+      (when (eq evil-search-module 'evil-search)
+        (add-to-history 'evil-ex-search-history re)
+        (setq evil-ex-search-pattern (list re t t))
+        (setq evil-ex-search-direction 'forward)
+        (when evil-ex-search-persistent-highlight
+          (evil-ex-search-activate-highlight evil-ex-search-pattern))))))
+
 (provide 'eriks-evil-highlight)

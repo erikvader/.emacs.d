@@ -246,19 +246,11 @@ moving the cursor one step too far."
                       (eriks/evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
                       (eriks/evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))))
 
-(use-package eriks-evil-add-to-search-history
-  :disabled
-  :general
-  ('normal
-   :prefix eriks/leader
-   "s" 'eriks/evil-add-to-search-history))
-
 (use-package eriks-evil-highlight
   :general
   ('(normal visual)
    :prefix eriks/leader
-   "h" 'eriks/evil-highlight
-   "H" 'eriks/evil-unhighlight))
+   "h" 'eriks/evil-search-highlight-current-symbol))
 
 (use-package evil-indent-plus
   :ensure t
