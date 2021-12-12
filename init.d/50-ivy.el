@@ -44,7 +44,8 @@
   :after ivy
   :general
   ('(normal ivy-mode-map)
-   "C-s" 'swiper)
+   "C-s" 'swiper
+   "C-S-s" 'swiper-all)
   ('(normal visual)
    :prefix eriks/leader
    "s" 'swiper-thing-at-point))

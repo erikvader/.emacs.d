@@ -15,6 +15,7 @@
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
   (evil-undo-system 'undo-tree)
+  (evil-goto-definition-functions '(evil-goto-definition-xref evil-goto-definition-search))
   :general
   ('(normal visual)
    "M-u" 'universal-argument)
