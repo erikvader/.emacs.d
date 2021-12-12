@@ -148,7 +148,9 @@ moving the cursor one step too far."
   (advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
   :general
   ('normal
-   "g8" 'eriks/evil-what-cursor))
+   "g8" 'eriks/evil-what-cursor)
+  ('motion
+   "gG" 'eriks/evil-goto-last-non-empty-line))
 
 (use-package evil-nerd-commenter
   :ensure t

@@ -24,4 +24,20 @@ macro was the last executed one."
   (when (and evil-this-macro defining-kbd-macro)
     (setq evil-last-register evil-this-macro)))
 
+(evil-define-motion eriks/evil-goto-last-non-empty-line (_count)
+  "Similar to `evil-goto-line', but goes to the last non-empty
+line instead. Preserves column placement."
+  :jump t
+  :type line
+  (require 'cl)
+  (let* ((cur-line (line-number-at-pos))
+         (last (point-max))
+         (last-non-empty (cl-dotimes (i last)
+                           (when-let ((c (char-before (- last i)))
+                                      (_ (not (= ?\n c))))
+                             (cl-return i)))))
+    (when last-non-empty
+      (line-move (- (line-number-at-pos (- last last-non-empty))
+                    cur-line)))))
+
 (provide 'eriks-evil-random)
