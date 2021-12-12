@@ -206,3 +206,31 @@
 (use-package minizinc-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode)))
+
+(use-package slime
+  :ensure t
+  :custom
+  (inferior-lisp-program "sbcl")
+  (slime-contribs '(slime-fancy slime-asdf))
+  :config
+  (eriks/frames-only-use-window-funcs 'sldb-setup)
+  (evil-set-initial-state 'slime-repl-mode 'normal)
+  (defun eriks/slime-load-current-file ()
+    "Runs `slime-load-file' with the current buffer file."
+    (interactive)
+    (unless (buffer-file-name)
+      (user-error "Buffer %s is not visiting a file" (buffer-name)))
+    (slime-load-file (buffer-file-name)))
+  (function-put 'iter 'common-lisp-indent-function '(nil)) ;; don't indent iter like a defun
+  :general
+  ('slime-mode-indirect-map
+   "C-c C-l" 'eriks/slime-load-current-file)
+  ('normal
+   'slime-repl-mode-map
+   "C-k" 'slime-repl-previous-input
+   "C-j" 'slime-repl-next-input
+   "<return>" 'slime-repl-return)
+  ('insert
+   'slime-repl-mode-map
+   "<up>" 'slime-repl-previous-input
+   "<down>" 'slime-repl-next-input))
