@@ -211,8 +211,11 @@
   :ensure t
   :custom
   (inferior-lisp-program "sbcl")
-  (slime-contribs '(slime-fancy slime-asdf))
+  (slime-contribs '(slime-fancy slime-asdf slime-quicklisp))
   :config
+  (eriks/add-to-lists 'interpreter-mode-alist
+                      '("sbcl" . lisp-mode)
+                      '("sbcl-script" . lisp-mode))
   (eriks/frames-only-use-window-funcs 'sldb-setup)
   (evil-set-initial-state 'slime-repl-mode 'normal)
   (defun eriks/slime-load-current-file ()

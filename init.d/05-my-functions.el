@@ -72,7 +72,7 @@ because they are stored like that in keymaps."
        (when (keymapp new)
          (setq ,keymap new)))))
 
-(defun eriks/add-to-lists (list items)
+(defun eriks/add-to-lists (list &rest items)
   "Same as `add-to-list' except that ITEMS is a list of elements to be
 added."
   (mapc (lambda (i)
