@@ -15,11 +15,6 @@
   :custom
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   :init
-  (cl-defun eriks/flycheck-haskell-hook ()
-    (when (flycheck-may-enable-mode)
-      (flycheck-mode 1)
-      (flycheck-select-checker 'haskell-hlint)))
-
   (cl-defun eriks/flycheck-python-hook ()
     ;; don't mess up lsp settings for flycheck
     (when (and (not lsp-mode)
@@ -41,7 +36,6 @@
       (flycheck-mode 1)))
 
   :gfhook
-  ('haskell-mode-hook 'eriks/flycheck-haskell-hook)
   ('python-mode-hook 'eriks/flycheck-python-hook)
   ('(js-mode-hook typescript-mode-hook rjsx-mode-hook)
    'eriks/flycheck-js-hook)
@@ -66,6 +60,11 @@ See: https://github.com/PyCQA/pylint/pull/4164"
    (advice-add 'flycheck-python-module-args
                :around
                #'eriks/flycheck-python-module-args-advice)))
+
+(use-package flycheck-haskell
+  :ensure t
+  :gfhook
+  ('haskell-mode-hook '(flycheck-haskell-setup flycheck-mode-on-safe)))
 
 (use-package flycheck-rust
   :ensure t
