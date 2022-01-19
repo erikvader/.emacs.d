@@ -17,7 +17,7 @@
   (evil-undo-system 'undo-tree)
   (evil-goto-definition-functions '(evil-goto-definition-xref evil-goto-definition-search))
   :general
-  ('(normal visual)
+  ('(normal visual insert)
    "M-u" 'universal-argument)
   (universal-argument-map
    "M-u" 'universal-argument-more

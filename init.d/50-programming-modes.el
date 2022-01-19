@@ -228,6 +228,8 @@
   :general
   ('slime-mode-indirect-map
    "C-c C-l" 'eriks/slime-load-current-file)
+  ('slime-repl-mode-map
+   "C-l" 'slime-repl-clear-buffer)
   ('normal
    'slime-repl-mode-map
    "C-k" 'slime-repl-previous-input
