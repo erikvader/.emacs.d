@@ -63,6 +63,12 @@ it should always be non-nil unless DAYS is really large)."
 ;; load common lisp for everyone!
 (require 'cl)
 
+;; optimize experience for tiling window managers
+(defcustom eriks/use-frames-only-mode t
+  "Whether `frames-only-mode' and related config should be loaded
+and enabled. Other kinds of config to optimize for a single frame
+are loaded if nil.")
+
 ;; load everything
 (mapc #'load
       (sort (nconc

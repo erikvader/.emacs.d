@@ -51,3 +51,13 @@
    :prefix eriks/leader
    "SPC" 'avy-goto-char-timer
    "," 'avy-goto-char))
+
+(use-package ace-window
+  :if (not eriks/use-frames-only-mode)
+  :ensure t
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (aw-scope 'frame)
+  :general
+  ('normal
+   "C-w" 'ace-window))

@@ -1,13 +1,15 @@
-(use-package frames-only-mode
-  :ensure t
-  :config
-  (defun eriks/frames-only-use-window-funcs (fun)
+(defun eriks/frames-only-use-window-funcs (fun)
     "add FUN to `frames-only-mode-use-window-functions'"
     (when (featurep 'frames-only-mode)
       (add-to-list 'frames-only-mode-use-window-functions fun)
       ;; have to do this manually if mode already is activated
       (when frames-only-mode
         (advice-add fun :around #'frames-only-mode-advice-use-windows))))
+
+(use-package frames-only-mode
+  :if eriks/use-frames-only-mode
+  :ensure t
+  :config
   (defun kill-buffer-and-frame ()
     "Kills the current buffer, if successful then delete the frame."
     (interactive)
