@@ -7,6 +7,8 @@
   (evil-cross-lines t)
   (evil-default-state 'emacs)
   (evil-ex-visual-char-range t)
+  (evil-move-beyond-eol t)
+  (evil-move-cursor-back nil)
   (evil-search-module 'evil-search)
   (evil-want-C-d-scroll t)
   (evil-want-C-u-scroll t)
