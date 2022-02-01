@@ -65,4 +65,11 @@ it should always be non-nil unless DAYS is really large)."
 
 ;; load everything
 (mapc #'load
-      (directory-files (concat user-emacs-directory "init.d") t "\\.elc?$" nil))
+      (sort (nconc
+             (directory-files (concat user-emacs-directory "init.d") t "\\.elc?$" nil)
+             (let ((local-config (concat user-emacs-directory "init.d.local")))
+               (when (file-exists-p local-config)
+                 (directory-files local-config t "\\.elc?$" nil))))
+            (lambda (f1 f2)
+              (string< (file-name-nondirectory f1)
+                       (file-name-nondirectory f2)))))

@@ -19,6 +19,7 @@ session.*
 /.package-last-refresh
 /games
 /.cache
+/init.d.local
 
 # eclipse lsp
 /workspace
