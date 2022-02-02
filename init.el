@@ -63,19 +63,14 @@ it should always be non-nil unless DAYS is really large)."
 ;; load common lisp for everyone!
 (require 'cl)
 
-;; optimize experience for tiling window managers
-(defcustom eriks/use-frames-only-mode t
-  "Whether `frames-only-mode' and related config should be loaded
-and enabled. Other kinds of config to optimize for a single frame
-are loaded if nil.")
-
 ;; load everything
-(mapc #'load
-      (sort (nconc
-             (directory-files (concat user-emacs-directory "init.d") t "\\.elc?$" nil)
-             (let ((local-config (concat user-emacs-directory "init.d.local")))
-               (when (file-exists-p local-config)
-                 (directory-files local-config t "\\.elc?$" nil))))
-            (lambda (f1 f2)
-              (string< (file-name-nondirectory f1)
-                       (file-name-nondirectory f2)))))
+(cl-flet ((list-el-files (dir) (directory-files dir t "\\.elc?$" nil)))
+  (mapc #'load
+        (sort (nconc
+               (list-el-files (concat user-emacs-directory "init.d"))
+               (let ((local-config (concat user-emacs-directory "init.d.local")))
+                 (when (file-exists-p local-config)
+                   (list-el-files local-config))))
+              (lambda (f1 f2)
+                (string< (file-name-nondirectory f1)
+                         (file-name-nondirectory f2))))))

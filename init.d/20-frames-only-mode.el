@@ -1,3 +1,8 @@
+(defcustom eriks/use-frames-only-mode t
+  "Whether `frames-only-mode' should be loaded and enabled. Other
+kinds of config to optimize for a single frame are loaded if
+nil.")
+
 (defun eriks/frames-only-use-window-funcs (fun)
     "add FUN to `frames-only-mode-use-window-functions'"
     (when (featurep 'frames-only-mode)

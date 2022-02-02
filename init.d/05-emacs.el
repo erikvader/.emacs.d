@@ -21,9 +21,6 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 (setq-default inhibit-x-resources t)
-(when (not eriks/use-frames-only-mode)
-  (setq-default server-window 'pop-to-buffer))
-
 
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)
