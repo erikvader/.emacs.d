@@ -82,8 +82,14 @@
    :prefix eriks/leader
    "o" 'eriks/spawn-external-terminal))
 
+(use-package pdf-loader
+  :ensure pdf-tools
+  :config
+  (pdf-loader-install))
+
 (use-package pdf-tools
   :ensure t
+  :defer t
   :custom
   (pdf-view-display-size 'fit-page)
   :gfhook
@@ -91,7 +97,6 @@
                          "A bug where the cursor creates a thin border around the pages."
                          (setq-local evil-emacs-state-cursor '(nil))))
   :config
-  (pdf-tools-install :no-query-p t)
   (defun eriks/pdf-goto-page (arg)
     "Goto first page if no prefix argument, otherwise goto page ARG."
     (interactive "p")
