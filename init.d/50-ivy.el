@@ -28,26 +28,12 @@
   :custom
   (counsel-rg-base-command "rg --with-filename --no-heading --line-number --color never --smart-case %s")
   :config
-  (defun eriks/counsel-top-most-git-root-advice (fun &rest args)
-    "Advice around functions that looks for the root of a git
-repo using `counsel--git-root'. This advice will modify it to
-look for the top-most git repo, i.e., it will not stop at a
-submodule but find the whole project."
-    (cl-labels ((top-git-root (&optional dir)
-                              (when-let (root (counsel--dominating-file ".git" dir))
-                                (let ((parent (file-name-directory (directory-file-name root))))
-                                  (or (and parent (top-git-root parent))
-                                      root)))))
-      (cl-letf* (((symbol-function #'counsel--git-root) #'top-git-root))
-        (apply fun args))))
-  ;; Affects `counsel-rg' aswell since it calls `counsel-ag'
-  (advice-add 'counsel-ag :around #'eriks/counsel-top-most-git-root-advice)
   (counsel-mode 1)
   :general
   ('counsel-mode-map
    [remap describe-bindings] nil
    [remap recentf-open-files] 'counsel-recentf
-   "M-s" 'counsel-rg)
+   "M-s" 'counsel-projectile-rg)
   ('normal
    'counsel-mode-map
    :prefix eriks/leader
