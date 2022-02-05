@@ -58,5 +58,5 @@
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (aw-scope 'frame)
   :general
-  ('normal
+  ('global
    "C-x o" 'ace-window))
