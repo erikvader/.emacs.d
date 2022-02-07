@@ -69,6 +69,7 @@
    `(default-italic ((,class (:italic t))))
    `(ffap ((,class (:foreground ,fg4))))
    `(fringe ((,class (:background ,bg1 :foreground ,fg4))))
+   `(scroll-bar ((,class (:foreground ,fg4))))
    `(highlight ((,class (:foreground ,fg3 :background ,bg3))))
    `(hl-line ((t (:background "gray15"))))
    `(info-quoted-name ((,class (:foreground ,builtin))))
