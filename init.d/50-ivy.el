@@ -32,12 +32,17 @@
   :general
   ('counsel-mode-map
    [remap describe-bindings] nil
-   [remap recentf-open-files] 'counsel-recentf
-   "M-s" 'counsel-projectile-rg)
+   [remap recentf-open-files] 'counsel-recentf)
   ('normal
    'counsel-mode-map
    :prefix eriks/leader
    "y" 'counsel-yank-pop))
+
+(use-package eriks-counsel-grep
+  :after counsel
+  :general
+  ('counsel-mode-map
+   "M-s" 'eriks/counsel-grep))
 
 (use-package swiper
   :ensure t
