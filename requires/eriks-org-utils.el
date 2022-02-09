@@ -32,6 +32,6 @@ What it tries to do:
       (donext)
       (eriks/delete-trailing-lines))))
 
-(add-to-list 'safe-local-variable-values '(eval eriks/org-format))
+(add-to-list 'safe-local-eval-forms '(eriks/org-format))
 
 (provide 'eriks-org-utils)
