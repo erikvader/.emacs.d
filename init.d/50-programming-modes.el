@@ -34,14 +34,8 @@
   :defer t
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
-  (defun close-tag-stay ()
-    (interactive)
-    (save-excursion
-      (sgml-close-tag)))
   :gfhook
-  ('html-mode-hook (cl-defun html-mode-hook-fun ()
-                     (define-key html-mode-map (kbd "C-c C-e") 'close-tag-stay)
-                     (define-key html-mode-map (kbd "/") nil))))
+  ('sgml-mode-hook #'sgml-electric-tag-pair-mode))
 
 (use-package mhtml-mode
   :config
