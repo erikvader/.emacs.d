@@ -27,7 +27,8 @@
    :prefix "C-c"
    "p" 'projectile-command-map)
   :custom
-  (projectile-completion-system 'ivy))
+  (projectile-completion-system 'ivy)
+  (projectile-git-submodule-command nil))
 
 (use-package yasnippet
   :ensure t
