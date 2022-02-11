@@ -21,6 +21,7 @@
   :ensure t
   :diminish
   :config
+  (put 'projectile-project-root 'safe-local-variable #'stringp)
   (projectile-mode 1)
   :general
   ('projectile-mode-map
