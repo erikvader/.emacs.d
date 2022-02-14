@@ -24,6 +24,7 @@
   :after org)
 
 (use-package evil-org
+  :ensure t
   :diminish
   :after org
   :ghook 'org-mode-hook

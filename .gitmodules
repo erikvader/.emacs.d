@@ -7,9 +7,6 @@
 [submodule "submodules/evil-surround"]
 	path = submodules/evil-surround
 	url = https://github.com/erikvader/evil-surround.git
-[submodule "submodules/evil-org-mode"]
-	path = submodules/evil-org-mode
-	url = https://github.com/erikvader/evil-org-mode
 [submodule "submodules/minizinc-mode"]
 	path = submodules/minizinc-mode
 	url = https://github.com/erikvader/minizinc-mode
