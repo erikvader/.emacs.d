@@ -52,14 +52,6 @@
   (global-eldoc-mode)
   :diminish eldoc-mode)
 
-;; python-mode already does this by itself
-;; `python-indent-guess-indent-offset'
-(use-package dtrt-indent
-  :ensure t
-  :diminish
-  :config
-  (dtrt-indent-global-mode))
-
 ;TODO: how does this interact with tramp?
 (use-package add-node-modules-path
   :ensure t
