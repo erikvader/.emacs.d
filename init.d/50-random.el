@@ -7,6 +7,7 @@
   (unless column-number-indicator-zero-based
     (customize-set-variable 'sml/col-number-format
                             (cl-substitute ?C ?c sml/col-number-format)))
+  (customize-set-variable 'sml/position-percentage-format nil)
   (customize-set-variable 'sml/show-encoding
                           (cl-substitute ?Z ?z sml/show-encoding)))
 
