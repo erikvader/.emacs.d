@@ -31,9 +31,9 @@
   :ensure t)
 
 (use-package sgml-mode
-  :defer t
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
+  (evil-set-initial-state 'sgml-mode 'normal)
   :gfhook
   ('sgml-mode-hook #'sgml-electric-tag-pair-mode))
 
@@ -42,6 +42,12 @@
   (add-to-list 'sp-navigate-consider-sgml-tags 'mhtml-mode)
   :gfhook
   'eriks/show-paren-alt-hook)
+
+(use-package nxml-mode
+  :config
+  (evil-set-initial-state 'nxml-mode 'normal)
+  :gfhook
+  ('nxml-mode-hook #'sgml-electric-tag-pair-mode))
 
 (use-package python
   :defer t
