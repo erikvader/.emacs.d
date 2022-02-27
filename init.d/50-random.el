@@ -94,8 +94,15 @@ if there is no such directory."
   :ensure t
   :custom
   (dumb-jump-selector 'ivy)
-  (dumb-jump-default-project nil)
   (dumb-jump-prefer-searcher 'rg)
+  :config
+  (defun eriks/dumb-jump-projectile-project-root (filepath)
+    "Use projectile to find the root to search in, using
+`default-directory' if not in a project. NOTE: Does not consider
+.dumbjump or .dumbjumpignore files anymore."
+    (or (projectile-project-root filepath)
+        default-directory))
+  (advice-add 'dumb-jump-get-project-root :override #'eriks/dumb-jump-projectile-project-root)
   :gfhook
   ('xref-backend-functions 'dumb-jump-xref-activate))
 
