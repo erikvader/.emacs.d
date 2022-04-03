@@ -42,10 +42,10 @@
    "C-x M-e" 'eriks/eval-replace
    "U" 'evil-redo)
   ('(normal visual)
-   ";" 'repeat
    "-" 'negative-argument)
   ('normal
    :prefix eriks/leader
+   ";" 'repeat
    "C-o" 'browse-url-at-point
    "q" 'kmacro-insert-counter
    "Q" 'kmacro-set-counter

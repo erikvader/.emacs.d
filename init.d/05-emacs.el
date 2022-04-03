@@ -47,6 +47,7 @@ to anything else."
     (disable-require-final-newline t)))
 
 (add-hook 'prog-mode-hook 'maybe-enable-require-final-newline)
+(add-hook 'conf-mode-hook 'maybe-enable-require-final-newline)
 
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
