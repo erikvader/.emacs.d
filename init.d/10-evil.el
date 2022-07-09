@@ -46,6 +46,7 @@
   ('normal
    :prefix eriks/leader
    ";" 'repeat
+   "r" 'revert-buffer
    "C-o" 'browse-url-at-point
    "q" 'kmacro-insert-counter
    "Q" 'kmacro-set-counter

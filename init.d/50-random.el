@@ -179,6 +179,7 @@ if there is no such directory."
   :diminish
   :custom
   (undo-tree-enable-undo-in-region nil)
+  (undo-tree-auto-save-history nil)
   :config
   (eriks/frames-only-use-window-funcs 'undo-tree-visualize) ;; undo-tree moves focus between frames on every action
   (global-undo-tree-mode 1)

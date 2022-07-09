@@ -7,6 +7,7 @@
 
 ;; font
 (add-to-list 'default-frame-alist '(font . "Ubuntu Mono 14"))
+(set-fontset-font t 'symbol "Noto Color Emoji")
 
 ;; column line
 (add-hook 'prog-mode-hook

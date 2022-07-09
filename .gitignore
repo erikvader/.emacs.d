@@ -20,6 +20,7 @@ session.*
 /games
 /.cache
 /init.d.local
+/.dap-breakpoints
 
 # eclipse lsp
 /workspace
