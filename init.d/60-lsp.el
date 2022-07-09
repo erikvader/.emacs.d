@@ -7,6 +7,7 @@
   (lsp-enable-symbol-highlighting nil)
   (lsp-keep-workspace-alive nil)
   (lsp-headerline-breadcrumb-enable nil)
+  (lsp-lens-enable nil)
   :general
   ('normal
    'lsp-mode-map
@@ -88,8 +89,10 @@ server on some workspace."
 (use-package lsp-rust
   :custom
   (lsp-rust-clippy-preference "on")
+  (lsp-rust-analyzer-closing-brace-hints nil)
+  (lsp-rust-analyzer-server-display-inlay-hints nil)
   :gfhook
-  ;; rustup component add rls rust-analysis rust-src
+  ;; pacman -S rust-analyzer
   ('rust-mode-hook 'eriks/lsp-if-already-started))
 
 (use-package ccls

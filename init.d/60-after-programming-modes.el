@@ -67,6 +67,7 @@ See: https://github.com/PyCQA/pylint/pull/4164"
   ('haskell-mode-hook '(flycheck-haskell-setup flycheck-mode-on-safe)))
 
 (use-package flycheck-rust
+  :disabled
   :ensure t
   :gfhook
   ('rust-mode-hook (cl-defun eriks/flycheck-rust-hook ()
