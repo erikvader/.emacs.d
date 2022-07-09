@@ -61,11 +61,5 @@
 (use-package apheleia
   :ensure t
   :diminish "Aph"
-  :config
-  (setf (alist-get 'rustfmt apheleia-formatters) '("rustfmt"))
-  (setf (alist-get 'rust-mode apheleia-mode-alist) 'rustfmt)
-
-  (setf (alist-get 'clang-format apheleia-formatters) '("clang-format"))
-  (setf (alist-get 'c++-mode apheleia-mode-alist) 'clang-format)
   :general
   ("C-c C-f" 'apheleia-format-buffer))

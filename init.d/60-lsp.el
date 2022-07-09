@@ -47,17 +47,40 @@ server on some workspace."
                              clients))
           (lsp)))))
 
-  (defun eriks/lsp-install-format-on-save-hooks-toggle ()
-    "Toggle whether `lsp-format-buffer' should be run before save."
-    (interactive)
-    (if (and (local-variable-p 'before-save-hook)
-             (memq #'lsp-format-buffer before-save-hook))
-        (progn
-          (remove-hook 'before-save-hook #'lsp-format-buffer t)
-          (message "no longer formatting on save"))
-      ;TODO: does order with `lsp--before-save' matter?
-      (add-hook 'before-save-hook #'lsp-format-buffer nil t)
-      (message "formatting on save enabled"))))
+  (defun eriks/lsp-install-format-on-save-hooks-toggle (&optional arg)
+    "Toggle whether `lsp-format-buffer' should be run before
+save. Turn on if ARG is positive, toggle if 0 and turn off if
+negative."
+    (interactive "P")
+    (let ((arg (if (null arg)
+                   0
+                 (prefix-numeric-value arg))))
+      (cond ((and (<= arg 0)
+                  (local-variable-p 'before-save-hook)
+                  (memq #'lsp-format-buffer before-save-hook))
+             (remove-hook 'before-save-hook #'lsp-format-buffer t)
+             (when (interactive-p)
+               (message "no longer formatting on save")))
+            ((and (>= arg 0)
+                  (null (memq #'lsp-format-buffer before-save-hook)))
+             ;;TODO: does order with `lsp--before-save' matter?
+             (add-hook 'before-save-hook #'lsp-format-buffer nil t)
+             (when (interactive-p)
+               (message "formatting on save enabled")))
+            ((interactive-p)
+             (message "formatting on save already on/off")))))
+
+  (defvar-local eriks/lsp-format-on-save nil
+    "Whether `lsp-format-buffer' should run on save")
+  (put 'eriks/lsp-format-on-save 'safe-local-variable #'booleanp)
+  (defun eriks/lsp-format-on-save-hook ()
+    (if (bound-and-true-p eriks/lsp-format-on-save)
+        (eriks/lsp-install-format-on-save-hooks-toggle 1)
+      ;; If this hook is run before local variables are set, make sure it is run after.
+      ;; https://stackoverflow.com/a/5148435
+      (add-hook 'hack-local-variables-hook #'eriks/lsp-format-on-save-hook nil t)))
+  :gfhook
+  ('lsp-mode-hook 'eriks/lsp-format-on-save-hook))
 
 (use-package lsp-ui
   :ensure t
