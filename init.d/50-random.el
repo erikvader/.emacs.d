@@ -253,3 +253,7 @@ normal state is reactivated."
   :general
   ('dired-mode-map
    "q" 'quit-window-kill))
+
+(use-package epg-config
+  :custom
+  (epg-pinentry-mode 'loopback))
