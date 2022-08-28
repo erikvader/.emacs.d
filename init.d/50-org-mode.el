@@ -1,7 +1,6 @@
 (use-package org
   :config
   (evil-set-initial-state 'org-mode 'normal)
-  (setq org-ellipsis "↴")
   :custom
   (org-blank-before-new-entry '((heading) (plain-list-item)))
   (org-edit-src-content-indentation 0)
