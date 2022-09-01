@@ -34,6 +34,26 @@
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
   (evil-set-initial-state 'sgml-mode 'normal)
+  (sp-local-pair '(mhtml-mode sgml-mode html-mode) "<" ">" :actions '(navigate autoskip))
+
+  (defun eriks/sgml-close-tag-inline ()
+    "Closes a tag like `nxml-balanced-close-start-tag-inline'"
+    (interactive)
+    (insert ">")
+    (save-excursion
+      (sgml-close-tag)))
+
+  (defun eriks/sgml-close-tag-block ()
+    "Closes a tag like `nxml-balanced-close-start-tag-block'"
+    (interactive)
+    (eriks/sgml-close-tag-inline)
+    (newline)
+    (eriks/create--newline-and-enter-sexp))
+  :general
+  ('sgml-mode-map
+   :prefix "C-c"
+   "C-i" 'eriks/sgml-close-tag-inline
+   "C-b" 'eriks/sgml-close-tag-block)
   :gfhook
   ('sgml-mode-hook #'sgml-electric-tag-pair-mode))
 
