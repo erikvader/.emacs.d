@@ -21,7 +21,7 @@
                (flycheck-may-enable-mode))
       (flycheck-mode 1)
       (flycheck-select-checker 'python-pylint)
-      (flycheck-disable-checker 'python-mypy)
+      (setq-local flycheck-disabled-checkers '(python-mypy))
       (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
 
   (cl-defun eriks/flycheck-js-hook ()
