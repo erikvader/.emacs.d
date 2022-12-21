@@ -257,3 +257,10 @@ normal state is reactivated."
 (use-package epg-config
   :custom
   (epg-pinentry-mode 'loopback))
+
+(use-package vline
+  :ensure t
+  :general
+  ('normal
+   :prefix eriks/leader
+   "v" 'vline-mode))

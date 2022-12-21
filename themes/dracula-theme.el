@@ -72,6 +72,8 @@
    `(scroll-bar ((,class (:foreground ,fg4))))
    `(highlight ((,class (:foreground ,fg3 :background ,bg3))))
    `(hl-line ((t (:background "gray15"))))
+   `(vline ((,class (:background "gray15"))))
+   `(vline-visual ((,class (:background "gray15"))))
    `(info-quoted-name ((,class (:foreground ,builtin))))
    `(info-string ((,class (:foreground ,str))))
    `(lazy-highlight ((,class (:foreground ,fg2 :background ,bg3))))
