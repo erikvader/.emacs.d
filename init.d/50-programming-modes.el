@@ -269,3 +269,22 @@
    "<up>" 'slime-repl-previous-input
    "<down>" 'slime-repl-next-input
    "C-d" 'eriks/slime-ctrl-d))
+
+(use-package conf-mode
+  :config
+  (eriks/sp-open-on '("[" "{") 'conf-mode)
+  (mapcar (lambda (ext)
+            (add-to-list 'auto-mode-alist (cons ext 'conf-unix-mode)))
+          '("\\.service\\'"
+            "\\.timer\\'"
+            "\\.target\\'"
+            "\\.mount\\'"
+            "\\.automount\\'"
+            "\\.slice\\'"
+            "\\.socket\\'"
+            "\\.path\\'"
+            "\\.netdev\\'"
+            "\\.network\\'"
+            "\\.link\\'"))
+  :gfhook
+  ('conf-mode-hook 'eriks/run-prog-mode-hooks))
