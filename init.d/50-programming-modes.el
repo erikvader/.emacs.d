@@ -230,21 +230,30 @@
 (use-package slime
   :ensure t
   :custom
-  (inferior-lisp-program "sbcl")
   (slime-contribs '(slime-fancy slime-asdf slime-quicklisp))
   :config
-  (eriks/add-to-lists 'interpreter-mode-alist
-                      '("sbcl" . lisp-mode)
-                      '("sbcl-script" . lisp-mode))
+  (setq-default inferior-lisp-program "sbcl")
+  (add-to-list 'auto-mode-alist '("/\\.sbclrc\\'" . lisp-mode))
   (eriks/frames-only-use-window-funcs 'sldb-setup)
   (evil-set-initial-state 'slime-repl-mode 'normal)
+  (function-put 'iter 'common-lisp-indent-function '(nil)) ;; don't indent iter like a defun
+
   (defun eriks/slime-load-current-file ()
     "Runs `slime-load-file' with the current buffer file."
     (interactive)
     (unless (buffer-file-name)
       (user-error "Buffer %s is not visiting a file" (buffer-name)))
     (slime-load-file (buffer-file-name)))
-  (function-put 'iter 'common-lisp-indent-function '(nil)) ;; don't indent iter like a defun
+
+  (defun eriks/slime-ctrl-d ()
+    "Acts like Ctrl+d in a terminal when something is reading stdin."
+    (interactive)
+    (slime-repl-send-input))
+
+  (defun eriks/slime-cd-here ()
+    (interactive)
+    (slime-cd default-directory))
+
   :general
   ('slime-mode-indirect-map
    "C-c C-l" 'eriks/slime-load-current-file)
@@ -258,4 +267,5 @@
   ('insert
    'slime-repl-mode-map
    "<up>" 'slime-repl-previous-input
-   "<down>" 'slime-repl-next-input))
+   "<down>" 'slime-repl-next-input
+   "C-d" 'eriks/slime-ctrl-d))
