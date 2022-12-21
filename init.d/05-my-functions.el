@@ -107,3 +107,9 @@ outdated."
       (goto-char (car b))
       (princ (eval (read buf)) buf)
       (kill-region (car b) (cdr b)))))
+
+(defun eriks/run-prog-mode-hooks ()
+  "Runs all hooks in `prog-mode-hook'. Useful for major modes
+that basically are programming modes but doesn't have it as
+parent."
+  (run-hooks 'prog-mode-hook))

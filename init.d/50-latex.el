@@ -17,11 +17,7 @@
    "C-c e" 'TeX-error-overview)
   :gfhook
   ('TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
-  ('TeX-mode-hook `(TeX-source-correlate-mode
-                    ,(cl-defun latex-run-prog-mode-hook ()
-                       ;;TODO: do I want to do it this way?
-                       ;; why not add all hooks I want run explicitly?
-                       (run-hooks 'prog-mode-hook)))))
+  ('TeX-mode-hook '(TeX-source-correlate-mode eriks/run-prog-mode-hooks)))
 
 (use-package auctex-latexmk
   :ensure t
