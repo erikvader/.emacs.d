@@ -15,7 +15,7 @@ to find a suitable starting point instead of only considering git
 repos."
   (interactive "p")
   (let (init-dir
-        (prompt (concat (case eriks/counsel-grep-function
+        (prompt (concat (cl-case eriks/counsel-grep-function
                           (#'counsel-rg "rg")
                           (#'counsel-ag "ag")
                           (t "??"))

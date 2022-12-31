@@ -51,7 +51,7 @@ is non-nil then remove all added spacing."
 (define-minor-mode eriks/org-spaced-mode
   "Makes all top level headings have extra virtual space above them
 for better readability."
-  nil " Spc" nil
+  :lighter " Spc"
   (unless (derived-mode-p 'org-mode)
     (setq eriks/org-spaced-mode nil)
     (user-error "Not in org-mode"))

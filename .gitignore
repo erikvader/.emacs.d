@@ -21,6 +21,7 @@ session.*
 /.cache
 /init.d.local
 /.dap-breakpoints
+/eln-cache/
 
 # eclipse lsp
 /workspace
