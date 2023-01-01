@@ -22,22 +22,6 @@
   :ensure t
   :diminish
   :config
-  (eriks/hotfix
-   'projectile
-   (defun eriks/projectile-root-top-down (dir &optional list)
-     "An actually working version of `projectile-root-top-down'.
-This issue is raised at: https://github.com/bbatsov/projectile/issues/1729"
-     (let ((root (projectile-root-bottom-up dir list)))
-       (when (and root
-                  (not (string-equal root (expand-file-name "~")))
-                  (not (string-equal root "/")))
-         (setq root (or (eriks/projectile-root-top-down (projectile-parent root) list)
-                        root)))
-       root)))
-  (defun eriks/projectile-top-down-projectile-file (dir)
-    "Finds the top-most directory with the file '.projectile', or nil
-if there is no such directory."
-    (eriks/projectile-root-top-down dir '(".projectile")))
   (put 'projectile-project-root 'safe-local-variable #'stringp)
   (projectile-mode 1)
   :general
@@ -45,11 +29,6 @@ if there is no such directory."
    :prefix "C-c"
    "p" 'projectile-command-map)
   :custom
-  (projectile-project-root-functions '(projectile-root-local
-                                       eriks/projectile-top-down-projectile-file
-                                       projectile-root-bottom-up
-                                       projectile-root-top-down
-                                       projectile-root-top-down-recurring))
   (projectile-completion-system 'ivy))
 
 (use-package yasnippet
