@@ -92,10 +92,16 @@ mode."
 (defmacro eriks/hotfix (package &rest body)
   "Executes BODY and warns, using `eriks/init-warn', if PACKAGE is
 outdated."
+  (declare (indent defun))
   `(progn
      (when (epl-package-outdated-p ,package)
        (eriks/init-warn "\"%s\" got updated and hotfix maybe no longer applies" ,package))
      ,@body))
+
+(defmacro eriks/hotfix-original (&rest _body)
+  "Show how the original buggy code looked like so it is easier to
+determine if the hotfix has been fixed."
+  nil)
 
 ;TODO: use sexp before point instead
 (defun eriks/eval-replace ()
