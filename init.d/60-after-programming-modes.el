@@ -42,24 +42,7 @@
   ('(c-mode-hook c++-mode-hook)
    'eriks/flycheck-c-hook)
   ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
-   'flycheck-mode-on-safe)
-  :config
-  (eriks/hotfix
-   'flycheck
-   (defun eriks/flycheck-python-module-args-advice (_orig checker module-name)
-     ":around advice for `flycheck-python-module-args'. pylint is
-popping cwd from sys.path itself now. The pop is now
-conditionally added to the command string.
-
-See: https://github.com/PyCQA/pylint/pull/4164"
-     (when (flycheck-python-needs-module-p checker)
-       `("-c" ,(concat (when (not (eq checker 'python-pylint))
-                         "import sys; sys.path.pop(0);")
-                       "import runpy;"
-                       (format "runpy.run_module(%S)" module-name)))))
-   (advice-add 'flycheck-python-module-args
-               :around
-               #'eriks/flycheck-python-module-args-advice)))
+   'flycheck-mode-on-safe))
 
 (use-package flycheck-haskell
   :ensure t
