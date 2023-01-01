@@ -3,7 +3,6 @@
   :init
   (defconst eriks/leader "SPC" "My leader key for evil")
   :custom
-  (evil-cross-lines t)
   (evil-default-state 'emacs)
   (evil-ex-visual-char-range t)
   (evil-move-beyond-eol t)

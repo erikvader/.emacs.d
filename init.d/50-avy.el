@@ -34,10 +34,10 @@
    "E" #'evilem-motion-forward-WORD-end
    "b" #'evilem-motion-backward-word-begin
    "B" #'evilem-motion-backward-WORD-begin
-   "t" #'evilem-motion-find-char-to
-   "T" #'evilem-motion-find-char-to-backward
-   "f" #'evilem-motion-find-char
-   "F" #'evilem-motion-find-char-backward
+   "t" #'evilem-motion-find-char-to-inline
+   "T" #'evilem-motion-find-char-to-backward-inline
+   "f" #'evilem-motion-find-char-inline
+   "F" #'evilem-motion-find-char-backward-inline
    "j" #'evilem-motion-next-line
    "k" #'evilem-motion-previous-line))
 
@@ -45,8 +45,7 @@
   :after (:and avy evil evil-easymotion)
   :general
   ('motion
-   "+" 'evil-eriks/avy-goto-line-first-non-blank
-   "," 'avy-goto-char-in-line)
+   "+" 'evil-eriks/avy-goto-line-first-non-blank)
   ('motion
    :prefix eriks/leader
    "SPC" 'avy-goto-char-timer
