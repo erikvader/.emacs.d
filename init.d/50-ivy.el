@@ -6,6 +6,8 @@
   (eriks/unset-key ivy-switch-buffer-map "C-k")
   :general
   ('ivy-minibuffer-map
+   "M-o" 'ivy-dispatching-call
+   "C-M-o" 'ivy-dispatching-done
    "<escape>" 'keyboard-escape-quit
    "C-k" 'ivy-previous-line
    "C-j" 'ivy-next-line
