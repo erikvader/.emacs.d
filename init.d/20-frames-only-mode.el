@@ -4,12 +4,12 @@ kinds of config to optimize for a single frame are loaded if
 nil.")
 
 (defun eriks/frames-only-use-window-funcs (fun)
-    "add FUN to `frames-only-mode-use-window-functions'"
-    (when (featurep 'frames-only-mode)
-      (add-to-list 'frames-only-mode-use-window-functions fun)
-      ;; have to do this manually if mode already is activated
-      (when frames-only-mode
-        (advice-add fun :around #'frames-only-mode-advice-use-windows))))
+  "add FUN to `frames-only-mode-use-window-functions'"
+  (when (featurep 'frames-only-mode)
+    (add-to-list 'frames-only-mode-use-window-functions fun)
+    ;; have to do this manually if mode already is activated
+    (when frames-only-mode
+      (advice-add fun :around #'frames-only-mode-advice-use-windows))))
 
 (use-package frames-only-mode
   :if eriks/use-frames-only-mode
@@ -24,10 +24,11 @@ nil.")
       (save-buffer))
     (when (kill-buffer)
       (delete-frame)))
+
   (defun eriks/window-deletable-p (&optional window)
     "A copy of `window-deletable-p' where the restriction of
 needing more than one frame is removed. This is to play nice with
-`frames-only-mode' and emacsclient where it is okey to close the
+`frames-only-mode' and emacsclient where it is okay to close the
 last frame.
 
 Since 2019-12-05, Emacs version 26.3"
@@ -57,22 +58,12 @@ Since 2019-12-05, Emacs version 26.3"
             (not (eq window (window-main-window frame))))
         t))))
   (advice-add 'window-deletable-p :override 'eriks/window-deletable-p)
+
+  (add-to-list 'frames-only-mode-use-window-functions #'Custom-newline) ;; customize actions window
+  (add-to-list 'frames-only-mode-kill-frame-when-buffer-killed-buffer-list "widget-choose") ;; actually close customize's action window
+
+  (add-to-list 'frames-only-mode-use-window-functions #'display-warning) ;; logs from byte compilation for example
+
   (frames-only-mode 1)
-  :custom
-  (frames-only-mode-use-window-functions
-   '(calendar
-     report-emacs-bug
-     checkdoc-show-diagnostics
-     checkdoc
-     Custom-newline ;; customize actions window
-     ))
-  (frames-only-mode-kill-frame-when-buffer-killed-buffer-list
-   '("*RefTeX Select*"
-     "*Help*"
-     "*Popup Help*"
-     "*Completions*"
-     "widget-choose" ;; actually close customize's action window
-     ))
-  (frames-only-mode-reopen-frames-from-hidden-x11-virtual-desktops nil)
   :general
   ("C-x C-0" 'kill-buffer-and-frame))

@@ -1,13 +1,14 @@
 ;; looks
-(blink-cursor-mode 0)
-(menu-bar-mode 0)
-(tool-bar-mode 0)
+(blink-cursor-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 (setq-default inhibit-startup-screen t)
 (setq-default frame-title-format "Emacs - %b")
 (setq-default cursor-type 'bar)
 (setq-default blink-matching-paren nil)
 (global-hl-line-mode t)
 (setq-default column-number-indicator-zero-based nil)
+(show-paren-mode -1)
 
 ;; scroll bars
 (set-scroll-bar-mode 'right)
@@ -19,7 +20,7 @@
 
 ;; variables
 (setq-default line-move-visual nil)
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq-default use-short-answers t)
 (setq-default column-number-mode t)
 (setq-default indent-tabs-mode nil)
 (setq-default sentence-end-double-space nil)
@@ -59,3 +60,8 @@ to anything else."
 
 ;; enable disabled commands
 (put 'narrow-to-region 'disabled nil)
+
+;; suppress logs from native compilation and byte compilation
+(require 'warnings)
+(add-to-list 'warning-suppress-types 'bytecomp)
+(add-to-list 'warning-suppress-types 'comp)

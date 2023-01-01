@@ -1,3 +1,6 @@
+;; compile on install rather than on first load
+(setq-default package-native-compile t)
+
 ;; install use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))

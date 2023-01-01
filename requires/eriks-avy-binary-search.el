@@ -12,7 +12,7 @@
                                   (setq points (list min middle max))
                                 (setq points (list middle max))
                                 (setq avy-keys '(?j ?l)))
-                              (avy--process points (avy--style-fn avy-style))
+                              (avy-process points (avy--style-fn avy-style))
                               (cond
                                ((= (point) middle))
                                ((< (point) middle)
