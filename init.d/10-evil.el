@@ -8,7 +8,6 @@
   (evil-ex-visual-char-range t)
   (evil-move-beyond-eol t)
   (evil-move-cursor-back nil)
-  (evil-search-module 'evil-search)
   (evil-want-C-d-scroll t)
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
@@ -53,6 +52,11 @@
    "&" 'evil-ex-repeat-substitute-with-flags)
   :config
   (evil-mode 1)
+  (eriks/hotfix
+   'evil
+   ;; Doesn't work to set this with custom anymore for some reason. Using the setter
+   ;; function directly.
+   (evil-select-search-module 'evil-search-module 'evil-search))
   ;; Doesn't work to set these in :custom, They overwrite later calls
   ;; to `evil-set-initial-state' for some reason.
   (setq evil-emacs-state-modes nil
