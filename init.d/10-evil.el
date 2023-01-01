@@ -33,8 +33,7 @@
    "<left>" 'ignore
    "<down>" 'ignore
    "<right>" 'ignore
-   "C-e" 'end-of-line
-   "C-r" 'eriks/paste-from-register)
+   "C-e" 'end-of-line)
   ('normal
    "<backspace>" 'evil-ex-nohighlight
    "C-@" "@@"
@@ -81,24 +80,7 @@ normal initial state is ignored."
     "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
     `(progn
        (define-key evil-visual-state-local-map   (kbd ,(concat "a " key)) ,func)
-       (define-key evil-operator-state-local-map (kbd ,(concat "a " key)) ,func)))
-  (eriks/hotfix
-   'evil
-   (defun eriks/paste-from-register (register)
-     "Copy of `evil-paste-from-register', except this is not
-moving the cursor one step too far."
-     (interactive
-      (let ((overlay (make-overlay (point) (point)))
-            (string "\""))
-        (unwind-protect
-            (progn
-              ;; display " in the buffer while reading register
-              (put-text-property 0 1 'face 'minibuffer-prompt string)
-              (put-text-property 0 1 'cursor t string)
-              (overlay-put overlay 'after-string string)
-              (list (or evil-this-register (read-char))))
-          (delete-overlay overlay))))
-     (evil-paste-before nil register t))))
+       (define-key evil-operator-state-local-map (kbd ,(concat "a " key)) ,func))))
 
 (use-package golden-ratio-scroll-screen
   :ensure t
