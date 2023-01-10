@@ -8,7 +8,9 @@
 ;; setup use-package
 (use-package use-package
   :demand t
-  :custom (use-package-always-demand t))
+  :custom
+  (use-package-always-demand t)
+  (use-package-use-theme nil))
 
 (use-package diminish
   :ensure t)
