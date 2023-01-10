@@ -114,6 +114,7 @@ negative."
   (lsp-rust-clippy-preference "on")
   (lsp-rust-analyzer-closing-brace-hints nil)
   (lsp-rust-analyzer-server-display-inlay-hints nil)
+  (lsp-rust-analyzer-call-info-full nil)
   :gfhook
   ;; pacman -S rust-analyzer
   ('rust-mode-hook 'eriks/lsp-if-already-started))
