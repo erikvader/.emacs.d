@@ -124,6 +124,7 @@
    "/" 'isearch-forward
    "O" 'pdf-occur
    "r" 'image-rotate
+   "R" 'revert-buffer
    "q" 'quit-window-kill
    "w" 'pdf-view-fit-page-to-window
    "W" 'pdf-view-fit-width-to-window
@@ -142,6 +143,8 @@
    "p" 'pdf-history-backward
    "C-o" 'pdf-history-backward
    "C-i" 'pdf-history-forward)
+  ('pdf-history-minor-mode-map
+   "r" nil)
   ('pdf-links-minor-mode-map
    "f" 'pdf-links-action-perform
    "F" 'pdf-links-isearch-link)
