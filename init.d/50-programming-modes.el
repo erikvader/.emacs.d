@@ -66,6 +66,14 @@
 (use-package nxml-mode
   :config
   (evil-set-initial-state 'nxml-mode 'normal)
+  (defun eriks/nxml-gt ()
+    (interactive)
+    (condition-case nil (nxml-balanced-close-start-tag-inline)
+      (error (self-insert-command 1))))
+  :general
+  ('insert
+   'nxml-mode-map
+   ">" #'eriks/nxml-gt)
   :gfhook
   ('nxml-mode-hook #'sgml-electric-tag-pair-mode))
 
