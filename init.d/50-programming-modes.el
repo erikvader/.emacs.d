@@ -288,3 +288,21 @@
             "\\.link\\'"))
   :gfhook
   ('conf-mode-hook 'eriks/run-prog-mode-hooks))
+
+(use-package clojure-mode
+  :ensure t)
+
+(use-package cider
+  :ensure t
+  :custom
+  (cider-show-error-buffer nil)
+  :general
+  ('normal
+   'cider-repl-mode-map
+   "C-k" #'cider-repl-previous-input
+   "C-j" #'cider-repl-next-input))
+
+(use-package clj-refactor
+  :ensure t
+  :gfhook
+  ('clojure-mode-hook 'clj-refactor-mode))

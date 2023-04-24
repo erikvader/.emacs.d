@@ -64,3 +64,10 @@
   :ensure t
   :gfhook
   ('elixir-mode-hook 'flycheck-mode-on-safe))
+
+;; (use-package flycheck-clojure
+;;   :ensure t
+;;   :config
+;;   (flycheck-clojure-setup)
+;;   :gfhook
+;;   ('clojure-mode-hook 'flycheck-mode-on-safe))
