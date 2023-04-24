@@ -63,5 +63,5 @@ to anything else."
 
 ;; suppress logs from native compilation and byte compilation
 (require 'warnings)
-(add-to-list 'warning-suppress-types 'bytecomp)
-(add-to-list 'warning-suppress-types 'comp)
+(add-to-list 'warning-suppress-types '(bytecomp))
+(add-to-list 'warning-suppress-types '(comp))
