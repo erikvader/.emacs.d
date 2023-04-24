@@ -14,7 +14,7 @@
     (when (stringp paren)
       (setq paren (list paren)))
     (dolist (i paren)
-      (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")))))
+      (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "<return>")))))
   :ghook ('prog-mode-hook '(show-smartparens-mode smartparens-mode))
   :custom
   (sp-autodelete-closing-pair nil)

@@ -120,7 +120,10 @@ normal initial state is ignored."
    "S" 'eriks/evil-open-line
    "<return>" 'eriks/evil-open-line-below
    "S-<return>" 'eriks/evil-open-line-above
-   "go" 'eriks/evil-open-below-comment)
+   "o" 'eriks/evil-open-below-comment
+   "go" 'evil-open-below)
+  ('insert
+   "<return>" eriks/evil-open-line-comment-fun)
   ('(normal visual)
    "gJ" 'eriks/evil-join-no-space
    "J"  'eriks/evil-join-no-comment

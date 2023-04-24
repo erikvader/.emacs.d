@@ -11,7 +11,7 @@ if we are in major-mode 'mode'
   same-as-prev      = same indentation as the previous line
   according-to-mode = call `indent-according-to-mode'")
 
-(defvar eriks/evil-open-line-comment-fun 'comment-indent-new-line
+(defvar eriks/evil-open-line-comment-fun 'default-indent-new-line
   "Function to create a new comment line for all relevant open line functions.")
 
 (defun eriks/evil-open-line (ARG)
