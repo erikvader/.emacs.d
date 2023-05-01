@@ -76,9 +76,6 @@ instead (splits, adds comment chars and indents)."
   "Pretty much the same as `evil-open-below' except that this
 continues a comment if we are in one. See `eriks/evil-open-line-comment-fun'."
   (interactive)
-  (unless (eq evil-want-fine-undo t)
-    (evil-start-undo-step))
-  (push (point) buffer-undo-list)
   (end-of-line)
   (funcall eriks/evil-open-line-comment-fun)
   (evil-insert-state 1))
