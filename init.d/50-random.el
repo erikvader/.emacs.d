@@ -203,14 +203,16 @@ normal state is reactivated."
    "gR" 'iedit-mode)
   ('normal
    'iedit-mode-keymap
+   "gr" 'eriks/evil-iedit-restrict
+   "gf" 'iedit-restrict-function
+   "gl" 'iedit-restrict-current-line
    "<escape>" 'iedit-mode)
   ('normal
    'iedit-mode-occurrence-keymap
-   "gr" 'eriks/evil-iedit-restrict
    "gt" 'iedit-toggle-selection
-   "gf" 'iedit-restrict-function
-   "gl" 'iedit-restrict-current-line
-   "C" 'iedit-delete-occurrences))
+   "n" 'iedit-next-occurrence
+   "N" 'iedit-prev-occurrence
+   "D" 'iedit-delete-occurrences))
 
 (use-package flyspell
   :general
