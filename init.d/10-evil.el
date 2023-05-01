@@ -79,17 +79,22 @@ normal initial state is ignored."
 
 (use-package golden-ratio-scroll-screen
   :ensure t
+  :config
+  (defun eriks/evil-scroll-auto-mark-advice (&rest _ignore)
+    "Save the initial jump point before a sequence of scroll commands."
+    (unless (advice-member-p #'eriks/evil-scroll-auto-mark-advice last-command)
+      (evil-set-jump)))
+  (mapc (lambda (sym)
+          (advice-add sym :before #'eriks/evil-scroll-auto-mark-advice))
+        '(golden-ratio-scroll-screen-up
+          golden-ratio-scroll-screen-down))
   :general
   ('motion
    "C-d" 'golden-ratio-scroll-screen-up
    "C-u" 'golden-ratio-scroll-screen-down)
   ('visual
    "C-d" 'evil-scroll-down
-   "C-u" 'evil-scroll-up)
-  ;; ;TODO: why do i have these?
-  ;; ([remap scroll-down-command] 'golden-ratio-scroll-screen-down
-  ;;  [remap scroll-up-command]   'golden-ratio-scroll-screen-up)
-  )
+   "C-u" 'evil-scroll-up))
 
 (use-package drag-stuff
   :ensure t
