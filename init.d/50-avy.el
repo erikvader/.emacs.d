@@ -34,13 +34,12 @@
    "E" #'evilem-motion-forward-WORD-end
    "b" #'evilem-motion-backward-word-begin
    "B" #'evilem-motion-backward-WORD-begin
-   "j" #'evilem-motion-next-line
-   "k" #'evilem-motion-previous-line)
-  ('motion
    "t" #'evilem-motion-find-char-to-inline
    "T" #'evilem-motion-find-char-to-backward-inline
    "f" #'evilem-motion-find-char-inline
-   "F" #'evilem-motion-find-char-backward-inline))
+   "F" #'evilem-motion-find-char-backward-inline
+   "j" #'evilem-motion-next-line
+   "k" #'evilem-motion-previous-line))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)
