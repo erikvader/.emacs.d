@@ -123,7 +123,7 @@ normal initial state is ignored."
   :general
   ('normal
    "S" 'eriks/evil-open-line
-   "<return>" 'eriks/evil-open-line-below
+   "RET" 'eriks/evil-open-line-below
    "S-<return>" 'eriks/evil-open-line-above
    "go" 'eriks/evil-open-below-comment)
   ('(normal visual)
