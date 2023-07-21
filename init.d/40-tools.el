@@ -63,3 +63,39 @@
   :diminish "Aph"
   :general
   ("C-c C-f" 'apheleia-format-buffer))
+
+(use-package dired
+  :custom
+  (dired-listing-switches "-alh")
+  :config
+  (evil-set-initial-state 'dired-mode 'normal)
+  (evil-collection-dired-setup)
+  :general
+  ;; ('normal
+  ;;  'dired-mode-map
+  ;;  "q" 'quit-window-kill)
+  :gfhook 'dired-hide-details-mode)
+
+(use-package vscode-icon
+  :ensure t)
+
+(use-package dired-subtree
+  :ensure t
+  :general
+  ('normal
+   'dired-mode-map
+   "H" 'dired-subtree-up))
+
+(use-package dired-sidebar
+  :ensure t
+  :custom
+  (dired-sidebar-close-sidebar-on-file-open t)
+  (dired-sidebar-theme 'vscode)
+  :general
+  ('normal
+   :prefix eriks/leader
+   "m" 'dired-sidebar-toggle-sidebar)
+  ('normal
+   'dired-sidebar-mode-map
+   :prefix eriks/leader
+   "m" 'dired-sidebar-toggle-sidebar))

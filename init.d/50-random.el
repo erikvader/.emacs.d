@@ -66,6 +66,13 @@
 
 (use-package ibuffer
   :defer t
+  :custom
+  (ibuffer-saved-filter-groups '(("eriks"
+                                  ("dired" (or (mode . dired-mode)
+                                               (mode . dired-sidebar-mode))))))
+  :gfhook
+  ('ibuffer-mode-hook (cl-defun eriks/ibuffer-switch-to-my-filter-group ()
+                        (ibuffer-switch-to-saved-filter-groups "eriks")))
   :general
   ("C-x C-b" 'ibuffer))
 
@@ -232,11 +239,6 @@ normal state is reactivated."
    "r" 'revert-buffer
    "q" 'quit-window
    "<backspace>" 'evil-ex-nohighlight))
-
-(use-package dired
-  :general
-  ('dired-mode-map
-   "q" 'quit-window-kill))
 
 (use-package epg-config
   :custom
