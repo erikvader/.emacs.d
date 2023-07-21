@@ -56,7 +56,7 @@
   (setq evil-emacs-state-modes nil
         evil-motion-state-modes '(help-mode)
         evil-insert-state-modes nil
-        evil-normal-state-modes '(prog-mode conf-mode)
+        evil-normal-state-modes '(prog-mode conf-mode text-mode)
         evil-emacs-state-cursor '(hollow))
   (defun eriks/force-emacs-initial-state ()
     "A handy way to set initial state for a minor mode. The buffer's

@@ -65,3 +65,8 @@ to anything else."
 (require 'warnings)
 (add-to-list 'warning-suppress-types '(bytecomp))
 (add-to-list 'warning-suppress-types '(comp))
+
+;; assume that files with an actual recognized character encoding are text files
+(defun eriks/use-text-mode-p ()
+  (not (eq 'no-conversion buffer-file-coding-system)))
+(add-to-list 'magic-fallback-mode-alist '(eriks/use-text-mode-p . text-mode) t)
