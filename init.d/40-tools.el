@@ -21,7 +21,6 @@
   )
 
 (use-package comint
-  :defer t
   :config
   (evil-set-initial-state 'comint-mode 'normal)
   :general
@@ -43,11 +42,9 @@
 
 (use-package rainbow-delimiters
   :ensure t
-  :defer t
   :ghook 'prog-mode-hook)
 
 (use-package eldoc
-  :defer t
   :config
   (global-eldoc-mode)
   :diminish eldoc-mode)

@@ -1,6 +1,5 @@
 (use-package tex-mode
   :ensure auctex
-  :defer t
   :config
   (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
   (evil-set-initial-state 'tex-mode 'normal)

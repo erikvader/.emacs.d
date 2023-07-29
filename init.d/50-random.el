@@ -47,7 +47,6 @@
   :after yasnippet)
 
 (use-package ediff
-  :defer t
   :config
   (evil-collection-ediff-setup)
   :custom
@@ -65,7 +64,6 @@
 ;;    "C-c" vdiff-mode-prefix-map))
 
 (use-package ibuffer
-  :defer t
   :custom
   (ibuffer-saved-filter-groups '(("eriks"
                                   ("dired" (or (mode . dired-mode)
@@ -105,7 +103,6 @@
 
 (use-package pdf-tools
   :ensure t
-  :defer t
   :custom
   (pdf-view-display-size 'fit-page)
   :gfhook

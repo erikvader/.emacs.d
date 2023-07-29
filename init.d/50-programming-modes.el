@@ -2,7 +2,6 @@
   (face-remap-set-base 'show-paren-match '(:underline t)))
 
 (use-package cc-mode
-  :defer t
   :config
   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
   (c-add-style "eriks-java"
@@ -78,7 +77,6 @@
   ('nxml-mode-hook #'sgml-electric-tag-pair-mode))
 
 (use-package python
-  :defer t
   :general
   ('inferior-python-mode-map
    "C-d" nil))
@@ -91,7 +89,6 @@
   (pyvenv-mode 1))
 
 (use-package sh-script
-  :defer t
   :config
   (eriks/sp-open-on "{" 'sh-mode)
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
@@ -112,12 +109,10 @@
    "M-q" 'hindent-reformat-region))
 
 (use-package diff-mode
-  :defer t
   :custom
   (diff-refine nil))
 
 (use-package man
-  :defer t
   :general
   ('motion
    'Man-mode-map
@@ -138,11 +133,10 @@
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
 
 (use-package make-mode
-  :defer t)
+  :ensure t)
 
 (use-package rust-mode
   :ensure t
-  :defer t
   :config
   (eriks/sp-open-on "{" 'rust-mode)
   :general
@@ -151,7 +145,6 @@
 
 (use-package ess
   :ensure t
-  :defer t
   :config
   (evil-set-initial-state 'ess-r-help-mode 'motion)
   (eriks/sp-open-on "{" 'ess-r-mode)

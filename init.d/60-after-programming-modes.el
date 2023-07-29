@@ -1,5 +1,4 @@
 (use-package highlight-indent-guides
-  :defer t
   :ensure t
   :diminish
   :custom
