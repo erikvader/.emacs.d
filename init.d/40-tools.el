@@ -67,10 +67,13 @@
 (use-package dired
   :custom
   (dired-listing-switches "-alh")
+  (dired-dwim-target (cl-defun eriks/dired-dwim-target ()
+                       (list (dired-current-directory))))
   :config
   (evil-set-initial-state 'dired-mode 'normal)
   (evil-collection-dired-setup)
   :general
+  ;;TODO:
   ;; ('normal
   ;;  'dired-mode-map
   ;;  "q" 'quit-window-kill)
