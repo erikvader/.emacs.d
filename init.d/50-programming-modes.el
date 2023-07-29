@@ -97,12 +97,9 @@
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
 
 (use-package haskell-mode
-  :defer t
-  :diminish interactive-haskell-mode
   :ensure t
   :gfhook
-  #'haskell-doc-mode
-  #'interactive-haskell-mode)
+  #'haskell-doc-mode)
 
 (use-package hindent
   :ensure t
@@ -113,19 +110,6 @@
   ('visual
    'haskell-mode-map
    "M-q" 'hindent-reformat-region))
-
-(use-package haskell-interactive-mode
-  :defer t
-  :config
-  (evil-set-initial-state 'haskell-interactive-mode 'normal)
-  :general
-  ('normal
-   'haskell-interactive-mode-map
-   "C-k" 'haskell-interactive-mode-history-previous
-   "C-j" 'haskell-interactive-mode-history-next
-   "^" 'haskell-interactive-mode-bol
-   "G" "M-> ^"
-   "<return>" 'haskell-interactive-mode-return))
 
 (use-package diff-mode
   :defer t

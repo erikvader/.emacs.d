@@ -41,13 +41,8 @@
    'eriks/flycheck-js-hook)
   ('(c-mode-hook c++-mode-hook)
    'eriks/flycheck-c-hook)
-  ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
+  ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook haskell-mode-hook)
    'flycheck-mode-on-safe))
-
-(use-package flycheck-haskell
-  :ensure t
-  :gfhook
-  ('haskell-mode-hook '(flycheck-haskell-setup flycheck-mode-on-safe)))
 
 (use-package flycheck-rust
   :disabled
