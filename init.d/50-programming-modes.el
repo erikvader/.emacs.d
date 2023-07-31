@@ -95,8 +95,8 @@
 
 (use-package haskell-mode
   :ensure t
-  :gfhook
-  #'haskell-doc-mode)
+  :config
+  (remove-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
 (use-package hindent
   :ensure t

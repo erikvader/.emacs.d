@@ -18,10 +18,10 @@
     ;; don't mess up lsp settings for flycheck
     (when (and (not lsp-mode)
                (flycheck-may-enable-mode))
-      (flycheck-mode 1)
-      (flycheck-select-checker 'python-pylint)
+      (setq-local flycheck-check-syntax-automatically '(save mode-enable))
+      (setq-local flycheck-checker 'python-pylint)
       (setq-local flycheck-disabled-checkers '(python-mypy))
-      (setq-local flycheck-check-syntax-automatically '(save mode-enable))))
+      (flycheck-mode 1)))
 
   (cl-defun eriks/flycheck-js-hook ()
     (when (functionp 'add-node-modules-path)
@@ -34,13 +34,20 @@
                (flycheck-may-enable-mode))
       (flycheck-mode 1)))
 
+  (cl-defun eriks/flycheck-haskell-hook ()
+    (when (flycheck-may-enable-mode)
+      (setq-local flycheck-disabled-checkers '(haskell-stack-ghc haskell-ghc))
+      (setq-local flycheck-checker 'haskell-hlint)
+      (flycheck-mode 1)))
+
   :gfhook
   ('python-mode-hook 'eriks/flycheck-python-hook)
+  ('haskell-mode-hook 'eriks/flycheck-haskell-hook)
   ('(js-mode-hook typescript-mode-hook rjsx-mode-hook)
    'eriks/flycheck-js-hook)
   ('(c-mode-hook c++-mode-hook)
    'eriks/flycheck-c-hook)
-  ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook haskell-mode-hook)
+  ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
    'flycheck-mode-on-safe))
 
 (use-package flycheck-rust
