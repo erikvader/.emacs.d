@@ -132,9 +132,6 @@
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
 
-(use-package make-mode
-  :ensure t)
-
 (use-package rust-mode
   :ensure t
   :config

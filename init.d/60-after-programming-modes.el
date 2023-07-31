@@ -66,6 +66,7 @@
   :gfhook
   ('elixir-mode-hook 'flycheck-mode-on-safe))
 
+;;TODO: remove?
 ;; (use-package flycheck-clojure
 ;;   :ensure t
 ;;   :config
