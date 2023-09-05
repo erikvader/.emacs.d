@@ -1,6 +1,8 @@
 ;; init package
 (require 'package)
-(add-to-list 'package-archives '("melpa-stable" . "https://melpa.org/packages/"))
+(if (bound-and-true-p eriks/offline)
+    (setq package-archives nil)
+  (add-to-list 'package-archives '("melpa-stable" . "https://melpa.org/packages/")))
 (when (< emacs-major-version 27)
   (package-initialize))
 
