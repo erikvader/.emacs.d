@@ -24,7 +24,9 @@
   ('motion
    "SPC" nil
    "M-e" 'evil-forward-sentence-begin
-   "M-a" 'evil-backward-sentence-begin)
+   "M-a" 'evil-backward-sentence-begin
+   "C-d" "Lzz"
+   "C-u" "Hzz")
   (evil-ex-completion-map
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
@@ -76,25 +78,6 @@ normal initial state is ignored."
     `(progn
        (define-key evil-visual-state-local-map   (kbd ,(concat "a " key)) ,func)
        (define-key evil-operator-state-local-map (kbd ,(concat "a " key)) ,func))))
-
-(use-package golden-ratio-scroll-screen
-  :ensure t
-  :config
-  (defun eriks/evil-scroll-auto-mark-advice (&rest _ignore)
-    "Save the initial jump point before a sequence of scroll commands."
-    (unless (advice-member-p #'eriks/evil-scroll-auto-mark-advice last-command)
-      (evil-set-jump)))
-  (mapc (lambda (sym)
-          (advice-add sym :before #'eriks/evil-scroll-auto-mark-advice))
-        '(golden-ratio-scroll-screen-up
-          golden-ratio-scroll-screen-down))
-  :general
-  ('motion
-   "C-d" 'golden-ratio-scroll-screen-up
-   "C-u" 'golden-ratio-scroll-screen-down)
-  ('visual
-   "C-d" 'evil-scroll-down
-   "C-u" 'evil-scroll-up))
 
 (use-package drag-stuff
   :ensure t
