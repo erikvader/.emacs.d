@@ -22,6 +22,10 @@
 
 (use-package evil-easymotion
   :after (:and evil avy)
+  :config
+  (evilem-make-motion
+   evilem-motion-repeat-find-char-inline #'evil-repeat-find-char
+   :bind ((evil-cross-lines nil)))
   :general
   ('operator
    "J" 'evilem-motion-next-line-first-non-blank
@@ -39,7 +43,8 @@
    "f" #'evilem-motion-find-char-inline
    "F" #'evilem-motion-find-char-backward-inline
    "j" #'evilem-motion-next-line
-   "k" #'evilem-motion-previous-line))
+   "k" #'evilem-motion-previous-line
+   "," #'evilem-motion-repeat-find-char-inline))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)
@@ -48,8 +53,7 @@
    "+" 'evil-eriks/avy-goto-line-first-non-blank)
   ('motion
    :prefix eriks/leader
-   "SPC" 'avy-goto-char-timer
-   "," 'avy-goto-char))
+   "SPC" 'avy-goto-char-timer))
 
 (use-package ace-window
   :ensure t
