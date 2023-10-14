@@ -88,10 +88,18 @@
 
 (use-package dired-sidebar
   :ensure t
+  :config
+  (defun eriks/dired-subtree-find-file ()
+    "Call `find-file' in the current subtree."
+    (interactive)
+    (let ((default-directory (dired-current-directory)))
+      (call-interactively #'find-file)))
   :custom
   (dired-sidebar-close-sidebar-on-file-open t)
   (dired-sidebar-theme 'vscode)
   :general
+  ('dired-sidebar-mode-map
+   "C-x C-f" #'eriks/dired-subtree-find-file)
   ('normal
    :prefix eriks/leader
    "m" 'dired-sidebar-toggle-sidebar)
