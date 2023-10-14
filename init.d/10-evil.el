@@ -236,3 +236,13 @@ normal initial state is ignored."
 
 (use-package evil-collection
   :ensure t)
+
+(use-package evil-numbers
+  :ensure t
+  :general
+  ('(normal visual)
+   :prefix eriks/leader
+   "a" 'evil-numbers/inc-at-pt
+   "x" 'evil-numbers/dec-at-pt
+   "ga" 'evil-numbers/inc-at-pt-incremental
+   "gx" 'evil-numbers/dec-at-pt-incremental))
