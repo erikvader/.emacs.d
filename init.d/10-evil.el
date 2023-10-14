@@ -45,7 +45,7 @@
    "-" 'negative-argument)
   ('normal
    :prefix eriks/leader
-   ";" 'repeat
+   "." 'repeat
    "r" 'revert-buffer
    "C-o" 'browse-url-at-point
    "q" 'kmacro-insert-counter
