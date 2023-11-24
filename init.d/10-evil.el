@@ -242,7 +242,7 @@ normal initial state is ignored."
   :general
   ('(normal visual)
    :prefix eriks/leader
-   "a" 'evil-numbers/inc-at-pt
-   "x" 'evil-numbers/dec-at-pt
-   "ga" 'evil-numbers/inc-at-pt-incremental
-   "gx" 'evil-numbers/dec-at-pt-incremental))
+   "C-a" 'evil-numbers/inc-at-pt
+   "C-x" 'evil-numbers/dec-at-pt
+   "g C-a" 'evil-numbers/inc-at-pt-incremental
+   "g C-x" 'evil-numbers/dec-at-pt-incremental))
