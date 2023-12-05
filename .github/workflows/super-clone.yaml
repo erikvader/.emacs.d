@@ -1,0 +1,31 @@
+name: Super clone
+run-name: ${{github.actor}} is cloning
+on:
+  workflow_dispatch:
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          path: .emacs.d
+
+      - name: Installing emacs
+        run: | 
+          sudo apt-get update
+          sudo apt-get install -y emacs
+
+      - name: Downloading from elpa
+        run: |
+          ln -s ${{github.workspace}}/.emacs.d $HOME/.emacs.d
+          emacs --kill --fg-daemon
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: emacs
+          path: .emacs.d
+          if-no-files-found: error
