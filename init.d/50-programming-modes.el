@@ -288,3 +288,6 @@
   :ensure t
   :gfhook
   ('clojure-mode-hook 'clj-refactor-mode))
+
+(use-package just-mode
+  :ensure t)
