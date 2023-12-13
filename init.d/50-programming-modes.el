@@ -49,9 +49,9 @@
     (newline)
     (eriks/create--newline-and-enter-sexp))
   :general
-  ('sgml-mode-map
-   :prefix "C-c"
-   "C-i" 'eriks/sgml-close-tag-inline
+  ('insert
+   'sgml-mode-map
+   "C-v" 'eriks/sgml-close-tag-inline
    "C-b" 'eriks/sgml-close-tag-block)
   :gfhook
   ('sgml-mode-hook #'sgml-electric-tag-pair-mode))
@@ -65,14 +65,11 @@
 (use-package nxml-mode
   :config
   (evil-set-initial-state 'nxml-mode 'normal)
-  (defun eriks/nxml-gt ()
-    (interactive)
-    (condition-case nil (nxml-balanced-close-start-tag-inline)
-      (error (self-insert-command 1))))
   :general
   ('insert
    'nxml-mode-map
-   ">" #'eriks/nxml-gt)
+   "C-v" #'nxml-balanced-close-start-tag-inline
+   "C-b" #'nxml-balanced-close-start-tag-block)
   :gfhook
   ('nxml-mode-hook #'sgml-electric-tag-pair-mode))
 
