@@ -107,18 +107,22 @@
   (pdf-view-display-size 'fit-page)
   :gfhook
   ('pdf-view-mode-hook (cl-defun eriks/pdf-view-no-evil-cursor ()
-                         "A bug where the cursor creates a thin border around the pages."
+                         "A bug where the cursor creates a thin border around the pages.
+Also that `evil-set-initial-state' does not always work"
+                         (evil-emacs-state)
                          (setq-local evil-emacs-state-cursor '(nil))))
   :config
   (defun eriks/pdf-goto-page (arg)
     "Goto first page if no prefix argument, otherwise goto page ARG."
     (interactive "p")
     (pdf-view-goto-page arg))
+
   (defun eriks/pdf-view-kill-ring-save-clipboard ()
     "Runs `pdf-view-kill-ring-save' but save to system clipboard."
     (interactive)
     (let ((select-enable-clipboard t))
       (pdf-view-kill-ring-save)))
+
   (evil-set-initial-state 'pdf-view-mode 'emacs)
   (eriks/frames-only-use-window-funcs 'pdf-outline)
   :general
