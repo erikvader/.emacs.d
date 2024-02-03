@@ -16,8 +16,8 @@ repos."
   (interactive "p")
   (let (init-dir
         (prompt (concat (cl-case eriks/counsel-grep-function
-                          (#'counsel-rg "rg")
-                          (#'counsel-ag "ag")
+                          (counsel-rg "rg")
+                          (counsel-ag "ag")
                           (t "??"))
                         ": "))
         (extra-args (when (and (< arg 16)

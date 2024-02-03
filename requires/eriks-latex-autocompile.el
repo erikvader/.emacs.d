@@ -72,7 +72,7 @@ see `eriks/latex-autocompile-mode'"
 Queries the command to use when toggling on.
 
 Dependant files can be linked to a master file, queried if applicable."
-  nil " LA" nil
+  :lighter " LA"
   (cl-flet ((is-latex-mode () (and (seq-some #'derived-mode-p eriks/latex-autocompile-latex-modes)
                                    (fboundp 'TeX-command-query)
                                    (fboundp 'TeX-master-file)))
