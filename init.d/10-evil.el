@@ -244,9 +244,18 @@ normal initial state is ignored."
    "C-x" 'evil-numbers/dec-at-pt
    "g C-a" 'evil-numbers/inc-at-pt-incremental
    "g C-x" 'evil-numbers/dec-at-pt-incremental))
+
 (use-package eriks-evil-scroll
   :general
   ('normal
    "C-d" 'eriks/evil-scroll-down
    "C-u" 'eriks/evil-scroll-up))
 
+(use-package eriks-evil-default-register
+  :general
+  ('normal
+   :prefix eriks/leader
+   "p" 'eriks/evil-paste-after
+   "P" 'eriks/evil-paste-before)
+  ('(normal visual)
+   "gy" 'eriks/evil-yank-delete))

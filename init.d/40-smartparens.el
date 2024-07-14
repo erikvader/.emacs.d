@@ -29,20 +29,6 @@
   :general
   ('normal
    :prefix eriks/leader
-   :infix "p"
-   "]" 'sp-forward-slurp-sexp
-   "[" 'sp-backward-slurp-sexp
-   "}" 'sp-forward-barf-sexp
-   "{" 'sp-backward-barf-sexp
-   "s" 'sp-split-sexp
-   "j" 'sp-join-sexp
-   "b" 'sp-extract-before-sexp
-   "a" 'sp-extract-after-sexp
-   "u" 'sp-splice-sexp
-   "k" 'sp-kill-sexp
-   "d" 'sp-splice-sexp-killing-around)
-  ('normal
-   :prefix eriks/leader
    "]" 'sp-forward-slurp-sexp
    "[" 'sp-backward-slurp-sexp
    "}" 'sp-forward-barf-sexp
