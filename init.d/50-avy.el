@@ -26,6 +26,9 @@
   (evilem-make-motion
    evilem-motion-repeat-find-char-inline #'evil-repeat-find-char
    :bind ((evil-cross-lines nil)))
+  (evilem-make-motion
+   evilem-motion-repeat-find-char-reverse-inline #'evil-repeat-find-char-reverse
+   :bind ((evil-cross-lines nil)))
   :general
   ('operator
    "J" 'evilem-motion-next-line-first-non-blank
@@ -44,7 +47,8 @@
    "F" #'evilem-motion-find-char-backward-inline
    "j" #'evilem-motion-next-line
    "k" #'evilem-motion-previous-line
-   "," #'evilem-motion-repeat-find-char-inline))
+   "," #'evilem-motion-repeat-find-char-reverse-inline
+   ";" #'evilem-motion-repeat-find-char-inline))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)
