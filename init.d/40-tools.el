@@ -69,41 +69,67 @@
   :config
   (evil-set-initial-state 'dired-mode 'normal)
   (evil-collection-dired-setup)
-  :general
-  ;;TODO:
-  ;; ('normal
-  ;;  'dired-mode-map
-  ;;  "q" 'quit-window-kill)
   :gfhook 'dired-hide-details-mode)
 
 (use-package vscode-icon
   :ensure t)
 
 (use-package dired-subtree
-  :ensure t
-  :general
-  ('normal
-   'dired-mode-map
-   "H" 'dired-subtree-up))
+  :ensure t)
 
 (use-package dired-sidebar
   :ensure t
   :config
-  (defun eriks/dired-subtree-find-file ()
-    "Call `find-file' in the current subtree."
+  (defun eriks/dired-subtree-create-empty-file ()
+    "Call `dired-create-empty-file' in the current subtree."
     (interactive)
     (let ((default-directory (dired-current-directory)))
-      (call-interactively #'find-file)))
+      (call-interactively #'dired-create-empty-file)))
+
+  (advice-add 'dired-create-empty-file :after #'dired-sidebar-refresh-buffer)
+
+  (defun eriks/dired-sidebar-enter ()
+    "Toggle subtrees on directories and visit normal files."
+    (interactive)
+    (if (not (dired-utils-is-dir-p))
+        (dired-sidebar-find-file)
+      (dired-sidebar-subtree-toggle)
+      (when (dired-subtree--is-expanded-p)
+        (dired-next-line 1))))
+
+  (defun eriks/dired-sidebar-find-file ()
+    "Call `find-file' in the current subtree."
+    (interactive)
+    (let ((default-directory (dired-current-directory))
+          (cur-frame (selected-frame)))
+      (call-interactively #'find-file)
+      (when dired-sidebar-close-sidebar-on-file-open
+        (with-selected-frame cur-frame
+          (dired-sidebar-hide-sidebar)))))
+
+  (defun eriks/dired-sidebar-subtree-cycle ()
+    "Dired sidebar version of `dired-subtree-cycle', akin to
+`dired-sidebar-subtree-toggle'."
+    (interactive)
+    (let ((last-command (if (eq last-command 'eriks/dired-sidebar-subtree-cycle)
+                            'dired-subtree-cycle
+                          last-command)))
+      (dired-subtree-cycle)
+      (dired-sidebar-redisplay-icons)))
+
   :custom
   (dired-sidebar-close-sidebar-on-file-open t)
   (dired-sidebar-theme 'vscode)
   :general
   ('dired-sidebar-mode-map
-   "C-x C-f" #'eriks/dired-subtree-find-file)
-  ('normal
-   :prefix eriks/leader
-   "m" 'dired-sidebar-toggle-sidebar)
+   "C-x C-f" #'eriks/dired-sidebar-find-file)
   ('normal
    'dired-sidebar-mode-map
+   "<tab>" 'eriks/dired-sidebar-subtree-cycle
+   "q" 'dired-sidebar-hide-sidebar
+   "g+" 'eriks/dired-subtree-create-empty-file
+   "l" 'eriks/dired-sidebar-enter
+   "h" 'dired-subtree-up)
+  ('normal
    :prefix eriks/leader
    "m" 'dired-sidebar-toggle-sidebar))
