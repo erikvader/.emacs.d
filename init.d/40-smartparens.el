@@ -46,12 +46,3 @@
    ")" 'sp-end-of-sexp)
   ('insert
    "C-u" 'sp-up-sexp))
-
-(use-package evil-cleverparens
-  :ensure t
-  :after (:and smartparens evil)
-  :general
-  ('inner
-   "d" 'evil-cp-inner-defun)
-  ('outer
-   "d" 'evil-cp-a-defun))

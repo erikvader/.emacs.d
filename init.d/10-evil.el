@@ -35,8 +35,8 @@
    "<right>" 'ignore
    "C-e" 'end-of-line)
   ('normal
+   "|" "@@"
    "<backspace>" 'evil-ex-nohighlight
-   "C-@" "@@"
    "C-x M-e" 'eriks/eval-replace
    "U" 'evil-redo)
   ('(normal visual)
@@ -58,6 +58,7 @@
         evil-insert-state-modes nil
         evil-normal-state-modes '(prog-mode conf-mode text-mode)
         evil-emacs-state-cursor '(hollow))
+
   (defun eriks/force-emacs-initial-state ()
     "A handy way to set initial state for a minor mode. The buffer's
 normal initial state is ignored."
@@ -66,11 +67,13 @@ normal initial state is ignored."
     (setq-local evil-motion-state-modes nil)
     (setq-local evil-insert-state-modes nil)
     (setq-local evil-normal-state-modes nil))
+
   (defmacro eriks/evil-define-inner-local-textobject (key func)
     "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
     `(progn
        (define-key evil-visual-state-local-map   (kbd ,(concat "i " key)) ,func)
        (define-key evil-operator-state-local-map (kbd ,(concat "i " key)) ,func)))
+
   (defmacro eriks/evil-define-outer-local-textobject (key func)
     "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
     `(progn
@@ -233,10 +236,14 @@ normal initial state is ignored."
    ">" 'eriks/evil-shift-right-visual))
 
 (use-package evil-collection
-  :ensure t)
+  :ensure t
+  :custom
+  (evil-collection-key-blacklist (list eriks/leader)))
 
 (use-package evil-numbers
   :ensure t
+  :custom
+  (evil-numbers-pad-default t)
   :general
   ('(normal visual)
    :prefix eriks/leader
