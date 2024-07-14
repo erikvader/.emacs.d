@@ -24,9 +24,7 @@
   ('motion
    "SPC" nil
    "M-e" 'evil-forward-sentence-begin
-   "M-a" 'evil-backward-sentence-begin
-   "C-d" "Lzz"
-   "C-u" "Hzz")
+   "M-a" 'evil-backward-sentence-begin)
   (evil-ex-completion-map
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
@@ -246,3 +244,9 @@ normal initial state is ignored."
    "C-x" 'evil-numbers/dec-at-pt
    "g C-a" 'evil-numbers/inc-at-pt-incremental
    "g C-x" 'evil-numbers/dec-at-pt-incremental))
+(use-package eriks-evil-scroll
+  :general
+  ('normal
+   "C-d" 'eriks/evil-scroll-down
+   "C-u" 'eriks/evil-scroll-up))
+
