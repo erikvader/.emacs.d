@@ -132,7 +132,6 @@ Also that `evil-set-initial-state' does not always work"
    "/" 'isearch-forward
    "O" 'pdf-occur
    "r" 'image-rotate
-   "R" 'revert-buffer
    "q" 'quit-window-kill
    "w" 'pdf-view-fit-page-to-window
    "W" 'pdf-view-fit-width-to-window
@@ -145,7 +144,9 @@ Also that `evil-set-initial-state' does not always work"
    "H" 'image-bob
    "L" 'image-eob
    "y" 'eriks/pdf-view-kill-ring-save-clipboard
-   "g" 'eriks/pdf-goto-page
+   "g" nil
+   "gr" 'revert-buffer
+   "gg" 'eriks/pdf-goto-page
    "G" 'pdf-view-last-page
    "n" 'pdf-history-forward
    "p" 'pdf-history-backward
