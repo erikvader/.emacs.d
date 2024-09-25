@@ -12,7 +12,6 @@
 ;; column line
 (add-hook 'prog-mode-hook
           (cl-defun eriks/activate-display-fill-column ()
-            (setq fill-column 90)
             (setq display-fill-column-indicator t)
             (setq display-fill-column-indicator-character ?│)))
 

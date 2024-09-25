@@ -30,6 +30,7 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 (setq-default inhibit-x-resources t)
+(setq-default fill-column 90)
 
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)
