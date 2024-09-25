@@ -3,6 +3,7 @@
   :custom
   (magit-bury-buffer-function 'magit-mode-quit-window)
   (magit-diff-refine-hunk t)
+  (magit-commit-show-diff nil)
   :general
   ('normal
    :prefix eriks/leader
