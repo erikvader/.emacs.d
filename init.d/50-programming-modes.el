@@ -95,15 +95,16 @@
   :config
   (remove-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
-(use-package hindent
-  :ensure t
-  :general
-  ('normal
-   'haskell-mode-map
-   "M-q" 'hindent-reformat-decl-or-fill)
-  ('visual
-   'haskell-mode-map
-   "M-q" 'hindent-reformat-region))
+;;TODO: this is broken?
+;;(use-package hindent
+;;  :ensure t
+;;  :general
+;;  ('normal
+;;   'haskell-mode-map
+;;   "M-q" 'hindent-reformat-decl-or-fill)
+;;  ('visual
+;;   'haskell-mode-map
+;;   "M-q" 'hindent-reformat-region))
 
 (use-package diff-mode
   :custom
@@ -287,4 +288,7 @@
   ('clojure-mode-hook 'clj-refactor-mode))
 
 (use-package just-mode
+  :ensure t)
+
+(use-package yaml-mode
   :ensure t)

@@ -1,5 +1,5 @@
 name: Super clone
-run-name: ${{github.actor}} is cloning
+run-name: ${{github.actor}} is super cloning
 on:
   workflow_dispatch:
 jobs:
@@ -15,17 +15,23 @@ jobs:
 
       - name: Installing emacs
         run: | 
-          sudo apt-get update
-          sudo apt-get install -y emacs
+          sudo snap install emacs --classic
+
+      - name: Emacs version
+        run: |
+          emacs --version
 
       - name: Downloading from elpa
         run: |
-          ln -s ${{github.workspace}}/.emacs.d $HOME/.emacs.d
-          emacs --kill --fg-daemon
+          ln -s ${{github.workspace}}/.emacs.d "$HOME"/.emacs.d
+          emacs --kill --fg-daemon --debug-init
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v4
         with:
-          name: emacs
-          path: .emacs.d
+          name: emacs_d
+          path: |
+            .emacs.d
+            !.emacs.d/eln-cache/
           if-no-files-found: error
+          include-hidden-files: true

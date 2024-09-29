@@ -16,7 +16,6 @@ session.*
 /eshell
 /bookmarks
 /.lsp-session*
-/.package-last-refresh
 /games
 /.cache
 /init.d.local

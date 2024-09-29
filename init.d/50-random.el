@@ -96,11 +96,6 @@
    :prefix eriks/leader
    "o" 'eriks/spawn-external-terminal))
 
-(use-package pdf-loader
-  :ensure pdf-tools
-  :config
-  (pdf-loader-install))
-
 (use-package pdf-tools
   :ensure t
   :custom
@@ -111,7 +106,12 @@
 Also that `evil-set-initial-state' does not always work"
                          (evil-emacs-state)
                          (setq-local evil-emacs-state-cursor '(nil))))
+
   :config
+  ;; This is the part in `pdf-loader-install' that gets run when pdf-tools is not loaded.
+  (require 'pdf-loader)
+  (pdf-loader--install #'pdf-loader--load)
+
   (defun eriks/pdf-goto-page (arg)
     "Goto first page if no prefix argument, otherwise goto page ARG."
     (interactive "p")

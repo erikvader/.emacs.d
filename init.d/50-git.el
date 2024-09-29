@@ -50,22 +50,25 @@
    :infix "g"
    "w" 'what-the-commit-insert))
 
-(use-package git-gutter-fringe+
+(use-package diff-hl
   :ensure t
-  :diminish git-gutter+-mode
-  :custom
-  (git-gutter-fr+-side 'right-fringe)
+  :gfhook
+  ;;NOTE: the readme says to include these if magit is pretty new
+  ('magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
+  ('magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+  ('dired-mode-hook #'diff-hl-dired-mode-unless-remote)
   :config
-  (global-git-gutter+-mode 1)
-  (eriks/frames-only-use-window-funcs 'git-gutter+-revert-hunk)
+  (global-diff-hl-mode 1)
+  (eriks/frames-only-use-window-funcs 'diff-hl-revert-hunk)
+  :custom
+  (diff-hl-side 'right)
   :general
   ('normal
    :prefix eriks/leader
    :infix "g"
-   "g" 'git-gutter+-mode
-   "j" 'git-gutter+-next-hunk
-   "k" 'git-gutter+-previous-hunk
-   "r" 'git-gutter+-revert-hunk))
+   "r" 'diff-hl-revert-hunk
+   "j" 'diff-hl-next-hunk ;TODO: use show versions instead?
+   "k" 'diff-hl-previous-hunk))
 
 (use-package git-messenger
   :ensure t
