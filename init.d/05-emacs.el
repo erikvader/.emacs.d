@@ -51,6 +51,19 @@ to anything else."
 (add-hook 'prog-mode-hook 'maybe-enable-require-final-newline)
 (add-hook 'conf-mode-hook 'maybe-enable-require-final-newline)
 
+;; disable electric indent easily in file local variables
+(defvar-local eriks/disable-electric-indent-local nil
+  "Disables `electric-indent-mode' in a buffer if non-nil")
+(put 'eriks/disable-electric-indent-local 'safe-local-variable #'booleanp)
+
+(defun eriks/disable-electric-indent-hook-fun ()
+  "Disables `electric-indent-local-mode' if `eriks/disable-electric-indent-local' is
+non-nil."
+  (when eriks/disable-electric-indent-local
+    (electric-indent-local-mode -1)))
+
+(add-hook 'after-change-major-mode-hook 'eriks/disable-electric-indent-hook-fun)
+
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
 (setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
