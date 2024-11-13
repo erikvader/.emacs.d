@@ -34,14 +34,12 @@
    "}" 'sp-forward-barf-sexp
    "{" 'sp-backward-barf-sexp)
   ('motion
-   "][" 'sp-next-sexp
-   "]]" 'sp-forward-sexp ;; sp-forward-parallel-sexp
-   "[[" 'sp-backward-sexp
-   "[]" 'sp-previous-sexp
-   "[{" 'sp-backward-up-sexp
-   "]}" 'sp-up-sexp
-   "[d" 'sp-backward-down-sexp
-   "]d" 'sp-down-sexp
+   "]" 'sp-forward-sexp ;; sp-forward-parallel-sexp
+   "[" 'sp-backward-sexp
+   "C-(" 'sp-backward-up-sexp
+   "C-)" 'sp-up-sexp
+   "C-{" 'sp-backward-down-sexp
+   "C-}" 'sp-down-sexp
    "(" 'sp-beginning-of-sexp
    ")" 'sp-end-of-sexp)
   ('insert

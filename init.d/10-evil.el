@@ -21,6 +21,9 @@
    "M-u" 'universal-argument-more
    "C-u" nil)
   ('emacs "<escape>" 'evil-exit-emacs-state)
+  ('(motion normal)
+   "[" nil
+   "]" nil)
   ('motion
    "SPC" nil
    "M-e" 'evil-forward-sentence-begin
