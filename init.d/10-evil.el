@@ -48,6 +48,7 @@
    :prefix eriks/leader
    "." 'repeat
    "r" 'revert-buffer
+   "R" 'rename-visited-file
    "C-o" 'browse-url-at-point
    "q" 'kmacro-insert-counter
    "Q" 'kmacro-set-counter
@@ -259,7 +260,9 @@ normal initial state is ignored."
   :general
   ('normal
    "C-d" 'eriks/evil-scroll-down
-   "C-u" 'eriks/evil-scroll-up))
+   "<next>" 'eriks/evil-scroll-down
+   "C-u" 'eriks/evil-scroll-up
+   "<prior>" 'eriks/evil-scroll-up))
 
 (use-package eriks-evil-default-register
   :general
@@ -268,4 +271,5 @@ normal initial state is ignored."
    "p" 'eriks/evil-paste-after
    "P" 'eriks/evil-paste-before)
   ('(normal visual)
-   "gy" 'eriks/evil-yank-delete))
+   :prefix eriks/leader
+   "d" 'eriks/evil-yank-delete))
