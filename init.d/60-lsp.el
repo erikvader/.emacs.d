@@ -8,10 +8,12 @@
   (lsp-keep-workspace-alive nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-lens-enable nil)
+  :init
+  (defconst eriks/lsp-leader (concat eriks/leader " a") "My leader key for lsp")
   :general
   ('normal
    'lsp-mode-map
-   :prefix eriks/leader
+   :prefix eriks/lsp-leader
    "a" 'lsp-execute-code-action)
   :config
   (defun lsp-toggle-highlighting ()
@@ -93,7 +95,7 @@ negative."
   :general
   ('normal
    'lsp-ui-mode-map
-   :prefix eriks/leader
+   :prefix eriks/lsp-leader
    "d" 'lsp-ui-doc-glance))
 
 (use-package lsp-ui-sideline
