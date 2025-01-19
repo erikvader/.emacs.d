@@ -1,8 +1,3 @@
-(defun quit-window-kill (&optional not-kill window)
-  "Same as `quit-window' except it's kill-argument has opposite meaning."
-  (interactive "P")
-  (quit-window (not not-kill) window))
-
 (defun eriks/display-buffer-same-window (buffer alist)
   "A rule thingy for `display-buffer'. Run
 `display-buffer-same-window' but also mark the opened window to
@@ -102,17 +97,6 @@ outdated."
   "Show how the original buggy code looked like so it is easier to
 determine if the hotfix has been fixed."
   nil)
-
-;TODO: use sexp before point instead
-(defun eriks/eval-replace ()
-  "Evaluates the sexp at point and replaces it with the result."
-  (interactive)
-  (let ((b (bounds-of-thing-at-point 'sexp))
-        (buf (current-buffer)))
-    (when (and b buf)
-      (goto-char (car b))
-      (princ (eval (read buf)) buf)
-      (kill-region (car b) (cdr b)))))
 
 (defun eriks/run-prog-mode-hooks ()
   "Runs all hooks in `prog-mode-hook'. Useful for major modes
