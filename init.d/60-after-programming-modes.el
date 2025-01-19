@@ -13,63 +13,41 @@
   :ensure t
   :custom
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+  :config
+  (defalias 'fc-mode 'flycheck-mode)
   :init
-  (cl-defun eriks/flycheck-python-hook ()
-    ;; don't mess up lsp settings for flycheck
-    (when (and (not lsp-mode)
-               (flycheck-may-enable-mode))
-      (setq-local flycheck-check-syntax-automatically '(save mode-enable))
-      (setq-local flycheck-checker 'python-pylint)
-      (setq-local flycheck-disabled-checkers '(python-mypy))
-      (flycheck-mode 1)))
-
-  (cl-defun eriks/flycheck-js-hook ()
-    (when (functionp 'add-node-modules-path)
-      (add-node-modules-path))
-    (flycheck-mode-on-safe))
-
-  (cl-defun eriks/flycheck-c-hook ()
-    ;; don't mess up lsp settings for flycheck
-    (when (and (not lsp-mode)
-               (flycheck-may-enable-mode))
-      (flycheck-mode 1)))
-
-  (cl-defun eriks/flycheck-haskell-hook ()
-    (when (flycheck-may-enable-mode)
-      (setq-local flycheck-disabled-checkers '(haskell-stack-ghc haskell-ghc))
-      (setq-local flycheck-checker 'haskell-hlint)
+  (cl-defun eriks/flycheck-activate-if-started-projectile ()
+    "Activates `flycheck-mode' in the current buffer if another buffer
+in the same projectile project also has flycheck enabled."
+    (when-let (((not lsp-mode))
+               ((flycheck-may-enable-mode))
+               (root (projectile-project-root))
+               (cur-mode major-mode)
+               ((some (lambda (buf)
+                        (with-current-buffer buf
+                          (and (buffer-file-name buf)
+                               (eq major-mode cur-mode)
+                               flycheck-mode)))
+                      (projectile-project-buffers root))))
       (flycheck-mode 1)))
 
   :gfhook
-  ('python-mode-hook 'eriks/flycheck-python-hook)
-  ('haskell-mode-hook 'eriks/flycheck-haskell-hook)
-  ('(js-mode-hook typescript-mode-hook rjsx-mode-hook)
-   'eriks/flycheck-js-hook)
-  ('(c-mode-hook c++-mode-hook)
-   'eriks/flycheck-c-hook)
+  ('prog-mode-hook 'eriks/flycheck-activate-if-started-projectile)
   ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
-   'flycheck-mode-on-safe))
+   'flycheck-mode-on-safe)
+  (nil (list
+        (cl-defun eriks/flycheck-haskell-hook ()
+          (when (derived-mode-p 'haskell-mode)
+            (setq-local flycheck-disabled-checkers '(haskell-stack-ghc haskell-ghc))
+            (setq-local flycheck-checker 'haskell-hlint)))
 
-(use-package flycheck-rust
-  :disabled
-  :ensure t
-  :gfhook
-  ('rust-mode-hook (cl-defun eriks/flycheck-rust-hook ()
-                     ;; don't mess up lsp settings for flycheck
-                     (when (and (not lsp-mode)
-                                (flycheck-may-enable-mode))
-                       (flycheck-mode 1)
-                       (flycheck-rust-setup)))))
+        (cl-defun eriks/flycheck-js-hook ()
+          (when (derived-mode-p 'js-mode 'typescript-mode 'rjsx-mode)
+            (when (functionp 'add-node-modules-path)
+              (add-node-modules-path))))
 
-(use-package flycheck-elixir
-  :ensure t
-  :gfhook
-  ('elixir-mode-hook 'flycheck-mode-on-safe))
-
-;;TODO: remove?
-;; (use-package flycheck-clojure
-;;   :ensure t
-;;   :config
-;;   (flycheck-clojure-setup)
-;;   :gfhook
-;;   ('clojure-mode-hook 'flycheck-mode-on-safe))
+        (cl-defun eriks/flycheck-python-hook ()
+          (when (derived-mode-p 'python-mode)
+            (setq-local flycheck-check-syntax-automatically '(save mode-enable))
+            (setq-local flycheck-checker 'python-pylint)
+            (setq-local flycheck-disabled-checkers '(python-mypy)))))))
