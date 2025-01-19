@@ -84,3 +84,35 @@ non-nil."
 (defun eriks/use-text-mode-p ()
   (not (eq 'no-conversion buffer-file-coding-system)))
 (add-to-list 'magic-fallback-mode-alist '(eriks/use-text-mode-p . text-mode) t)
+
+;; add a more handy way to enable minor modes in file local variables
+(defun eriks/symbol-list-p (x)
+  (or (symbolp x)
+      (and
+       (listp x)
+       (cl-every #'symbolp x))))
+
+
+(defcustom eriks/activate-minor-modes nil
+  "List of minor modes to enable from file local variables. This is
+intended to be more ergonomic than `eval'.
+
+This is permanently local since a mode will never be deactivated
+the way this is implemented."
+  :safe #'eriks/symbol-list-p
+  :local 'permanent)
+
+(defun eriks/apply-minor-modes-file-local ()
+  (let ((modes (cond ((listp eriks/activate-minor-modes)
+                      eriks/activate-minor-modes)
+                     ((symbolp eriks/activate-minor-modes)
+                      (list eriks/activate-minor-modes))
+                     (t
+                      (error "Invalid value: %s" eriks/activate-minor-modes)))))
+    (dolist (mode modes)
+      (if (and (functionp mode)
+               (string-suffix-p "-mode" (symbol-name mode)))
+          (funcall mode 1)
+        (message "Not a valid minor mode: `%s', skipping..." mode)))))
+
+(add-hook 'hack-local-variables-hook #'eriks/apply-minor-modes-file-local)
