@@ -55,6 +55,9 @@
   :general
   ('motion
    "+" 'evil-eriks/avy-goto-line-first-non-blank)
+  ('normal
+   'dired-mode-map
+   "+" 'evil-eriks/dired-avy-goto-line)
   ('motion
    :prefix eriks/leader
    "SPC" 'avy-goto-char-timer))

@@ -48,4 +48,15 @@ target character"
 (add-to-list 'avy-orders-alist '(eriks/avy-goto-line-first-non-blank . eriks/avy-order-closest-single))
 (evil-define-avy-motion eriks/avy-goto-line-first-non-blank line)
 
+(defun eriks/dired-avy-goto-line ()
+  "Avy motion to go to a line in a dired buffer"
+  (interactive)
+  (avy-with eriks/dired-avy-goto-line
+    (let ((points (nconc (evilem--collect #'dired-next-line)
+                         (evilem--collect #'dired-previous-line))))
+      (avy--process points (avy--style-fn avy-style)))))
+
+(add-to-list 'avy-orders-alist '(eriks/dired-avy-goto-line . eriks/avy-order-closest-single))
+(evil-define-avy-motion eriks/dired-avy-goto-line line)
+
 (provide 'eriks-evil-avy-motions)

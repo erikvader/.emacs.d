@@ -69,15 +69,20 @@
   :config
   (evil-set-initial-state 'dired-mode 'normal)
   (evil-collection-dired-setup)
-  :gfhook 'dired-hide-details-mode)
+  :gfhook 'dired-hide-details-mode
+  :general
+  ('normal
+   'dired-mode-map
+   "c" nil
+   "ct" 'dired-do-compress-to
+   "cc" 'dired-do-compress
+   "cf" 'dired-create-empty-file
+   "cd" 'dired-create-directory))
 
 (use-package vscode-icon
   :ensure t)
 
 (use-package dired-subtree
-  :ensure t)
-
-(use-package dired-sidebar
   :ensure t
   :config
   (defun eriks/dired-subtree-create-empty-file ()
@@ -85,7 +90,14 @@
     (interactive)
     (let ((default-directory (dired-current-directory)))
       (call-interactively #'dired-create-empty-file)))
+  :general
+  ('normal
+   'dired-mode-map
+   [remap dired-create-empty-file] 'eriks/dired-subtree-create-empty-file))
 
+(use-package dired-sidebar
+  :ensure t
+  :config
   (advice-add 'dired-create-empty-file :after #'dired-sidebar-refresh-buffer)
 
   (defun eriks/dired-sidebar-enter ()
@@ -127,7 +139,6 @@
    'dired-sidebar-mode-map
    "<tab>" 'eriks/dired-sidebar-subtree-cycle
    "q" 'dired-sidebar-hide-sidebar
-   "g+" 'eriks/dired-subtree-create-empty-file
    "l" 'eriks/dired-sidebar-enter
    "h" 'dired-subtree-up)
   ('normal
