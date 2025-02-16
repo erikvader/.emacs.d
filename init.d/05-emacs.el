@@ -6,7 +6,7 @@
 (setq-default frame-title-format "Emacs - %b")
 (setq-default cursor-type 'bar)
 (setq-default blink-matching-paren nil)
-(global-hl-line-mode t)
+(global-hl-line-mode 1)
 (setq-default column-number-indicator-zero-based nil)
 (show-paren-mode -1)
 

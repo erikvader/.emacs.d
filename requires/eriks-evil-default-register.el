@@ -22,7 +22,7 @@
                     yank-handler))
 
 (evil-define-operator eriks/evil-yank-delete (beg end type register yank-handler)
-  "The same as \"0d"
+  "The same as `evil-delete', but uses 0 as the default register instead of \""
   (interactive "<R><x><y>")
   ;;TODO: evil-delete does some comparison against `evil-this-operator' for some weird
   ;;vi-behaviour, should this wrapper override that variable to preserve that behaviour?
