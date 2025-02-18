@@ -42,8 +42,6 @@
    "<backspace>" 'evil-ex-nohighlight
    "C-x M-e" 'eriks/eval-replace
    "U" 'evil-redo)
-  ('(normal visual)
-   "-" 'negative-argument)
   ('normal
    :prefix eriks/leader
    "." 'repeat

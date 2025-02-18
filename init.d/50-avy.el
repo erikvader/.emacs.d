@@ -47,17 +47,14 @@
    "F" #'evilem-motion-find-char-backward-inline
    "j" #'evilem-motion-next-line
    "k" #'evilem-motion-previous-line
+   "+" #'evilem-motion-next-line-first-non-blank
+   "-" #'evilem-motion-previous-line-first-non-blank
    "," #'evilem-motion-repeat-find-char-reverse-inline
    ";" #'evilem-motion-repeat-find-char-inline))
 
 (use-package eriks-evil-avy-motions
   :after (:and avy evil evil-easymotion)
   :general
-  ('motion
-   "+" 'evil-eriks/avy-goto-line-first-non-blank)
-  ('normal
-   'dired-mode-map
-   "+" 'evil-eriks/dired-avy-goto-line)
   ('motion
    :prefix eriks/leader
    "SPC" 'avy-goto-char-timer))
