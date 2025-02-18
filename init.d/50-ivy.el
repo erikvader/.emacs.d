@@ -6,6 +6,7 @@
   (eriks/unset-key ivy-switch-buffer-map "C-k")
   :general
   ('ivy-minibuffer-map
+   ;; M-i 'ivy-insert-current
    "M-o" 'ivy-dispatching-call
    "C-M-o" 'ivy-dispatching-done
    "<escape>" 'keyboard-escape-quit
@@ -16,7 +17,7 @@
    "C-b" 'ivy-scroll-down-command
    "C-f" 'ivy-scroll-up-command
    "TAB" 'ivy-alt-done
-   "M-TAB" 'ivy-partial)
+   "<backtab>" 'ivy-partial)
   ('ivy-switch-buffer-map
    "<delete>" 'ivy-switch-buffer-kill)
   :custom
