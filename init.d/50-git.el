@@ -1,4 +1,5 @@
 (use-package magit
+  ;;TODO: gör ett advice runt `magit-insert-untracked-files' som ser till att den alltid visar alla untracked filer
   :ensure t
   :custom
   (magit-bury-buffer-function 'magit-mode-quit-window)
