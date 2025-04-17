@@ -2,6 +2,7 @@
 (blink-cursor-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 (setq-default inhibit-startup-screen t)
 (setq-default frame-title-format "Emacs - %b")
 (setq-default cursor-type 'bar)
@@ -9,14 +10,6 @@
 (global-hl-line-mode 1)
 (setq-default column-number-indicator-zero-based nil)
 (show-paren-mode -1)
-
-;; scroll bars
-(set-scroll-bar-mode 'right)
-(add-to-list 'default-frame-alist '(scroll-bar-width . 10))
-(defun eriks/disable-scroll-bar-in-current-minibuffer (&optional frame)
-  (set-window-scroll-bars (minibuffer-window frame) 0 nil nil nil t))
-(add-hook 'after-make-frame-functions 'eriks/disable-scroll-bar-in-current-minibuffer)
-(eriks/disable-scroll-bar-in-current-minibuffer) ;; probably needed if started as non-daemon
 
 ;; variables
 (setq-default line-move-visual nil)
