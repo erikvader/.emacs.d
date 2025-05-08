@@ -24,6 +24,9 @@
 (setq-default bidi-inhibit-bpa t)
 (setq-default inhibit-x-resources t)
 (setq-default fill-column 90)
+(setq-default scroll-margin 10)
+(setq-default scroll-conservatively scroll-margin)
+(setq-default scroll-preserve-screen-position 'tt)
 
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)
