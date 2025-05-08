@@ -265,3 +265,9 @@ normal initial state is ignored."
   ('(normal visual)
    :prefix eriks/leader
    "d" 'eriks/evil-yank-delete))
+
+(use-package eriks-evil-backward-exclusive
+  :general
+  ('motion
+   "ge" 'eriks/evil-backward-word-end-exclusive
+   "gE" 'eriks/evil-backward-WORD-end-exclusive))
