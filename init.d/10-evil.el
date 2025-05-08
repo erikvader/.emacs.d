@@ -23,7 +23,9 @@
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('(motion normal)
    "[" nil
-   "]" nil)
+   "]" nil
+   ">" nil ;;NOTE: on purpose not removed from visual state
+   "<" nil)
   ('motion
    "SPC" nil
    "M-e" 'evil-forward-sentence-begin
