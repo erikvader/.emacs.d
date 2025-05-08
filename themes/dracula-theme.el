@@ -258,7 +258,7 @@
    `(mode-line ((,class (:foreground "gray60" :background "gray10" :box nil))))
    `(mode-line-inactive ((,class (:foreground "gray60" :background "gray30" :box nil))))
    ;; smart-mode line
-   '(mode-line-buffer-id ((t :inherit sml/filename :foreground nil :background nil))) 
+   '(mode-line-buffer-id ((t :inherit sml/filename :foreground "unspecified" :background "unspecified")))
    '(sml/global    ((t :foreground "gray70" :inverse-video nil)))
    '(sml/modes     ((t :inherit sml/global :foreground "White")))
    '(sml/filename  ((t :inherit sml/global :foreground "#eab700" :weight bold)))
