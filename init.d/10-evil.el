@@ -40,7 +40,9 @@
    "<right>" 'ignore
    "C-e" 'end-of-line)
   ('normal
-   "|" "@@"
+   "|" (general-simulate-key ('evil-execute-macro "@")
+         ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
+         :docstring "Shorthand for executing the last macro, aka @@")
    "<backspace>" 'evil-ex-nohighlight
    "C-x M-e" 'eriks/eval-replace
    "U" 'evil-redo)
