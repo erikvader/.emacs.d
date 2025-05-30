@@ -15,8 +15,10 @@
 (use-package diminish
   :ensure t)
 
-(use-package general
-  :ensure t)
-
 (use-package s
   :ensure t)
+
+(use-package general
+  :ensure t
+  :custom
+  (general-use-package-emit-autoloads nil))

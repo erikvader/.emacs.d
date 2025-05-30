@@ -269,7 +269,9 @@ normal initial state is ignored."
    "d" 'eriks/evil-yank-delete))
 
 (use-package eriks-evil-backward-exclusive
-  :general
-  ('motion
-   "ge" 'eriks/evil-backward-word-end-exclusive
-   "gE" 'eriks/evil-backward-WORD-end-exclusive))
+  :config
+  (eriks/bind-key-repeat eriks-evil-backward-repeat-map
+    :states 'motion
+    :prefix "g"
+    "e" 'eriks/evil-backward-word-end-exclusive
+    "E" 'eriks/evil-backward-WORD-end-exclusive))

@@ -11,13 +11,6 @@
   (customize-set-variable 'sml/show-encoding
                           (cl-substitute ?Z ?z sml/show-encoding)))
 
-(use-package which-key
-  :disabled
-  :ensure t
-  :diminish
-  :config
-  (which-key-mode 1))
-
 (use-package projectile
   :ensure t
   :diminish

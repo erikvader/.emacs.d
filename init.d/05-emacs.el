@@ -65,9 +65,6 @@ non-nil."
 (setcdr (assq 'empty-line fringe-indicator-alist) 'tilde)
 (setq-default indicate-empty-lines t)
 
-;; remove annoying keybinds
-(general-unbind "<home>" "<end>" "<prior>" "<next>")
-
 ;; enable disabled commands
 (put 'narrow-to-region 'disabled nil)
 
@@ -87,7 +84,6 @@ non-nil."
       (and
        (listp x)
        (cl-every #'symbolp x))))
-
 
 (defcustom eriks/activate-minor-modes nil
   "List of minor modes to enable from file local variables. This is
