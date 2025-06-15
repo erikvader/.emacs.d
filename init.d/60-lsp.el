@@ -12,7 +12,6 @@
   (defconst eriks/lsp-leader (concat eriks/leader " a") "My leader key for lsp")
   :general
   ('normal
-   'lsp-mode-map
    :prefix eriks/lsp-leader
    "a" 'lsp-execute-code-action)
   :config
@@ -94,7 +93,6 @@ negative."
   (lsp-ui-sideline-delay 1)
   :general
   ('normal
-   'lsp-ui-mode-map
    :prefix eriks/lsp-leader
    "d" 'lsp-ui-doc-glance))
 

@@ -1,6 +1,10 @@
 (use-package evil
   :ensure t
   :init
+  ;;TODO: create custom general definer, and put everything in a keymap so it can be listed later
+  ;;TODO: define-prefix-command
+  ;;TODO: se över alla bindings. Man behöver inte lägga bindings i visual om de också är med i normal
+  ;;https://github.com/noctuid/evil-guide?tab=readme-ov-file#leader-key
   (defconst eriks/leader "SPC" "My leader key for evil")
   :custom
   (evil-default-state 'emacs)
@@ -15,11 +19,6 @@
   (evil-undo-system 'undo-tree)
   (evil-goto-definition-functions '(evil-goto-definition-xref evil-goto-definition-search))
   :general
-  ('(normal visual insert)
-   "M-u" 'universal-argument)
-  (universal-argument-map
-   "M-u" 'universal-argument-more
-   "C-u" nil)
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('(motion normal)
    "[" nil
@@ -30,7 +29,8 @@
    "SPC" nil
    "M-e" 'evil-forward-sentence-begin
    "M-a" 'evil-backward-sentence-begin)
-  (evil-ex-completion-map
+  ('evil-ex-completion-map
+   "C-a" nil
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
   ('insert
@@ -46,6 +46,12 @@
    "<backspace>" 'evil-ex-nohighlight
    "C-x M-e" 'eriks/eval-replace
    "U" 'evil-redo)
+  ('global
+    [remap backward-kill-word] 'evil-delete-backward-word
+    [remap backward-word] 'evil-backward-word-begin
+    [remap forward-word] 'evil-forward-word-begin
+    ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
+    )
   ('normal
    :prefix eriks/leader
    "." 'repeat
@@ -57,13 +63,15 @@
    "&" 'evil-ex-repeat-substitute-with-flags)
   :config
   (evil-mode 1)
-  ;; Doesn't work to set these in :custom, They overwrite later calls
+  ;; NOTE: Doesn't work to set these in :custom, They overwrite later calls
   ;; to `evil-set-initial-state' for some reason.
-  (setq evil-emacs-state-modes nil
-        evil-motion-state-modes '(help-mode)
-        evil-insert-state-modes nil
-        evil-normal-state-modes '(prog-mode conf-mode text-mode)
-        evil-emacs-state-cursor '(hollow))
+  (setq-default evil-emacs-state-modes nil
+                evil-motion-state-modes '(help-mode)
+                evil-insert-state-modes nil
+                evil-normal-state-modes '(prog-mode conf-mode text-mode)
+                evil-emacs-state-cursor '(hollow))
+
+  (eriks/universal-argument '(normal visual insert))
 
   (defun eriks/force-emacs-initial-state ()
     "A handy way to set initial state for a minor mode. The buffer's
@@ -250,13 +258,18 @@ normal initial state is ignored."
   :ensure t
   :custom
   (evil-numbers-pad-default t)
+  :config
+  (eriks/bind-key-repeat eriks-evil-numbers-repeat-map
+    :states '(normal visual)
+    :prefix eriks/leader
+    "C-a" 'evil-numbers/inc-at-pt
+    "C-x" 'evil-numbers/dec-at-pt)
   :general
   ('(normal visual)
    :prefix eriks/leader
-   "C-a" 'evil-numbers/inc-at-pt
-   "C-x" 'evil-numbers/dec-at-pt
-   "g C-a" 'evil-numbers/inc-at-pt-incremental
-   "g C-x" 'evil-numbers/dec-at-pt-incremental))
+   :infix "g"
+   "C-a" 'evil-numbers/inc-at-pt-incremental
+   "C-x" 'evil-numbers/dec-at-pt-incremental))
 
 (use-package eriks-evil-default-register
   :general

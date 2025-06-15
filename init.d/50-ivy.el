@@ -3,23 +3,18 @@
   :diminish
   :config
   (ivy-mode 1)
-  (eriks/unset-key ivy-switch-buffer-map "C-k")
+
+  ;;TODO: Emacs doesn't change focus to the selected frame with
+  ;;`ivy-occur-press-and-switch' for some reason. The function `select-frame' says it
+  ;;should. See also `select-frame-set-input-focus'
+
   :general
   ('ivy-minibuffer-map
-   ;; M-i 'ivy-insert-current
    "M-o" 'ivy-dispatching-call
    "C-M-o" 'ivy-dispatching-done
    "<escape>" 'keyboard-escape-quit
-   "C-k" 'ivy-previous-line
-   "C-j" 'ivy-next-line
-   "C-u" 'ivy-kill-line
-   "C-w" 'ivy-backward-kill-word
-   "C-b" 'ivy-scroll-down-command
-   "C-f" 'ivy-scroll-up-command
-   "TAB" 'ivy-alt-done
-   "<backtab>" 'ivy-partial)
-  ('ivy-switch-buffer-map
-   "<delete>" 'ivy-switch-buffer-kill)
+   "C-j" 'ivy-alt-done
+   "TAB" 'ivy-partial)
   :custom
   (ivy-use-selectable-prompt t)
   (ivy-wrap t))
@@ -51,7 +46,7 @@
   :ensure t
   :after ivy
   :general
-  ('(normal ivy-mode-map)
+  ('ivy-mode-map
    "C-s" 'swiper
    "C-S-s" 'swiper-all)
   ('(normal visual)
