@@ -1,4 +1,4 @@
-(defun erik/org-remove-done-tasks ()
+(defun eriks/org-remove-done-tasks ()
   "delete all headers marked as DONE on the current subtree"
   (interactive)
   (org-map-entries

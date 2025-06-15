@@ -1,4 +1,4 @@
-;; small random utilites for evil
+(require 'evil-digraphs) ;; for `eriks/evil-what-cursor'
 
 (defun eriks/evil-what-cursor (&optional arg)
   "Extension of `what-cursor-position' that also shows how the
@@ -29,7 +29,6 @@ macro was the last executed one."
 line instead. Preserves column placement."
   :jump t
   :type line
-  (require 'cl)
   (let* ((cur-line (line-number-at-pos))
          (last (point-max))
          (last-non-empty (cl-dotimes (i last)

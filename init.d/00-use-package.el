@@ -1,6 +1,8 @@
 ;; compile on install rather than on first load
 (setq-default package-native-compile t)
 
+;;TODO: use setopt everywhere instead of :custom
+
 ;; install use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))

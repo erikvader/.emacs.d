@@ -5,6 +5,10 @@
 (defface tab-face '((t . (:inherit default))) "face for tabs")
 (load-theme 'dracula t nil)
 
+;; Easier to remember aliases
+(defalias 'theme-enable #'enable-theme)
+(defalias 'theme-disable #'disable-theme)
+
 ;; font
 (add-to-list 'default-frame-alist '(font . "Ubuntu Mono 14"))
 (set-fontset-font t 'symbol "Noto Color Emoji")
