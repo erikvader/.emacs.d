@@ -51,6 +51,12 @@
       (rainbow-7 "#f1fa8c")
       (rainbow-8 "#0189cc")
       (rainbow-9 "#ff5555")
+      (rainbow-2b "#9aedfe")
+      (rainbow-3b "#caa9fa")
+      (rainbow-4b "#ff92d0")
+      (rainbow-6b "#5af78e")
+      (rainbow-7b "#f4f99d")
+      (rainbow-9b "#ff6e67")
       (eph-verbatim "#f1fa8c")
       (eph-code "#ff79c6")
       (erik-region "HotPink3")
@@ -58,7 +64,7 @@
       (erik-trailing "#05003a") ;;dark-blue
       (hot-pink "#ff69b4") ;;hot-pink
       (darkest-black "#000000") ;;svart
-      )
+      (bright-black "#4d4d4d"))
 
   (custom-theme-set-faces
    'dracula
@@ -87,6 +93,23 @@
    `(vertical-border ((,class (:foreground ,bg2))))
    `(warning ((,class (:foreground ,warning))))
    `(whitespace-trailing ((,class :inherit trailing-whitespace)))
+   ;; ansi-color, mimics my st as best as possible
+   `(ansi-color-black ((t :foreground ,darkest-black :background ,darkest-black)))
+   `(ansi-color-red ((t :foreground ,rainbow-9 :background ,rainbow-9)))
+   `(ansi-color-green ((t :foreground ,rainbow-6 :background ,rainbow-6)))
+   `(ansi-color-yellow ((t :foreground ,rainbow-7 :background ,rainbow-7)))
+   `(ansi-color-blue ((t :foreground ,rainbow-3 :background ,rainbow-3)))
+   `(ansi-color-magenta ((t :foreground ,rainbow-4 :background ,rainbow-4)))
+   `(ansi-color-cyan ((t :foreground ,rainbow-2 :background ,rainbow-2)))
+   `(ansi-color-white ((t :foreground ,fg5 :background ,fg5)))
+   `(ansi-color-bright-black ((t :foreground ,bright-black :background ,bright-black)))
+   `(ansi-color-bright-red ((t :foreground ,rainbow-9b :background ,rainbow-9b)))
+   `(ansi-color-bright-green ((t :foreground ,rainbow-6b :background ,rainbow-6b)))
+   `(ansi-color-bright-yellow ((t :foreground ,rainbow-7b :background ,rainbow-7b)))
+   `(ansi-color-bright-blue ((t :foreground ,rainbow-3b :background ,rainbow-3b)))
+   `(ansi-color-bright-magenta ((t :foreground ,rainbow-4b :background ,rainbow-4b)))
+   `(ansi-color-bright-cyan ((t :foreground ,rainbow-2b :background ,rainbow-2b)))
+   `(ansi-color-bright-white ((t :foreground ,fg1 :background ,fg1)))
    ;; anzu
    `(anzu-mode-line ((,class (:foreground ,hot-pink))))
    ;; syntax
@@ -110,6 +133,10 @@
    `(diff-hl-change ((,class (:foreground "yellow" :background "yellow"))))
    `(diff-hl-delete ((,class (:foreground "red" :background "red"))))
    `(diff-hl-insert ((,class (:foreground "green" :background "green"))))
+   ;; vc
+   `(vc-edited-state ((,class (:inherit diff-hl-change))))
+   `(vc-removed-state ((,class (:inherit diff-hl-delete))))
+   `(vc-added-state ((,class (:inherit diff-hl-insert))))
    ;; auto-complete
    `(ac-completion-face ((,class (:underline t :foreground ,keyword))))
    ;; company
@@ -126,10 +153,6 @@
    `(company-tooltip-common-selection ((,class (:foreground ,str))))
    `(company-tooltip-mouse ((,class (:inherit highlight))))
    `(company-tooltip-selection ((,class (:background ,bg3 :foreground ,fg3))))
-   ;; diff-hl
-   `(diff-hl-change ((,class (:foreground ,rainbow-5 :background ,rainbow-5))))
-   `(diff-hl-delete ((,class (:foreground ,rainbow-9 :background ,rainbow-9))))
-   `(diff-hl-insert ((,class (:foreground ,rainbow-6 :background ,rainbow-6))))
    ;; diff
    `(diff-refine-added ((,class (:background "#229922"))))
    ;; vdiff
