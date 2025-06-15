@@ -27,6 +27,7 @@
 (setq-default scroll-margin 10)
 (setq-default scroll-conservatively scroll-margin)
 (setq-default scroll-preserve-screen-position 'tt)
+(setq-default next-screen-context-lines 10)
 
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)

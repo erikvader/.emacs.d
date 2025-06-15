@@ -22,6 +22,7 @@ session.*
 /.dap-breakpoints
 /eln-cache/
 /projects
+/dirvish/
 
 # eclipse lsp
 /workspace

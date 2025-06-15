@@ -60,6 +60,7 @@
    "SPC" 'avy-goto-char-timer))
 
 (use-package ace-window
+  :disabled ;;NOTE: i barely use this and it is in the way for dirvish
   :ensure t
   :custom
   (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))

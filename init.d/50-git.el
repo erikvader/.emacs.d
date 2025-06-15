@@ -57,7 +57,6 @@
   ;;NOTE: the readme says to include these if magit is pretty new
   ('magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
   ('magit-post-refresh-hook #'diff-hl-magit-post-refresh)
-  ('dired-mode-hook #'diff-hl-dired-mode-unless-remote)
   :config
   (global-diff-hl-mode 1)
   (eriks/frames-only-use-window-funcs 'diff-hl-revert-hunk)

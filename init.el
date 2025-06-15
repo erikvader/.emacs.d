@@ -33,7 +33,7 @@
 (setq-default custom-file "/tmp/emacs-custom-file")
 
 ;; load common lisp for everyone!
-(require 'cl)
+(require 'cl-lib)
 
 ;; load everything
 (cl-flet ((list-el-files (dir) (directory-files dir t "\\.elc?$" nil)))

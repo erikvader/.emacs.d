@@ -59,8 +59,14 @@
 (use-package ibuffer
   :custom
   (ibuffer-saved-filter-groups '(("eriks"
-                                  ("dired" (or (mode . dired-mode)
-                                               (mode . dired-sidebar-mode))))))
+                                  ("Files" (and (visiting-file . t)
+                                                (predicate . (not buffer-read-only))))
+                                  ("Dired" (or (mode . dired-mode)
+                                               (mode . dirvish-special-preview-mode)
+                                               (mode . dirvish-directory-view-mode)
+                                               (mode . dirvish-better-directory-view-mode)
+                                               (name . "PREVIEW :: .*")))
+                                  ("Starred" (starred-name . t)))))
   :gfhook
   ('ibuffer-mode-hook (cl-defun eriks/ibuffer-switch-to-my-filter-group ()
                         (ibuffer-switch-to-saved-filter-groups "eriks")))
@@ -87,7 +93,9 @@
   :general
   ('normal
    :prefix eriks/leader
-   "o" 'eriks/spawn-external-terminal))
+   "o" 'eriks/spawn-external-terminal)
+  ('dired-mode-map
+   "O" 'eriks/spawn-external-terminal))
 
 (use-package pdf-tools
   :ensure t

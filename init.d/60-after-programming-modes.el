@@ -23,7 +23,7 @@ in the same projectile project also has flycheck enabled."
                ((flycheck-may-enable-mode))
                (root (projectile-project-root))
                (cur-mode major-mode)
-               ((some (lambda (buf)
+               ((cl-some (lambda (buf)
                         (with-current-buffer buf
                           (and (buffer-file-name buf)
                                (eq major-mode cur-mode)
