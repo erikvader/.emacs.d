@@ -119,7 +119,7 @@ activates the menu if currently searching, otherwise starts a search."
                (lambda (ele) (if (eq 'dirvish-yank (nth 2 ele))
                                  (cons "p" (cdr ele))
                                ele)))
-       (customize-set-variable 'dirvish-yank-keys))
+       (setopt dirvish-yank-keys))
 
   (define-advice dirvish-wdired-enter-a (:after (&rest rest) evil)
     "Dirvish overrides the cursor as another type..."
