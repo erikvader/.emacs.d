@@ -97,17 +97,17 @@ normal initial state is ignored."
 (use-package drag-stuff
   :ensure t
   :general
-  ('(normal visual)
+  ('normal
    "M-k" 'drag-stuff-up
-   "M-j" 'drag-stuff-down
-   "M-b" 'drag-stuff-left
-   "M-f" 'drag-stuff-right))
+   "M-j" 'drag-stuff-down))
 
 (use-package eriks-evil-drag-line
   :general
-  ('(normal visual)
+  ('normal
    "M-h" 'eriks/evil-drag-line-left
-   "M-l" 'eriks/evil-drag-line-right))
+   "M-l" 'eriks/evil-drag-line-right
+   "M-H" 'eriks/evil-indent-line-left
+   "M-L" 'eriks/evil-indent-line-right))
 
 (use-package evil-args
   :ensure t
@@ -242,12 +242,6 @@ normal initial state is ignored."
   :ensure t
   :config
   (evil-indent-plus-default-bindings))
-
-(use-package eriks-evil-visual-shift
-  :general
-  ('visual
-   "<" 'eriks/evil-shift-left-visual
-   ">" 'eriks/evil-shift-right-visual))
 
 (use-package evil-collection
   :ensure t

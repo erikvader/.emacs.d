@@ -1,29 +1,43 @@
-(defun eriks/evil-drag-line-right (dir)
-  "Runs `indent-rigidly-right' on the current line or on the current
-region. If DIR is negative then run `indent-rigidly-left' instead.
+(evil-define-operator eriks/evil-drag-line-right (beg end dir)
+  "Drag the current line one space to the right."
+  :motion evil-line
+  :type line
+  :keep-visual t
+  :move-point nil
+  (interactive "<r><c>")
+  (indent-rigidly-right beg end)
+  (setq deactivate-mark nil))
 
-This can be thought of as \"dragging\" the contents of the selected
-lines left or right."
-  (interactive "p")
-  (let* ((is-visual (evil-visual-state-p))
-         (evil-range (evil-visual-range))
-         (line (bounds-of-thing-at-point 'line))
-         (beg (if is-visual
-                  (car evil-range)
-                (car line)))
-         (end (if is-visual
-                  (cadr evil-range)
-                (cdr line))))
-    (if (> dir 0)
-        (indent-rigidly-right beg end)
-      (indent-rigidly-left beg end))
-    (when is-visual
-      (evil-normal-state)
-      (evil-visual-restore))))
+(evil-define-operator eriks/evil-drag-line-left (beg end dir)
+  "Drag the current line one space to the left."
+  :motion evil-line
+  :type line
+  :keep-visual t
+  :move-point nil
+  (interactive "<r><c>")
+  (indent-rigidly-left beg end)
+  (setq deactivate-mark nil))
 
-(defun eriks/evil-drag-line-left (dir)
-  "Runs `eriks/evil-drag-line-right' with a negative argument."
-  (interactive "p")
-  (eriks/evil-drag-line-right (- dir)))
+(evil-define-operator eriks/evil-indent-line-right (beg end dir)
+  "Drag the current line one space to the right."
+  :motion evil-line
+  :type line
+  :keep-visual t
+  :move-point nil
+  (interactive "<r><c>")
+  (save-excursion
+    (evil-shift-right beg end))
+  (setq deactivate-mark nil))
+
+(evil-define-operator eriks/evil-indent-line-left (beg end dir)
+  "Drag the current line one space to the left."
+  :motion evil-line
+  :type line
+  :keep-visual t
+  :move-point nil
+  (interactive "<r><c>")
+  (save-excursion
+    (evil-shift-left beg end))
+  (setq deactivate-mark nil))
 
 (provide 'eriks-evil-drag-line)
