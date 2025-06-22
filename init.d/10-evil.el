@@ -259,8 +259,8 @@ normal initial state is ignored."
   :custom
   (evil-numbers-pad-default t)
   :config
-  (eriks/bind-key-repeat eriks-evil-numbers-repeat-map
-    :states '(normal visual)
+  (eriks/defkey-repeat eriks-evil-numbers
+    :states 'normal
     :prefix eriks/leader
     "C-a" 'evil-numbers/inc-at-pt
     "C-x" 'evil-numbers/dec-at-pt)
@@ -283,7 +283,7 @@ normal initial state is ignored."
 
 (use-package eriks-evil-backward-exclusive
   :config
-  (eriks/bind-key-repeat eriks-evil-backward-repeat-map
+  (eriks/defkey-repeat eriks-evil-backward
     :states 'motion
     :prefix "g"
     "e" 'eriks/evil-backward-word-end-exclusive

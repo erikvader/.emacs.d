@@ -19,7 +19,7 @@
       (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")
                                                   (eriks/create--newline-and-enter-sexp "<return>")))))
 
-  (eriks/bind-key-repeat sp-slurp-barf-repeat-map
+  (eriks/defkey-repeat sp-slurp-barf
     :states 'normal
     :prefix eriks/leader
     "]" 'sp-forward-slurp-sexp
@@ -27,7 +27,7 @@
     "}" 'sp-forward-barf-sexp
     "{" 'sp-backward-barf-sexp)
 
-  (eriks/bind-key-repeat sp-transpose-repeat-map
+  (eriks/defkey-repeat sp-transpose
     :states 'normal
     :prefix eriks/leader
     "C-t" 'sp-transpose-sexp)
