@@ -16,16 +16,19 @@
    #'kill-buffer
    (buffer-list)))
 
-;;TODO: use sexp before point instead
 (defun eriks/eval-replace ()
   "Evaluates the sexp at point and replaces it with the result."
   (interactive)
-  (let ((b (bounds-of-thing-at-point 'sexp))
-        (buf (current-buffer)))
-    (when (and b buf)
-      (goto-char (car b))
-      (princ (eval (read buf)) buf)
-      (kill-region (car b) (cdr b)))))
+  (when-let* ((b (bounds-of-thing-at-point 'sexp))
+              (start (car b))
+              (end (cdr b))
+              (buf (current-buffer)))
+    (let ((res (save-excursion
+                 (goto-char start)
+                 (eval (read buf)))))
+      (kill-region start end)
+      (goto-char start)
+      (princ res buf))))
 
 (defun quit-window-kill (&optional not-kill window)
   "Same as `quit-window' except it's kill-argument has opposite meaning."
