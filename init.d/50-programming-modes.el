@@ -21,6 +21,7 @@
                          (setq-local comment-start "//")
                          (setq-local comment-end "")
                          (abbrev-mode -1)))
+  ('c-mode-common-hook #'subword-mode)
   :general
   ('normal
    '(c-mode-map c++-mode-map)
@@ -74,6 +75,7 @@
   ('nxml-mode-hook #'sgml-electric-tag-pair-mode))
 
 (use-package python
+  :gfhook #'subword-mode
   :general
   ('inferior-python-mode-map
    "C-d" nil))
@@ -134,6 +136,7 @@
   :ensure t
   :config
   (eriks/sp-open-on "{" 'rust-mode)
+  :gfhook #'subword-mode
   :general
   ('rust-mode-map
    "C-c C-f" nil))
