@@ -22,7 +22,7 @@
                          (setq-local comment-end "")
                          (abbrev-mode -1)))
   ('c-mode-common-hook #'subword-mode)
-  :general
+  :general-config
   ('normal
    '(c-mode-map c++-mode-map)
    "gf" #'ff-find-other-file))
@@ -49,7 +49,7 @@
     (eriks/sgml-close-tag-inline)
     (newline)
     (eriks/create--newline-and-enter-sexp))
-  :general
+  :general-config
   ('insert
    'sgml-mode-map
    "C-v" 'eriks/sgml-close-tag-inline
@@ -66,7 +66,7 @@
 (use-package nxml-mode
   :config
   (evil-set-initial-state 'nxml-mode 'normal)
-  :general
+  :general-config
   ('insert
    'nxml-mode-map
    "C-v" #'nxml-balanced-close-start-tag-inline
@@ -76,7 +76,7 @@
 
 (use-package python
   :gfhook #'subword-mode
-  :general
+  :general-config
   ('inferior-python-mode-map
    "C-d" nil))
 
@@ -100,7 +100,7 @@
 ;;TODO: this is broken?
 ;;(use-package hindent
 ;;  :ensure t
-;;  :general
+;;  :general-config
 ;;  ('normal
 ;;   'haskell-mode-map
 ;;   "M-q" 'hindent-reformat-decl-or-fill)
@@ -113,7 +113,7 @@
   (diff-refine nil))
 
 (use-package man
-  :general
+  :general-config
   ('motion
    'Man-mode-map
    "q" 'quit-window-kill
@@ -132,12 +132,13 @@
   ('Man-mode-hook (cl-defun man-mode-hook-fun ()
                     (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
 
+;;TODO: finns det en c-end-of-statement osv för rust?
 (use-package rust-mode
   :ensure t
   :config
   (eriks/sp-open-on "{" 'rust-mode)
   :gfhook #'subword-mode
-  :general
+  :general-config
   ('rust-mode-map
    "C-c C-f" nil))
 
@@ -146,7 +147,7 @@
   :config
   (evil-set-initial-state 'ess-r-help-mode 'motion)
   (eriks/sp-open-on "{" 'ess-r-mode)
-  :general
+  :general-config
   ('inferior-ess-r-mode-map
    "C-d" nil
    "C-y" nil
@@ -237,7 +238,7 @@
     (interactive)
     (slime-cd default-directory))
 
-  :general
+  :general-config
   ('slime-mode-indirect-map
    "C-c C-l" 'eriks/slime-load-current-file)
   ('slime-repl-mode-map
@@ -279,7 +280,7 @@
   :ensure t
   :custom
   (cider-show-error-buffer nil)
-  :general
+  :general-config
   ('normal
    'cider-repl-mode-map
    "C-k" #'cider-repl-previous-input

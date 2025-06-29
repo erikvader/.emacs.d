@@ -11,7 +11,7 @@
     (setq ispell-parser 'tex))
   :custom
   (LaTeX-item-indent 0)
-  :general
+  :general-config
   ('TeX-mode-map
    "C-c e" 'TeX-error-overview)
   :gfhook
@@ -32,6 +32,6 @@
 
 (use-package eriks-latex-autocompile
   :after tex-mode
-  :general
+  :general-config
   ('(TeX-mode-map bibtex-mode-map)
    "C-c a" 'eriks/latex-autocompile-mode))

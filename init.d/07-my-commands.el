@@ -47,7 +47,7 @@
                          (/ (window-body-height) 2))))
 (put 'eriks/scroll-up-half 'scroll-command t)
 
-;;NOTE: `scroll-other-window' doesn't have the scroll-command property, so these shouldn't
+;;TODO: `scroll-other-window' doesn't have the scroll-command property, so these shouldn't
 ;;either?
 (defun eriks/scroll-down-half-other-window (&optional lines)
   (interactive "P")

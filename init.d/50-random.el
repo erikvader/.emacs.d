@@ -15,7 +15,7 @@
   :config
   (put 'projectile-project-root 'safe-local-variable #'stringp)
   (projectile-mode 1)
-  :general
+  :general-config
   ('projectile-mode-map
    :prefix "C-c"
    "p" 'projectile-command-map)
@@ -58,7 +58,7 @@
   :gfhook
   ('ibuffer-mode-hook (cl-defun eriks/ibuffer-switch-to-my-filter-group ()
                         (ibuffer-switch-to-saved-filter-groups "eriks")))
-  :general
+  :general-config
   ("C-x C-b" 'ibuffer))
 
 (use-package dumb-jump
@@ -78,10 +78,10 @@
   ('xref-backend-functions 'dumb-jump-xref-activate))
 
 (use-package eriks-random-stuff
-  :general
-  ('normal
-   :prefix eriks/leader
-   "o" 'eriks/spawn-external-terminal)
+  :config
+  (eriks/leader-def 'normal
+    "o" 'eriks/spawn-external-terminal)
+  :general-config
   ('dired-mode-map
    "O" 'eriks/spawn-external-terminal))
 
@@ -114,7 +114,7 @@ Also that `evil-set-initial-state' does not always work"
 
   (evil-set-initial-state 'pdf-view-mode 'emacs)
   (eriks/frames-only-use-window-funcs 'pdf-outline)
-  :general
+  :general-config
   ('pdf-view-mode-map
    [remap swiper] 'isearch-forward
    "C-s" 'isearch-forward
@@ -163,16 +163,11 @@ Also that `evil-set-initial-state' does not always work"
   :config
   (eriks/frames-only-use-window-funcs 'undo-tree-visualize) ;; undo-tree moves focus between frames on every action
   (global-undo-tree-mode 1)
-  :general
-  ('normal
-   :prefix eriks/leader
-   "u" 'undo-tree-visualize))
+  (eriks/leader-def 'normal
+    "u" 'undo-tree-visualize))
 
 (use-package scroll-lock
-  :general
-  ('normal
-   :prefix eriks/leader
-   "l" 'scroll-lock-mode)
+  :general-config
   ('scroll-lock-mode-map
    [remap evil-next-line] 'scroll-lock-next-line
    [remap evil-previous-line] 'scroll-lock-previous-line
@@ -196,9 +191,9 @@ active. The keybinds don't realize they should be active unless
 normal state is reactivated."
     (evil-normal-state))
   (advice-add 'iedit-mode :after #'eriks/iedit-reactivate-normal-state)
-  :general
-  ('(normal visual)
-   "gR" 'iedit-mode)
+  :general-config
+  ('normal
+   "gr" 'iedit-mode)
   ('normal
    'iedit-mode-keymap
    "n" 'iedit-next-occurrence
@@ -213,13 +208,13 @@ normal state is reactivated."
    "D" 'iedit-delete-occurrences))
 
 (use-package flyspell
-  :general
+  :general-config
   ('flyspell-mode-map
    "C-;" nil))
 
 (use-package help-mode
   :gfhook 'scroll-lock-mode
-  :general
+  :general-config
   ('motion
    'help-mode-map
    "<tab>" 'forward-button
@@ -237,7 +232,6 @@ normal state is reactivated."
 
 (use-package vline
   :ensure t
-  :general
-  ('normal
-   :prefix eriks/leader
-   "v" 'vline-mode))
+  :general-config
+  (eriks/leader-def 'normal
+    "v" 'vline-mode))

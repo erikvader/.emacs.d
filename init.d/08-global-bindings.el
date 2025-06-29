@@ -106,32 +106,12 @@ t\".
 ;; remove annoying keybinds
 (general-unbind "<home>" "<end>" "<prior>" "<next>")
 
-;; I don't use these kmacro bindings anyways
-(general-def
-  "C-x C-k" 'kill-current-buffer
-  "C-x e" 'pp-macroexpand-last-sexp)
-
-;; Move the universal argument
-(general-def 'universal-argument-map
-  "C-t" 'universal-argument-more
-  "C-u" nil)
-
-(general-def
-  "C-t" 'universal-argument
-  "C-u" nil)
-
-(defmacro eriks/universal-argument (&rest keymaps)
-  `(general-def ,@keymaps "C-t" 'universal-argument))
-
-;; Next and prev buffers
-(general-def 'buffer-navigation-repeat-map
-  "l" 'next-buffer
-  "h" 'previous-buffer)
-
+;; bind some commands in C-x that replaces bindings i otherwise don't use
 (general-def
   :prefix "C-x"
-  "l" 'next-buffer
-  "h" 'previous-buffer)
+  "C-k" 'kill-current-buffer
+  "m" 'pp-macroexpand-last-sexp
+  "M-e" 'eriks/eval-replace)
 
 ;; Make emacs behave more like the terminal
 (general-def

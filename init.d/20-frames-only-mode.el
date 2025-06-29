@@ -65,5 +65,5 @@ Since 2019-12-05, Emacs version 26.3"
   (add-to-list 'frames-only-mode-use-window-functions #'display-warning) ;; logs from byte compilation for example
 
   (frames-only-mode 1)
-  :general
+  :general-config
   ("C-x C-0" 'kill-buffer-and-frame))

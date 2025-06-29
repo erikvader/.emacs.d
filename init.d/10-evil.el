@@ -18,33 +18,29 @@
   (evil-want-keybinding nil)
   (evil-undo-system 'undo-tree)
   (evil-goto-definition-functions '(evil-goto-definition-xref evil-goto-definition-search))
-  :general
+  :general-config
   ('emacs "<escape>" 'evil-exit-emacs-state)
-  ('(motion normal)
-   "[" nil
-   "]" nil
-   ">" nil ;;NOTE: on purpose not removed from visual state
-   "<" nil)
   ('motion
-   "SPC" nil
    "M-e" 'evil-forward-sentence-begin
-   "M-a" 'evil-backward-sentence-begin)
+   "M-a" 'evil-backward-sentence-begin
+   "M-f" 'evil-forward-section-end
+   "M-b" 'evil-backward-section-begin)
+  ;;NOTE: make it more emacsy
   ('evil-ex-completion-map
    "C-a" nil
+   "C-k" nil
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
   ('insert
    "<up>" 'ignore
    "<left>" 'ignore
    "<down>" 'ignore
-   "<right>" 'ignore
-   "C-e" 'end-of-line)
+   "<right>" 'ignore)
   ('normal
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
    "<backspace>" 'evil-ex-nohighlight
-   "C-x M-e" 'eriks/eval-replace
    "U" 'evil-redo)
   ('global
     [remap backward-kill-word] 'evil-delete-backward-word
@@ -52,15 +48,8 @@
     [remap forward-word] 'evil-forward-word-begin
     ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
     )
-  ('normal
-   :prefix eriks/leader
-   "." 'repeat
-   "r" 'revert-buffer
-   "R" 'rename-visited-file
-   "C-o" 'browse-url-at-point
-   "q" 'kmacro-insert-counter
-   "Q" 'kmacro-set-counter
-   "&" 'evil-ex-repeat-substitute-with-flags)
+  ('inner
+   "d" 'evil-inner-defun)
   :config
   (evil-mode 1)
   ;; NOTE: Doesn't work to set these in :custom, They overwrite later calls
@@ -71,8 +60,7 @@
                 evil-normal-state-modes '(prog-mode conf-mode text-mode)
                 evil-emacs-state-cursor '(hollow))
 
-  (eriks/universal-argument '(normal visual insert))
-
+  ;;TODO: evaluate if this weird function is actually/still needed
   (defun eriks/force-emacs-initial-state ()
     "A handy way to set initial state for a minor mode. The buffer's
 normal initial state is ignored."
@@ -82,6 +70,26 @@ normal initial state is ignored."
     (setq-local evil-insert-state-modes nil)
     (setq-local evil-normal-state-modes nil))
 
+  (evil-define-text-object evil-inner-defun (count &optional beg end _type)
+    "Select inner defun."
+    ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
+    (evil-select-inner-object 'evil-defun beg end type count))
+
+  (general-create-definer eriks/leader-def
+    :prefix eriks/leader)
+
+  (eriks/leader-def 'normal
+    "." 'repeat
+    "r" 'revert-buffer
+    ;;TODO: make this work like my dirvish rename (cw), specifically with the autocomplete prompt
+    "R" 'rename-visited-file
+    "C-o" 'browse-url-at-point
+    "q" 'kmacro-insert-counter
+    "Q" 'kmacro-set-counter
+    "&" 'evil-ex-repeat-substitute-with-flags)
+
+  ;;TODO: use general to bind these instead? Create keymap shortcuts for local modes if
+  ;;not already exists?
   (defmacro eriks/evil-define-inner-local-textobject (key func)
     "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
     `(progn
@@ -96,13 +104,13 @@ normal initial state is ignored."
 
 (use-package drag-stuff
   :ensure t
-  :general
+  :general-config
   ('normal
    "M-k" 'drag-stuff-up
    "M-j" 'drag-stuff-down))
 
 (use-package eriks-evil-drag-line
-  :general
+  :general-config
   ('normal
    "M-h" 'eriks/evil-drag-line-left
    "M-l" 'eriks/evil-drag-line-right
@@ -111,20 +119,19 @@ normal initial state is ignored."
 
 (use-package evil-args
   :ensure t
-  :general
+  :general-config
   ('inner
    "a" 'evil-inner-arg)
   ('outer
    "a" 'evil-outer-arg))
 
 (use-package eriks-evil-open-join-line
-  :general
+  :general-config
   ('normal
    "S" 'eriks/evil-open-line
    "RET" 'eriks/evil-open-line-below
    "S-<return>" 'eriks/evil-open-line-above
-   "go" 'eriks/evil-open-below-comment)
-  ('(normal visual)
+   "go" 'eriks/evil-open-below-comment
    "gJ" 'eriks/evil-join-no-space
    "J"  'eriks/evil-join-no-comment
    "K"  'eriks/evil-join-no-comment-backward))
@@ -132,7 +139,7 @@ normal initial state is ignored."
 (use-package eriks-evil-random
   :config
   (advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
-  :general
+  :general-config
   ('normal
    "g8" 'eriks/evil-what-cursor)
   ('motion
@@ -140,7 +147,7 @@ normal initial state is ignored."
 
 (use-package evil-nerd-commenter
   :ensure t
-  :general
+  :general-config
   ('normal
    "gc" 'evilnc-comment-operator
    "gC" 'evilnc-copy-and-comment-operator)
@@ -150,48 +157,46 @@ normal initial state is ignored."
    "c" 'evilnc-outer-commenter))
 
 (use-package evil-extra-operator
-  ;; has an operator for highlighting too
   :ensure t
-  :general
-  ('(normal visual)
-   "gp" 'evil-operator-clone
-   "gr" 'evil-operator-eval))
+  :general-config
+  ('normal
+   "gp" 'evil-operator-clone))
 
+;;TODO: stop using my fork since i never use any of the functionality i added
+;;TODO: make deleting closing paren cleanup whitespace, do not leave empty lines where the delimeter was
+;;TODO: evil-embrace?
 (use-package evil-surround
-  :config
-  (global-evil-surround-mode 1)
-  :general
+  :disabled
+  :general-config
   ('visual
-   'evil-surround-mode-map
    "s" 'evil-surround-region
    "S" 'evil-Surround-region)
   ('normal
-   'evil-surround-mode-map
    "gs" 'evil-surround-edit
    "gS" 'evil-Surround-edit)
   :gfhook
+  ;;TODO: move this to the latex use-package
   ('LaTeX-mode-hook (cl-defun latex-evil-surround-hook ()
                       (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
                       (add-to-list 'evil-surround-pairs-alist '(?m . latex-surround-env)))))
 
 (use-package eriks-evil-column-numbers
-  :general
-  ('visual
-   :prefix eriks/leader
-   :infix "i"
-   "n" 'eriks/evil-column-numbers-insert-numbers
-   "z" 'eriks/evil-column-numbers-insert-numbers-zero
-   "l" 'eriks/evil-column-numbers-insert-letters
-   "i" 'eriks/evil-column-numbers-insert))
+  :config
+  (eriks/leader-def 'visual
+    :infix "i"
+    "n" 'eriks/evil-column-numbers-insert-numbers
+    "z" 'eriks/evil-column-numbers-insert-numbers-zero
+    "l" 'eriks/evil-column-numbers-insert-letters
+    "i" 'eriks/evil-column-numbers-insert))
 
 (use-package eriks-delete-empty-parens
-  :general
+  :general-config
   ('insert
    "C-s" 'eriks/delete-empty-parens))
 
 (use-package eriks-line-cleanup
-  :general
-  ('(normal insert)
+  :general-config
+  ('normal
    "C-a" 'eriks/line-cleanup-dwim))
 
 (use-package evil-exchange
@@ -200,25 +205,27 @@ normal initial state is ignored."
   (evil-exchange-install))
 
 (use-package eriks-evil-line-to
-  :general
+  :general-config
   ('inner
    "l" 'eriks/evil-inside-line-text-object)
   ('outer
    "l" 'eriks/evil-outside-line-text-object))
 
 (use-package eriks-fix-last-shift-mistake
-  :general
+  :general-config
   ('(insert normal)
    "M-c" 'eriks/fix-last-shift-mistake))
 
 (use-package evil-lion
   :ensure t
-  :general
+  :general-config
   ('normal
    :prefix "g"
    "a" 'evil-lion-left
    "A" 'evil-lion-right))
 
+;;TODO: use the successor evil-tex
+;;TODO: move this to the rest of the latex config
 (use-package evil-latex-textobjects
   :after (:and evil tex-mode)
   :gfhook
@@ -233,9 +240,8 @@ normal initial state is ignored."
                       (eriks/evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))))
 
 (use-package eriks-evil-highlight
-  :general
-  ('(normal visual)
-   :prefix eriks/leader
+  :config
+  (eriks/leader-def 'normal
    "h" 'eriks/evil-search-highlight-current-symbol))
 
 (use-package evil-indent-plus
@@ -258,22 +264,18 @@ normal initial state is ignored."
     :prefix eriks/leader
     "C-a" 'evil-numbers/inc-at-pt
     "C-x" 'evil-numbers/dec-at-pt)
-  :general
-  ('(normal visual)
-   :prefix eriks/leader
-   :infix "g"
-   "C-a" 'evil-numbers/inc-at-pt-incremental
-   "C-x" 'evil-numbers/dec-at-pt-incremental))
+  :general-config
+  (eriks/leader-def 'normal
+    :infix "g"
+    "C-a" 'evil-numbers/inc-at-pt-incremental
+    "C-x" 'evil-numbers/dec-at-pt-incremental))
 
 (use-package eriks-evil-default-register
-  :general
-  ('normal
-   :prefix eriks/leader
-   "p" 'eriks/evil-paste-after
-   "P" 'eriks/evil-paste-before)
-  ('(normal visual)
-   :prefix eriks/leader
-   "d" 'eriks/evil-yank-delete))
+  :general-config
+  (eriks/leader-def 'normal
+    "p" 'eriks/evil-paste-after
+    "P" 'eriks/evil-paste-before
+    "d" 'eriks/evil-yank-delete))
 
 (use-package eriks-evil-backward-exclusive
   :config

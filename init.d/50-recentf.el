@@ -6,7 +6,7 @@
       (recentf-save-list)))
   (run-at-time nil (* 5 60) 'recentf-save-list-silent)
   (add-to-list 'recentf-exclude "recentf")
-  :general
+  :general-config
   ("C-x C-r" 'recentf-open-files)
   :custom
   (recentf-max-saved-items 100))

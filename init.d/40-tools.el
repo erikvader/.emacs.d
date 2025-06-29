@@ -4,7 +4,7 @@
   :custom
   (company-begin-commands nil)
   (company-idle-delay nil)
-  :general
+  :general-config
   ('(insert normal)
    'company-mode-map
    "C-SPC" 'company-complete
@@ -23,7 +23,7 @@
 (use-package comint
   :config
   (evil-set-initial-state 'comint-mode 'normal)
-  :general
+  :general-config
   ('comint-mode-map
    "C-c C-k" 'comint-clear-buffer)
   ('normal
@@ -58,6 +58,6 @@
 (use-package apheleia
   :ensure t
   :diminish "Aph"
-  :general
+  :general-config
   ("C-c C-f" 'apheleia-format-buffer))
 

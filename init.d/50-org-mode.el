@@ -15,7 +15,7 @@
   (nil (cl-defun org-wrap-lines-hook-fun ()
          (toggle-truncate-lines 0)
          (toggle-word-wrap 1)))
-  :general
+  :general-config
   ('org-mode-map
    "C-c s" 'counsel-org-goto-all))
 
@@ -29,8 +29,8 @@
   :ghook 'org-mode-hook
   :config
   (evil-org-set-key-theme '(textobjects insert additional todo))
-  :general
-  ('(normal visual)
+  :general-config
+  ('normal
    'evil-org-mode-map
    "H" 'org-up-element
    "L" 'org-down-element

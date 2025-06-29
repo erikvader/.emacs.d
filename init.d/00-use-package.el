@@ -24,4 +24,6 @@
 (use-package general
   :ensure t
   :custom
-  (general-use-package-emit-autoloads nil))
+  (general-use-package-emit-autoloads nil)
+  :config
+  (general-auto-unbind-keys))

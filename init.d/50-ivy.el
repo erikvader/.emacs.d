@@ -8,7 +8,7 @@
   ;;`ivy-occur-press-and-switch' for some reason. The function `select-frame' says it
   ;;should. See also `select-frame-set-input-focus'
 
-  :general
+  :general-config
   ('ivy-minibuffer-map
    "M-o" 'ivy-dispatching-call
    "C-M-o" 'ivy-dispatching-done
@@ -27,31 +27,30 @@
   (counsel-rg-base-command "rg --with-filename --no-heading --line-number --color never --smart-case %s")
   :config
   (counsel-mode 1)
-  :general
+  (eriks/leader-def 'normal
+    'counsel-mode-map
+    "y" 'counsel-yank-pop)
+  :general-config
   ('counsel-mode-map
    [remap describe-bindings] nil
-   [remap recentf-open-files] 'counsel-recentf)
-  ('normal
-   'counsel-mode-map
-   :prefix eriks/leader
-   "y" 'counsel-yank-pop))
+   [remap recentf-open-files] 'counsel-recentf))
 
 (use-package eriks-counsel-grep
   :after counsel
-  :general
+  :general-config
   ('counsel-mode-map
    "M-s" 'eriks/counsel-grep))
 
 (use-package swiper
   :ensure t
   :after ivy
-  :general
+  :general-config
   ('ivy-mode-map
    "C-s" 'swiper
    "C-S-s" 'swiper-all)
-  ('(normal visual)
-   :prefix eriks/leader
-   "s" 'swiper-thing-at-point))
+  :config
+  (eriks/leader-def 'normal
+    "s" 'swiper-thing-at-point))
 
 (use-package ivy-xref
   :ensure t

@@ -9,12 +9,11 @@
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-lens-enable nil)
   :init
-  (defconst eriks/lsp-leader (concat eriks/leader " a") "My leader key for lsp")
-  :general
-  ('normal
-   :prefix eriks/lsp-leader
-   "a" 'lsp-execute-code-action)
+  (defconst eriks/lsp-leader-infix "l" "My leader infix key for lsp")
   :config
+  (eriks/leader-def 'normal
+    :infix eriks/lsp-leader-infix
+    "a" 'lsp-execute-code-action)
   (defun lsp-toggle-highlighting ()
     "Toggles highlight.
 source: https://github.com/emacs-lsp/lsp-mode/issues/515#issuecomment-564665576"
@@ -91,10 +90,10 @@ negative."
   (lsp-ui-doc-enable nil)
   (lsp-ui-flycheck-enable t)
   (lsp-ui-sideline-delay 1)
-  :general
-  ('normal
-   :prefix eriks/lsp-leader
-   "d" 'lsp-ui-doc-glance))
+  :config
+  (eriks/leader-def 'normal
+    :infix eriks/lsp-leader-infix
+    "d" 'lsp-ui-doc-glance))
 
 (use-package lsp-ui-sideline
   :after flycheck

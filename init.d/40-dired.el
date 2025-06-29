@@ -9,8 +9,6 @@
   (evil-set-initial-state 'wdired-mode 'normal)
   (put 'dired-find-alternate-file 'disabled nil)
 
-  (eriks/universal-argument 'dired-mode-map)
-
   (defun eriks/dired-mark-up (arg)
     "Mark and go up"
     (interactive "p")
@@ -144,9 +142,10 @@ live. Use `dired-find-alternate-file' to also kill the current session."
         (funcall find-fn file)
       (funcall org dv find-fn file)))
 
-  :general
+  :general-config
   ('global
    "C-x d" 'dirvish
+   ;;TODO: some binding to close the side window, even when not selected
    "C-x C-d" 'dirvish-side)
   ('dirvish-mode-map
    "j" 'dired-next-line
@@ -154,10 +153,13 @@ live. Use `dired-find-alternate-file' to also kill the current session."
    "J" 'dired-next-dirline
    "K" 'dired-prev-dirline
    "f" 'dired-goto-file
-   "l" 'dired-find-file ;;TODO: subtree toggle om i dirvish-side och på en mapp?
+   "l" 'dired-find-file
+   ;;TODO: a binding for the side window that only previews the file and does not change window?
+   "L" 'dired-find-file-other-window
    "h" 'eriks/dirvish-up
 
    "C-d" 'eriks/scroll-up-half
+  ;;TODO: `universal-argument' ?
    "C-u" 'eriks/scroll-down-half
    "i" 'eriks/scroll-up-half-other-window
    "I" 'eriks/scroll-down-half-other-window
