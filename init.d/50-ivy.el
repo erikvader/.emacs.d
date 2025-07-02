@@ -48,9 +48,11 @@
   ('ivy-mode-map
    "C-s" 'swiper
    "C-S-s" 'swiper-all)
-  :config
-  (eriks/leader-def 'normal
-    "s" 'swiper-thing-at-point))
+  ;;TODO: reintroduce?
+  ;; :config
+  ;; (eriks/leader-def 'normal
+  ;;   "s" 'swiper-thing-at-point)
+  )
 
 (use-package ivy-xref
   :ensure t

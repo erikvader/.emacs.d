@@ -1,6 +1,6 @@
 ;;TODO: what is my purpose of this? What situation does this solve that M-SPC doesn't?
 (evil-define-type exclusive-back
-  "Does not include the first character"
+  "Does not include the first and last character"
   :expand (lambda (beg end)
             (evil-expand (min (1+ beg) end) end 'exclusive)))
 

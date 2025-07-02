@@ -43,12 +43,12 @@
    "<backspace>" 'evil-ex-nohighlight
    "U" 'evil-redo)
   ('global
-    [remap backward-kill-word] 'evil-delete-backward-word
-    [remap backward-word] 'evil-backward-word-begin
-    [remap forward-word] 'evil-forward-word-begin
-    ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
-    )
-  ('inner
+   [remap backward-kill-word] 'evil-delete-backward-word
+   [remap backward-word] 'evil-backward-word-begin
+   [remap forward-word] 'evil-forward-word-begin
+   ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
+   )
+  ('(inner outer)
    "d" 'evil-inner-defun)
   :config
   (evil-mode 1)
@@ -165,8 +165,6 @@ normal initial state is ignored."
    "gp" 'evil-operator-clone))
 
 ;;TODO: stop using my fork since i never use any of the functionality i added
-;;TODO: make deleting closing paren cleanup whitespace, do not leave empty lines where the delimeter was
-;;TODO: evil-embrace?
 (use-package evil-surround
   :disabled
   :general-config
@@ -191,7 +189,9 @@ normal initial state is ignored."
     "l" 'eriks/evil-column-numbers-insert-letters
     "i" 'eriks/evil-column-numbers-insert))
 
+;;TODO: remove this?
 (use-package eriks-delete-empty-parens
+  :disabled
   :general-config
   ('insert
    "C-s" 'eriks/delete-empty-parens))
@@ -244,7 +244,7 @@ normal initial state is ignored."
 (use-package eriks-evil-highlight
   :config
   (eriks/leader-def 'normal
-   "h" 'eriks/evil-search-highlight-current-symbol))
+    "h" 'eriks/evil-search-highlight-current-symbol))
 
 (use-package evil-indent-plus
   :ensure t
