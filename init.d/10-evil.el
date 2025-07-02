@@ -86,7 +86,9 @@ normal initial state is ignored."
     "C-o" 'browse-url-at-point
     "q" 'kmacro-insert-counter
     "Q" 'kmacro-set-counter
-    "&" 'evil-ex-repeat-substitute-with-flags)
+    "&" 'evil-ex-repeat-substitute-with-flags
+    "u" 'eriks/universal-argument-single
+    "U" 'eriks/universal-argument-double)
 
   ;;TODO: use general to bind these instead? Create keymap shortcuts for local modes if
   ;;not already exists?
