@@ -296,3 +296,6 @@
 
 (use-package yaml-mode
   :ensure t)
+
+(use-package elisp-mode
+  :gfhook ('emacs-lisp-mode-hook 'apheleia-mode))
