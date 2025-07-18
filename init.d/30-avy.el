@@ -22,6 +22,7 @@
   (eriks/leader-def 'motion
     "SPC" 'avy-goto-char-timer))
 
+;;TODO: remove my fork
 (use-package evil-easymotion
   ;; :config
   ;; (evilem-make-motion
@@ -32,6 +33,7 @@
   ;;  :bind ((evil-cross-lines nil)))
   :config
   (eriks/leader-def 'motion
+    ;;TODO: just use the ones from evil integration? if there is one
     "j" #'evilem-motion-next-line
     "k" #'evilem-motion-previous-line
     ;;TODO: i never (barely) use these, remove?

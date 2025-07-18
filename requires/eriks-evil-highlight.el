@@ -49,7 +49,7 @@ current thing."
         re)
     (when (stringp thing)
       (setq re (concat "\\_<" (regexp-quote thing) "\\_>"))
-      ;;TODO: do this in a more generic way? Like starting a search in evil and immediately aborting?
+      ;;NOTE: copied from `swiper--remember-search-history'
       (when (boundp 'swiper-history)
         (cl-pushnew re swiper-history))
       (when (eq evil-search-module 'evil-search)

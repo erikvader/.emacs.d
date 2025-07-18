@@ -69,6 +69,21 @@ non-nil."
 ;; enable disabled commands
 (put 'narrow-to-region 'disabled nil)
 
+;; Make sure the cursor can't enter the prompt in the minibuffer
+(setopt minibuffer-prompt-properties (nconc (list 'cursor-intangible t)
+                                            minibuffer-prompt-properties))
+
+;; Enable them
+(setq-default enable-recursive-minibuffers t)
+
+;; Hide commands in M-x that don't work or belong in the current mode.
+(setq-default read-extended-command-predicate #'command-completion-default-include-p)
+
+;; Ignore case when completing
+(setq-default read-file-name-completion-ignore-case t
+              read-buffer-completion-ignore-case t
+              completion-ignore-case t)
+
 ;; suppress logs from native compilation and byte compilation
 (require 'warnings)
 (add-to-list 'warning-suppress-types '(bytecomp))

@@ -9,19 +9,6 @@
   (setopt sml/show-encoding (cl-substitute ?Z ?z sml/show-encoding))
   (setopt mode-line-percent-position '(-3 "%o")))
 
-(use-package projectile
-  :ensure t
-  :diminish
-  :config
-  (put 'projectile-project-root 'safe-local-variable #'stringp)
-  (projectile-mode 1)
-  :general-config
-  ('projectile-mode-map
-   :prefix "C-c"
-   "p" 'projectile-command-map)
-  :custom
-  (projectile-completion-system 'ivy))
-
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode

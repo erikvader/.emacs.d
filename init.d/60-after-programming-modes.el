@@ -9,6 +9,7 @@
   (highlight-indent-guides-responsive 'top)
   :ghook 'python-mode-hook)
 
+;;TODO: counsel-flycheck
 (use-package flycheck
   :ensure t
   :custom
@@ -24,11 +25,11 @@ in the same projectile project also has flycheck enabled."
                (root (projectile-project-root))
                (cur-mode major-mode)
                ((cl-some (lambda (buf)
-                        (with-current-buffer buf
-                          (and (buffer-file-name buf)
-                               (eq major-mode cur-mode)
-                               flycheck-mode)))
-                      (projectile-project-buffers root))))
+                           (with-current-buffer buf
+                             (and (buffer-file-name buf)
+                                  (eq major-mode cur-mode)
+                                  flycheck-mode)))
+                         (projectile-project-buffers root))))
       (flycheck-mode 1)))
 
   :gfhook
