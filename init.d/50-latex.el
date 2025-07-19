@@ -35,3 +35,5 @@
   :general-config
   ('(TeX-mode-map bibtex-mode-map)
    "C-c a" 'eriks/latex-autocompile-mode))
+
+;;TODO: https://github.com/iyefrat/evil-tex

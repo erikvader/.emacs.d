@@ -1,25 +1,3 @@
-(use-package company
-  :ensure t
-  :diminish
-  :custom
-  (company-begin-commands nil)
-  (company-idle-delay nil)
-  :general-config
-  ('(insert normal)
-   'company-mode-map
-   "C-SPC" 'company-complete
-   "C-S-SPC" 'company-other-backend)
-  ('company-active-map
-   "<escape>" 'company-abort
-   "C-j" 'company-select-next
-   "C-k" 'company-select-previous)
-  :config
-  (global-company-mode)
-  ;; fix https://github.com/company-mode/company-mode/issues/15
-  ;; (eval-after-load 'company
-  ;;   '(evil-declare-change-repeat 'company-complete))
-  )
-
 (use-package comint
   :config
   (evil-set-initial-state 'comint-mode 'normal)

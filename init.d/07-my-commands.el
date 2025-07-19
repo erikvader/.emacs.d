@@ -58,21 +58,3 @@
   (interactive "P")
   (with-selected-window (other-window-for-scrolling)
     (eriks/scroll-up-half lines)))
-
-(defun eriks/universal-argument-single ()
-  "Runs `universal-argument' without activating
-`universal-argument-map'. The implementation is copied from
-`universal-argument'"
-  (interactive)
-  (prefix-command-preserve-state)
-  (setq prefix-arg (list 4))
-  (prefix-command-update))
-
-(defun eriks/universal-argument-double ()
-  "Runs `universal-argument' twice without activating
-`universal-argument-map'. The implementation is copied from
-`universal-argument'"
-  (interactive)
-  (prefix-command-preserve-state)
-  (setq prefix-arg (list 16))
-  (prefix-command-update))

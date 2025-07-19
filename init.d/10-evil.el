@@ -164,22 +164,6 @@ normal initial state is ignored."
   ('normal
    "gp" 'evil-operator-clone))
 
-;;TODO: stop using my fork since i never use any of the functionality i added
-(use-package evil-surround
-  :disabled
-  :general-config
-  ('visual
-   "s" 'evil-surround-region
-   "S" 'evil-Surround-region)
-  ('normal
-   "gs" 'evil-surround-edit
-   "gS" 'evil-Surround-edit)
-  :gfhook
-  ;;TODO: move this to the latex use-package
-  ('LaTeX-mode-hook (cl-defun latex-evil-surround-hook ()
-                      (add-to-list 'evil-surround-pairs-alist '(?$ . ("$" . "$")))
-                      (add-to-list 'evil-surround-pairs-alist '(?m . latex-surround-env)))))
-
 (use-package eriks-evil-column-numbers
   :config
   (eriks/leader-def 'visual
@@ -225,21 +209,6 @@ normal initial state is ignored."
    :prefix "g"
    "a" 'evil-lion-left
    "A" 'evil-lion-right))
-
-;;TODO: use the successor evil-tex
-;;TODO: move this to the rest of the latex config
-(use-package evil-latex-textobjects
-  :after (:and evil tex-mode)
-  :gfhook
-  ('LaTeX-mode-hook (cl-defun latex-evil-latex-textobjects-hook ()
-                      (eriks/evil-define-inner-local-textobject "$" 'evil-latex-textobjects-inner-dollar)
-                      (eriks/evil-define-outer-local-textobject "$" 'evil-latex-textobjects-a-dollar)
-                      (eriks/evil-define-inner-local-textobject "\\" 'evil-latex-textobjects-inner-math)
-                      (eriks/evil-define-outer-local-textobject "\\" 'evil-latex-textobjects-a-math)
-                      (eriks/evil-define-inner-local-textobject "f" 'evil-latex-textobjects-inner-macro)
-                      (eriks/evil-define-outer-local-textobject "f" 'evil-latex-textobjects-a-macro)
-                      (eriks/evil-define-inner-local-textobject "m" 'evil-latex-textobjects-inner-env)
-                      (eriks/evil-define-outer-local-textobject "m" 'evil-latex-textobjects-an-env))))
 
 (use-package eriks-evil-highlight
   :config

@@ -161,39 +161,6 @@ Also that `evil-set-initial-state' does not always work"
    [remap evil-forward-paragraph] 'scroll-lock-forward-paragraph
    [remap evil-backward-paragraph] 'scroll-lock-backward-paragraph))
 
-(use-package iedit
-  :ensure t
-  :config
-  (evil-define-operator eriks/evil-iedit-restrict (beg end type)
-    "Restrict iedit by using an evil motion."
-    :move-point nil
-    (interactive "<R>")
-    (unless iedit-mode
-      (user-error "not in iedit-mode"))
-    (iedit-restrict-region beg end))
-
-  (defun eriks/iedit-reactivate-normal-state (&rest _rest)
-    "Workaround for keybinds in normal state when iedit is
-active. The keybinds don't realize they should be active unless
-normal state is reactivated."
-    (evil-normal-state))
-  (advice-add 'iedit-mode :after #'eriks/iedit-reactivate-normal-state)
-  :general-config
-  ('normal
-   "gr" 'iedit-mode)
-  ('normal
-   'iedit-mode-keymap
-   "n" 'iedit-next-occurrence
-   "N" 'iedit-prev-occurrence
-   "gr" 'eriks/evil-iedit-restrict
-   "gf" 'iedit-restrict-function
-   "gl" 'iedit-restrict-current-line
-   "<escape>" 'iedit-mode)
-  ('normal
-   'iedit-mode-occurrence-keymap
-   "gt" 'iedit-toggle-selection
-   "D" 'iedit-delete-occurrences))
-
 (use-package flyspell
   :general-config
   ('flyspell-mode-map
