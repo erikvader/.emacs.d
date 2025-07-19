@@ -23,6 +23,7 @@ session.*
 /eln-cache/
 /projects
 /dirvish/
+/request/
 
 # eclipse lsp
 /workspace

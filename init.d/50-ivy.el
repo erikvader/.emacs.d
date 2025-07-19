@@ -43,8 +43,10 @@
   (eriks/leader-def 'normal
     "y" 'counsel-yank-pop)
 
+  ;;NOTE: add smart-case to ripgrep
   (push "--smart-case" (nthcdr (cl-position "%s" counsel-rg-base-command :test 'equal)
                                counsel-rg-base-command))
+
   (define-advice counsel--git-root (:override () projectile)
     "Make commands like `counsel-rg' use projectile for project root instead
 of its default of only looking for git folders."
@@ -56,6 +58,7 @@ of its default of only looking for git folders."
    "C-d" 'counsel-cd)
   ('counsel-mode-map
    "M-s" 'counsel-rg
+   [remap describe-face] 'counsel-faces
    [remap describe-bindings] nil
    [remap recentf-open-files] 'counsel-recentf
    [remap swiper] 'counsel-grep-or-swiper))
@@ -77,6 +80,7 @@ of its default of only looking for git folders."
 (use-package ivy-rich
   :ensure t
   :config
+  ;;NOTE: remove the buffer size from switch buffer
   (cl-callf2 assq-delete-all
       'ivy-rich-switch-buffer-size
       (plist-get

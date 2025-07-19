@@ -151,7 +151,7 @@ Also that `evil-set-initial-state' does not always work"
   (eriks/frames-only-use-window-funcs 'undo-tree-visualize) ;; undo-tree moves focus between frames on every action
   (global-undo-tree-mode 1)
   (eriks/leader-def 'normal
-    "t" 'undo-tree-visualize))
+    "u" 'undo-tree-visualize))
 
 (use-package scroll-lock
   :general-config

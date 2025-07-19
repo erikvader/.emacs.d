@@ -18,6 +18,17 @@ nil.")
     (dolist (buf bufs)
       (add-to-list 'frames-only-mode-kill-frame-when-buffer-killed-buffer-list buf))))
 
+;;TODO: det är något konstigt med att en buffer som redan visas i en annan frame och får
+;;fokus inte får fokus av window managern. https://github.com/davidshepherd7/frames-only-mode/issues/17
+;;problem med xmonad?
+;;TODO: use `pop-global-mark' when in emacs state?
+;;TODO: use evil in more places to get access to C-o?
+;;TODO: motion state everywhere?
+;;TODO: https://karthinks.com/software/emacs-window-management-almanac/
+;;TODO: popper
+;;TODO: shackle
+;;TODO: https://github.com/axgfn/edwina
+;;TODO: https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (use-package frames-only-mode
   :if eriks/use-frames-only-mode
   :ensure t

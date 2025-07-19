@@ -1,10 +1,6 @@
 (use-package evil
   :ensure t
   :init
-  ;;TODO: create custom general definer, and put everything in a keymap so it can be listed later
-  ;;TODO: define-prefix-command
-  ;;TODO: se över alla bindings. Man behöver inte lägga bindings i visual om de också är med i normal
-  ;;https://github.com/noctuid/evil-guide?tab=readme-ov-file#leader-key
   (defconst eriks/leader "SPC" "My leader key for evil")
   :custom
   (evil-default-state 'emacs)
@@ -21,22 +17,22 @@
   :general-config
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
-   "M-e" 'evil-forward-sentence-begin
-   "M-a" 'evil-backward-sentence-begin
-   "M-f" 'evil-forward-section-end
-   "M-b" 'evil-backward-section-begin)
+   "M-d" 'eriks/scroll-up-half-other-window
+   "M-u" 'eriks/scroll-down-half-other-window)
   ;;NOTE: make it more emacsy
   ('evil-ex-completion-map
-   "C-a" nil
-   "C-k" nil
+   "C-a" nil ;; let through beginning of line
+   "C-k" nil ;; let through kill line
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
   ('insert
+   "C-SPC" 'completion-at-point
    "<up>" 'ignore
    "<left>" 'ignore
    "<down>" 'ignore
    "<right>" 'ignore)
   ('normal
+   "#" "\"0" ;;NOTE: this only works as a macro for some reason
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
@@ -60,16 +56,6 @@
                 evil-normal-state-modes '(prog-mode conf-mode text-mode)
                 evil-emacs-state-cursor '(hollow))
 
-  ;;TODO: evaluate if this weird function is actually/still needed
-  (defun eriks/force-emacs-initial-state ()
-    "A handy way to set initial state for a minor mode. The buffer's
-normal initial state is ignored."
-    (evil-emacs-state)
-    (setq-local evil-buffer-regexps nil)
-    (setq-local evil-motion-state-modes nil)
-    (setq-local evil-insert-state-modes nil)
-    (setq-local evil-normal-state-modes nil))
-
   (evil-define-text-object evil-inner-defun (count &optional beg end _type)
     "Select inner defun."
     ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
@@ -79,6 +65,7 @@ normal initial state is ignored."
     :prefix eriks/leader)
 
   (eriks/leader-def 'normal
+    "i" 'imenu
     "." 'repeat
     "r" 'revert-buffer
     ;;TODO: make this work like my dirvish rename (cw), specifically with the autocomplete prompt
@@ -86,23 +73,23 @@ normal initial state is ignored."
     "C-o" 'browse-url-at-point
     "q" 'kmacro-insert-counter
     "Q" 'kmacro-set-counter
-    "&" 'evil-ex-repeat-substitute-with-flags
-    "u" 'eriks/universal-argument-single
-    "U" 'eriks/universal-argument-double)
+    "&" 'evil-ex-repeat-substitute-with-flags)
 
-  ;;TODO: use general to bind these instead? Create keymap shortcuts for local modes if
-  ;;not already exists?
-  (defmacro eriks/evil-define-inner-local-textobject (key func)
-    "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
-    `(progn
-       (define-key evil-visual-state-local-map   (kbd ,(concat "i " key)) ,func)
-       (define-key evil-operator-state-local-map (kbd ,(concat "i " key)) ,func)))
+  (eriks/defkey-repeat-1
+    :states 'motion
+    :prefix "]"
+    "s" 'evil-forward-sentence-begin
+    "}" 'evil-forward-section-end
+    "{" 'evil-forward-section-begin
+    "p" 'evil-forward-paragraph)
 
-  (defmacro eriks/evil-define-outer-local-textobject (key func)
-    "binds key to text object func buffer-locally (mostly for my fork of evil-surround)"
-    `(progn
-       (define-key evil-visual-state-local-map   (kbd ,(concat "a " key)) ,func)
-       (define-key evil-operator-state-local-map (kbd ,(concat "a " key)) ,func))))
+  (eriks/defkey-repeat-1
+    :states 'motion
+    :prefix "["
+    "s" 'evil-backward-sentence-begin
+    "}" 'evil-backward-section-end
+    "{" 'evil-backward-section-begin
+    "p" 'evil-backward-paragraph))
 
 (use-package drag-stuff
   :ensure t
@@ -173,7 +160,7 @@ normal initial state is ignored."
     "l" 'eriks/evil-column-numbers-insert-letters
     "i" 'eriks/evil-column-numbers-insert))
 
-;;TODO: remove this?
+;;TODO: remove this? Rely on smartparens auto remove matching pair?
 (use-package eriks-delete-empty-parens
   :disabled
   :general-config
@@ -241,7 +228,9 @@ normal initial state is ignored."
     "C-a" 'evil-numbers/inc-at-pt-incremental
     "C-x" 'evil-numbers/dec-at-pt-incremental))
 
+;;TODO: remove? Rely on the macro # -> "0
 (use-package eriks-evil-default-register
+  :disabled
   :general-config
   (eriks/leader-def 'normal
     "p" 'eriks/evil-paste-after
@@ -255,3 +244,7 @@ normal initial state is ignored."
     :prefix "g"
     "e" 'eriks/evil-backward-word-end-exclusive
     "E" 'eriks/evil-backward-WORD-end-exclusive))
+
+(use-package evil-quickscope
+  :ensure t
+  (global-evil-quickscope-mode 1))

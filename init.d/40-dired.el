@@ -23,6 +23,7 @@
       (dired-unmark arg))
     (dired-previous-line nil))
 
+  ;;TODO: gör inte en revert i dirvish side
   (defun eriks/dired-rename ()
     "Rename the selected file, like cw in ranger. Basically
 `dired-do-rename', but without the code for handling marks."
@@ -102,10 +103,12 @@
   ;;             (cl-defun eriks/dirvish-unemojify-header (str)
   ;;               (replace-regexp-in-string "^.*?:" "" str)))
 
+  ;;TODO: was this ever meant to be used from within a dirvish session?
   (defun eriks/dirvish-fd ()
     "The menu only makes sense if `dirvish-fd' is active, so this function
 activates the menu if currently searching, otherwise starts a search."
     (interactive)
+    ;;TODO: broken
     (let ((prefix (car (split-string dirvish-fd-bufname "%s"))))
       (if (string-prefix-p prefix (buffer-name))
           (call-interactively 'dirvish-fd-switches-menu)
@@ -144,6 +147,7 @@ live. Use `dired-find-alternate-file' to also kill the current session."
 
   :general-config
   ('global
+   ;;TODO: make this into a keymap so more than two global bindings can be added
    "C-x d" 'dirvish
    ;;TODO: some binding to close the side window, even when not selected
    "C-x C-d" 'dirvish-side)
@@ -152,21 +156,29 @@ live. Use `dired-find-alternate-file' to also kill the current session."
    "k" 'dired-previous-line
    "J" 'dired-next-dirline
    "K" 'dired-prev-dirline
-   "f" 'dired-goto-file
+   "SPC k" 'avy-goto-line-above
+   "SPC j" 'avy-goto-line-below
    "l" 'dired-find-file
    ;;TODO: a binding for the side window that only previews the file and does not change window?
    "L" 'dired-find-file-other-window
    "h" 'eriks/dirvish-up
 
+   ;;TODO: evil-collection?
+   ;;TODO: use evil motion state here?
+   ;;TODO: unify with global bindings? Should i have these scroll commands globally?
    "C-d" 'eriks/scroll-up-half
-  ;;TODO: `universal-argument' ?
+   ;;TODO: `universal-argument' ?
    "C-u" 'eriks/scroll-down-half
-   "i" 'eriks/scroll-up-half-other-window
+   "i" 'eriks/scroll-up-half-other-window ;TODO: M-u M-d
    "I" 'eriks/scroll-down-half-other-window
    "C-f" 'scroll-up-command
    "C-b" 'scroll-down-command
    "g" 'beginning-of-buffer
    "G" 'end-of-buffer
+
+   ;;TODO: dired-get-file-for-visit??
+   ;;TODO: gör en find file för dirvish side som inte byter fokus. find-file-noselect.
+   ;;Döda buffern ifall jag aldrig hoppar till den? Kolla hur consult gör det
 
    "zf" 'dirvish-layout-toggle
    "zv" 'dirvish-vc-menu
@@ -176,7 +188,7 @@ live. Use `dired-find-alternate-file' to also kill the current session."
    "zd" 'dirvish-subdir-menu
    "zr" 'dirvish-renaming-menu
    "zR" 'dirvish-rsync-switches-menu
-   "y" 'dirvish-file-info-menu
+   "y" 'dirvish-file-info-menu ;TODO: på i instället
    "o" 'dirvish-quicksort
    "?" 'dirvish-dispatch
    "c" 'dirvish-chxxx-menu
@@ -185,7 +197,6 @@ live. Use `dired-find-alternate-file' to also kill the current session."
    "p" 'dirvish-yank-menu
    "v" 'dired-toggle-marks
    "V" 'dired-unmark-all-marks
-   "SPC" 'dired-mark
    "M" 'eriks/dired-mark-up
    "U" 'eriks/dired-unmark-up
 
@@ -202,6 +213,7 @@ live. Use `dired-find-alternate-file' to also kill the current session."
    "F" 'eriks/dirvish-fd
    "'" 'dirvish-quick-access
 
+   ;;TODO: dired-side: binding to go back to project root after l:ing a directory
    "W" 'wdired-change-to-wdired-mode
    "R" 'eriks/dired-rename
    "C" 'dired-do-compress-to)

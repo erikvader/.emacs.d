@@ -27,7 +27,7 @@
   (global-eldoc-mode)
   :diminish eldoc-mode)
 
-;TODO: how does this interact with tramp?
+;;TODO: how does this interact with tramp?
 (use-package add-node-modules-path
   :ensure t
   :config

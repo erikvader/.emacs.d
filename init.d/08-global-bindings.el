@@ -17,8 +17,18 @@
   :prefix "C-x"
   "C-k" 'kill-current-buffer
   "m" 'pp-macroexpand-last-sexp
-  "M-e" 'eriks/eval-replace)
+  "M-e" 'eriks/eval-replace
+  "C-u" 'universal-argument)
 
-;; Make emacs behave more like the terminal
+;; to be able to jump back to previous buffer, mimics the binding from evil
+;;TODO: ??
+;;TODO: bind the evil jump list commands here instead?
+;;TODO: just `previous-buffer'?
+;;TODO: `mode-line-other-buffer'
 (general-def
-  "C-w" 'backward-kill-word)
+  "C-o" 'pop-global-mark)
+
+(general-def
+  "<next>" 'scroll-other-window
+  "<prior>" 'scroll-other-window-down
+  "C-h F" 'describe-face)

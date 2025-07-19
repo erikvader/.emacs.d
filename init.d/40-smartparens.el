@@ -1,10 +1,13 @@
 ;;TODO: experiment with `sp-restrict-to-object-interactive' with `sp-prefix-pair-object'
 ;;to only navigate using parens and not also symbols. Test in a C-like language
+;;TODO: figure out why strict mode doesn't work with evil
+;;TODO: maybe use this when it is supported with more languages https://github.com/mickeynp/combobulate
 (use-package smartparens
   :ensure t
   :diminish
   :init
-  (defconst eriks/leader-sp-infix "s" "Infix for smartparens")
+  (defconst eriks/sp-prefix "g" "Prefix for smartparens")
+  (defconst eriks/sp-infix "s" "Infix for smartparens")
   :config
   (require 'smartparens-config)
 
@@ -23,27 +26,8 @@
       (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")
                                                   (eriks/create--newline-and-enter-sexp "<return>")))))
 
-  ;;NOTE: remove normal state binding to let the motion state ones through
-  (general-unbind 'normal "[" "]" "<" ">")
-
-  (eriks/defkey-repeat sp-slurp-barf
-    :states 'normal
-    :keymaps 'smartparens-mode-map
-    :prefix eriks/leader
-    "]" 'sp-forward-slurp-sexp
-    "[" 'sp-backward-slurp-sexp
-    "}" 'sp-forward-barf-sexp
-    "{" 'sp-backward-barf-sexp)
-
-  (eriks/defkey-repeat sp-transpose
-    :states 'normal
-    :keymaps 'smartparens-mode-map
-    :prefix eriks/leader
-    :infix eriks/leader-sp-infix
-    "t" 'sp-transpose-sexp)
-
   (define-advice sp--indent-region (:around (org start end &rest rest) eriks/sp-hack)
-    "Ugly advice to make `eriks/defun-sp-wrap' work. This just makes the
+    "Ugly advice to make `eriks/sp-wrap-with' work. This just makes the
 function return the region start and end instead of nothing. This will
 make `sp-wrap-with-pair' return this value."
     (apply org start end rest)
@@ -82,6 +66,10 @@ make `sp-wrap-with-pair' return this value."
   ;;TODO: add a buffer local variable for shortcuts. An alist mapping shorter string to
   ;;the opening to wrap with. Maybe support the value being a lambda and delegate to that?
   ;;Could be used for XML tags?
+  ;;TODO: symbol at end of line puts the cursor on the next line when using )
+  ;;TODO: support evil motions? or have some special bindings that choose how many
+  ;;universal arguments to give? Press 'i' to surround inside the current delemiters for
+  ;;example?
   (defun eriks/sp-surround ()
     "Surround the region or `sp-select-next-thing' with a pair.
 
@@ -90,6 +78,7 @@ Characters are read until a match to an opening or closing delimiter in
 delimiter is pressed, then place the point at it when inserted, else
 place it around the opening delimiter."
     (interactive "*")
+    ;;TODO: Would be cool if the candidates where filtered with their :when and :unless
     (let (query char (running t) (candidates sp-pair-list) fullmatches)
       (while (and running
                   (setq char (read-char-exclusive)))
@@ -152,35 +141,72 @@ to smartparens"
           (evil-range :beg-in :end-in))
       (user-error "Not inside an sexp")))
 
-  (general-def 'inner
-    "s" 'eriks/evil-sp-inner-sexp)
-
-  (general-def 'outer
-    "s" 'eriks/evil-sp-a-sexp)
-
-  (eriks/leader-def 'normal
-    :keymaps 'smartparens-mode-map
-    :infix eriks/leader-sp-infix
-    "s" 'sp-split-sexp
-    "j" 'sp-join-sexp
-    "d" 'sp-splice-sexp-killing-around)
-
   ;;TODO: don't activate auto insert inside quotes?
 
   (evil-define-command eriks/sp-operator ()
     "A dispatcher to call appropriate smartparens functions from, for
 example, d in normal state."
     (setq evil-inhibit-operator t)
-    (cond
-     ((eq evil-this-operator 'evil-delete)
-      (call-interactively 'sp-splice-sexp))
-     ((eq evil-this-operator 'evil-change)
-      (call-interactively 'sp-rewrap-sexp))
-     (t
-      (user-error "Invalid operator %s" evil-this-operator))))
+    (pcase evil-this-operator
+      ('evil-delete (call-interactively 'sp-splice-sexp))
+      ('evil-change (call-interactively 'sp-rewrap-sexp))
+      ('evil-yank (call-interactively 'eriks/sp-surround))
+      (_ (user-error "Invalid operator %s" evil-this-operator))))
+
+  ;;NOTE: remove normal state binding to let the motion state ones through
+  (general-unbind 'normal "[" "]")
+
+  (eriks/defkey-repeat-1
+    :states 'normal
+    :keymaps 'smartparens-mode-map
+    :prefix ">"
+    ;;TODO: add hybrid functions
+    ;; "}" 'sp-slurp-hybrid-sexp
+    ")" 'sp-forward-slurp-sexp
+    "(" 'sp-backward-barf-sexp)
+
+  (eriks/defkey-repeat-1
+    :states 'normal
+    :keymaps 'smartparens-mode-map
+    :prefix "<"
+    ;;TODO: "}" 'sp-dedent-adjust-sexp
+    "(" 'sp-backward-slurp-sexp
+    ")" 'sp-forward-barf-sexp)
+
+  (eriks/defkey-repeat-1
+    :states 'normal
+    :keymaps 'smartparens-mode-map
+    :prefix eriks/sp-prefix
+    :infix eriks/sp-infix
+    ;;TODO: another binding for sp-transpose-hybrid-sexp?
+    "t" 'sp-transpose-sexp)
+
+  (eriks/defkey-repeat-1
+    :states 'motion
+    :keymaps 'smartparens-mode-map
+    :prefix "]"
+    "[" 'sp-next-sexp
+    "]" 'sp-forward-sexp
+    ")" 'sp-end-of-next-sexp
+    "(" 'sp-beginning-of-next-sexp
+    "J" 'sp-down-sexp)
+
+  (eriks/defkey-repeat-1
+    :states 'motion
+    :keymaps 'smartparens-mode-map
+    :prefix "["
+    "]" 'sp-previous-sexp
+    "[" 'sp-backward-sexp
+    "(" 'sp-beginning-of-previous-sexp
+    ")" 'sp-end-of-previous-sexp
+    "J" 'sp-backward-down-sexp)
+
+  ;;NOTE: I'm tired of seing the unmatched expression error message
+  (cl-callf2 assq-delete-all :unmatched-expression sp-message-alist)
 
   :ghook ('prog-mode-hook '(show-smartparens-mode smartparens-mode))
   :custom
+  (sp-use-subword t) ;;TODO: what exactly does this do? Sounds like i want it enabled though based on the documentation
   (sp-navigate-interactive-always-progress-point t)
   (sp-autodelete-closing-pair t)
   (sp-autodelete-opening-pair t)
@@ -191,30 +217,29 @@ example, d in normal state."
   (sp-navigate-reindent-after-up nil)
   (sp-navigate-reindent-after-up-in-string nil)
   :general-config
-  ('normal
+  ('visual
    'smartparens-mode-map
    "s" 'eriks/sp-surround)
   ('operator
    'smartparens-mode-map
    "s" 'eriks/sp-operator)
+  ('inner
+   "s" 'eriks/evil-sp-inner-sexp)
+  ('outer
+   "s" 'eriks/evil-sp-a-sexp)
   ('motion
    'smartparens-mode-map
-   ;;TODO: should these be in a repeat map?
-   :prefix "g"
-   "L" 'sp-next-sexp
-   "H" 'sp-previous-sexp
-   ">" 'sp-down-sexp
-   "<" 'sp-backward-down-sexp)
-  ('motion
-   'smartparens-mode-map
-   "]" 'sp-end-of-next-sexp
-   "[" 'sp-beginning-of-previous-sexp
-   "L" 'sp-forward-sexp
-   "H" 'sp-backward-sexp
-   "<" 'sp-backward-up-sexp
-   ">" 'sp-up-sexp
    "(" 'sp-beginning-of-sexp
-   ")" 'sp-end-of-sexp)
+   ")" 'sp-end-of-sexp
+   "}" 'sp-up-sexp
+   "{" 'sp-backward-up-sexp)
+  ('normal
+   'smartparens-mode-map
+   :prefix eriks/sp-prefix
+   :infix eriks/sp-infix
+   "s" 'sp-split-sexp
+   "j" 'sp-join-sexp
+   "d" 'sp-splice-sexp-killing-around)
   ('insert
    'smartparens-mode-map
    "C-u" 'sp-up-sexp))
