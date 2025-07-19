@@ -8,7 +8,7 @@
                '("java" (c-offsets-alist
                          (arglist-intro . +)
                          (arglist-close . 0))))
-  ;TODO: for C++ or something
+  ;;TODO: for C++ or something
   ;; (inlambda . 0) ;; indent lambda body to the left
   ;; (cpp-macro . 0) ;; indent macro normally))
   :custom
@@ -296,6 +296,10 @@
 
 (use-package yaml-mode
   :ensure t)
+
+(use-package lisp-mode
+  :gfhook ('lisp-data-mode-hook (cl-defun eriks/lisp-comment-start ()
+                                  (setq-local comment-start ";;"))))
 
 (use-package elisp-mode
   :gfhook ('emacs-lisp-mode-hook 'apheleia-mode))
