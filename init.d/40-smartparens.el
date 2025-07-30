@@ -1,6 +1,7 @@
 ;;TODO: experiment with `sp-restrict-to-object-interactive' with `sp-prefix-pair-object'
 ;;to only navigate using parens and not also symbols. Test in a C-like language
-;;TODO: figure out why strict mode doesn't work with evil
+;;TODO: use cleverparens to get strict mode and more? Maybe better than doing it all
+;;myself? https://github.com/emacs-evil/evil-cleverparens
 ;;TODO: maybe use this when it is supported with more languages https://github.com/mickeynp/combobulate
 (use-package smartparens
   :ensure t
@@ -142,6 +143,7 @@ to smartparens"
       (user-error "Not inside an sexp")))
 
   ;;TODO: don't activate auto insert inside quotes?
+  ;;TODO: don't auto insert when in comment!
 
   (evil-define-command eriks/sp-operator ()
     "A dispatcher to call appropriate smartparens functions from, for
@@ -189,7 +191,8 @@ example, d in normal state."
     "]" 'sp-forward-sexp
     ")" 'sp-end-of-next-sexp
     "(" 'sp-beginning-of-next-sexp
-    "J" 'sp-down-sexp)
+    "d" 'sp-down-sexp
+    "u" 'sp-up-sexp)
 
   (eriks/defkey-repeat-1
     :states 'motion
@@ -199,7 +202,8 @@ example, d in normal state."
     "[" 'sp-backward-sexp
     "(" 'sp-beginning-of-previous-sexp
     ")" 'sp-end-of-previous-sexp
-    "J" 'sp-backward-down-sexp)
+    "d" 'sp-backward-down-sexp
+    "u" 'sp-backward-up-sexp)
 
   ;;NOTE: I'm tired of seing the unmatched expression error message
   (cl-callf2 assq-delete-all :unmatched-expression sp-message-alist)
@@ -230,9 +234,7 @@ example, d in normal state."
   ('motion
    'smartparens-mode-map
    "(" 'sp-beginning-of-sexp
-   ")" 'sp-end-of-sexp
-   "}" 'sp-up-sexp
-   "{" 'sp-backward-up-sexp)
+   ")" 'sp-end-of-sexp)
   ('normal
    'smartparens-mode-map
    :prefix eriks/sp-prefix

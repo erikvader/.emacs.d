@@ -1,3 +1,7 @@
+;;TODO: evil-this-register with more user feedback would be nice
+;;TODO: + shortcut för "+ ? - för "0 ?
+;;TODO: #* använda symboler istället?
+;;TODO: eller C-r -> " som i insert mode?
 (use-package evil
   :ensure t
   :init
@@ -247,4 +251,6 @@
 
 (use-package evil-quickscope
   :ensure t
+  ;;TODO: add the delay
+  :config
   (global-evil-quickscope-mode 1))

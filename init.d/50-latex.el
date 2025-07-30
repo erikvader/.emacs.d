@@ -1,7 +1,10 @@
 (use-package tex-mode
   :ensure auctex
   :config
-  (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
+  ;;TODO: this doesn't work anymore for some reason after removing evil-latex-textobjects.
+  ;;Thing are loading in the incorrect order it seems. Why isn't auctex used as the first
+  ;;argument to use-package?
+  ;; (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
   (evil-set-initial-state 'tex-mode 'normal)
   (eriks/frames-only-use-window-funcs 'TeX-next-error)
   (defun eriks/latex-flyspell-mode-enable ()
