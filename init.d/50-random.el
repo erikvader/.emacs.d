@@ -1,14 +1,3 @@
-(use-package smart-mode-line
-  :ensure t
-  :init
-  (setq-default sml/theme nil)
-  :config
-  (sml/setup)
-  (unless column-number-indicator-zero-based
-    (setopt sml/col-number-format (cl-substitute ?C ?c sml/col-number-format)))
-  (setopt sml/show-encoding (cl-substitute ?Z ?z sml/show-encoding))
-  (setopt mode-line-percent-position '(-3 "%o")))
-
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
@@ -100,7 +89,6 @@ Also that `evil-set-initial-state' does not always work"
       (pdf-view-kill-ring-save)))
 
   (evil-set-initial-state 'pdf-view-mode 'emacs)
-  (eriks/frames-only-use-window-funcs 'pdf-outline)
   :general-config
   ('pdf-view-mode-map
    [remap swiper] 'isearch-forward
@@ -148,7 +136,6 @@ Also that `evil-set-initial-state' does not always work"
   (undo-tree-enable-undo-in-region nil)
   (undo-tree-auto-save-history nil)
   :config
-  (eriks/frames-only-use-window-funcs 'undo-tree-visualize) ;; undo-tree moves focus between frames on every action
   (global-undo-tree-mode 1)
   (eriks/leader-def 'normal
     "u" 'undo-tree-visualize))

@@ -1,9 +1,9 @@
+;; TODO: have a gander at https://karthinks.com/software/avy-can-do-anything/
 (use-package avy
   :ensure t
   :custom
   (avy-keys '(?h ?g ?j ?f ?k ?d ?l ?s))
   (avy-timeout-seconds nil) ;; no timeout ("infinite" timeout)
-  (avy-all-windows nil)
   (avy-background t)
   (avy-highlight-first nil)
   (avy-style 'at-full)

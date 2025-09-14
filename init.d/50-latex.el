@@ -6,7 +6,6 @@
   ;;argument to use-package?
   ;; (setf (cadr (assoc 'output-pdf TeX-view-program-selection)) "PDF Tools")
   (evil-set-initial-state 'tex-mode 'normal)
-  (eriks/frames-only-use-window-funcs 'TeX-next-error)
   (defun eriks/latex-flyspell-mode-enable ()
     (interactive)
     (setq-local ispell-local-dictionary "british")
