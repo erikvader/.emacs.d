@@ -10,6 +10,7 @@
   (evil-move-cursor-back nil)
   (evil-want-C-d-scroll t)
   (evil-want-C-u-scroll t)
+  (evil-want-C-u-delete t)
   (evil-want-Y-yank-to-eol t)
   (evil-want-keybinding nil)
   (evil-undo-system 'undo-tree)
@@ -20,6 +21,8 @@
   ('motion
    "M-d" 'eriks/evil-scroll-down-half-other-window
    "M-u" 'eriks/evil-scroll-up-half-other-window
+   "<backspace>" 'evil-ex-nohighlight
+   "gr" 'revert-buffer)
   ;;NOTE: make it more emacsy
   ('evil-ex-completion-map
    "C-a" nil ;; let through beginning of line
@@ -27,17 +30,13 @@
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
   ('insert
-   "C-SPC" 'completion-at-point
-   "<up>" 'ignore
-   "<left>" 'ignore
-   "<down>" 'ignore
-   "<right>" 'ignore)
+   "C-SPC" 'completion-at-point)
   ('normal
    "C-r" 'evil-use-register
+   "-" 'repeat
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
-   "<backspace>" 'evil-ex-nohighlight
    "U" 'evil-redo)
   ('global
    [remap scroll-down-command] 'evil-scroll-up
@@ -55,7 +54,7 @@
   ;; NOTE: Doesn't work to set these in :custom, They overwrite later calls
   ;; to `evil-set-initial-state' for some reason.
   (setq-default evil-emacs-state-modes nil
-                evil-motion-state-modes '(help-mode)
+                evil-motion-state-modes nil
                 evil-insert-state-modes nil
                 evil-normal-state-modes '(prog-mode conf-mode text-mode)
                 evil-emacs-state-cursor '(hollow))
@@ -88,9 +87,7 @@
 
   (eriks/leader-def 'normal
     "i" 'imenu
-    "." 'repeat
-    "r" 'revert-buffer
-    ;;TODO: make this work like my dirvish rename (cw), specifically with the autocomplete prompt
+    "." 'evil-ex-repeat
     "R" 'rename-visited-file
     "C-o" 'browse-url-at-point
     "q" 'kmacro-insert-counter

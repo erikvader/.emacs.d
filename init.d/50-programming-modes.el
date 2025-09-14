@@ -97,17 +97,6 @@
   :config
   (remove-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
-;;TODO: this is broken?
-;;(use-package hindent
-;;  :ensure t
-;;  :general-config
-;;  ('normal
-;;   'haskell-mode-map
-;;   "M-q" 'hindent-reformat-decl-or-fill)
-;;  ('visual
-;;   'haskell-mode-map
-;;   "M-q" 'hindent-reformat-region))
-
 (use-package diff-mode
   :custom
   (diff-refine nil))
@@ -210,7 +199,6 @@
   :config
   (setq-default inferior-lisp-program "sbcl")
   (add-to-list 'auto-mode-alist '("/\\.sbclrc\\'" . lisp-mode))
-  (eriks/frames-only-use-window-funcs 'sldb-setup)
   (evil-set-initial-state 'slime-repl-mode 'normal)
   (function-put 'iter 'common-lisp-indent-function '(nil)) ;; don't indent iter like a defun
 
@@ -291,7 +279,7 @@
 
 (use-package lisp-mode
   :gfhook ('lisp-data-mode-hook (cl-defun eriks/lisp-comment-start ()
-                                  (setq-local comment-start ";;"))))
+                                  (setq-local comment-start ";; "))))
 
 (use-package elisp-mode
   :gfhook ('emacs-lisp-mode-hook 'apheleia-mode))

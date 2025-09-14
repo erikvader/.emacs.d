@@ -12,6 +12,7 @@ See `same-buffer'."
       (set-window-prev-buffers w nil))
     w))
 
+;; TODO: is this still needed since `frames-only-mode' is gone?
 (defmacro same-buffer (&rest body)
   "Run BODY with `display-buffer-overriding-action' set to
   `eriks/display-same-window'. In other words, this will run BODY and
@@ -46,23 +47,23 @@ because they are stored like that in keymaps."
   ;; be helpful to improve this? Basically run a filter on all keys and
   ;; only keep those that we want to keep.
   `(cl-labels ((remove-key (map keys)
-                           (cond ((and (null keys)
-                                       (not (keymapp map)))
-                                  t)
-                                 ((or (null keys)
-                                      (null map))
-                                  nil)
-                                 (t
-                                  (let ((removed (remove-key (cdr (assq (car keys) map))
-                                                             (cdr keys))))
-                                    (cond ((or (eq removed t)
-                                               (equal removed '(keymap)))
-                                           (assq-delete-all (car keys) map))
-                                          ((keymapp removed)
-                                           (setf (cdr (assq (car keys) map)) removed)
-                                           map)
-                                          (t
-                                           nil)))))))
+                 (cond ((and (null keys)
+                             (not (keymapp map)))
+                        t)
+                       ((or (null keys)
+                            (null map))
+                        nil)
+                       (t
+                        (let ((removed (remove-key (cdr (assq (car keys) map))
+                                                   (cdr keys))))
+                          (cond ((or (eq removed t)
+                                     (equal removed '(keymap)))
+                                 (assq-delete-all (car keys) map))
+                                ((keymapp removed)
+                                 (setf (cdr (assq (car keys) map)) removed)
+                                 map)
+                                (t
+                                 nil)))))))
      (let ((new (remove-key ,keymap (listify-key-sequence (kbd ,key)))))
        (when (keymapp new)
          (setq ,keymap new)))))

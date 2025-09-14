@@ -162,3 +162,43 @@ Also that `evil-set-initial-state' does not always work"
   :general-config
   (eriks/leader-def 'normal
     "v" 'vline-mode))
+
+(use-package rainbow-mode
+  :ensure t)
+
+(use-package view
+  :config
+  (evil-collection-view-setup))
+
+(use-package info
+  :config
+  ;;TODO: move these bindings to the standalone info program?
+  (evil-collection-info-setup))
+
+(use-package pp
+  :config
+  (define-advice pp-display-expression (:override (expression out-buffer-name &optional lisp) behave)
+    "Make this function behave well with the rest of emacs.
+
+The original function overrides the behavior of
+`with-output-to-temp-buffer' by switching back to the previous window
+and ignores the rules in `display-buffer-alist', this advice removes
+this custom behavior, but is otherwise a copy of it.
+
+While I'm at it, I also removed the possibility to show the result as
+`message', a buffer is always shown now.
+
+\\<view-mode-map>I also made the resulting buffer activate `view-mode'
+so it can be quit with \\[quit-window], and also because I don't see the
+point if this buffer being editable."
+    (let* ((lexical lexical-binding))
+      (with-output-to-temp-buffer out-buffer-name
+        (if lisp
+            (with-current-buffer standard-output
+              (pp-emacs-lisp-code expression))
+          (pp expression))
+        (with-current-buffer standard-output
+          (emacs-lisp-mode)
+          (view-mode 1)
+          (setq lexical-binding lexical)
+          (setq-local font-lock-verbose nil))))))

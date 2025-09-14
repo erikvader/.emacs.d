@@ -12,19 +12,15 @@
 ;; remove annoying keybinds
 (general-unbind "<home>" "<end>" "<prior>" "<next>")
 
-;; bind some commands in C-x that replaces bindings i otherwise don't use
+;; bind some commands on global bindings I otherwise don't use
 (general-def
   :prefix "C-x"
-  "C-k" 'kill-current-buffer
+  "C-k" 'quit-window
+  "C-o" 'display-buffer
   "m" 'pp-macroexpand-last-sexp
   "M-e" 'eriks/eval-replace
   "C-u" 'universal-argument)
 
-;; to be able to jump back to previous buffer, mimics the binding from evil
-;;TODO: ??
-;;TODO: bind the evil jump list commands here instead?
-;;TODO: just `previous-buffer'?
-;;TODO: `mode-line-other-buffer'
 (general-def
   :prefix "C-h"
   "c" 'describe-char)
@@ -32,4 +28,6 @@
 (general-def
   "<next>" 'scroll-other-window
   "<prior>" 'scroll-other-window-down
-  "C-h F" 'describe-face)
+  "C-h F" 'describe-face
+  "C-u" 'kill-whole-line
+  "M-y" 'clipboard-yank)
