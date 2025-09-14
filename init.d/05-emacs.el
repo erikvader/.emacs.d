@@ -28,6 +28,7 @@
 (setq-default scroll-conservatively scroll-margin)
 (setq-default scroll-preserve-screen-position 'tt)
 (setq-default next-screen-context-lines 10)
+(setq-default auto-save-no-message t)
 
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)
@@ -83,11 +84,6 @@ non-nil."
 (setq-default read-file-name-completion-ignore-case t
               read-buffer-completion-ignore-case t
               completion-ignore-case t)
-
-;; suppress logs from native compilation and byte compilation
-(require 'warnings)
-(add-to-list 'warning-suppress-types '(bytecomp))
-(add-to-list 'warning-suppress-types '(comp))
 
 ;; assume that files with an actual recognized character encoding are text files
 (defun eriks/use-text-mode-p ()

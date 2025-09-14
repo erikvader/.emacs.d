@@ -19,12 +19,13 @@
 (defconst autosave-dir (concat user-emacs-directory "auto_saves" "/"))
 (make-directory autosave-dir t)
 (setq-default auto-save-file-name-transforms
-      `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
+              `(("\\(?:[^/]*/\\)*\\(.*\\)" ,(concat autosave-dir "\\1") t)))
 
 ;; move backups
 (defconst backup-dir (concat user-emacs-directory "backups" "/"))
 (make-directory backup-dir t)
 (add-to-list 'backup-directory-alist `("." . ,backup-dir))
+(setq-default vc-make-backup-files t)
 
 ;; remove lockfiles
 (setq-default create-lockfiles nil)
@@ -32,7 +33,11 @@
 ;; no more customize!
 (setq-default custom-file "/tmp/emacs-custom-file")
 
-;; load common lisp for everyone!
+;; silence warnings
+(add-to-list 'warning-suppress-types '(comp))
+(add-to-list 'warning-suppress-types '(bytecomp))
+(setq native-comp-async-report-warnings-errors 'silent)
+
 (require 'cl-lib)
 
 ;; load everything
