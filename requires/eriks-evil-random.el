@@ -39,4 +39,18 @@ line instead. Preserves column placement."
       (line-move (- (line-number-at-pos (- last last-non-empty))
                     cur-line)))))
 
+(evil-define-motion eriks/evil-previous-line-last-non-blank (count)
+  "Move the cursor COUNT lines up on the last non-blank character."
+  :type line
+  (let ((this-command this-command))
+    (evil-previous-line (or count 1)))
+  (evil-end-of-line))
+
+(evil-define-motion eriks/evil-next-line-last-non-blank (count)
+  "Move the cursor COUNT lines down on the last non-blank character."
+  :type line
+  (let ((this-command this-command))
+    (evil-next-line (or count 1)))
+  (evil-end-of-line))
+
 (provide 'eriks-evil-random)
