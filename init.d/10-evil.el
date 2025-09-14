@@ -18,6 +18,7 @@
   (evil-want-keybinding nil)
   (evil-undo-system 'undo-tree)
   (evil-goto-definition-functions '(evil-goto-definition-xref evil-goto-definition-search))
+  (evil-symbol-word-search t)
   :general-config
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
@@ -48,8 +49,9 @@
    [remap forward-word] 'evil-forward-word-begin
    ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
    )
-  ('(inner outer)
-   "d" 'evil-inner-defun)
+  ('inner
+   "d" 'evil-inner-defun
+   "u" 'evil-inner-subword)
   :config
   (evil-mode 1)
   ;; NOTE: Doesn't work to set these in :custom, They overwrite later calls
@@ -64,6 +66,13 @@
     "Select inner defun."
     ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
     (evil-select-inner-object 'evil-defun beg end type count))
+
+  (evil-define-text-object evil-inner-subword (count &optional beg end _type)
+    "Select inner subword"
+    ;;NOTE: an outer variant didn't work as expected, but it doesn't really matter
+    ;;anyways. The only time it makes a difference, i.e. when there is whitespace on both
+    ;;sides, a normal `evil-a-word' will do the same thing.
+    (evil-select-inner-object 'subword beg end type count))
 
   (general-create-definer eriks/leader-def
     :prefix eriks/leader)
@@ -254,3 +263,12 @@
   ;;TODO: add the delay
   :config
   (global-evil-quickscope-mode 1))
+
+(use-package eriks-evil-symbol-motions
+  :config
+  (eriks/defkey-repeat-1
+    :states 'motion
+    :prefix eriks/leader
+    "w" 'eriks/evil-forward-symbol-begin
+    "b" 'eriks/evil-backward-symbol-begin
+    "e" 'eriks/evil-forward-symbol-end))

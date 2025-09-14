@@ -21,7 +21,6 @@
                          (setq-local comment-start "//")
                          (setq-local comment-end "")
                          (abbrev-mode -1)))
-  ('c-mode-common-hook #'subword-mode)
   :general-config
   ('normal
    '(c-mode-map c++-mode-map)
@@ -137,7 +136,6 @@
   :ensure t
   :config
   (eriks/sp-open-on "{" 'rust-mode)
-  :gfhook #'subword-mode
   :general-config
   ('rust-mode-map
    "C-c C-f" nil))

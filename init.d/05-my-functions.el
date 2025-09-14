@@ -103,3 +103,5 @@ determine if the hotfix has been fixed."
 that basically are programming modes but doesn't have it as
 parent."
   (run-hooks 'prog-mode-hook))
+
+(defalias 'forward-subword 'subword-forward "To be compatible with thingatpt.el")
