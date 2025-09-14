@@ -20,7 +20,7 @@
   (cl-defun eriks/flycheck-activate-if-started-projectile ()
     "Activates `flycheck-mode' in the current buffer if another buffer
 in the same projectile project also has flycheck enabled."
-    (when-let (((not lsp-mode))
+    (when-let (((not (bound-and-true-p lsp-mode)))
                ((flycheck-may-enable-mode))
                (root (projectile-project-root))
                (cur-mode major-mode)
