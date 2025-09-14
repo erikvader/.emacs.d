@@ -1,19 +1,29 @@
 (use-package magit
-  ;;TODO: gör ett advice runt `magit-insert-untracked-files' som ser till att den alltid visar alla untracked filer
   :ensure t
   :custom
-  (magit-bury-buffer-function 'magit-mode-quit-window)
-  (magit-diff-refine-hunk t)
-  (magit-commit-show-diff nil)
+  (magit-diff-refine-hunk 'all)
   :config
+  (defun eriks/magit-refresh-with-all-untracked-files ()
+    "Shows all untracked files in the current buffer, and do not stop at
+untracked directories."
+    (interactive)
+    (setq-local magit-status-show-untracked-files 'all)
+    (magit-refresh)
+    (message "Showing all untracked files"))
+
   (eriks/leader-def 'normal
     :infix "g"
     "s" 'magit-status
     "b" 'magit-blame
     "f" 'magit-find-file)
+
   (add-to-list 'evil-buffer-regexps
                '("^COMMIT_EDITMSG$" . insert))
-  :gfhook ('magit-blame-mode-hook #'evil-emacs-state))
+  :gfhook ('magit-blame-mode-hook #'evil-emacs-state)
+  :general-config
+  ('magit-status-mode-map
+   :prefix "C-c"
+   "a" 'eriks/magit-refresh-with-all-untracked-files))
 
 (use-package git-timemachine
   :ensure t
@@ -36,16 +46,21 @@
   ;;NOTE: the readme says to include these if magit is pretty new
   ('magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
   ('magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+  ('dired-mode-hook 'diff-hl-dired-mode-unless-remote)
   :config
   (global-diff-hl-mode 1)
-  (eriks/frames-only-use-window-funcs 'diff-hl-revert-hunk)
+  (evil-collection-diff-hl-setup)
   (eriks/leader-def 'normal
     :infix "g"
     "r" 'diff-hl-revert-hunk
-    "j" 'diff-hl-next-hunk ;TODO: use show versions instead?
-    "k" 'diff-hl-previous-hunk)
+    "j" 'diff-hl-next-hunk
+    "k" 'diff-hl-previous-hunk
+    "o" 'diff-hl-show-hunk)
   :custom
-  (diff-hl-side 'right))
+  ;; TODO: disable the map somehow `diff-hl-command-prefix'
+  (diff-hl-side 'right)
+  (diff-hl-show-hunk-inline-popup-smart-lines nil)
+  (diff-hl-show-hunk-inline-popup-hide-hunk t))
 
 (use-package git-messenger
   :ensure t
