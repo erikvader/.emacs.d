@@ -1,6 +1,3 @@
-(defun eriks/show-paren-alt-hook ()
-  (face-remap-set-base 'show-paren-match '(:underline t)))
-
 (use-package cc-mode
   :config
   (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
@@ -29,11 +26,9 @@
 (use-package cmake-mode
   :ensure t)
 
-(use-package sgml-mode
+(use-package sgml-mode ;; < text-mode
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
-  (evil-set-initial-state 'sgml-mode 'normal)
-  (sp-local-pair '(mhtml-mode sgml-mode html-mode) "<" ">" :actions '(navigate autoskip))
 
   (defun eriks/sgml-close-tag-inline ()
     "Closes a tag like `nxml-balanced-close-start-tag-inline'"
@@ -53,28 +48,34 @@
    'sgml-mode-map
    "C-v" 'eriks/sgml-close-tag-inline
    "C-b" 'eriks/sgml-close-tag-block)
-  :gfhook
-  ('sgml-mode-hook #'sgml-electric-tag-pair-mode))
+  ('html-mode-map
+   ;; NOTE: let ace-window through
+   "M-o" nil))
 
-(use-package mhtml-mode
-  :config
-  (add-to-list 'sp-navigate-consider-sgml-tags 'mhtml-mode)
-  :gfhook
-  'eriks/show-paren-alt-hook)
+(use-package mhtml-mode ;; < html-mode < sgml-mode
+  )
 
-(use-package nxml-mode
-  :config
-  (evil-set-initial-state 'nxml-mode 'normal)
+(use-package nxml-mode ;; < text-mode
   :general-config
   ('insert
    'nxml-mode-map
    "C-v" #'nxml-balanced-close-start-tag-inline
-   "C-b" #'nxml-balanced-close-start-tag-block)
-  :gfhook
-  ('nxml-mode-hook #'sgml-electric-tag-pair-mode))
+   "C-b" #'nxml-balanced-close-start-tag-block))
+
+(when (boundp 'sp--html-modes)
+  ;; NOTE: `sgml-electric-tag-pair-mode' doesn't work well with yasnippets nor things that
+  ;; aren't simple inserts, so it is not enabled.
+  (sp-with-modes sp--html-modes
+    (sp-local-pair "<" nil :actions '(autoskip navigate)))
+  (dolist (mode sp--html-modes)
+    (when-let ((hook (-> mode
+                         symbol-name
+                         (concat "-hook")
+                         intern-soft)))
+      (add-hook hook #'eriks/run-prog-mode-hooks))
+    (evil-set-initial-state mode 'normal)))
 
 (use-package python
-  :gfhook #'subword-mode
   :general-config
   ('inferior-python-mode-map
    "C-d" nil))
@@ -168,13 +169,6 @@
 
 (use-package json-mode
   :ensure t)
-
-(use-package rjsx-mode
-  :ensure t
-  :config
-  (add-to-list 'sp-navigate-consider-sgml-tags 'rjsx-mode)
-  :gfhook
-  'eriks/show-paren-alt-hook)
 
 (use-package typescript-mode
   :ensure t
