@@ -1,6 +1,3 @@
-[submodule "submodules/evil-easymotion"]
-	path = submodules/evil-easymotion
-	url = https://github.com/erikvader/evil-easymotion.git
 [submodule "submodules/minizinc-mode"]
 	path = submodules/minizinc-mode
 	url = https://github.com/erikvader/minizinc-mode
