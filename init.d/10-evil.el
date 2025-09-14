@@ -1,7 +1,3 @@
-;;TODO: evil-this-register with more user feedback would be nice
-;;TODO: + shortcut för "+ ? - för "0 ?
-;;TODO: #* använda symboler istället?
-;;TODO: eller C-r -> " som i insert mode?
 (use-package evil
   :ensure t
   :init
@@ -37,7 +33,7 @@
    "<down>" 'ignore
    "<right>" 'ignore)
   ('normal
-   "#" "\"0" ;;NOTE: this only works as a macro for some reason
+   "C-r" 'evil-use-register
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
@@ -102,7 +98,12 @@
     "s" 'evil-backward-sentence-begin
     "}" 'evil-backward-section-end
     "{" 'evil-backward-section-begin
-    "p" 'evil-backward-paragraph))
+    "p" 'evil-backward-paragraph)
+
+  (define-advice evil-use-register (:after (register) echo)
+    "Echo the chosen register and hope evil will support this natively soon."
+    ;;TODO: echo current evil commands in the minibuffer https://github.com/emacs-evil/evil/issues/1755
+    (message "Using register: %c" register)))
 
 (use-package drag-stuff
   :ensure t
@@ -241,15 +242,6 @@
     "C-a" 'evil-numbers/inc-at-pt-incremental
     "C-x" 'evil-numbers/dec-at-pt-incremental))
 
-;;TODO: remove? Rely on the macro # -> "0
-(use-package eriks-evil-default-register
-  :disabled
-  :general-config
-  (eriks/leader-def 'normal
-    "p" 'eriks/evil-paste-after
-    "P" 'eriks/evil-paste-before
-    "d" 'eriks/evil-yank-delete))
-
 (use-package eriks-evil-backward-exclusive
   :config
   (eriks/defkey-repeat eriks-evil-backward
@@ -260,9 +252,14 @@
 
 (use-package evil-quickscope
   :ensure t
-  ;;TODO: add the delay
   :config
   (global-evil-quickscope-mode 1))
+
+(use-package evil-owl
+  :ensure t
+  :diminish
+  :config
+  (evil-owl-mode 1))
 
 (use-package eriks-evil-symbol-motions
   :config
