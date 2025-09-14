@@ -34,28 +34,3 @@
   "Same as `quit-window' except it's kill-argument has opposite meaning."
   (interactive "P")
   (quit-window (not not-kill) window))
-
-(defun eriks/scroll-down-half (&optional arg)
-  "The default emacs scroll, but half the window's height. Inspired by `evil-scroll-up'"
-  (interactive "^P")
-  (scroll-down-command (or arg
-                           (/ (window-body-height) 2))))
-(put 'eriks/scroll-down-half 'scroll-command t)
-
-(defun eriks/scroll-up-half (&optional arg)
-  "The default emacs scroll, but half the window's height, Inspired by `evil-scroll-down'"
-  (interactive "^P")
-  (scroll-up-command (or arg
-                         (/ (window-body-height) 2))))
-(put 'eriks/scroll-up-half 'scroll-command t)
-
-;;NOTE: `scroll-other-window' doesn't have the scroll-command property
-(defun eriks/scroll-down-half-other-window (&optional lines)
-  (interactive "P")
-  (with-selected-window (other-window-for-scrolling)
-    (eriks/scroll-down-half lines)))
-
-(defun eriks/scroll-up-half-other-window (&optional lines)
-  (interactive "P")
-  (with-selected-window (other-window-for-scrolling)
-    (eriks/scroll-up-half lines)))

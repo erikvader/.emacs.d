@@ -18,8 +18,8 @@
   :general-config
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
-   "M-d" 'eriks/scroll-up-half-other-window
-   "M-u" 'eriks/scroll-down-half-other-window)
+   "M-d" 'eriks/evil-scroll-down-half-other-window
+   "M-u" 'eriks/evil-scroll-up-half-other-window
   ;;NOTE: make it more emacsy
   ('evil-ex-completion-map
    "C-a" nil ;; let through beginning of line
@@ -40,6 +40,8 @@
    "<backspace>" 'evil-ex-nohighlight
    "U" 'evil-redo)
   ('global
+   [remap scroll-down-command] 'evil-scroll-up
+   [remap scroll-up-command] 'evil-scroll-down
    [remap backward-kill-word] 'evil-delete-backward-word
    [remap backward-word] 'evil-backward-word-begin
    [remap forward-word] 'evil-forward-word-begin
@@ -69,6 +71,17 @@
     ;;anyways. The only time it makes a difference, i.e. when there is whitespace on both
     ;;sides, a normal `evil-a-word' will do the same thing.
     (evil-select-inner-object 'subword beg end type count))
+
+  ;;NOTE: `scroll-other-window' doesn't have the scroll-command property
+  (defun eriks/evil-scroll-down-half-other-window (&optional lines)
+    (interactive "P")
+    (with-selected-window (other-window-for-scrolling)
+      (evil-scroll-down lines)))
+
+  (defun eriks/evil-scroll-up-half-other-window (&optional lines)
+    (interactive "P")
+    (with-selected-window (other-window-for-scrolling)
+      (evil-scroll-up lines)))
 
   (general-create-definer eriks/leader-def
     :prefix eriks/leader)
