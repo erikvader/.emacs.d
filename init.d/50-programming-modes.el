@@ -46,7 +46,7 @@
     "Closes a tag like `nxml-balanced-close-start-tag-block'"
     (interactive)
     (eriks/sgml-close-tag-inline)
-    (newline)
+    (insert "\n")
     (eriks/create--newline-and-enter-sexp))
   :general-config
   ('insert

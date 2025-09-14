@@ -59,18 +59,18 @@ instead (splits, adds comment chars and indents)."
 (defun eriks/evil-open-line-above (ARG)
   "same as `evil-open-line' except that it is more like gO<esc>"
   (interactive "p")
-  (if (bolp)
-      (newline ARG)
-    (save-excursion
-      (beginning-of-line)
-      (newline ARG))))
+  (save-excursion
+    (beginning-of-line)
+    (dotimes (i ARG)
+      (insert "\n"))))
 
 (defun eriks/evil-open-line-below (ARG)
   "Same as `evil-open-line' except that it is more like go<esc>"
   (interactive "p")
   (save-excursion
     (end-of-line)
-    (newline ARG)))
+    (dotimes (i ARG)
+      (insert "\n"))))
 
 (defun eriks/evil-open-below-comment ()
   "Pretty much the same as `evil-open-below' except that this

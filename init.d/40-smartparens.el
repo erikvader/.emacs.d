@@ -10,13 +10,14 @@
   (defconst eriks/sp-prefix "g" "Prefix for smartparens")
   (defconst eriks/sp-infix "s" "Infix for smartparens")
   :config
+  (add-to-list 'sp--html-modes 'mhtml-mode)
   (require 'smartparens-config)
 
   (defun eriks/create--newline-and-enter-sexp (&rest _ignored)
     "Open a new brace or bracket expression, with relevant newlines and indentation."
-    (newline)
-    (indent-according-to-mode)
-    (forward-line -1)
+    (save-excursion
+      (insert "\n")
+      (indent-according-to-mode))
     (indent-according-to-mode))
 
   (defun eriks/sp-open-on (paren modes)
