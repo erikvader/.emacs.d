@@ -58,7 +58,7 @@
                               (t xs))))
             (cl-list* theme
                       (-> specs
-                          subs
+                          (modify 'mode-line-inactive :background dracula-current :box dracula-current)
                           (ovwr 'evil-quickscope-first-face :foreground dracula-green :underline t :weight 'bold)
                           (ovwr 'evil-quickscope-second-face :foreground dracula-yellow :underline t :weight 'bold)
                           (ovwr 'diff-hl-change :foreground dracula-yellow :background dracula-yellow)
@@ -80,7 +80,11 @@
                           (ovwr 'swiper-match-face-2 :inherit 'ivy-minibuffer-match-face-2)
                           (ovwr 'swiper-match-face-3 :inherit 'ivy-minibuffer-match-face-3)
                           (ovwr 'swiper-match-face-4 :inherit 'ivy-minibuffer-match-face-4)
-                          (modify 'ivy-minibuffer-match-face-4 :background dracula-cyan))))))))
+                          (modify 'ivy-minibuffer-match-face-4 :background dracula-cyan)
+                          (modify 'magit-diff-hunk-heading-highlight :background (color-lighten-name dracula-current 40))
+                          (ovwr 'diff-refine-added :background (color-darken-name dracula-green 55) :foreground dracula-fg)
+                          (ovwr 'diff-refine-removed :background (color-darken-name dracula-red 55) :foreground dracula-fg)
+                          subs)))))))
 
   ;;NOTE: Some color manipulation functions, like `color-lighten-name', depend on the type
   ;;of the frame and its capabilities. The function `color-values' is the one responsible
