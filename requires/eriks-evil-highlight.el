@@ -45,18 +45,6 @@ Uses a default face unless C-u is used."
 search highlighting in evil is activated this will highlight the
 current thing."
   (interactive)
-  (let ((thing (thing-at-point 'symbol t))
-        re)
-    (when (stringp thing)
-      (setq re (concat "\\_<" (regexp-quote thing) "\\_>"))
-      ;;NOTE: copied from `swiper--remember-search-history'
-      (when (boundp 'swiper-history)
-        (cl-pushnew re swiper-history))
-      (when (eq evil-search-module 'evil-search)
-        (add-to-history 'evil-ex-search-history re)
-        (setq evil-ex-search-pattern (list re t t))
-        (setq evil-ex-search-direction 'forward)
-        (when evil-ex-search-persistent-highlight
-          (evil-ex-search-activate-highlight evil-ex-search-pattern))))))
+  (evil-ex-start-word-search nil 'forward 0 t))
 
 (provide 'eriks-evil-highlight)
