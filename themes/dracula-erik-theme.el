@@ -15,10 +15,10 @@
 
 ;;; Code:
 
-(deftheme dracula)
+(deftheme dracula-erik)
 
 (let ((class '((class color) (min-colors 89)))
-      (fg0 "#bbe0f0")
+      (fg0 "#f8f8f2")
       (fg1 "#f8f8f2")
       (fg2 "#e2e2dc")
       (fg3 "#ccccc7")
@@ -67,7 +67,7 @@
       (bright-black "#4d4d4d"))
 
   (custom-theme-set-faces
-   'dracula
+   'dracula-erik
    ;; default
    `(cursor ((,class (:background ,fg3))))
    `(default ((((type nil)) (:background ,bg1 :foreground ,fg0))
@@ -504,7 +504,7 @@
    `(tabbar-selected-modified ((t (:inherit tabbar-selected :slant oblique))))
    `(tabbar-separator ((t (:inherit tabbar-default :box nil))))
    `(tabbar-unselected ((t (:inherit tabbar-default))))
-  ))
+   ))
 
 
 ;;;###autoload
@@ -512,10 +512,10 @@
 ;;  (add-to-list 'custom-theme-load-path
 ;;               (file-name-as-directory (file-name-directory load-file-name))))
 
-(provide-theme 'dracula)
+(provide-theme 'dracula-erik)
 
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
 
-;;; dracula-theme.el ends here
+;;; dracula-erik-theme.el ends here
