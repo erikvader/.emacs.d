@@ -19,30 +19,7 @@
   ('org-mode-map
    "C-c s" 'counsel-org-goto-all))
 
-(use-package eriks-org-utils
-  :after org)
-
 (use-package evil-org
   :ensure t
   :diminish
-  :after org
-  :ghook 'org-mode-hook
-  :config
-  (evil-org-set-key-theme '(textobjects insert additional todo))
-  :general-config
-  ('normal
-   'evil-org-mode-map
-   "H" 'org-up-element
-   "L" 'org-down-element
-   "K" 'org-backward-element
-   "J" 'org-forward-element
-   "C-S-h" 'evil-org-top)
-  ('normal
-   'evil-org-mode-map
-   "go" (evil-org-define-eol-command org-insert-heading-respect-content)
-   "gO" (evil-org-define-eol-command org-insert-subheading)
-   "T"  (evil-org-define-eol-command org-insert-todo-heading-respect-content)
-   "gt" (evil-org-define-eol-command org-insert-todo-subheading)))
-
-(use-package eriks-org-spaced-mode
-  :after org)
+  :ghook 'org-mode-hook)
