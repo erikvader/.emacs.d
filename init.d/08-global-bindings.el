@@ -26,7 +26,8 @@
 ;;TODO: just `previous-buffer'?
 ;;TODO: `mode-line-other-buffer'
 (general-def
-  "C-o" 'pop-global-mark)
+  :prefix "C-h"
+  "c" 'describe-char)
 
 (general-def
   "<next>" 'scroll-other-window

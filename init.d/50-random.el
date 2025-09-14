@@ -166,20 +166,6 @@ Also that `evil-set-initial-state' does not always work"
   ('flyspell-mode-map
    "C-;" nil))
 
-(use-package help-mode
-  :gfhook 'scroll-lock-mode
-  :general-config
-  ('motion
-   'help-mode-map
-   "<tab>" 'forward-button
-   "<backtab>" 'backward-button
-   "C-o" 'help-go-back
-   "C-i" 'help-go-forward
-   "<return>" 'push-button
-   "r" 'revert-buffer
-   "q" 'quit-window
-   "<backspace>" 'evil-ex-nohighlight))
-
 (use-package epg-config
   :custom
   (epg-pinentry-mode 'loopback))
