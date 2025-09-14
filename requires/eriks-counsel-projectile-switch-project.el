@@ -11,22 +11,15 @@ those when available."
               :caller 'eriks/counsel-projectile-switch-project
               :action '(1
                         ("o" projectile-switch-project-by-name "default")
-                        ("s" eriks/projectile-switch-ripgrep-action "ripgrep")
-                        ("f" eriks/projectile-switch-find-file-action "find file")
+                        ("s" eriks/projectile-switch-ripgrep-action "search files")
+                        ("m" magit-status "magit")
                         ("k" eriks/projectile-switch-kill-buffers-action "kill buffers")
                         ;;TODO: how to refresh the list when called with `ivy-dispatching-call'?
                         ("r" projectile-remove-known-project "remove from list")))))
 
 (defun eriks/projectile-switch-ripgrep-action (project-to-switch)
   "Switch to a project by searching with ripgrep in all files."
-  (let ((projectile-switch-project-action #'counsel-rg))
-    (projectile-switch-project-by-name project-to-switch)))
-
-(defun eriks/projectile-switch-find-file-action (project-to-switch)
-  "Switch to a project with `projectile-find-file', the default of
-`projectile-switch-project-action'."
-  (let ((projectile-switch-project-action #'projectile-find-file))
-    (projectile-switch-project-by-name project-to-switch)))
+  (counsel-rg nil project-to-switch))
 
 (defun eriks/projectile-switch-kill-buffers-action (project-to-switch)
   "Kill the buffers of the selected project."

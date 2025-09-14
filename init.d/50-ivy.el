@@ -9,19 +9,21 @@
    (assq t ivy-format-functions-alist)
    #'ivy-format-function-line)
 
-  ;;TODO: Emacs doesn't change focus to the selected frame with
-  ;;`ivy-occur-press-and-switch' for some reason. The function `select-frame' says it
-  ;;should. See also `select-frame-set-input-focus'
+  (evil-collection-ivy-setup)
+  (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
+  (evil-set-initial-state 'ivy-occur-mode 'normal)
 
   :general-config
   ('global
    :prefix "C-c"
    "C-r" 'ivy-resume)
   ('(ivy-minibuffer-map minibuffer-local-map)
-   "<escape>" 'abort-minibuffers
+   "<escape>" 'minibuffer-keyboard-quit
    ;;TODO: this won't use evil kill word, but ivy kill word. Possible to merge them?
    "C-w" 'backward-kill-word)
   ('ivy-minibuffer-map
+   ;;NOTE: I don't like `ivy-partial-or-done'.
+   "TAB" 'ivy-partial
    "C-SPC" 'ivy-mark
    "M-SPC" 'ivy-unmark-backward
    ;;NOTE: I don't use hydra
@@ -35,6 +37,7 @@
 (use-package ivy-avy
   :ensure t)
 
+;; NOTE: `ivy-define-key' removes the commands in defines from `counsel-M-x'.
 (use-package counsel
   :ensure t
   :diminish
@@ -60,7 +63,9 @@ of its default of only looking for git folders."
    "M-s" 'counsel-rg
    [remap describe-face] 'counsel-faces
    [remap describe-bindings] nil
-   [remap recentf-open-files] 'counsel-recentf
+   ;;NOTE: this counsel variant doesn't work with `other-window-prefix'. It otherwise only
+   ;;seems to add actions which I don't use.
+   ;; [remap recentf-open-files] 'counsel-recentf
    [remap swiper] 'counsel-grep-or-swiper))
 
 (use-package eriks-counsel-projectile-switch-project
@@ -68,7 +73,6 @@ of its default of only looking for git folders."
   ('counsel-mode-map
    [remap projectile-switch-project] #'eriks/counsel-projectile-switch-project))
 
-;;TODO: ivy-regex-fuzzy with flx?
 (use-package swiper
   :ensure t
   :general-config
@@ -87,3 +91,10 @@ of its default of only looking for git folders."
        (plist-get ivy-rich-display-transformers-list 'ivy-switch-buffer)
        :columns))
   (ivy-rich-mode 1))
+
+(use-package ivy-xref
+  :ensure t
+  :config
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
