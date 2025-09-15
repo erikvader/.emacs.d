@@ -1,5 +1,6 @@
 ;; repeat-mode is not supported in general, ever: https://github.com/noctuid/general.el/issues/552
-;;TODO: repeat-mode doesn't seem to work with evil motions
+;; TODO: repeat-mode doesn't seem to work with evil motions
+;; TODO: beware of `repeat-check-key'. Set the property for all commands mention here?
 (cl-defmacro eriks/defkey-repeat (map-name-or-args &rest general-keydefs)
   "Bind keys that can be repeated, powered by `repeat-mode'. Bind all keys
 as per `general-define-key', but also create a keymap named MAP-NAME

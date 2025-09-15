@@ -23,6 +23,18 @@
    "M-u" 'eriks/evil-scroll-up-half-other-window
    "<backspace>" 'evil-ex-nohighlight
    "gr" 'revert-buffer)
+  ('motion
+   :prefix "]"
+   "s" 'evil-forward-sentence-begin
+   "}" 'evil-forward-section-end
+   "{" 'evil-forward-section-begin
+   "p" 'evil-forward-paragraph)
+  ('motion
+   :prefix "["
+   "s" 'evil-backward-sentence-begin
+   "}" 'evil-backward-section-end
+   "{" 'evil-backward-section-begin
+   "p" 'evil-backward-paragraph)
   ;;NOTE: make it more emacsy
   ('evil-ex-completion-map
    "C-a" nil ;; let through beginning of line
@@ -93,22 +105,6 @@
     "q" 'kmacro-insert-counter
     "Q" 'kmacro-set-counter
     "&" 'evil-ex-repeat-substitute-with-flags)
-
-  (eriks/defkey-repeat-1
-    :states 'motion
-    :prefix "]"
-    "s" 'evil-forward-sentence-begin
-    "}" 'evil-forward-section-end
-    "{" 'evil-forward-section-begin
-    "p" 'evil-forward-paragraph)
-
-  (eriks/defkey-repeat-1
-    :states 'motion
-    :prefix "["
-    "s" 'evil-backward-sentence-begin
-    "}" 'evil-backward-section-end
-    "{" 'evil-backward-section-begin
-    "p" 'evil-backward-paragraph)
 
   (define-advice evil-use-register (:after (register) echo)
     "Echo the chosen register and hope evil will support this natively soon."
@@ -253,12 +249,11 @@
     "C-x" 'evil-numbers/dec-at-pt-incremental))
 
 (use-package eriks-evil-backward-exclusive
-  :config
-  (eriks/defkey-repeat eriks-evil-backward
-    :states 'motion
-    :prefix "g"
-    "e" 'eriks/evil-backward-word-end-exclusive
-    "E" 'eriks/evil-backward-WORD-end-exclusive))
+  :general-config
+  ('motion
+   :prefix "g"
+   "e" 'eriks/evil-backward-word-end-exclusive
+   "E" 'eriks/evil-backward-WORD-end-exclusive))
 
 (use-package evil-quickscope
   :ensure t
@@ -272,10 +267,8 @@
   (evil-owl-mode 1))
 
 (use-package eriks-evil-symbol-motions
-  :config
-  (eriks/defkey-repeat-1
-    :states 'motion
-    :prefix eriks/leader
-    "w" 'eriks/evil-forward-symbol-begin
-    "b" 'eriks/evil-backward-symbol-begin
-    "e" 'eriks/evil-forward-symbol-end))
+  :general-config
+  ('motion
+   "M-w" 'eriks/evil-forward-symbol-begin
+   "M-b" 'eriks/evil-backward-symbol-begin
+   "M-e" 'eriks/evil-forward-symbol-end))

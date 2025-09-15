@@ -4,8 +4,7 @@
   :ensure t
   :diminish
   :init
-  (defconst eriks/sp-prefix "g" "Prefix for smartparens")
-  (defconst eriks/sp-infix "s" "Infix for smartparens")
+  (defconst eriks/sp-prefix "gs" "Prefix for smartparens")
   :config
   (add-to-list 'sp--html-modes 'mhtml-mode)
   (require 'smartparens-config)
@@ -44,53 +43,6 @@ to smartparens"
   ;;NOTE: remove normal state binding to let the motion state ones through
   (general-unbind 'normal "[" "]")
 
-  (eriks/defkey-repeat-1
-    :states 'normal
-    :keymaps 'smartparens-mode-map
-    :prefix ">"
-    ;;TODO: add hybrid functions
-    ;; "}" 'sp-slurp-hybrid-sexp
-    ")" 'sp-forward-slurp-sexp
-    "(" 'sp-backward-barf-sexp)
-
-  (eriks/defkey-repeat-1
-    :states 'normal
-    :keymaps 'smartparens-mode-map
-    :prefix "<"
-    ;;TODO: "}" 'sp-dedent-adjust-sexp
-    "(" 'sp-backward-slurp-sexp
-    ")" 'sp-forward-barf-sexp)
-
-  (eriks/defkey-repeat-1
-    :states 'normal
-    :keymaps 'smartparens-mode-map
-    :prefix eriks/sp-prefix
-    :infix eriks/sp-infix
-    ;;TODO: another binding for sp-transpose-hybrid-sexp?
-    "t" 'sp-transpose-sexp)
-
-  (eriks/defkey-repeat-1
-    :states 'motion
-    :keymaps 'smartparens-mode-map
-    :prefix "]"
-    "[" 'sp-next-sexp
-    "]" 'sp-forward-sexp
-    ")" 'sp-end-of-next-sexp
-    "(" 'sp-beginning-of-next-sexp
-    "d" 'sp-down-sexp
-    "u" 'sp-up-sexp)
-
-  (eriks/defkey-repeat-1
-    :states 'motion
-    :keymaps 'smartparens-mode-map
-    :prefix "["
-    "]" 'sp-previous-sexp
-    "[" 'sp-backward-sexp
-    "(" 'sp-beginning-of-previous-sexp
-    ")" 'sp-end-of-previous-sexp
-    "d" 'sp-backward-down-sexp
-    "u" 'sp-backward-up-sexp)
-
   ;;NOTE: I'm tired of seing the unmatched expression error message
   (cl-callf2 assq-delete-all :unmatched-expression sp-message-alist)
 
@@ -107,10 +59,42 @@ to smartparens"
   (sp-navigate-reindent-after-up nil)
   (sp-navigate-reindent-after-up-in-string nil)
   :general-config
-  ('inner
-   "s" 'eriks/evil-sp-inner-sexp)
-  ('outer
-   "s" 'eriks/evil-sp-a-sexp)
+  ('normal
+   'smartparens-mode-map
+   :prefix ">"
+   ;;TODO: add hybrid functions
+   ;; "}" 'sp-slurp-hybrid-sexp
+   ")" 'sp-forward-slurp-sexp
+   "(" 'sp-backward-barf-sexp)
+  ('normal
+   'smartparens-mode-map
+   :prefix "<"
+   ;;TODO: "}" 'sp-dedent-adjust-sexp
+   "(" 'sp-backward-slurp-sexp
+   ")" 'sp-forward-barf-sexp)
+  ('motion
+   'smartparens-mode-map
+   :prefix "]"
+   "[" 'sp-next-sexp
+   "]" 'sp-forward-sexp
+   ")" 'sp-end-of-next-sexp
+   "(" 'sp-beginning-of-next-sexp
+   "j" 'sp-down-sexp
+   "k" 'sp-up-sexp)
+  ('motion
+   'smartparens-mode-map
+   :prefix "["
+   "]" 'sp-previous-sexp
+   "[" 'sp-backward-sexp
+   "(" 'sp-beginning-of-previous-sexp
+   ")" 'sp-end-of-previous-sexp
+   "j" 'sp-backward-down-sexp
+   "k" 'sp-backward-up-sexp)
+  ;; NOTE: it doesn't work to bind to 'inner and 'outer with a mode
+  ('(operator visual)
+   'smartparens-mode-map
+   "is" 'eriks/evil-sp-inner-sexp
+   "as" 'eriks/evil-sp-a-sexp)
   ('motion
    'smartparens-mode-map
    "(" 'sp-beginning-of-sexp
@@ -118,7 +102,8 @@ to smartparens"
   ('normal
    'smartparens-mode-map
    :prefix eriks/sp-prefix
-   :infix eriks/sp-infix
+   ;;TODO: another binding for sp-transpose-hybrid-sexp?
+   "t" 'sp-transpose-sexp
    "w" 'sp-swap-enclosing-sexp
    "s" 'sp-split-sexp
    "j" 'sp-join-sexp
