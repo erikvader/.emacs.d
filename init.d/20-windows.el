@@ -23,6 +23,7 @@
                                            (sml/prefix mode-line-inactive)
                                            (sml/read-only mode-line-inactive)
                                            (sml/global mode-line-inactive)
+                                           (sml/modified mode-line-inactive)
                                            (aw-mode-line-face mode-line-inactive)))
   :config
   (auto-dim-other-buffers-mode 1))

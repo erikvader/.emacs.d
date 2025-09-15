@@ -4,6 +4,15 @@
 (defface note-face nil "face for NOTE")
 (defface tab-face nil "face for tabs")
 
+(define-advice color-rgb-to-hex  (:filter-args (args) change-default)
+  "This function will, by default, return RGB strings with four characters
+per component instead of usual two. Some code is not expecting that,
+like whatever is setting `ivy-minibuffer-match-face-1', it truncates the
+string and produces a completely different color. This advice changes
+the default number back to the usual 2."
+  (cl-destructuring-bind (red green blue &optional digits-per-component) args
+    (list red green blue (or digits-per-component 2))))
+
 (use-package dracula-theme
   :ensure t
   :config
