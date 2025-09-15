@@ -170,6 +170,12 @@ Also that `evil-set-initial-state' does not always work"
   :config
   (evil-collection-view-setup))
 
+(use-package simple
+  :config
+  (add-to-list 'popper-reference-buffers "\\*Messages\\*$")
+  (evil-collection-simple-setup)
+  (evil-set-initial-state 'messages-buffer-mode 'normal))
+
 (use-package info
   :config
   ;;TODO: move these bindings to the standalone info program?
