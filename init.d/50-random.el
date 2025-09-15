@@ -176,7 +176,14 @@ Also that `evil-set-initial-state' does not always work"
   (evil-collection-info-setup))
 
 (use-package pp
+  :general-config
+  ('global
+   :prefix "C-x"
+   "m" 'pp-macroexpand-last-sexp
+   "M-e" 'pp-eval-last-sexp)
   :config
+  (add-to-list 'popper-reference-buffers "\\*Pp Macroexpand Output\\*$")
+  (add-to-list 'popper-reference-buffers "\\*Pp Eval Output\\*$")
   (define-advice pp-display-expression (:override (expression out-buffer-name &optional lisp) behave)
     "Make this function behave well with the rest of emacs.
 

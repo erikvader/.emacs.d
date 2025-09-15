@@ -17,8 +17,6 @@
   :prefix "C-x"
   "C-k" 'quit-window
   "C-o" 'display-buffer
-  "m" 'pp-macroexpand-last-sexp
-  "M-e" 'eriks/eval-replace
   "C-u" 'universal-argument)
 
 (general-def

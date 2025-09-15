@@ -41,10 +41,7 @@
   :custom
   (popper-mode-line-position 1)
   (popper-echo-dispatch-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
-  (popper-reference-buffers '("\\*Messages\\*$"
-                              "\\*Warnings\\*$"
-                              "\\*Pp Macroexpand Output\\*$"
-                              compilation-mode))
+  (popper-reference-buffers '("\\*Warnings\\*$" compilation-mode))
   :general-config
   ('popper-mode-map
    :prefix "C-x"
