@@ -208,11 +208,7 @@ and ignores the rules in `display-buffer-alist', this advice removes
 this custom behavior, but is otherwise a copy of it.
 
 While I'm at it, I also removed the possibility to show the result as
-`message', a buffer is always shown now.
-
-\\<view-mode-map>I also made the resulting buffer activate `view-mode'
-so it can be quit with \\[quit-window], and also because I don't see the
-point if this buffer being editable."
+`message', a buffer is always shown now. "
     (let* ((lexical lexical-binding))
       (with-output-to-temp-buffer out-buffer-name
         (if lisp
@@ -221,6 +217,5 @@ point if this buffer being editable."
           (pp expression))
         (with-current-buffer standard-output
           (emacs-lisp-mode)
-          (view-mode 1)
           (setq lexical-binding lexical)
           (setq-local font-lock-verbose nil))))))
