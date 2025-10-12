@@ -24,6 +24,7 @@
 (setq-default bidi-inhibit-bpa t)
 (setq-default what-cursor-show-names t)
 (setq-default inhibit-x-resources t)
+(setq-default nobreak-char-display nil)
 (setq-default fill-column 90)
 (setq-default scroll-margin 10)
 (setq-default scroll-conservatively scroll-margin)

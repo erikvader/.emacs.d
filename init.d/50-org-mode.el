@@ -2,12 +2,9 @@
   :config
   (evil-set-initial-state 'org-mode 'normal)
   :custom
-  (org-blank-before-new-entry '((heading) (plain-list-item)))
   (org-edit-src-content-indentation 0)
-  (org-indent-indentation-per-level 1)
   (org-pretty-entities t)
   (org-src-window-setup 'current-window)
-  (org-startup-folded nil)
   (org-startup-indented t)
   (org-use-sub-superscripts '{})
   (org-tags-column 0)
