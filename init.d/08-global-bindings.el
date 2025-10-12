@@ -16,7 +16,6 @@
 (general-def
   :prefix "C-x"
   "C-k" 'quit-window
-  "C-o" 'display-buffer
   "C-u" 'universal-argument)
 
 (general-def

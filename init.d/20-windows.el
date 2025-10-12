@@ -7,6 +7,8 @@
   :ensure t
   :init
   (setq-default sml/theme nil)
+  :custom
+  (sml/replacer-regexp-list nil)
   :config
   (sml/setup)
   (unless column-number-indicator-zero-based
@@ -31,6 +33,7 @@
 (use-package popper
   :ensure t
   :config
+  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all "*Warnings*"))
   ;; NOTE: enabled at the end of initialisation
   ;; (popper-mode 1)
   (popper-echo-mode 1)
@@ -42,8 +45,11 @@
   :custom
   (popper-mode-line-position 1)
   (popper-echo-dispatch-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
-  (popper-reference-buffers '("\\*Warnings\\*$" compilation-mode))
   :general-config
+  ('popper-mode-map
+   :prefix "C-x p"
+   "t" 'popper-toggle-type
+   "k" 'popper-kill-latest-popup)
   ('popper-mode-map
    :prefix "C-x"
    "o" 'popper-toggle))
@@ -52,8 +58,46 @@
 (use-package ace-window
   :ensure t
   :custom
+  ;; NOTE: the global scope doesn't work https://github.com/abo-abo/ace-window/issues/247
+  ;; It seems like emacs can't set the focus with my xmonad config
+  ;; https://github.com/abo-abo/ace-window/issues/241
+  (aw-scope 'frame)
+  (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  (aw-keys '(?s ?d ?f ?g ?h ?k ?l))
+  (aw-keys '(?s ?d ?f ?g))
+  (aw-dispatch-alist '((?x aw-delete-window "Delete window")
+                       (?X kill-buffer-and-window "Delete window and kill buffer")
+                       (?q eriks/aw-quit-window "Quit window")
+                       (?Q eriks/aw-quit-kill-window "Quit window and kill buffer")
+
+                       (?S aw-swap-window "Swap windows")
+                       (?m aw-move-window "Move window")
+
+                       (?c eriks/aw-clone-buffer "Clone buffer")
+
+                       (?j aw-switch-buffer-in-window "Switch buffer")
+                       (?b aw-switch-buffer-other-window "Switch buffer other window")
+                       (?p aw-flip-window)
+
+                       (?e aw-execute-command-other-window "Execute command other window")
+
+                       (?F aw-split-window-fair "Split fair window")
+                       (?V aw-split-window-vert "Split vert window")
+                       (?H aw-split-window-horz "Split horz window")
+
+                       (?o delete-other-windows "Delete other windows")
+
+                       (?t transpose-frame)
+
+                       (?? aw-show-dispatch-help)
+
+                       (?i fit-window-to-buffer "Fit window")
+                       (?w maximize-window "Maximize window")
+                       (?W minimize-window "Minimize window")
+                       (?l eriks/enlarge-window-dwim "Enlarge window")
+
+                       (?\M-o other-window-prefix)
+                       (?h same-window-prefix)))
   :config
   (define-advice set-window-parameter (:filter-args (args) ace-window)
     "Advice to customize the string that appears in the mode line of
@@ -72,12 +116,23 @@
   (defun eriks/aw-quit-kill-window (window)
     (quit-window t window))
 
-  ;; TODO: `clone-indirect-buffer' on c?
-  (add-to-list 'aw-dispatch-alist '(?i fit-window-to-buffer "Fit window"))
-  (add-to-list 'aw-dispatch-alist '(?w maximize-window "Maximize window"))
-  (add-to-list 'aw-dispatch-alist '(?q eriks/aw-quit-window "Quit window"))
-  (add-to-list 'aw-dispatch-alist '(?Q eriks/aw-quit-kill-window "Quit and kill window"))
-  (add-to-list 'aw-dispatch-alist '(?\M-o other-window-prefix))
+  (defun eriks/aw-clone-buffer (window)
+    "Clone the current buffer to WINDOW. Alternative to `aw-copy-window'."
+    (let ((indirect (clone-indirect-buffer nil nil))
+          (switch-to-buffer-obey-display-actions nil))
+      (aw-switch-to-window window)
+      (switch-to-buffer indirect)))
+
+  (defun eriks/enlarge-window-dwim (&optional window)
+    "Make WINDOW larger in some direction by a lagom amount."
+    (interactive)
+    (setq window (window-normalize-window window))
+    (let ((ver (window-max-delta window))
+          (hor (window-max-delta window t)))
+      (with-selected-window window
+        (cond ((> ver 0) (enlarge-window (min ver (floor (frame-total-lines) 3))))
+              ((> hor 0) (enlarge-window-horizontally (min hor (floor (frame-total-cols) 6))))
+              (t (user-error "Window is not resizable"))))))
 
   (define-advice aw-show-dispatch-help (:around (f) non-displayable)
     "Remove non-characters in `aw-dispatch-alist' to make this help message work."
