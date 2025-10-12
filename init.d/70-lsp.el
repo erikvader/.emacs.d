@@ -8,14 +8,15 @@
   (lsp-keep-workspace-alive nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-lens-enable nil)
-  :init
-  (defconst eriks/lsp-leader-infix "l" "My leader infix key for lsp")
   :config
-  (eriks/leader-def 'normal
-    :infix eriks/lsp-leader-infix
-    "a" 'lsp-execute-code-action)
+  (eriks/leader-def
+    'normal
+    'lsp-mode-map
+    "l" 'lsp-command-map)
+
   (defun lsp-toggle-highlighting ()
-    "Toggles highlight.
+    "Toggles `lsp-enable-symbol-highlighting'.
+
 source: https://github.com/emacs-lsp/lsp-mode/issues/515#issuecomment-564665576"
     (interactive)
     (setq lsp-enable-symbol-highlighting (not lsp-enable-symbol-highlighting))
@@ -47,6 +48,7 @@ server on some workspace."
                              clients))
           (lsp)))))
 
+  ;; TODO: replaced by `lsp-format-buffer-on-save'?
   (defun eriks/lsp-install-format-on-save-hooks-toggle (&optional arg)
     "Toggle whether `lsp-format-buffer' should be run before
 save. Turn on if ARG is positive, toggle if 0 and turn off if
@@ -82,21 +84,18 @@ negative."
   :gfhook
   ('lsp-mode-hook 'eriks/lsp-format-on-save-hook))
 
+;; TODO: (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;;TODO: (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
 (use-package lsp-ui
   :ensure t
-  :after (:and lsp-mode flycheck)
   :ghook 'lsp-mode
   :custom
-  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-enable nil) ;; TODO: hur få fram en skrollbar doc?
   (lsp-ui-flycheck-enable t)
-  (lsp-ui-sideline-delay 1)
-  :config
-  (eriks/leader-def 'normal
-    :infix eriks/lsp-leader-infix
-    "d" 'lsp-ui-doc-glance))
+  (lsp-ui-sideline-delay 1))
+;; TODO: funkar imenu?
 
 (use-package lsp-ui-sideline
-  :after flycheck
   :gfhook
   ('flycheck-mode-hook 'lsp-ui-sideline-mode))
 
@@ -105,7 +104,6 @@ negative."
   (lsp-pyls-plugins-pycodestyle-enabled nil)
   (lsp-pyls-plugins-pylint-enabled t)
   :gfhook
-  ;; pacman -S python-language-server python-pyflakes python-pylint
   ('python-mode-hook 'eriks/lsp-if-already-started))
 
 (use-package lsp-rust
@@ -114,16 +112,14 @@ negative."
   (lsp-rust-analyzer-closing-brace-hints nil)
   (lsp-rust-analyzer-call-info-full nil)
   :gfhook
-  ;; pacman -S rust-analyzer
   ('rust-mode-hook 'eriks/lsp-if-already-started))
 
 (use-package ccls
   :ensure t
-  ;; :custom
-  ;; (ccls-sem-highlight-method 'font-lock)
   :gfhook
-  ;; pacman -S ccls
   ('(c-mode-hook c++-mode-hook java-mode-hook) 'eriks/lsp-if-already-started))
 
 (use-package lsp-java
   :ensure t)
+
+;; TODO: https://github.com/emacs-lsp/lsp-ivy??
