@@ -16,11 +16,13 @@
   (evil-undo-system 'undo-tree)
   (evil-goto-definition-functions '(evil-goto-definition-xref evil-goto-definition-search))
   (evil-symbol-word-search t)
+  (evil-ex-search-persistent-highlight nil)
   :general-config
   ('emacs "<escape>" 'evil-exit-emacs-state)
   ('motion
    "M-d" 'eriks/evil-scroll-down-half-other-window
    "M-u" 'eriks/evil-scroll-up-half-other-window
+   "-" 'repeat
    "<backspace>" 'evil-ex-nohighlight
    "gr" 'revert-buffer)
   ('motion
@@ -44,8 +46,6 @@
   ('insert
    "C-SPC" 'completion-at-point)
   ('normal
-   "C-r" 'evil-use-register
-   "-" 'repeat
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
@@ -101,10 +101,14 @@
     "i" 'imenu
     "." 'evil-ex-repeat
     "R" 'rename-visited-file
-    "C-o" 'browse-url-at-point
+    "C-u" 'universal-argument
     "q" 'kmacro-insert-counter
     "Q" 'kmacro-set-counter
     "&" 'evil-ex-repeat-substitute-with-flags)
+
+  (eriks/leader-def 'normal
+    :infix "o"
+    "u" 'browse-url-at-point)
 
   (define-advice evil-use-register (:after (register) echo)
     "Echo the chosen register and hope evil will support this natively soon."
