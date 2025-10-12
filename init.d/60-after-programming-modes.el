@@ -7,7 +7,9 @@
   (highlight-indent-guides-auto-top-character-face-perc 70)
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive 'top)
-  :ghook 'python-mode-hook)
+  ;; TODO: do I still want this?
+  ;; :ghook 'python-mode-hook
+  )
 
 ;;TODO: counsel-flycheck
 (use-package flycheck

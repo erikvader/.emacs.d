@@ -76,16 +76,16 @@
     (evil-set-initial-state mode 'normal)))
 
 (use-package python
-  :general-config
-  ('inferior-python-mode-map
-   "C-d" nil))
-
-(use-package pyvenv
-  :ensure t
+  :custom
+  ;; NOTE: I use dtrt-indent instead
+  (python-indent-guess-indent-offset nil)
+  (python-shell-interpreter (concat user-emacs-directory "uv-run-python.sh"))
   :config
-  ;; needed for this to work in eshell
-  ;; (setq eshell-modify-global-environment t)
-  (pyvenv-mode 1))
+  (add-to-list 'popper-reference-buffers 'inferior-python-mode)
+  :general-config
+  ('normal
+   'python-mode-map
+   "gz" 'python-shell-switch-to-shell))
 
 (use-package sh-script
   :config
