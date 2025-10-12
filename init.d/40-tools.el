@@ -1,23 +1,3 @@
-(use-package comint
-  :config
-  (evil-set-initial-state 'comint-mode 'normal)
-  :general-config
-  ('comint-mode-map
-   "C-c C-k" 'comint-clear-buffer)
-  ('normal
-   'comint-mode-map
-   "C-k" 'comint-previous-input
-   "C-j" 'comint-next-input
-   "<return>" 'comint-send-input)
-  ('motion
-   'comint-mode-map
-   "G" 'end-of-buffer
-   "^" 'comint-bol)
-  ('insert
-   'comint-mode-map
-   "<up>" 'comint-previous-input
-   "<down>" 'comint-next-input))
-
 (use-package rainbow-delimiters
   :ensure t
   :ghook 'prog-mode-hook)

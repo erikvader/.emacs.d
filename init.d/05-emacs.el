@@ -30,6 +30,12 @@
 (setq-default next-screen-context-lines 10)
 (setq-default auto-save-no-message t)
 
+(defun reset-scroll-margin ()
+  "Some buffers and modes behave in a non-preferrable way with
+`scroll-margin' as non-zero. Add this function to a hook to reset this
+variable to the default of 0."
+  (setq-local scroll-margin 0))
+
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)
   "Set `require-final-newline' in this buffer to nil, unless enable is non-nil (or called

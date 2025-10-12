@@ -106,3 +106,8 @@ parent."
   (run-hooks 'prog-mode-hook))
 
 (defalias 'forward-subword 'subword-forward "To be compatible with thingatpt.el")
+
+(defun eriks/regexp-quote-all (bufname)
+  "Like `regexp-quote', but also adds anchors for beginning and end, so all
+of the input needs to match."
+  (concat "^" (regexp-quote bufname) "$"))

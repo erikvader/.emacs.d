@@ -56,10 +56,8 @@
 (use-package eriks-random-stuff
   :config
   (eriks/leader-def 'normal
-    "o" 'eriks/spawn-external-terminal)
-  :general-config
-  ('dired-mode-map
-   "O" 'eriks/spawn-external-terminal))
+    :infix "o"
+    "t" 'eriks/spawn-external-terminal))
 
 (use-package pdf-tools
   :ensure t
