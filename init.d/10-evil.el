@@ -178,13 +178,6 @@
     "l" 'eriks/evil-column-numbers-insert-letters
     "i" 'eriks/evil-column-numbers-insert))
 
-;;TODO: remove this? Rely on smartparens auto remove matching pair?
-(use-package eriks-delete-empty-parens
-  :disabled
-  :general-config
-  ('insert
-   "C-s" 'eriks/delete-empty-parens))
-
 (use-package eriks-line-cleanup
   :general-config
   ('normal
