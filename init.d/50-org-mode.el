@@ -17,7 +17,7 @@
          (toggle-word-wrap 1)))
   :general-config
   ('org-mode-map
-   "C-c s" 'counsel-org-goto-all))
+   [remap org-goto] 'counsel-org-goto))
 
 (use-package evil-org
   :ensure t

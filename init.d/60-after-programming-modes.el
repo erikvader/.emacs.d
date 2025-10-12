@@ -11,13 +11,14 @@
   ;; :ghook 'python-mode-hook
   )
 
-;;TODO: counsel-flycheck
 (use-package flycheck
   :ensure t
   :custom
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   :config
   (defalias 'fc-mode 'flycheck-mode)
+  (eriks/leader-def 'normal
+    "f" 'counsel-flycheck)
   :init
   (cl-defun eriks/flycheck-activate-if-started-projectile ()
     "Activates `flycheck-mode' in the current buffer if another buffer

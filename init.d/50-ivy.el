@@ -13,11 +13,12 @@
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
   (evil-set-initial-state 'ivy-occur-mode 'normal)
 
+  (eriks/leader-def 'normal
+    "r" 'ivy-resume)
+
   :general-config
-  ('global
-   :prefix "C-c"
-   "C-r" 'ivy-resume)
   ('(ivy-minibuffer-map minibuffer-local-map)
+   "C-r" 'counsel-minibuffer-history
    "<escape>" 'minibuffer-keyboard-quit
    ;;TODO: this won't use evil kill word, but ivy kill word. Possible to merge them?
    "C-w" 'backward-kill-word)

@@ -11,6 +11,7 @@ those when available."
               :caller 'eriks/counsel-projectile-switch-project
               :action '(1
                         ("o" projectile-switch-project-by-name "default")
+                        ("d" projectile-find-dir "dired")
                         ("s" eriks/projectile-switch-ripgrep-action "search files")
                         ("m" magit-status "magit")
                         ("k" eriks/projectile-switch-kill-buffers-action "kill buffers")
