@@ -19,7 +19,7 @@
   (setq deactivate-mark nil))
 
 (evil-define-operator eriks/evil-indent-line-right (beg end dir)
-  "Drag the current line one space to the right."
+  "An `evil-shift-right' that keeps visual mode activated."
   :motion evil-line
   :type line
   :keep-visual t
@@ -30,7 +30,7 @@
   (setq deactivate-mark nil))
 
 (evil-define-operator eriks/evil-indent-line-left (beg end dir)
-  "Drag the current line one space to the left."
+  "An `evil-shift-left' that keeps visual mode activated."
   :motion evil-line
   :type line
   :keep-visual t

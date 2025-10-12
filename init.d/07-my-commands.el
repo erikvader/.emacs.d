@@ -9,6 +9,7 @@
    #'kill-buffer
    (buffer-list)))
 
+;; TODO: remove?
 (defun eriks/eval-replace ()
   "Evaluates the sexp at point and replaces it with the result."
   (interactive)

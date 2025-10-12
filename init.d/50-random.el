@@ -87,6 +87,7 @@ Also that `evil-set-initial-state' does not always work"
       (pdf-view-kill-ring-save)))
 
   (evil-set-initial-state 'pdf-view-mode 'emacs)
+  ;; TODO: evil-collection
   :general-config
   ('pdf-view-mode-map
    [remap swiper] 'isearch-forward
@@ -124,6 +125,7 @@ Also that `evil-set-initial-state' does not always work"
   ('pdf-outline-buffer-mode-map
    "RET" 'pdf-outline-follow-link-and-quit))
 
+;; TODO: evil collection
 (use-package wgrep
   :ensure t)
 

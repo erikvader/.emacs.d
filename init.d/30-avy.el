@@ -1,4 +1,3 @@
-;; TODO: have a gander at https://karthinks.com/software/avy-can-do-anything/
 (use-package avy
   :ensure t
   :custom

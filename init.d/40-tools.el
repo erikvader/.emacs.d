@@ -34,3 +34,5 @@
   ('projectile-mode-map
    :prefix "C-c"
    "p" 'projectile-command-map))
+
+;; TODO: use-package proced
