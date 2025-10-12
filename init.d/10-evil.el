@@ -149,8 +149,6 @@
   :config
   (advice-add 'evil-record-macro :before #'eriks/evil-better-record-macro)
   :general-config
-  ('normal
-   "g8" 'eriks/evil-what-cursor)
   ('motion
    "gG" 'eriks/evil-goto-last-non-empty-line))
 

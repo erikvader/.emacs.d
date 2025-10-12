@@ -21,7 +21,9 @@
 
 (general-def
   :prefix "C-h"
-  "c" 'describe-char)
+  "w" 'eriks/what-face
+  "c" 'describe-char
+  "M" 'describe-keymap)
 
 (general-def
   "<next>" 'scroll-other-window

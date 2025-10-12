@@ -22,6 +22,7 @@
 (setq-default tab-width 4)
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
+(setq-default what-cursor-show-names t)
 (setq-default inhibit-x-resources t)
 (setq-default fill-column 90)
 (setq-default scroll-margin 10)
