@@ -3,8 +3,6 @@
 (use-package smartparens
   :ensure t
   :diminish
-  :init
-  (defconst eriks/sp-prefix "gs" "Prefix for smartparens")
   :config
   (add-to-list 'sp--html-modes 'mhtml-mode)
   (require 'smartparens-config)
@@ -45,6 +43,15 @@ to smartparens"
 
   ;;NOTE: I'm tired of seing the unmatched expression error message
   (cl-callf2 assq-delete-all :unmatched-expression sp-message-alist)
+
+  (eriks/leader-def 'normal 'smartparens-mode-map
+    :infix "s"
+    ;;TODO: another binding for sp-transpose-hybrid-sexp?
+    "t" 'sp-transpose-sexp
+    "w" 'sp-swap-enclosing-sexp
+    "s" 'sp-split-sexp
+    "j" 'sp-join-sexp
+    "d" 'sp-splice-sexp-killing-around)
 
   :ghook ('prog-mode-hook '(show-smartparens-mode smartparens-mode))
   :custom
@@ -98,16 +105,7 @@ to smartparens"
   ('motion
    'smartparens-mode-map
    "(" 'sp-beginning-of-sexp
-   ")" 'sp-end-of-sexp)
-  ('normal
-   'smartparens-mode-map
-   :prefix eriks/sp-prefix
-   ;;TODO: another binding for sp-transpose-hybrid-sexp?
-   "t" 'sp-transpose-sexp
-   "w" 'sp-swap-enclosing-sexp
-   "s" 'sp-split-sexp
-   "j" 'sp-join-sexp
-   "d" 'sp-splice-sexp-killing-around))
+   ")" 'sp-end-of-sexp))
 
 (use-package eriks-sp-surround
   :general-config
