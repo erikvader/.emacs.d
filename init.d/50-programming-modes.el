@@ -5,9 +5,6 @@
                '("java" (c-offsets-alist
                          (arglist-intro . +)
                          (arglist-close . 0))))
-  ;;TODO: for C++ or something
-  ;; (inlambda . 0) ;; indent lambda body to the left
-  ;; (cpp-macro . 0) ;; indent macro normally))
   :custom
   (c-basic-offset 4)
   (c-default-style '((java-mode . "eriks-java")
@@ -99,36 +96,31 @@
 
 (use-package diff-mode
   :custom
-  (diff-refine nil))
+  (diff-font-lock-syntax nil)
+  (diff-refine nil)
+  :config
+  (evil-collection-diff-mode-setup)
+  :general-config
+  ('diff-mode-map
+   ;; NOTE: let my `ace-window' through
+   "M-o" nil))
 
 (use-package man
-  :general-config
-  ('motion
-   'Man-mode-map
-   "q" 'quit-window-kill
-   "f" 'man-follow
-   "C-n" 'Man-next-section
-   "C-p" 'Man-previous-section
-   "s" 'Man-goto-section
-   "<backspace>" 'evil-ex-nohighlight
-   "d" 'scroll-up-command
-   "u" 'scroll-down-command
-   "U" 'Man-update-manpage)
+  :custom
+  (Man-notify-method 'aggressive)
   :config
-  (evil-set-initial-state 'Man-mode 'motion)
+  (evil-collection-man-setup)
+  (add-to-list 'popper-reference-buffers 'Man-mode)
+  (eriks/leader-def 'normal
+    "M" 'man)
   :gfhook
-  ('Man-mode-hook 'scroll-lock-mode)
-  ('Man-mode-hook (cl-defun man-mode-hook-fun ()
-                    (face-remap-set-base 'default '(:foreground "#f8f8f2")))))
+  ('Man-mode-hook 'scroll-lock-mode))
 
 ;;TODO: finns det en c-end-of-statement osv för rust?
 (use-package rust-mode
   :ensure t
   :config
-  (eriks/sp-open-on "{" 'rust-mode)
-  :general-config
-  ('rust-mode-map
-   "C-c C-f" nil))
+  (eriks/sp-open-on "{" 'rust-mode))
 
 (use-package ess
   :ensure t
