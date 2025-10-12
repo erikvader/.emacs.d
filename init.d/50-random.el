@@ -21,15 +21,13 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package ibuffer
+  :config
+  (evil-collection-ibuffer-setup)
   :custom
   (ibuffer-saved-filter-groups '(("eriks"
                                   ("Files" (and (visiting-file . t)
                                                 (predicate . (not buffer-read-only))))
-                                  ("Dired" (or (mode . dired-mode)
-                                               (mode . dirvish-special-preview-mode)
-                                               (mode . dirvish-directory-view-mode)
-                                               (mode . dirvish-better-directory-view-mode)
-                                               (name . "PREVIEW :: .*")))
+                                  ("Dired" (mode . dired-mode))
                                   ("Starred" (starred-name . t)))))
   :gfhook
   ('ibuffer-mode-hook (cl-defun eriks/ibuffer-switch-to-my-filter-group ()
