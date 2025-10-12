@@ -139,17 +139,13 @@ Also that `evil-set-initial-state' does not always work"
     "u" 'undo-tree-visualize))
 
 (use-package scroll-lock
+  :gfhook #'reset-scroll-margin
   :general-config
   ('scroll-lock-mode-map
    [remap evil-next-line] 'scroll-lock-next-line
    [remap evil-previous-line] 'scroll-lock-previous-line
    [remap evil-forward-paragraph] 'scroll-lock-forward-paragraph
    [remap evil-backward-paragraph] 'scroll-lock-backward-paragraph))
-
-(use-package flyspell
-  :general-config
-  ('flyspell-mode-map
-   "C-;" nil))
 
 (use-package epg-config
   :custom
@@ -170,9 +166,24 @@ Also that `evil-set-initial-state' does not always work"
 
 (use-package simple
   :config
-  (add-to-list 'popper-reference-buffers "\\*Messages\\*$")
   (evil-collection-simple-setup)
-  (evil-set-initial-state 'messages-buffer-mode 'normal))
+  (evil-set-initial-state 'special-mode 'normal)
+
+  (add-to-list 'popper-reference-buffers 'messages-buffer-mode)
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+
+  (add-to-list 'popper-reference-buffers 'process-menu-mode)
+
+  (add-to-list 'evil-buffer-regexps `(,(eriks/regexp-quote-all shell-command-buffer-name) . normal))
+  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all shell-command-buffer-name))
+  (add-to-list 'popper-reference-buffers 'shell-mode))
+
+(use-package compile
+  :config
+  (add-to-list 'popper-reference-buffers 'compilation-mode)
+  (evil-collection-compile-setup)
+  (eriks/leader-def 'normal
+    "c" 'compile))
 
 (use-package info
   :config
@@ -186,8 +197,8 @@ Also that `evil-set-initial-state' does not always work"
    "m" 'pp-macroexpand-last-sexp
    "M-e" 'pp-eval-last-sexp)
   :config
-  (add-to-list 'popper-reference-buffers "\\*Pp Macroexpand Output\\*$")
-  (add-to-list 'popper-reference-buffers "\\*Pp Eval Output\\*$")
+  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all "*Pp Macroexpand Output*"))
+  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all "*Pp Eval Output*"))
   (define-advice pp-display-expression (:override (expression out-buffer-name &optional lisp) behave)
     "Make this function behave well with the rest of emacs.
 
