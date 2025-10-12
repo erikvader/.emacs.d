@@ -219,3 +219,29 @@ While I'm at it, I also removed the possibility to show the result as
           (emacs-lisp-mode)
           (setq lexical-binding lexical)
           (setq-local font-lock-verbose nil))))))
+
+(use-package calendar
+  :custom
+  (calendar-week-start-day 1)
+  (setopt calendar-intermonth-text
+          '(propertize
+            (format "%2d"
+                    (car
+                     (calendar-iso-from-absolute
+                      (calendar-absolute-from-gregorian (list month day year)))))
+            'font-lock-face 'font-lock-function-name-face))
+  :config
+  (add-to-list 'popper-reference-buffers 'calendar-mode)
+  (evil-collection-calendar-setup)
+  (eriks/leader-def 'normal
+    "C" 'calendar)
+  :gfhook
+  ('calendar-today-visible-hook 'calendar-mark-today))
+
+(use-package bookmark
+  :custom
+  (bookmark-save-flag 1)
+  (bookmark-fringe-mark nil)
+  :config
+  (eriks/leader-def 'normal
+    "B" 'bookmark-jump))
