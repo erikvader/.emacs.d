@@ -31,12 +31,23 @@
 (use-package evil-easymotion
   :ensure t
   :config
-  (evilem-make-motion eriks/evilem-next-line-last-non-blank #'eriks/evil-next-line-last-non-blank)
-  (evilem-make-motion eriks/evilem-previous-line-last-non-blank #'eriks/evil-previous-line-last-non-blank)
+  ;; NOTE: these are copies of the normal ones, but they respect `track-eol' and
+  ;; `evil-track-eol' by allowing the `temporary-goal-column' to be
+  ;; `most-positive-fixnum'.
+  (evilem-make-motion evilem-motion-next-line2 #'next-line
+                      :pre-hook (setq evil-this-type 'line)
+                      :bind ((temporary-goal-column (if (= temporary-goal-column most-positive-fixnum)
+                                                        most-positive-fixnum
+                                                      (current-column)))
+                             (line-move-visual nil)))
+  (evilem-make-motion evilem-motion-previous-line2 #'previous-line
+                      :pre-hook (setq evil-this-type 'line)
+                      :bind ((temporary-goal-column (if (= temporary-goal-column most-positive-fixnum)
+                                                        most-positive-fixnum
+                                                      (current-column)))
+                             (line-move-visual nil)))
   (eriks/leader-def 'motion
-    "j" #'evilem-motion-next-line
-    "k" #'evilem-motion-previous-line
-    "J" #'eriks/evilem-next-line-last-non-blank
-    "K" #'eriks/evilem-previous-line-last-non-blank
+    "j" #'evilem-motion-next-line2
+    "k" #'evilem-motion-previous-line2
     "+" #'evilem-motion-next-line-first-non-blank
     "-" #'evilem-motion-previous-line-first-non-blank))
