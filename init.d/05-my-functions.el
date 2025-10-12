@@ -111,3 +111,21 @@ parent."
   "Like `regexp-quote', but also adds anchors for beginning and end, so all
 of the input needs to match."
   (concat "^" (regexp-quote bufname) "$"))
+
+(defun fish-path (path)
+  "Displays the given path in a style similar to the fish shell. All
+components of the path are shortened to one character, except for the
+last. If a component starts with a dot, then two characters are kept."
+  (let* ((components (split-string path "/"))
+         (leading (-drop-last 1 components))
+         (last (-take-last 1 components))
+         (shortened (--map (cond ((string-empty-p it) "")
+                                 ((and
+                                   (> (length it) 1)
+                                   (string-prefix-p "." it))
+                                  (substring it 0 2))
+                                 (t (substring it 0 1)))
+                           leading)))
+    (-> shortened
+        (-concat last)
+        (string-join "/"))))
