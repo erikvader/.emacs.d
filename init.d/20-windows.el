@@ -70,7 +70,7 @@
                        (?q eriks/aw-quit-window "Quit window")
                        (?Q eriks/aw-quit-kill-window "Quit window and kill buffer")
 
-                       (?S aw-swap-window "Swap windows")
+                       (?a aw-swap-window "Swap windows")
                        (?m aw-move-window "Move window")
 
                        (?c eriks/aw-clone-buffer "Clone buffer")
@@ -93,7 +93,7 @@
 
                        (?i fit-window-to-buffer "Fit window")
                        (?w maximize-window "Maximize window")
-                       (?W minimize-window "Minimize window")
+                       (?v minimize-window "Minimize window")
                        (?l eriks/enlarge-window-dwim "Enlarge window")
 
                        (?\M-o other-window-prefix)
