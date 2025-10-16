@@ -13,7 +13,6 @@ session.*
 /backups
 /auto_saves
 /tramp
-/eshell
 /bookmarks
 /.lsp-session*
 /games
@@ -29,3 +28,6 @@ session.*
 # eclipse lsp
 /workspace
 /eclipse.jdt.ls
+
+/eshell/*
+!/eshell/alias
