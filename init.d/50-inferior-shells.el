@@ -7,6 +7,14 @@
   :config
   (define-advice evil-collection-eshell-setup-keys (:before (&rest _args) eriks)
     "Evil collections defines the keys in a hook because eshell is weird or something?"
+    (general-def 'normal 'eshell-mode-map
+      ;; NOTE: to match comint
+      "C-n" 'eshell-next-input
+      "C-p" 'eshell-previous-input)
+
+    (general-def 'eshell-mode-map
+      "M-." 'eriks/eshell-yank-last-arg)
+
     (general-def 'motion 'eshell-mode-map
       ;; NOTE: The evil variant tries to preserve the column, which means it doesn't
       ;; always go to the last prompt, but sometime on it. This also makes it difficult to
@@ -18,6 +26,17 @@
 
   ;; NOTE: using the mode doesn't work for some reason
   (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all eshell-buffer-name))
+
+  (defun eriks/eshell-yank-last-arg ()
+    "Inserts the last argument of the previous command. Can also be referenced using $_"
+    (interactive)
+    (unless eshell-last-arguments
+      (user-error "No previous argument of %s" eshell-last-command-name))
+    (-> eshell-last-arguments
+        last
+        car
+        substring-no-properties
+        insert))
 
   (eriks/leader-def 'normal
     :infix "o"
