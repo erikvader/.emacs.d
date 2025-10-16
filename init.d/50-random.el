@@ -123,6 +123,8 @@ Also that `evil-set-initial-state' does not always work"
   ('pdf-outline-buffer-mode-map
    "RET" 'pdf-outline-follow-link-and-quit))
 
+;; TODO: use-package nov for epubs?
+
 ;; TODO: evil collection
 (use-package wgrep
   :ensure t)

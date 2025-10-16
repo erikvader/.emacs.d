@@ -30,9 +30,10 @@ untracked directories."
   ('(magit-revision-mode-map magit-status-mode-map)
    ;; NOTE: let my leader through
    "SPC" nil)
-  ('magit-status-mode-map
-   ;; NOTE: match the binding in `evil-collection-diff-mode-setup'
-   "g*" 'diff-refine-hunk)
+  ('(magit-status-mode-map magit-diff-mode-map)
+   ;; NOTE: matches the binding in `evil-collection-diff-mode-setup'. This is the command
+   ;; that `magit-diff-toggle-refine-hunk' eventually calls.
+   "*" 'diff-refine-hunk)
   ('normal
    'magit-mode-map
    ;; NOTE: evil-collection shadows these motion state bindings on purpose, it seems, they
