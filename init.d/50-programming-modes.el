@@ -105,6 +105,14 @@
   (diff-refine nil)
   :config
   (evil-collection-diff-mode-setup)
+  (define-advice diff-refine-hunk (:around (org) toggle)
+    "Makes this function toggle the refinement in the current hunk."
+    (cl-destructuring-bind (beg end) (diff-bounds-of-hunk)
+      (if (cl-some (lambda (ovl) (eq 'fine (overlay-get ovl 'diff-mode)))
+                   (overlays-in beg end))
+          (remove-overlays beg end 'diff-mode 'fine)
+        (save-excursion
+          (diff--refine-hunk beg end)))))
   :general-config
   ('diff-mode-map
    ;; NOTE: let my `ace-window' through
