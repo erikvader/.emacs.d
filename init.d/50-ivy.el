@@ -62,6 +62,19 @@ of its default of only looking for git folders."
    "C-d" 'counsel-cd)
   ('counsel-mode-map
    "M-s" 'counsel-rg
+   ;; NOTE: the original is better, and evil-owl covers most cases.
+   ;; [remap evil-show-registers] 'counsel-evil-registers
+   ;; NOTE: this one simply doesn't work with global markers, it expects all of them to be
+   ;; in the same buffer.
+   ;; https://github.com/abo-abo/swiper/issues/2707#issuecomment-748765715
+   ;; https://github.com/abo-abo/swiper/pull/2247
+   ;; TODO: make my own version that works?
+   ;; [remap evil-show-marks] 'counsel-evil-marks
+   [remap org-goto] 'counsel-org-goto
+   [remap eshell-previous-matching-input] 'counsel-esh-history
+   [remap flycheck-list-errors] 'counsel-flycheck
+   [remap comint-history-isearch-backward-regexp] 'counsel-shell-history
+   [remap dired] 'counsel-dired
    [remap describe-face] 'counsel-faces
    [remap describe-bindings] nil
    ;;NOTE: this counsel variant doesn't work with `other-window-prefix'. It otherwise only

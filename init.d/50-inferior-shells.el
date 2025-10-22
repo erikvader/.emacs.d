@@ -58,7 +58,6 @@
 
   :general-config
   ('eshell-hist-mode-map
-   [remap eshell-previous-matching-input] 'counsel-esh-history
    ;; NOTE: restore my counsel-rg
    "M-s" nil)
   :gfhook #'reset-scroll-margin)
@@ -97,7 +96,6 @@
    "<up>" 'comint-previous-matching-input-from-input
    "<down>" 'comint-next-matching-input-from-input)
   ('comint-mode-map
-   "M-r" 'counsel-shell-history
    "M-p" 'comint-previous-matching-input-from-input
    "M-n" 'comint-next-matching-input-from-input)
   :gfhook #'reset-scroll-margin)

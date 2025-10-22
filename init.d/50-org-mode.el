@@ -11,10 +11,7 @@
   :gfhook
   (nil (cl-defun org-wrap-lines-hook-fun ()
          (toggle-truncate-lines 0)
-         (toggle-word-wrap 1)))
-  :general-config
-  ('org-mode-map
-   [remap org-goto] 'counsel-org-goto))
+         (toggle-word-wrap 1))))
 
 (use-package evil-org
   :ensure t

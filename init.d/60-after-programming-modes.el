@@ -18,7 +18,7 @@
   :config
   (defalias 'fc-mode 'flycheck-mode)
   (eriks/leader-def 'normal
-    "f" 'counsel-flycheck)
+    "f" 'flycheck-list-errors)
   :init
   (cl-defun eriks/flycheck-activate-if-started-projectile ()
     "Activates `flycheck-mode' in the current buffer if another buffer

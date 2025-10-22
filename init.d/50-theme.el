@@ -89,6 +89,7 @@ the default number back to the usual 2."
                           (ovwr 'dired-directory :foreground dracula-purple :weight 'bold)
                           (ovwr 'eshell-ls-directory :inherit 'dired-directory)
                           (ovwr 'ivy-subdir :inherit 'dired-directory)
+                          (ovwr 'counsel-evil-register-face :foreground dracula-pink)
                           (ovwr 'dired-symlink :foreground dracula-cyan :weight 'bold)
                           (ovwr 'eshell-ls-symlink :inherit 'dired-symlink)
                           (ovwr 'eshell-ls-executable :foreground dracula-green :weight 'bold)
