@@ -73,6 +73,8 @@
                        (?a aw-swap-window "Swap windows")
                        (?m aw-move-window "Move window")
 
+                       ;; TODO: binding for `toggle-window-dedicated'
+
                        (?c eriks/aw-clone-buffer "Clone buffer")
 
                        (?j aw-switch-buffer-in-window "Switch buffer")

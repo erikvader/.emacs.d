@@ -183,6 +183,8 @@ Also that `evil-set-initial-state' does not always work"
   (add-to-list 'popper-reference-buffers 'shell-mode))
 
 (use-package compile
+  :custom
+  (compilation-scroll-output t)
   :config
   (add-to-list 'popper-reference-buffers 'compilation-mode)
   (evil-collection-compile-setup)
@@ -248,4 +250,4 @@ While I'm at it, I also removed the possibility to show the result as
   (bookmark-fringe-mark nil)
   :config
   (eriks/leader-def 'normal
-    "B" 'bookmark-jump))
+    "b" 'bookmark-jump))

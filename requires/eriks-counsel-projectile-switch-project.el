@@ -15,7 +15,7 @@ those when available."
                         ("s" eriks/projectile-switch-ripgrep-action "search files")
                         ("m" magit-status "magit")
                         ("k" eriks/projectile-switch-kill-buffers-action "kill buffers")
-                        ;;TODO: how to refresh the list when called with `ivy-dispatching-call'?
+                        ;;TODO: how to refresh the list when called with `ivy-dispatching-call'? `ivy-quit-and-run'?
                         ("r" projectile-remove-known-project "remove from list")))))
 
 (defun eriks/projectile-switch-ripgrep-action (project-to-switch)

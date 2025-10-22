@@ -129,7 +129,7 @@
   :gfhook
   ('Man-mode-hook 'scroll-lock-mode))
 
-;;TODO: finns det en c-end-of-statement osv för rust?
+;;TODO: finns det en c-end-of-statement osv för rust? smie?
 (use-package rust-mode
   :ensure t
   :config

@@ -15,6 +15,7 @@
   :ensure t
   :diminish
   :custom
+  (projectile-auto-cleanup-known-projects t)
   (projectile-find-dir-includes-top-level t)
   (projectile-current-project-on-switch 'keep)
   (projectile-ignored-project-function (cl-defun eriks/projectile-ignore-project (truename)
