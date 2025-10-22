@@ -136,6 +136,8 @@ Also that `evil-set-initial-state' does not always work"
   (undo-tree-enable-undo-in-region nil)
   (undo-tree-auto-save-history nil)
   :config
+  ;; NOTE: it doesn't disable itself in ivy. Undo in counsel find file doesn't work
+  (add-to-list 'undo-tree-incompatible-major-modes 'minibuffer-mode)
   (global-undo-tree-mode 1)
   (eriks/leader-def 'normal
     "u" 'undo-tree-visualize))
