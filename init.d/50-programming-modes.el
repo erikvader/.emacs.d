@@ -23,6 +23,11 @@
 (use-package cmake-mode
   :ensure t)
 
+(use-package make-mode
+  :gfhook
+  ('makefile-mode-hook (cl-defun eriks/make-tab-width ()
+                         (setq-local tab-width 4))))
+
 (use-package sgml-mode ;; < text-mode
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
