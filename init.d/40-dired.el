@@ -70,12 +70,6 @@
   :ensure t
   :custom
   (dired-ranger-bookmark-reopen 'always)
-  (dired-ranger-bookmarks '((?h "~" . t)
-                            (?r "/" . t)
-                            (?t "/tmp" . t)
-                            (?w "~/Downloads" . t)
-                            (?d "~/Documents" . t)
-                            (?D "~/dotfiles" . t)))
   :config
   (defun eriks/dired-rename ()
     "Rename the selected file, like cw in ranger. Basically
@@ -97,13 +91,6 @@
                           (list cur)
                           (lambda (old) (file-name-concat dir new))
                           dired-keep-marker-rename)))
-
-  (define-advice dired-ranger-bookmark-visit (:around (org &rest args) kill-when-opening-new)
-    "Makes this function respect `dired-kill-when-opening-new-dired-buffer'."
-    (if dired-kill-when-opening-new-dired-buffer
-        (cl-letf* (((symbol-function 'find-file) (symbol-function 'find-alternate-file)))
-          (apply org args))
-      (apply org args)))
 
   (defun eriks/dired-ranger-copy-append (arg)
     "Append the currently selected files to the current fileset."
