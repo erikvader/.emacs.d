@@ -16,11 +16,16 @@
   (evil-collection-wdired-setup)
   (put 'dired-find-alternate-file 'disabled nil)
 
-  (eriks/leader-def 'normal 'dired-mode-map
-    :infix "s"
-    "k" 'dired-kill-subdir
-    "h" 'dired-hide-subdir
-    "H" 'dired-hide-all)
+  (defun eriks/kill-all-dired-buffers ()
+    "Prompts to kill every buffer that is visiting a dired buffer."
+    (interactive)
+    (map-y-or-n-p
+     (lambda (buffer)
+       (with-current-buffer buffer
+         (when (eq major-mode 'dired-mode)
+           (format "Kill dired buffer '%s'? " (buffer-name buffer)))))
+     #'kill-buffer
+     (buffer-list)))
   :gfhook
   'auto-revert-mode
   'dired-hide-details-mode
@@ -32,7 +37,10 @@
    'dired-mode-map
    "gR" 'dired-do-redisplay
    "gm" 'evil-set-marker
-   "gs" 'dired-goto-subdir
+   "sg" 'dired-goto-subdir
+   "sk" 'dired-kill-subdir
+   "sh" 'dired-hide-subdir
+   "sH" 'dired-hide-all
    "<" 'dired-prev-subdir
    ">" 'dired-next-subdir
    ;; NOTE: don't override my `repeat'
