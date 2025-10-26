@@ -63,7 +63,7 @@ the default number back to the usual 2."
                               ;; background. Make it as dark as possible
                               ((equal xs dracula-bg) "black")
                               ;; darken alt backgrounds to match new background
-                              ((member xs (list bg2 bg3 dracula-current)) (color-darken-name xs 40))
+                              ((member xs (list bg2 bg3 dracula-current)) (color-darken-name xs 50))
                               ;; font-lock-comment. Contrast better with the new background
                               ((equal xs dracula-comment) (color-lighten-name xs 25))
                               (t xs))))
