@@ -33,9 +33,23 @@
 (use-package popper
   :ensure t
   :config
-  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all "*Warnings*"))
-  ;; NOTE: enabled at the end of initialisation
-  ;; (popper-mode 1)
+  (eriks/add-to-list 'popper-reference-buffers
+                     (eriks/regexp-quote-all "*Warnings*")
+                     'evil-list-view-mode
+                     (eriks/regexp-quote-all "*eshell*")
+                     'shell-mode
+                     'inferior-emacs-lisp-mode
+                     'inferior-python-mode
+                     'Man-mode
+                     'messages-buffer-mode
+                     'process-menu-mode
+                     (eriks/regexp-quote-all "*Shell Command Output*")
+                     'compilation-mode
+                     (eriks/regexp-quote-all "*Pp Macroexpand Output*")
+                     (eriks/regexp-quote-all "*Pp Eval Output*")
+                     'help-mode
+                     'calendar-mode)
+  (popper-mode 1)
   (popper-echo-mode 1)
   (eriks/defkey-repeat (popper-cycle)
     :keymaps 'popper-mode-map

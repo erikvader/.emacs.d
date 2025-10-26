@@ -2,7 +2,6 @@
   :gfhook 'scroll-lock-mode
   :config
   (evil-collection-help-setup)
-  (add-to-list 'popper-reference-buffers 'help-mode)
 
   (defun eriks/help-revert-with-characters ()
     "Revert the current help buffer, but print all values with characters

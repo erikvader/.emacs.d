@@ -173,20 +173,14 @@ Also that `evil-set-initial-state' does not always work"
   (evil-collection-simple-setup)
   (evil-set-initial-state 'special-mode 'normal)
 
-  (add-to-list 'popper-reference-buffers 'messages-buffer-mode)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
 
-  (add-to-list 'popper-reference-buffers 'process-menu-mode)
-
-  (add-to-list 'evil-buffer-regexps `(,(eriks/regexp-quote-all shell-command-buffer-name) . normal))
-  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all shell-command-buffer-name))
-  (add-to-list 'popper-reference-buffers 'shell-mode))
+  (add-to-list 'evil-buffer-regexps `(,(eriks/regexp-quote-all shell-command-buffer-name) . normal)))
 
 (use-package compile
   :custom
   (compilation-scroll-output t)
   :config
-  (add-to-list 'popper-reference-buffers 'compilation-mode)
   (evil-collection-compile-setup)
   (eriks/leader-def 'normal
     "c" 'compile))
@@ -203,8 +197,6 @@ Also that `evil-set-initial-state' does not always work"
    "m" 'pp-macroexpand-last-sexp
    "M-e" 'pp-eval-last-sexp)
   :config
-  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all "*Pp Macroexpand Output*"))
-  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all "*Pp Eval Output*"))
   (define-advice pp-display-expression (:override (expression out-buffer-name &optional lisp) behave)
     "Make this function behave well with the rest of emacs.
 
@@ -237,7 +229,6 @@ While I'm at it, I also removed the possibility to show the result as
                       (calendar-absolute-from-gregorian (list month day year)))))
             'font-lock-face 'font-lock-function-name-face))
   :config
-  (add-to-list 'popper-reference-buffers 'calendar-mode)
   (evil-collection-calendar-setup)
   (eriks/leader-def 'normal
     "C" 'calendar)

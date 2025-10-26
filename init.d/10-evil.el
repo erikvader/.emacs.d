@@ -111,7 +111,6 @@
     "m" 'evil-show-marks
     "r" 'evil-show-registers
     "j" 'evil-show-jumps)
-  (add-to-list 'popper-reference-buffers 'evil-list-view-mode)
 
   (eriks/leader-def 'normal
     :infix "o"

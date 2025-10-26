@@ -82,8 +82,6 @@
   ;; NOTE: I use dtrt-indent instead
   (python-indent-guess-indent-offset nil)
   (python-shell-interpreter (concat user-emacs-directory "uv-run-python.sh"))
-  :config
-  (add-to-list 'popper-reference-buffers 'inferior-python-mode)
   :general-config
   ('normal
    'python-mode-map
@@ -123,7 +121,6 @@
   (Man-notify-method 'aggressive)
   :config
   (evil-collection-man-setup)
-  (add-to-list 'popper-reference-buffers 'Man-mode)
   (eriks/leader-def 'normal
     "M" 'man)
   :gfhook

@@ -24,9 +24,6 @@
   (evil-collection-eshell-setup)
   (evil-set-initial-state 'eshell-mode 'normal)
 
-  ;; NOTE: using the mode doesn't work for some reason
-  (add-to-list 'popper-reference-buffers (eriks/regexp-quote-all eshell-buffer-name))
-
   (defun eriks/eshell-yank-last-arg ()
     "Inserts the last argument of the previous command. Can also be referenced using $_"
     (interactive)
@@ -70,7 +67,6 @@
 
 (use-package shell
   :config
-  (add-to-list 'popper-reference-buffers 'shell-mode)
   (eriks/leader-def 'normal
     :infix "o"
     "s" 'shell))
@@ -79,7 +75,6 @@
   :custom
   (ielm-header "")
   :config
-  (add-to-list 'popper-reference-buffers 'inferior-emacs-lisp-mode)
   (eriks/leader-def 'normal
     :infix "o"
     "i" 'ielm))
