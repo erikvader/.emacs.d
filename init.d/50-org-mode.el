@@ -2,6 +2,7 @@
   :config
   (evil-set-initial-state 'org-mode 'normal)
   :custom
+  ;; TODO: keep.org respekterar inte manuell hidden
   (org-edit-src-content-indentation 0)
   (org-pretty-entities t)
   (org-src-window-setup 'current-window)

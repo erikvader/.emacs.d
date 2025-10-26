@@ -68,7 +68,7 @@ of its default of only looking for git folders."
    ;; in the same buffer.
    ;; https://github.com/abo-abo/swiper/issues/2707#issuecomment-748765715
    ;; https://github.com/abo-abo/swiper/pull/2247
-   ;; TODO: make my own version that works?
+   ;; TODO: make my own version that works? counsel-register
    ;; [remap evil-show-marks] 'counsel-evil-marks
    [remap org-goto] 'counsel-org-goto
    [remap eshell-previous-matching-input] 'counsel-esh-history

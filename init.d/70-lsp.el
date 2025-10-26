@@ -1,3 +1,4 @@
+;; TODO: breadcrumbs?
 (use-package lsp-mode
   :ensure t
   :custom
