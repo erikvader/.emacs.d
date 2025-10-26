@@ -141,7 +141,7 @@ the default number back to the usual 2."
 (add-to-list 'default-frame-alist '(alpha-background . 80))
 
 ;; column line
-(add-hook 'prog-mode-hook
+(add-hook 'eriks/editable-file-hook
           (cl-defun eriks/activate-display-fill-column ()
             (setq display-fill-column-indicator t)
             (setq display-fill-column-indicator-character ?│)))
@@ -155,7 +155,7 @@ the default number back to the usual 2."
      ("\\<\\(TODO\\):" 1 'todo-face t)
      ("\\<\\(NOTE\\):" 1 'note-face t))))
 
-(add-hook 'prog-mode-hook #'eriks/add-marker-font-locks)
+(add-hook 'eriks/editable-file-hook #'eriks/add-marker-font-locks)
 
 (defun eriks/add-tab-font-lock ()
   "Display tabs in the current buffer using `tab-face'."
@@ -164,10 +164,9 @@ the default number back to the usual 2."
    nil
    '(("\t" 0 'tab-face t))))
 
-(add-hook 'prog-mode-hook #'eriks/add-tab-font-lock)
-(add-hook 'text-mode-hook #'eriks/add-tab-font-lock)
+(add-hook 'eriks/editable-file-hook #'eriks/add-tab-font-lock)
 
 (defun eriks/prog-mode-show-trailing-whitespace ()
   (setq show-trailing-whitespace t))
 
-(add-hook 'prog-mode-hook #'eriks/prog-mode-show-trailing-whitespace)
+(add-hook 'eriks/editable-file-hook #'eriks/prog-mode-show-trailing-whitespace)

@@ -38,6 +38,28 @@
 variable to the default of 0."
   (setq-local scroll-margin 0))
 
+;; A sort of global hook
+(defvar eriks/editable-file-hook nil
+  "A hook that is run for all buffers with human editable text.
+
+Each mode in emacs is largely divided into three modes:
+  - prog-mode for source code
+  - text-mode for human text
+  - special-mode for external processes and stuff
+
+But there are for some reason exceptions, like `conf-mode', which uses
+its own hiearchy of modes.
+
+So this hook is meant to be an unified place to add functions to,
+avoiding having to add them in several places.")
+
+(defun eriks/run-editable-file-hook ()
+  "Runs `eriks/editable-file-hook'"
+  (run-hooks 'eriks/editable-file-hook))
+
+(add-hook 'prog-mode-hook 'eriks/run-editable-file-hook)
+(add-hook 'text-mode-hook 'eriks/run-editable-file-hook)
+
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)
   "Set `require-final-newline' in this buffer to nil, unless enable is non-nil (or called
@@ -48,27 +70,16 @@ with a prefix argument), then it is set to t."
     (message "%s %s" "require-final-newline is now" require-final-newline)))
 
 (defun maybe-enable-require-final-newline ()
-  "Set `require-final-newline' in this buffer to t unless someone else already has set it
-to anything else."
+  "Set `require-final-newline' in this buffer to
+`mode-require-final-newline' unless someone else already has set it to
+anything else.
+
+The major modes are supposed to enable this by themselves, but far from all do."
   (interactive)
   (unless (local-variable-p 'require-final-newline)
-    (disable-require-final-newline t)))
+    (disable-require-final-newline mode-require-final-newline)))
 
-(add-hook 'prog-mode-hook 'maybe-enable-require-final-newline)
-(add-hook 'conf-mode-hook 'maybe-enable-require-final-newline)
-
-;; disable electric indent easily in file local variables
-(defvar-local eriks/disable-electric-indent-local nil
-  "Disables `electric-indent-mode' in a buffer if non-nil")
-(put 'eriks/disable-electric-indent-local 'safe-local-variable #'booleanp)
-
-(defun eriks/disable-electric-indent-hook-fun ()
-  "Disables `electric-indent-local-mode' if `eriks/disable-electric-indent-local' is
-non-nil."
-  (when eriks/disable-electric-indent-local
-    (electric-indent-local-mode -1)))
-
-(add-hook 'after-change-major-mode-hook 'eriks/disable-electric-indent-hook-fun)
+(add-hook 'eriks/editable-file-hook 'maybe-enable-require-final-newline)
 
 ;; a nice fringe
 (define-fringe-bitmap 'tilde [0 0 0 113 219 142 0 0] nil nil 'center)
@@ -98,13 +109,7 @@ non-nil."
   (not (eq 'no-conversion buffer-file-coding-system)))
 (add-to-list 'magic-fallback-mode-alist '(eriks/use-text-mode-p . text-mode) t)
 
-;; add a more handy way to enable minor modes in file local variables
-(defun eriks/symbol-list-p (x)
-  (or (symbolp x)
-      (and
-       (listp x)
-       (cl-every #'symbolp x))))
-
+;; add a more handy way to enable and disable minor modes in file local variables
 (defcustom eriks/activate-minor-modes nil
   "List of minor modes to enable from file local variables. This is
 intended to be more ergonomic than `eval'.
@@ -114,17 +119,28 @@ the way this is implemented."
   :safe #'eriks/symbol-list-p
   :local 'permanent)
 
+;; TODO: this is not tested. Try with `electric-indent-local-mode'
+(defcustom eriks/deactivate-minor-modes nil
+  "List of minor modes to disable from file local variables. This is
+intended to be more ergonomic than `eval'.
+
+This is permanently local since a mode will never be re-activated
+the way this is implemented."
+  :safe #'eriks/symbol-list-p
+  :local 'permanent)
+
 (defun eriks/apply-minor-modes-file-local ()
-  (let ((modes (cond ((listp eriks/activate-minor-modes)
-                      eriks/activate-minor-modes)
-                     ((symbolp eriks/activate-minor-modes)
-                      (list eriks/activate-minor-modes))
-                     (t
-                      (error "Invalid value: %s" eriks/activate-minor-modes)))))
-    (dolist (mode modes)
-      (if (and (functionp mode)
-               (string-suffix-p "-mode" (symbol-name mode)))
+  (let ((on-modes (ensure-list eriks/activate-minor-modes))
+        (off-modes (ensure-list eriks/deactivate-minor-modes)))
+    (dolist (mode on-modes)
+      (if (eriks/mode-p mode)
           (funcall mode 1)
+        (message "Not a valid minor mode: `%s', skipping..." mode)))
+    (dolist (mode off-modes)
+      (if (eriks/mode-p mode)
+          (funcall mode -1)
         (message "Not a valid minor mode: `%s', skipping..." mode)))))
 
+;; NOTE: this hook runs late in major mode initialization, see `run-mode-hooks', which is
+;; run last when enabling a mode, see `define-derived-mode'.
 (add-hook 'hack-local-variables-hook #'eriks/apply-minor-modes-file-local)

@@ -1,15 +1,7 @@
-(use-package rainbow-delimiters
-  :ensure t
-  :ghook 'prog-mode-hook)
-
 (use-package eldoc
   :config
   (global-eldoc-mode)
   :diminish eldoc-mode)
-
-(use-package apheleia
-  :ensure t
-  :diminish "Aph")
 
 (use-package projectile
   :ensure t

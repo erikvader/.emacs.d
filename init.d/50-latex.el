@@ -18,7 +18,7 @@
    "C-c e" 'TeX-error-overview)
   :gfhook
   ('TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
-  ('TeX-mode-hook '(TeX-source-correlate-mode eriks/run-prog-mode-hooks)))
+  ('TeX-mode-hook 'TeX-source-correlate-mode))
 
 (use-package auctex-latexmk
   :ensure t

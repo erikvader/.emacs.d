@@ -68,7 +68,7 @@
   (setq-default evil-emacs-state-modes nil
                 evil-motion-state-modes nil
                 evil-insert-state-modes nil
-                evil-normal-state-modes '(prog-mode conf-mode text-mode)
+                evil-normal-state-modes '(prog-mode text-mode)
                 evil-emacs-state-cursor '(hollow))
 
   (evil-define-text-object evil-inner-defun (count &optional beg end _type)

@@ -68,12 +68,11 @@ because they are stored like that in keymaps."
        (when (keymapp new)
          (setq ,keymap new)))))
 
-(defun eriks/add-to-lists (list &rest items)
+(defun eriks/add-to-list (list &rest items)
   "Same as `add-to-list' except that ITEMS is a list of elements to be
 added."
-  (mapc (lambda (i)
-          (add-to-list list i))
-        items))
+  (dolist (i items)
+    (add-to-list list i)))
 
 (defun eriks/init-warn (&rest warn-args)
   "Runs `warn' with WARN-ARGS and also sends a notification with the
@@ -99,12 +98,6 @@ outdated."
 determine if the hotfix has been fixed."
   nil)
 
-(defun eriks/run-prog-mode-hooks ()
-  "Runs all hooks in `prog-mode-hook'. Useful for major modes
-that basically are programming modes but doesn't have it as
-parent."
-  (run-hooks 'prog-mode-hook))
-
 (defalias 'forward-subword 'subword-forward "To be compatible with thingatpt.el")
 
 (defun eriks/regexp-quote-all (bufname)
@@ -129,3 +122,15 @@ last. If a component starts with a dot, then two characters are kept."
     (-> shortened
         (-concat last)
         (string-join "/"))))
+
+(defun eriks/mode-p (mode)
+  "Is the given symbol a function that enables a mode?"
+  (and (functionp mode)
+       (string-suffix-p "-mode" (symbol-name mode))))
+
+(defun eriks/symbol-list-p (x)
+  "Is this a symbol or a list of symbols?"
+  (or (symbolp x)
+      (and
+       (listp x)
+       (cl-every #'symbolp x))))

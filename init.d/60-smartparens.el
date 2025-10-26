@@ -7,6 +7,16 @@
   (add-to-list 'sp--html-modes 'mhtml-mode)
   (require 'smartparens-config)
 
+  (sp-with-modes sp--html-modes
+    (sp-local-pair "<" nil :actions '(autoskip navigate)))
+
+  (dolist (mode sp--html-modes)
+    (when-let ((hook (-> mode
+                         symbol-name
+                         (concat "-hook")
+                         intern-soft)))
+      (add-hook hook 'smartparens-mode)))
+
   (defun eriks/create--newline-and-enter-sexp (&rest _ignored)
     "Open a new brace or bracket expression, with relevant newlines and indentation."
     (save-excursion
@@ -21,6 +31,19 @@
     (dolist (i paren)
       (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")
                                                   (eriks/create--newline-and-enter-sexp "<return>")))))
+
+  (eriks/sp-open-on "{" 'sh-mode)
+  (eriks/sp-open-on '("[" "{") 'js-mode)
+  (eriks/sp-open-on "{" 'rust-mode)
+  (eriks/sp-open-on '("[" "{") 'typescript-mode)
+  (eriks/sp-open-on "{" 'css-mode)
+  (sp-local-pair 'lua-mode "if" nil :actions nil)
+  (sp-local-pair 'lua-mode "while" nil :actions nil)
+  (sp-local-pair 'lua-mode "for" nil :actions nil)
+  (sp-local-pair 'lua-mode "function" nil :actions nil)
+  (eriks/sp-open-on '("[" "{") 'conf-mode)
+  (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
+  (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))
 
   (evil-define-text-object eriks/evil-sp-a-sexp (count &optional beg end type)
     "Same as `eriks/evil-sp-inner-sexp', but also includes the delimiters,
@@ -53,7 +76,8 @@ to smartparens"
     "j" 'sp-join-sexp
     "d" 'sp-splice-sexp-killing-around)
 
-  :ghook ('prog-mode-hook '(show-smartparens-mode smartparens-mode))
+  :ghook ('(prog-mode-hook conf-mode-hook TeXemode-hook)
+          '(show-smartparens-mode smartparens-mode))
   :custom
   (sp-use-subword t)
   (sp-navigate-interactive-always-progress-point t)

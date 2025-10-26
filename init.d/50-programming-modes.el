@@ -1,6 +1,5 @@
 (use-package cc-mode
   :config
-  (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
   (c-add-style "eriks-java"
                '("java" (c-offsets-alist
                          (arglist-intro . +)
@@ -28,9 +27,12 @@
   ('makefile-mode-hook (cl-defun eriks/make-tab-width ()
                          (setq-local tab-width 4))))
 
+;; NOTE: `sgml-electric-tag-pair-mode' doesn't work well with yasnippets nor things that
+;; aren't simple inserts, so it is not enabled.
 (use-package sgml-mode ;; < text-mode
   :config
   (put 'sgml-basic-offset 'safe-local-variable 'integerp)
+  (evil-set-initial-state 'sgml-mode 'normal)
 
   (defun eriks/sgml-close-tag-inline ()
     "Closes a tag like `nxml-balanced-close-start-tag-inline'"
@@ -55,27 +57,17 @@
    "M-o" nil))
 
 (use-package mhtml-mode ;; < html-mode < sgml-mode
-  )
+  :config
+  (evil-set-initial-state 'mhtml-mode 'normal))
 
 (use-package nxml-mode ;; < text-mode
+  :config
+  (evil-set-initial-state 'nxml-mode 'normal)
   :general-config
   ('insert
    'nxml-mode-map
    "C-v" #'nxml-balanced-close-start-tag-inline
    "C-b" #'nxml-balanced-close-start-tag-block))
-
-(when (boundp 'sp--html-modes)
-  ;; NOTE: `sgml-electric-tag-pair-mode' doesn't work well with yasnippets nor things that
-  ;; aren't simple inserts, so it is not enabled.
-  (sp-with-modes sp--html-modes
-    (sp-local-pair "<" nil :actions '(autoskip navigate)))
-  (dolist (mode sp--html-modes)
-    (when-let ((hook (-> mode
-                         symbol-name
-                         (concat "-hook")
-                         intern-soft)))
-      (add-hook hook #'eriks/run-prog-mode-hooks))
-    (evil-set-initial-state mode 'normal)))
 
 (use-package python
   :custom
@@ -89,7 +81,6 @@
 
 (use-package sh-script
   :config
-  (eriks/sp-open-on "{" 'sh-mode)
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
 
 (use-package haskell-mode
@@ -128,35 +119,11 @@
 
 ;;TODO: finns det en c-end-of-statement osv för rust? smie?
 (use-package rust-mode
-  :ensure t
-  :config
-  (eriks/sp-open-on "{" 'rust-mode))
+  :ensure t)
 
-(use-package ess
-  :ensure t
-  :config
-  (evil-set-initial-state 'ess-r-help-mode 'motion)
-  (eriks/sp-open-on "{" 'ess-r-mode)
-  :general-config
-  ('inferior-ess-r-mode-map
-   "C-d" nil
-   "C-y" nil
-   [remap comint-send-input] 'inferior-ess-send-input)
-  :custom
-  (ess-ask-for-ess-directory nil)
-  (ess-help-own-frame t)
-  (ess-use-ido nil)
-  (ess-use-flymake nil)
-  (ess-history-file nil)
-  (ess-style 'RStudio))
+(use-package m4-mode)
 
-(use-package m4-mode
-  :config
-  (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate)))
-
-(use-package js
-  :config
-  (eriks/sp-open-on '("[" "{") 'js-mode))
+(use-package js)
 
 (use-package json-mode
   :ensure t)
@@ -169,13 +136,9 @@
                            (setq-local eriks/evil-open-line-comment-fun
                                        (lambda ()
                                          (js2-line-break)
-                                         (indent-according-to-mode)))))
-  :config
-  (eriks/sp-open-on '("[" "{") 'typescript-mode))
+                                         (indent-according-to-mode))))))
 
-(use-package css-mode
-  :config
-  (eriks/sp-open-on "{" 'css-mode))
+(use-package css-mode)
 
 (use-package elixir-mode
   :ensure t)
@@ -183,12 +146,7 @@
 (use-package lua-mode
   :ensure t
   :custom
-  (lua-indent-level 4)
-  :config
-  (sp-local-pair 'lua-mode "if" nil :actions nil)
-  (sp-local-pair 'lua-mode "while" nil :actions nil)
-  (sp-local-pair 'lua-mode "for" nil :actions nil)
-  (sp-local-pair 'lua-mode "function" nil :actions nil))
+  (lua-indent-level 4))
 
 (use-package minizinc-mode
   :config
@@ -238,7 +196,7 @@
 
 (use-package conf-mode
   :config
-  (eriks/sp-open-on '("[" "{") 'conf-mode)
+  (evil-set-initial-state 'conf-mode 'normal)
   (mapcar (lambda (ext)
             (add-to-list 'auto-mode-alist (cons ext 'conf-unix-mode)))
           '("\\.service\\'"
@@ -253,25 +211,7 @@
             "\\.network\\'"
             "\\.link\\'"))
   :gfhook
-  ('conf-mode-hook 'eriks/run-prog-mode-hooks))
-
-(use-package clojure-mode
-  :ensure t)
-
-(use-package cider
-  :ensure t
-  :custom
-  (cider-show-error-buffer nil)
-  :general-config
-  ('normal
-   'cider-repl-mode-map
-   "C-k" #'cider-repl-previous-input
-   "C-j" #'cider-repl-next-input))
-
-(use-package clj-refactor
-  :ensure t
-  :gfhook
-  ('clojure-mode-hook 'clj-refactor-mode))
+  ('conf-mode-hook 'eriks/run-editable-file-hook))
 
 (use-package just-mode
   :ensure t)
@@ -283,5 +223,4 @@
   :gfhook ('lisp-data-mode-hook (cl-defun eriks/lisp-comment-start ()
                                   (setq-local comment-start ";; "))))
 
-(use-package elisp-mode
-  :gfhook ('emacs-lisp-mode-hook 'apheleia-mode))
+(use-package elisp-mode)

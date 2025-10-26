@@ -10,4 +10,5 @@
   ;; makes it enabled everywhere. This is for some reason breaking python-eldoc.
   (dtrt-indent-global-modes '(prog-mode text-mode))
   :config
+  (add-to-list 'dtrt-indent-hook-mapping-list '(python-mode default python-indent-offset))
   (dtrt-indent-global-mode))
