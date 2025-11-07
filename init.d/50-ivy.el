@@ -67,12 +67,6 @@ of its default of only looking for git folders."
    "M-s" 'counsel-rg
    ;; NOTE: the original is better, and evil-owl covers most cases.
    ;; [remap evil-show-registers] 'counsel-evil-registers
-   ;; NOTE: this one simply doesn't work with global markers, it expects all of them to be
-   ;; in the same buffer.
-   ;; https://github.com/abo-abo/swiper/issues/2707#issuecomment-748765715
-   ;; https://github.com/abo-abo/swiper/pull/2247
-   ;; TODO: make my own version that works? counsel-register
-   ;; [remap evil-show-marks] 'counsel-evil-marks
    [remap org-goto] 'counsel-org-goto
    [remap eshell-previous-matching-input] 'counsel-esh-history
    [remap flycheck-list-errors] 'counsel-flycheck
@@ -96,17 +90,24 @@ of its default of only looking for git folders."
   ('ivy-mode-map
    "C-s" 'swiper))
 
+(use-package eriks-counsel-evil-marks
+  :general
+  ([remap evil-show-marks] #'eriks/counsel-evil-marks))
+
 ;;NOTE: needs to be loaded last of all ivy packages that touch the transformers
 ;;https://github.com/Yevgnen/ivy-rich?tab=readme-ov-file#notes
 (use-package ivy-rich
   :ensure t
   :config
+  ;; TODO: The path is not shown for buffers NOT in a project
+  ;; https://github.com/Yevgnen/ivy-rich/issues/108
   ;;NOTE: remove the buffer size from switch buffer
   (cl-callf2 assq-delete-all
       'ivy-rich-switch-buffer-size
       (plist-get
        (plist-get ivy-rich-display-transformers-list 'ivy-switch-buffer)
        :columns))
+  (eriks/counsel-evil-mark-install-ivy-rich)
   (ivy-rich-mode 1))
 
 (use-package ivy-xref
