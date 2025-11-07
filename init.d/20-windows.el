@@ -79,21 +79,23 @@
   (aw-scope 'frame)
   (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  (aw-keys '(?s ?d ?f ?g))
+  ;; NOTE: free bindinds: yua-zn,.
+  (aw-keys '(?f ?j ?d ?k))
   (aw-dispatch-alist '((?x aw-delete-window "Delete window")
                        (?X kill-buffer-and-window "Delete window and kill buffer")
                        (?q eriks/aw-quit-window "Quit window")
                        (?Q eriks/aw-quit-kill-window "Quit window and kill buffer")
+                       (?r eriks/aw-kill-buffer "Kill buffer")
 
-                       (?a aw-swap-window "Swap windows")
+                       (?s aw-swap-window "Swap windows")
                        (?m aw-move-window "Move window")
 
                        ;; TODO: binding for `toggle-window-dedicated'
 
                        (?c eriks/aw-clone-buffer "Clone buffer")
 
-                       (?j aw-switch-buffer-in-window "Switch buffer")
-                       (?b aw-switch-buffer-other-window "Switch buffer other window")
+                       (?g aw-switch-buffer-in-window "Switch buffer goto")
+                       (?b aw-switch-buffer-other-window "Switch buffer")
                        (?p aw-flip-window)
 
                        (?e aw-execute-command-other-window "Execute command other window")
@@ -104,8 +106,12 @@
 
                        (?o delete-other-windows "Delete other windows")
 
+                       ;; TODO: create an C-M-o command
+                       ;; that always executes a command in this alist on the current
+                       ;; window
                        (?t transpose-frame)
 
+                       ;; TODO: the window is not big enough. Show the entries in a table?
                        (?? aw-show-dispatch-help)
 
                        (?i fit-window-to-buffer "Fit window")
@@ -126,6 +132,11 @@
         (list window parameter (format "(%s)" value)))))
 
   (ace-window-display-mode 1)
+
+  (defun eriks/aw-kill-buffer (window)
+    (unless (window-live-p window)
+      (user-error "Got dead window"))
+    (kill-buffer (window-buffer window)))
 
   (defun eriks/aw-quit-window (window)
     (quit-window nil window))
