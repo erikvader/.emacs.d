@@ -42,6 +42,9 @@
 (use-package counsel
   :ensure t
   :diminish
+  :custom
+  ;; NOTE: remove -type f
+  (counsel-file-jump-args (split-string ". -name .git -prune -o ! -name . -print"))
   :config
   (counsel-mode 1)
   (eriks/leader-def 'normal
