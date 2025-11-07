@@ -35,8 +35,8 @@
   ;; `evil-track-eol' by allowing the `temporary-goal-column' to be
   ;; `most-positive-fixnum'.
   (defun eriks/evilem-change-line-goal-column ()
-    (if (and (numberp temporary-goal-column)
-             (= temporary-goal-column most-positive-fixnum))
+    (if (and (eq temporary-goal-column most-positive-fixnum)
+             (memq last-command '(next-line previous-line)))
         most-positive-fixnum
       (current-column)))
   (evilem-make-motion evilem-motion-next-line2 #'next-line
