@@ -177,6 +177,12 @@ Also that `evil-set-initial-state' does not always work"
 
   (add-to-list 'evil-buffer-regexps `(,(eriks/regexp-quote-all shell-command-buffer-name) . normal)))
 
+(use-package debug
+  :config
+  (evil-collection-debug-setup)
+  (evil-collection-define-key 'normal 'debugger-mode-map
+    "q" 'debugger-quit))
+
 (use-package compile
   :custom
   (compilation-scroll-output t)
