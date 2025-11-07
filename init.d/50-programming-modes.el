@@ -113,7 +113,7 @@
   :config
   (evil-collection-man-setup)
   (eriks/leader-def 'normal
-    "M" 'man)
+    "m" 'man)
   :gfhook
   ('Man-mode-hook 'scroll-lock-mode))
 
