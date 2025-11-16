@@ -86,7 +86,7 @@
   (aw-scope 'frame)
   (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  ;; NOTE: free bindinds: yua-zn,.
+  ;; NOTE: free bindinds: an,.
   (aw-keys '(?f ?j ?d ?k))
   (aw-dispatch-alist '((?x aw-delete-window "Delete window")
                        (?X kill-buffer-and-window "Delete window and kill buffer")
@@ -94,22 +94,24 @@
                        (?Q eriks/aw-quit-kill-window "Quit window and kill buffer")
                        (?r eriks/aw-kill-buffer "Kill buffer")
 
+                       ;; NOTE: z = `aw-make-frame-char'
+
                        (?s aw-swap-window "Swap windows")
                        (?m aw-move-window "Move window")
 
-                       ;; TODO: binding for `toggle-window-dedicated'
+                       (?p toggle-window-dedicated "Toggle dedicated")
 
                        (?c eriks/aw-clone-buffer "Clone buffer")
 
                        (?g aw-switch-buffer-in-window "Switch buffer goto")
                        (?b aw-switch-buffer-other-window "Switch buffer")
-                       (?p aw-flip-window)
+                       (?u aw-flip-window)
 
                        (?e aw-execute-command-other-window "Execute command other window")
 
-                       (?F aw-split-window-fair "Split fair window")
-                       (?V aw-split-window-vert "Split vert window")
-                       (?H aw-split-window-horz "Split horz window")
+                       (?y aw-split-window-fair "Split fair window")
+                       (?- aw-split-window-vert "Split vert window")
+                       (?| aw-split-window-horz "Split horz window")
 
                        (?o delete-other-windows "Delete other windows")
 
