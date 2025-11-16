@@ -117,8 +117,7 @@
 
                        (?t transpose-frame)
 
-                       ;; TODO: the window is not big enough. Show the entries in a table?
-                       (?? aw-show-dispatch-help)
+                       (?? eriks/aw-show-dispatch-help)
 
                        (?i fit-window-to-buffer "Fit window")
                        (?w maximize-window "Maximize window")
@@ -149,6 +148,25 @@ action is pressed twice, akin to something like dd in vim."
           (funcall aw-action (selected-window))
           (throw 'done 'exit))
       (aw-dispatch-default char)))
+
+  (defun eriks/aw-show-dispatch-help ()
+    "A better variant that display the alist in a table"
+    (interactive)
+    (let* ((max-width (window-max-chars-per-line (minibuffer-window)))
+           (element-width (+ 3 2 35))
+           (total (max 1 (/ max-width element-width))))
+      (cl-loop for (key fn) in aw-dispatch-alist
+               for i from 1
+               concat (format "%3s: %-35s" (propertize (key-description (vector key)) 'face 'aw-key-face) fn) into res
+               concat (if (= 0 (mod i total)) "\n" " ") into res
+               finally (message "%s" (string-trim-right res))))
+
+    ;; Prevent this from replacing any help display
+    ;; in the minibuffer.
+    (let (aw-minibuffer-flag)
+      (mapc #'delete-overlay aw-overlays-back)
+      (call-interactively 'ace-window)))
+
   (defun eriks/aw-kill-buffer (window)
     (unless (window-live-p window)
       (user-error "Got dead window"))
@@ -177,14 +195,6 @@ action is pressed twice, akin to something like dd in vim."
         (cond ((> ver 0) (enlarge-window (min ver (floor (frame-total-lines) 3))))
               ((> hor 0) (enlarge-window-horizontally (min hor (floor (frame-total-cols) 6))))
               (t (user-error "Window is not resizable"))))))
-
-  (define-advice aw-show-dispatch-help (:around (f) non-displayable)
-    "Remove non-characters in `aw-dispatch-alist' to make this help message work."
-    (let* ((test (lambda (ele) (-> ele car characterp)))
-           (aw-dispatch-alist (cl-remove-if-not test aw-dispatch-alist))
-           ;;TODO: display these somehow
-           (non-displayable (cl-remove-if test aw-dispatch-alist)))
-      (funcall f)))
 
   :general-config
   ('global
