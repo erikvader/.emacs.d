@@ -4,11 +4,14 @@
   :ensure t
   :diminish ""
   :custom
-  (dtrt-indent-verbosity 1)
   ;; NOTE: the definition of `dtrt-indent-global-mode' tries to specify that it should
   ;; only be enabled in prog-mode and text-mode, but there is an extra t there, which
   ;; makes it enabled everywhere. This is for some reason breaking python-eldoc.
   (dtrt-indent-global-modes '(prog-mode text-mode))
+  ;; NOTE: It was the fact that it tried to show this message at the same time as
+  ;; python-eldoc, so turning it off also solves the problem.
+  ;; The variable `dtrt-indent-original-indent' can be inspected to see what dtrt changed.
+  (dtrt-indent-verbosity 0)
   :config
   (add-to-list 'dtrt-indent-hook-mapping-list '(python-mode default python-indent-offset))
   (dtrt-indent-global-mode))
