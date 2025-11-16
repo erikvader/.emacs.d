@@ -2,7 +2,6 @@
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)
-  (eshell-scroll-show-maximum-output nil)
   (eshell-banner-message "")
   :config
   (define-advice evil-collection-eshell-setup-keys (:before (&rest _args) eriks)
@@ -14,6 +13,13 @@
 
     (general-def 'eshell-mode-map
       "M-." 'eriks/eshell-yank-last-arg)
+
+    (general-def 'normal 'eshell-hist-mode-map
+      "<up>" #'eshell-previous-matching-input-from-input
+      "<down>" #'eshell-next-matching-input-from-input
+      "C-p" #'eshell-previous-input
+      "C-n" #'eshell-next-input
+      "C-r" #'eshell-previous-matching-input)
 
     (general-def 'motion 'eshell-mode-map
       ;; NOTE: The evil variant tries to preserve the column, which means it doesn't
@@ -80,20 +86,28 @@
   :config
   (eriks/leader-def 'normal
     :infix "o"
-    "i" 'ielm))
+    "i" 'ielm)
+  :general-config
+  ('normal
+   'ielm-map
+   "RET" 'ielm-return))
 
+;; TODO: i think it is necessary to bind RET in normal mode to comint-send-input, but an
+;; example where that is the case
 (use-package comint
-  :custom
-  (comint-scroll-show-maximum-output nil)
   :config
   (evil-set-initial-state 'comint-mode 'normal)
   (evil-collection-comint-setup)
   :general-config
-  ('insert
+  ('(normal insert)
    'comint-mode-map
    "<up>" 'comint-previous-matching-input-from-input
    "<down>" 'comint-next-matching-input-from-input)
   ('comint-mode-map
    "M-p" 'comint-previous-matching-input-from-input
    "M-n" 'comint-next-matching-input-from-input)
+  ('normal
+   'comint-mode-map
+   "C-r" comint-history-isearch-backward-regexp)
   :gfhook #'reset-scroll-margin)
+
