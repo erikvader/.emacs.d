@@ -155,7 +155,6 @@ recording, like default, unless `eriks/sp-operator' is invoked."
 example, d in normal state."
   (setq evil-inhibit-operator t)
   (pcase evil-this-operator
-    ;; TODO: a delete that doesn't remove prefix? '() -> '
     ('evil-delete (call-interactively 'sp-splice-sexp))
     ('evil-change (call-interactively 'eriks/sp-rewrap))
     ('evil-yank (call-interactively 'eriks/sp-surround))

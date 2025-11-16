@@ -94,7 +94,7 @@ Also that `evil-set-initial-state' does not always work"
    "/" 'isearch-forward
    "O" 'pdf-occur
    "r" 'image-rotate
-   "q" 'quit-window-kill
+   "q" 'quit-window
    "w" 'pdf-view-fit-page-to-window
    "W" 'pdf-view-fit-width-to-window
    "j" 'pdf-view-next-line-or-next-page

@@ -15,7 +15,6 @@
 ;; bind some commands on global bindings I otherwise don't use
 (general-def
   :prefix "C-x"
-  "C-k" 'quit-window
   "C-u" 'universal-argument)
 
 (general-def
