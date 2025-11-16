@@ -115,9 +115,6 @@
 
                        (?o delete-other-windows "Delete other windows")
 
-                       ;; TODO: create an C-M-o command
-                       ;; that always executes a command in this alist on the current
-                       ;; window
                        (?t transpose-frame)
 
                        ;; TODO: the window is not big enough. Show the entries in a table?
@@ -130,6 +127,7 @@
 
                        (?\M-o other-window-prefix)
                        (?h same-window-prefix)))
+  (aw-dispatch-function 'eriks/aw-dispatch)
   :config
   (define-advice set-window-parameter (:filter-args (args) ace-window)
     "Advice to customize the string that appears in the mode line of
@@ -142,6 +140,15 @@
 
   (ace-window-display-mode 1)
 
+  (defun eriks/aw-dispatch (char)
+    "Wraps the standard dispatcher to use the selected window if the same
+action is pressed twice, akin to something like dd in vim."
+    (if (and aw-action
+             (eq aw-action (cadr (aw--dispatch-action char))))
+        (progn
+          (funcall aw-action (selected-window))
+          (throw 'done 'exit))
+      (aw-dispatch-default char)))
   (defun eriks/aw-kill-buffer (window)
     (unless (window-live-p window)
       (user-error "Got dead window"))
