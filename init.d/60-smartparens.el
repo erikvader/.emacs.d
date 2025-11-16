@@ -139,3 +139,9 @@ to smartparens"
   ('visual
    'smartparens-mode-map
    "s" 'eriks/sp-surround))
+
+(use-package eriks-sp-jump-item
+  :general-config
+  ('motion
+   'smartparens-mode-map
+   [remap evil-jump-item] 'eriks/sp-jump-item))
