@@ -28,6 +28,7 @@
                                   ("Files" (and (visiting-file . t)
                                                 (predicate . (not buffer-read-only))))
                                   ("Dired" (mode . dired-mode))
+                                  ("Man" (mode . Man-mode))
                                   ("Starred" (starred-name . t)))))
   :gfhook
   ('ibuffer-mode-hook (cl-defun eriks/ibuffer-switch-to-my-filter-group ()

@@ -40,8 +40,9 @@
                      'shell-mode
                      'inferior-emacs-lisp-mode
                      'inferior-python-mode
-                     'Man-mode
-                     "^*Man "
+                     ;; TODO: 
+                     ;; 'Man-mode
+                     ;; "^*Man "
                      'messages-buffer-mode
                      'process-menu-mode
                      (eriks/regexp-quote-all "*Shell Command Output*")
