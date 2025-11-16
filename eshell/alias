@@ -1,3 +1,4 @@
 alias cl clear t
 alias l ls -Ah $@*
 alias ll l -l $@*
+alias up eshell-up $@*

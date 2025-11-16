@@ -59,6 +59,9 @@
    "M-s" nil)
   :gfhook #'reset-scroll-margin)
 
+(use-package eshell-up
+  :ensure t)
+
 (use-package term
   :config
   (eriks/leader-def 'normal
