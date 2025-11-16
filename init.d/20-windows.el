@@ -61,6 +61,12 @@
   :custom
   (popper-mode-line-position 1)
   (popper-echo-dispatch-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
+  (popper-window-height (cl-defun eriks/popper-fit-window-height (win)
+                          "The same as the default, but with tweaked minimum and maximum."
+                          (fit-window-to-buffer
+                           win
+                           (floor (frame-height) 3)
+                           (floor (frame-height) 4))))
   :general-config
   ('popper-mode-map
    :prefix "C-x p"
