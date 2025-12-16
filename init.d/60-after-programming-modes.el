@@ -3,8 +3,9 @@
   :custom
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   :config
+  (general-define-key :keymaps 'flycheck-mode-map flycheck-keymap-prefix nil)
   (eriks/leader-def 'normal
-    "f" 'flycheck-list-errors)
+    "f" flycheck-command-map)
   (flycheck-add-next-checker 'python-pylint '(warning . python-pyright))
   :init
   (cl-defun eriks/flycheck-activate-if-started-projectile ()
