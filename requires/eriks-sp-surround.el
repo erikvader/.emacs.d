@@ -105,8 +105,9 @@ Return the pair to use or throws an error."
                         ((and fullmatches
                               (> (length candidates) 1))
                          (cadddr
-                          ;; NOTE: using the long variant breaks evil-repeat, at least
-                          ;; with ivy enabled
+                          ;; NOTE: using the long-form breaks evil-repeat, probably
+                          ;; because it starts a completing read, at least with ivy
+                          ;; enabled
                           (read-multiple-choice
                            "Ambiguity"
                            (cl-loop for (open . close) in candidates
@@ -115,7 +116,7 @@ Return the pair to use or throws an error."
                                                   (format "%s .. %s" open (if (stringp close)
                                                                               close
                                                                             "TAG"))
-                                                  "a string that is looking for a purpose"
+                                                  ""
                                                   (cons open close))))))
                         (fullmatches
                          (car candidates))
