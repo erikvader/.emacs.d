@@ -37,13 +37,11 @@
                      (eriks/regexp-quote-all "*Warnings*")
                      'evil-list-view-mode
                      (eriks/regexp-quote-all "*eshell*")
-                     'shell-mode
+                     (eriks/regexp-quote-all "*shell*")
                      'inferior-emacs-lisp-mode
                      'inferior-python-mode
-                     ;; TODO: 
-                     ;; 'Man-mode
-                     ;; "^*Man "
                      'messages-buffer-mode
+                     'flycheck-verify-mode
                      'process-menu-mode
                      (eriks/regexp-quote-all "*Shell Command Output*")
                      'compilation-mode
@@ -86,7 +84,7 @@
   (aw-scope 'frame)
   (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  ;; NOTE: free bindinds: an,.
+  ;; NOTE: free bindinds: an,.lv
   (aw-keys '(?f ?j ?d ?k))
   (aw-dispatch-alist '((?x aw-delete-window "Delete window")
                        (?X kill-buffer-and-window "Delete window and kill buffer")
@@ -116,13 +114,14 @@
                        (?o delete-other-windows "Delete other windows")
 
                        (?t transpose-frame)
+                       (?= balance-windows)
 
                        (?? eriks/aw-show-dispatch-help)
 
-                       (?i fit-window-to-buffer "Fit window")
                        (?w maximize-window "Maximize window")
-                       (?v minimize-window "Minimize window")
-                       (?l eriks/enlarge-window-dwim "Enlarge window")
+                       (?W minimize-window "Minimize window")
+                       (?I eriks/shrink-window-dwim "Shrink window")
+                       (?i eriks/enlarge-window-dwim "Enlarge window")
 
                        (?\M-o other-window-prefix)
                        (?h same-window-prefix)))
@@ -185,6 +184,9 @@ action is pressed twice, akin to something like dd in vim."
       (aw-switch-to-window window)
       (switch-to-buffer indirect)))
 
+  (defconst eriks/vertical-resize-amount 4)
+  (defconst eriks/horizontal-resize-amount 6)
+
   (defun eriks/enlarge-window-dwim (&optional window)
     "Make WINDOW larger in some direction by a lagom amount."
     (interactive)
@@ -192,8 +194,19 @@ action is pressed twice, akin to something like dd in vim."
     (let ((ver (window-max-delta window))
           (hor (window-max-delta window t)))
       (with-selected-window window
-        (cond ((> ver 0) (enlarge-window (min ver (floor (frame-total-lines) 3))))
-              ((> hor 0) (enlarge-window-horizontally (min hor (floor (frame-total-cols) 6))))
+        (cond ((> ver 0) (enlarge-window (min ver (floor (frame-total-lines) eriks/vertical-resize-amount))))
+              ((> hor 0) (enlarge-window-horizontally (min hor (floor (frame-total-cols) eriks/horizontal-resize-amount))))
+              (t (user-error "Window is not resizable"))))))
+
+  (defun eriks/shrink-window-dwim (&optional window)
+    "Make WINDOW smaller in some direction by a lagom amount."
+    (interactive)
+    (setq window (window-normalize-window window))
+    (let ((ver (window-min-delta window))
+          (hor (window-min-delta window t)))
+      (with-selected-window window
+        (cond ((> ver 0) (shrink-window (min ver (floor (frame-total-lines) eriks/vertical-resize-amount))))
+              ((> hor 0) (shrink-window-horizontally (min hor (floor (frame-total-cols) eriks/horizontal-resize-amount))))
               (t (user-error "Window is not resizable"))))))
 
   :general-config
