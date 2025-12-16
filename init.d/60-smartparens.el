@@ -24,7 +24,7 @@
       (indent-according-to-mode))
     (indent-according-to-mode))
 
-  (defun eriks/sp-open-on (paren modes)
+  (defun eriks/sp-open-on (modes paren)
     "Makes all delimeter openers in paren \"open\" after enter has been pressed."
     (when (stringp paren)
       (setq paren (list paren)))
@@ -32,17 +32,18 @@
       (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")
                                                   (eriks/create--newline-and-enter-sexp "<return>")))))
 
-  (eriks/sp-open-on "{" 'sh-mode)
-  (eriks/sp-open-on '("[" "{") 'js-mode)
-  (eriks/sp-open-on "{" 'rust-mode)
-  (eriks/sp-open-on '("[" "{") 'typescript-mode)
-  (eriks/sp-open-on "{" 'css-mode)
+
+  (eriks/sp-open-on 'sh-mode "{")
+  (eriks/sp-open-on 'js-mode '("[" "{"))
+  (eriks/sp-open-on 'rust-mode "{")
+  (eriks/sp-open-on 'typescript-mode '("[" "{"))
+  (eriks/sp-open-on 'css-mode "{")
   (sp-local-pair 'lua-mode "if" nil :actions nil)
   (sp-local-pair 'lua-mode "while" nil :actions nil)
   (sp-local-pair 'lua-mode "for" nil :actions nil)
   (sp-local-pair 'lua-mode "function" nil :actions nil)
-  (eriks/sp-open-on '("[" "{") 'conf-mode)
-  (eriks/sp-open-on "{" '(c-mode java-mode c++-mode))
+  (eriks/sp-open-on 'conf-mode '("[" "{"))
+  (eriks/sp-open-on '(c-mode java-mode c++-mode) "{")
   (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))
 
   (evil-define-text-object eriks/evil-sp-a-sexp (count &optional beg end type)
