@@ -73,7 +73,18 @@
   :custom
   ;; NOTE: I use dtrt-indent instead
   (python-indent-guess-indent-offset nil)
-  (python-shell-interpreter (concat user-emacs-directory "uv-run-python.sh"))
+  :config
+  (defun eriks/python-find-venv-bin ()
+    "Returns path to the bin directory of the venv dir of a pyproject."
+    (when-let* (buffer-file-name
+                (pyproj (locate-dominating-file buffer-file-name "pyproject.toml"))
+                (venv-bin (file-name-concat pyproj ".venv" "bin"))
+                (file-directory-p venv-bin))
+      venv-bin))
+  :gfhook
+  (nil (cl-defun eriks/python-interpreter-path ()
+         (when-let* ((venv-bin (eriks/python-find-venv-bin)))
+           (setq-local python-shell-interpreter (file-name-concat venv-bin "python")))))
   :general-config
   ('normal
    'python-mode-map
