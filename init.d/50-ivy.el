@@ -24,11 +24,11 @@
    "C-w" 'backward-kill-word)
   ('ivy-minibuffer-map
    ;;NOTE: I don't like `ivy-partial-or-done'.
-   "TAB" 'ivy-partial
+   "TAB" 'ivy-alt-done
    "C-SPC" 'ivy-mark
    "M-SPC" 'ivy-unmark-backward
    ;;NOTE: I don't use hydra
-   [remap hydra-ivy/body] 'ivy-dispatching-done)
+   "C-o" 'ivy-partial)
   :custom
   (ivy-count-format "%d/%d ")
   (ivy-on-del-error-function 'ignore)
