@@ -56,6 +56,11 @@ the default number back to the usual 2."
                       (rm (xs face)
                         (setf (alist-get face xs t t) t)
                         xs)
+                      (brighten (xs face color percent)
+                        (let ((new-color (color-lighten-name color percent)))
+                          (ovwr xs face
+                                :foreground new-color
+                                :background new-color)))
                       (subs (xs)
                         ;; NOTE: this does not support dotted lists longer than two
                         (cond ((and (consp xs) (atom (cdr xs)) (cons (subs (car xs)) (subs (cdr xs)))))
@@ -118,6 +123,13 @@ the default number back to the usual 2."
                           (ovwr 'diff-refine-removed :background (color-darken-name dracula-red 65) :foreground dracula-fg)
                           (ovwr 'diff-added :inherit 'magit-diff-added)
                           (ovwr 'diff-removed :inherit 'magit-diff-removed)
+                          (ovwr 'ansi-color-bright-black :foreground "gray40" :background "gray40")
+                          (brighten 'ansi-color-bright-blue dracula-purple 10)
+                          (brighten 'ansi-color-bright-cyan dracula-cyan 10)
+                          (brighten 'ansi-color-bright-green dracula-green 10)
+                          (brighten 'ansi-color-bright-magenta dracula-pink 10)
+                          (brighten 'ansi-color-bright-red dracula-red 10)
+                          (brighten 'ansi-color-bright-yellow dracula-yellow 10)
                           subs
                           (ovwr 'lazy-highlight :background dracula-comment :foreground dracula-fg))))))))
 
