@@ -1,4 +1,6 @@
 ;; TODO: eat
+;; TODO: dircolors
+;; TODO: make the history get saved on emacs daemon kill
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)
@@ -44,6 +46,14 @@
   (eriks/leader-def 'normal
     :infix "o"
     "e" 'eshell)
+
+  (defun eriks/eshell-handle-ansi-osc ()
+    "Handle ANSI OSC codes"
+    (require 'ansi-color)
+    (let (ansi-osc-handlers)
+      (ansi-osc-apply-on-region eshell-last-output-start
+                                eshell-last-output-end)))
+  (add-to-list 'eshell-output-filter-functions 'eriks/eshell-handle-ansi-osc)
 
   (defun eriks/eshell-prompt ()
     "A prompt"
