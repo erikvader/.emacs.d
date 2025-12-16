@@ -108,6 +108,6 @@
    "M-n" 'comint-next-matching-input-from-input)
   ('normal
    'comint-mode-map
-   "C-r" comint-history-isearch-backward-regexp)
+   "C-r" 'comint-history-isearch-backward-regexp)
   :gfhook #'reset-scroll-margin)
 
