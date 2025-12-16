@@ -76,6 +76,7 @@
     ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
     (evil-select-inner-object 'evil-defun beg end type count))
 
+  ;; TODO: this didn't work unless subword-mode had beeen enabled in the current buffer
   (evil-define-text-object evil-inner-subword (count &optional beg end _type)
     "Select inner subword"
     ;;NOTE: an outer variant didn't work as expected, but it doesn't really matter
@@ -103,8 +104,7 @@
     "R" 'rename-visited-file
     "C-u" 'universal-argument
     "q" 'kmacro-insert-counter
-    "Q" 'kmacro-set-counter
-    "&" 'evil-ex-repeat-substitute-with-flags)
+    "Q" 'kmacro-set-counter)
 
   (eriks/leader-def 'normal
     :infix "e"
@@ -131,10 +131,10 @@
 (use-package eriks-evil-drag-line
   :general-config
   ('normal
-   "M-h" 'eriks/evil-drag-line-left
-   "M-l" 'eriks/evil-drag-line-right
-   "M-H" 'eriks/evil-indent-line-left
-   "M-L" 'eriks/evil-indent-line-right))
+   "M-H" 'eriks/evil-drag-line-left
+   "M-L" 'eriks/evil-drag-line-right
+   "M-h" 'eriks/evil-indent-line-left
+   "M-l" 'eriks/evil-indent-line-right))
 
 (use-package evil-args
   :ensure t
@@ -193,6 +193,7 @@
   ('normal
    "C-a" 'eriks/line-cleanup-dwim))
 
+;; TODO: make the selection more visible
 (use-package evil-exchange
   :ensure t
   :config
