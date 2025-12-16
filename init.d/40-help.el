@@ -11,7 +11,7 @@ instead of integers."
       (revert-buffer))
     (message "Using characters instead of integers"))
 
-  (defun eriks/help-revert-with-circle ()
+  (defun eriks/help-revert-without-circle ()
     "Revert the current help buffer, but with the value of `print-circle'
 set to nil. The default can make the output of, for example `sp-pairs',
 difficult to read."
@@ -26,4 +26,4 @@ difficult to read."
   ('normal
    'help-mode-map
    "p" 'eriks/help-revert-with-characters
-   "o" 'eriks/help-revert-with-circle))
+   "o" 'eriks/help-revert-without-circle))
