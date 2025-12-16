@@ -165,6 +165,7 @@ Also that `evil-set-initial-state' does not always work"
 (use-package rainbow-mode
   :ensure t)
 
+;; TODO: how to change the major mode to get syntax highlighting after this has opened?
 (use-package view
   :config
   (evil-collection-view-setup))
@@ -188,6 +189,8 @@ Also that `evil-set-initial-state' does not always work"
 
 (use-package compile
   :custom
+  ;; TODO: doesn't seem to scroll all the way to the bottom. Is the scroll margin
+  ;; interfering? Is there a scroll maximum as in eshell?
   (compilation-scroll-output t)
   :config
   (evil-collection-compile-setup)
