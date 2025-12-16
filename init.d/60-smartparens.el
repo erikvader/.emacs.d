@@ -151,3 +151,11 @@ to smartparens"
   ('motion
    'smartparens-mode-map
    [remap evil-jump-item] 'eriks/sp-jump-item))
+
+(use-package eriks-sp-triple
+  :config
+  (sp-with-modes '(python-mode)
+    (sp-local-pair "'" nil :post-handlers '((:rem sp-python-fix-tripple-quotes) (:add eriks/sp-triple-quote-post-handler)))
+    (sp-local-pair "\"" nil :post-handlers '((:rem sp-python-fix-tripple-quotes) (:add eriks/sp-triple-quote-post-handler)))
+    (eriks/sp-open-on "'''")
+    (eriks/sp-open-on "\"\"\"")))
