@@ -1,4 +1,4 @@
-alias cl clear t
-alias l ls -Ah $@*
-alias ll l -l $@*
+alias ll l -la --time-style=long-iso $@*
+alias l *ls --color=auto -Avhw80 --quoting-style=shell-escape $@*
 alias up eshell-up $@*
+alias cl clear t
