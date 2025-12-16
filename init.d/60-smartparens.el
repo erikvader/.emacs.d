@@ -1,5 +1,3 @@
-;;TODO: experiment with `sp-restrict-to-object-interactive' with `sp-prefix-pair-object'
-;;to only navigate using parens and not also symbols. Test in a C-like language
 (use-package smartparens
   :ensure t
   :diminish
@@ -70,7 +68,9 @@ to smartparens"
 
   (eriks/leader-def 'normal 'smartparens-mode-map
     :infix "s"
-    ;;TODO: another binding for sp-transpose-hybrid-sexp?
+    ;; TODO: also try/evaluate `sp-indent-adjust-sexp' and `sp-push-hybrid-sexp'
+    "h" 'sp-transpose-hybrid-sexp
+    "k" 'sp-kill-hybrid-sexp
     "t" 'sp-transpose-sexp
     "w" 'sp-swap-enclosing-sexp
     "s" 'sp-split-sexp
@@ -94,14 +94,15 @@ to smartparens"
   ('normal
    'smartparens-mode-map
    :prefix ">"
-   ;;TODO: add hybrid functions
-   ;; "}" 'sp-slurp-hybrid-sexp
+   ">" 'evil-shift-right
+   "}" 'sp-slurp-hybrid-sexp
    ")" 'sp-forward-slurp-sexp
    "(" 'sp-backward-barf-sexp)
   ('normal
    'smartparens-mode-map
    :prefix "<"
-   ;;TODO: "}" 'sp-dedent-adjust-sexp
+   "<" 'evil-shift-left
+   "}" 'sp-dedent-adjust-sexp
    "(" 'sp-backward-slurp-sexp
    ")" 'sp-forward-barf-sexp)
   ('motion
@@ -109,6 +110,8 @@ to smartparens"
    :prefix "]"
    "[" 'sp-next-sexp
    "]" 'sp-forward-sexp
+   ">" (sp-restrict-to-object-interactive #'sp-prefix-pair-object 'sp-forward-sexp)
+   "<" (sp-restrict-to-object-interactive #'sp-prefix-pair-object 'sp-next-sexp)
    ")" 'sp-end-of-next-sexp
    "(" 'sp-beginning-of-next-sexp
    "j" 'sp-down-sexp
@@ -118,6 +121,8 @@ to smartparens"
    :prefix "["
    "]" 'sp-previous-sexp
    "[" 'sp-backward-sexp
+   ">" (sp-restrict-to-object-interactive #'sp-prefix-pair-object 'sp-previous-sexp)
+   "<" (sp-restrict-to-object-interactive #'sp-prefix-pair-object 'sp-backward-sexp)
    "(" 'sp-beginning-of-previous-sexp
    ")" 'sp-end-of-previous-sexp
    "j" 'sp-backward-down-sexp
