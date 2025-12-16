@@ -175,6 +175,8 @@ Also that `evil-set-initial-state' does not always work"
   (evil-set-initial-state 'special-mode 'normal)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (when-let ((msgs (get-buffer messages-buffer-name)))
+    (evil-change-to-initial-state msgs))
 
   (add-to-list 'evil-buffer-regexps `(,(eriks/regexp-quote-all shell-command-buffer-name) . normal)))
 
