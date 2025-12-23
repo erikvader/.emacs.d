@@ -1,6 +1,7 @@
 ;; TODO: eat
 ;; TODO: dircolors
 ;; TODO: make the history get saved on emacs daemon kill
+;; TODO: don't store repeated elements in history
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)

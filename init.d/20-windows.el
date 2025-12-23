@@ -38,6 +38,7 @@
                      'evil-list-view-mode
                      (eriks/regexp-quote-all "*eshell*")
                      (eriks/regexp-quote-all "*shell*")
+                     (eriks/regexp-quote-all trace-buffer)
                      'inferior-emacs-lisp-mode
                      'inferior-python-mode
                      'messages-buffer-mode
@@ -49,8 +50,31 @@
                      (eriks/regexp-quote-all "*Pp Eval Output*")
                      'help-mode
                      'calendar-mode)
+
+  (defun eriks/popper-display-popup-on-the-right-advice (buffer &optional alist)
+    "Advice to override what `popper-display-popup-at-bottom' does."
+    (display-buffer-in-side-window
+     buffer
+     (append alist
+             `((window-width . ,popper-window-width)
+               (side . right)
+               (slot . 0)))))
+
+  (defun eriks/popper-toggle-display-function ()
+    "Toggle which side to use when displaying popup buffers."
+    (interactive)
+    (if (advice-member-p 'eriks/popper-display-popup-on-the-right-advice 'popper-display-popup-at-bottom)
+        (advice-remove 'popper-display-popup-at-bottom 'eriks/popper-display-popup-on-the-right-advice)
+      (advice-add 'popper-display-popup-at-bottom :override 'eriks/popper-display-popup-on-the-right-advice))
+
+    (cl-loop for (win . buf) in popper-open-popup-alist
+             do (progn
+                  (delete-window win)
+                  (display-buffer buf))))
+
   (popper-mode 1)
   (popper-echo-mode 1)
+
   (eriks/defkey-repeat (popper-cycle)
     :keymaps 'popper-mode-map
     :prefix "C-x"
@@ -59,6 +83,14 @@
   :custom
   (popper-mode-line-position 1)
   (popper-echo-dispatch-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
+  (popper-window-width (cl-defun eriks/popper-fit-window-width (win)
+                         "The is inspired by the default to adjust the width instead of the height."
+                         (fit-window-to-buffer
+                          win
+                          nil
+                          nil
+                          (floor (frame-width) 2)
+                          (floor (frame-width) 3))))
   (popper-window-height (cl-defun eriks/popper-fit-window-height (win)
                           "The same as the default, but with tweaked minimum and maximum."
                           (fit-window-to-buffer
@@ -68,6 +100,7 @@
   :general-config
   ('popper-mode-map
    :prefix "C-x p"
+   "s" 'eriks/popper-toggle-display-function
    "t" 'popper-toggle-type
    "k" 'popper-kill-latest-popup)
   ('popper-mode-map
