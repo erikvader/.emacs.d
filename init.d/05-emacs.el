@@ -33,10 +33,19 @@
 (setq-default auto-save-no-message t)
 
 (defun reset-scroll-margin ()
-  "Some buffers and modes behave in a non-preferrable way with
-`scroll-margin' as non-zero. Add this function to a hook to reset this
-variable to the default of 0."
-  (setq-local scroll-margin 0))
+  "Make the cursor stick to the bottom when scrolling.
+
+I have modified `scroll-margin' and other scroll variables to play nice
+when scrolling in normal text buffers visiting source files and such.
+But modes, such as `comint-mode' and `compilation-mode', that append
+text to the buffer and scrolls to show that new text, get unnecessary
+blank lines at the bottom. It's preferable to have the bottom-most line
+at the bottom window edge in those cases, so as much text as possible is
+visible. This function sets the scroll variables to make this the case."
+  (setq-local scroll-margin 0 ;; no margin to the bottom edge
+              scroll-conservatively 200 ;; >100 disables recentering
+              scroll-preserve-screen-position nil ;; probably also needed
+              ))
 
 ;; A sort of global hook
 (defvar eriks/editable-file-hook nil

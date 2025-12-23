@@ -192,6 +192,8 @@ Also that `evil-set-initial-state' does not always work"
   ;; TODO: doesn't seem to scroll all the way to the bottom. Is the scroll margin
   ;; interfering? Is there a scroll maximum as in eshell?
   (compilation-scroll-output t)
+  :gfhook
+  ('compilation-mode-hook #'reset-scroll-margin)
   :config
   (evil-collection-compile-setup)
   (eriks/leader-def 'normal
