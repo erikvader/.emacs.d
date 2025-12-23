@@ -59,8 +59,7 @@
    ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
    )
   ('inner
-   "d" 'evil-inner-defun
-   "u" 'evil-inner-subword)
+   "d" 'evil-inner-defun)
   :config
   (evil-mode 1)
   ;; NOTE: Doesn't work to set these in :custom, They overwrite later calls
@@ -75,14 +74,6 @@
     "Select inner defun."
     ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
     (evil-select-inner-object 'evil-defun beg end type count))
-
-  ;; TODO: this didn't work unless subword-mode had beeen enabled in the current buffer
-  (evil-define-text-object evil-inner-subword (count &optional beg end _type)
-    "Select inner subword"
-    ;;NOTE: an outer variant didn't work as expected, but it doesn't really matter
-    ;;anyways. The only time it makes a difference, i.e. when there is whitespace on both
-    ;;sides, a normal `evil-a-word' will do the same thing.
-    (evil-select-inner-object 'subword beg end type count))
 
   ;;NOTE: `scroll-other-window' doesn't have the scroll-command property
   (defun eriks/evil-scroll-down-half-other-window (&optional lines)

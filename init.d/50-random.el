@@ -254,3 +254,18 @@ While I'm at it, I also removed the possibility to show the result as
   :config
   (eriks/leader-def 'normal
     "b" 'bookmark-jump))
+
+;; TODO: create evil motions? Can be implemented by temporarily rebinding the
+;; forward-evil-word thing for forward-subword?
+(use-package subword
+  :config
+  (defalias 'forward-subword 'subword-forward "To be compatible with thingatpt.el")
+  (evil-define-text-object evil-inner-subword (count &optional beg end _type)
+    "Select inner subword"
+    ;;NOTE: an outer variant didn't work as expected, but it doesn't really matter
+    ;;anyways. The only time it makes a difference, i.e. when there is whitespace on both
+    ;;sides, a normal `evil-a-word' will do the same thing.
+    (evil-select-inner-object 'subword beg end type count))
+  :general-config
+  ('inner
+   "u" 'evil-inner-subword))
