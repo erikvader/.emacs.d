@@ -84,6 +84,7 @@ mode."
     (require 'notifications)
     (notifications-notify :title "Emacs Warning" :body (apply #'format warn-args))))
 
+;; TODO: remove
 (defmacro eriks/hotfix (package &rest body)
   "Executes BODY and warns, using `eriks/init-warn', if PACKAGE is
 outdated."
@@ -132,3 +133,11 @@ last. If a component starts with a dot, then two characters are kept."
       (and
        (listp x)
        (cl-every #'symbolp x))))
+
+(defun eriks/evil-setup-local-quit ()
+  (general-def
+    'normal
+    'local
+    "q" 'quit-window)
+  (message "Press %s to quit this window"
+           (substitute-command-keys "\\[quit-window]")))
