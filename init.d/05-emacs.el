@@ -12,6 +12,7 @@
 (show-paren-mode -1)
 
 ;; variables
+(setq-default kill-buffer-delete-auto-save-files t)
 (setq-default line-move-visual nil)
 (setq-default use-short-answers t)
 (setq-default column-number-mode t)
