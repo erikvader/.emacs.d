@@ -1,3 +1,4 @@
+;; TODO: shortcur for `[v`] to select last paste
 (use-package evil
   :ensure t
   :init

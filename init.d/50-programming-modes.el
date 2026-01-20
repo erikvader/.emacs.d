@@ -90,6 +90,8 @@
    'python-mode-map
    "gz" 'python-shell-switch-to-shell))
 
+;; TODO: fix smartparens for these modes. Make [[ a pair and make sure two spaces are
+;; between. Same with a single [
 (use-package sh-script
   :config
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
