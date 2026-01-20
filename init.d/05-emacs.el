@@ -26,26 +26,7 @@
 (setq-default inhibit-x-resources t)
 (setq-default nobreak-char-display nil)
 (setq-default fill-column 90)
-(setq-default scroll-margin 10)
-(setq-default scroll-conservatively scroll-margin)
-(setq-default scroll-preserve-screen-position 'tt)
-(setq-default next-screen-context-lines 10)
 (setq-default auto-save-no-message t)
-
-(defun reset-scroll-margin ()
-  "Make the cursor stick to the bottom when scrolling.
-
-I have modified `scroll-margin' and other scroll variables to play nice
-when scrolling in normal text buffers visiting source files and such.
-But modes, such as `comint-mode' and `compilation-mode', that append
-text to the buffer and scrolls to show that new text, get unnecessary
-blank lines at the bottom. It's preferable to have the bottom-most line
-at the bottom window edge in those cases, so as much text as possible is
-visible. This function sets the scroll variables to make this the case."
-  (setq-local scroll-margin 0 ;; no margin to the bottom edge
-              scroll-conservatively 200 ;; >100 disables recentering
-              scroll-preserve-screen-position nil ;; probably also needed
-              ))
 
 ;; A sort of global hook
 (defvar eriks/editable-file-hook nil
@@ -68,6 +49,15 @@ avoiding having to add them in several places.")
 
 (add-hook 'prog-mode-hook 'eriks/run-editable-file-hook)
 (add-hook 'text-mode-hook 'eriks/run-editable-file-hook)
+
+(defun eriks/setup-scroll-margin ()
+  "Make scrolling nicer in text files."
+  (setq-local scroll-margin 10
+              scroll-conservatively scroll-margin
+              scroll-preserve-screen-position 'tt
+              next-screen-context-lines 10))
+
+(add-hook 'eriks/editable-file-hook 'eriks/setup-scroll-margin)
 
 ;; require final newlines in all prog-modes
 (defun disable-require-final-newline (&optional enable)

@@ -73,8 +73,7 @@
   :general-config
   ('eshell-hist-mode-map
    ;; NOTE: restore my counsel-rg
-   "M-s" nil)
-  :gfhook #'reset-scroll-margin)
+   "M-s" nil))
 
 (use-package eshell-up
   :ensure t)
@@ -119,6 +118,5 @@
    "M-n" 'comint-next-matching-input-from-input)
   ('normal
    'comint-mode-map
-   "C-r" 'comint-history-isearch-backward-regexp)
-  :gfhook #'reset-scroll-margin)
+   "C-r" 'comint-history-isearch-backward-regexp))
 
