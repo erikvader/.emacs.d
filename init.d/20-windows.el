@@ -117,13 +117,12 @@
   (aw-scope 'frame)
   (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  ;; NOTE: free bindinds: an,.lv
+  ;; NOTE: free bindinds: an,.lvr
   (aw-keys '(?f ?j ?d ?k))
   (aw-dispatch-alist '((?x aw-delete-window "Delete window")
                        (?X kill-buffer-and-window "Delete window and kill buffer")
                        (?q eriks/aw-quit-window "Quit window")
                        (?Q eriks/aw-quit-kill-window "Quit window and kill buffer")
-                       (?r eriks/aw-kill-buffer "Kill buffer")
 
                        ;; NOTE: z = `aw-make-frame-char'
 
@@ -199,6 +198,7 @@ action is pressed twice, akin to something like dd in vim."
       (mapc #'delete-overlay aw-overlays-back)
       (call-interactively 'ace-window)))
 
+  ;; TODO: not used, remove?
   (defun eriks/aw-kill-buffer (window)
     (unless (window-live-p window)
       (user-error "Got dead window"))
