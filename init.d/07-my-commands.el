@@ -37,6 +37,23 @@
   (let* ((overlays (->> (overlays-at pos)
                         (mapcar (lambda (o) (overlay-get o 'face)))
                         (cl-remove-if #'null)))
+         ;; NOTE: copied from `describe-char'
+         (char (char-after pos))
+         (hardcoded-face
+          (cond
+           ((and show-trailing-whitespace
+                 (save-excursion (goto-char pos)
+                                 (looking-at-p "[ \t]+$")))
+            'trailing-whitespace)
+           ((and nobreak-char-display char
+                 (> char 127)
+                 (eq (get-char-code-property char 'general-category) 'Zs))
+            'nobreak-space)
+           ((and nobreak-char-display char
+                 (memq char '(#xad #x2010 #x2011)))
+            'escape-glyph)
+           ((and (< char 32) (not (memq char '(9 10))))
+            'escape-glyph)))
          (tprop (text-properties-at pos))
          (tface (-> tprop (plist-get 'face)))
          (flface (-> tprop (plist-get 'font-lock-face)))
@@ -44,8 +61,8 @@
                           (tface tface)
                           (t 'default))))
     (cl-flet ((tostring (kind face)
-                (format "%s: %s (%s)" kind face (propertize "sample" 'face face))))
-      (message "%s" (string-join (cl-list* (tostring "Prop" used-face)
-                                           (mapcar (lambda (o) (tostring "Ovrl" o))
-                                                   overlays))
+                (list (format "%s: %s (%s)" kind face (propertize "sample" 'face face)))))
+      (message "%s" (string-join (append (tostring "Prop" used-face)
+                                         (when hardcoded-face (tostring "Hard" hardcoded-face))
+                                         (mapcan (apply-partially #'tostring "Ovrl") overlays))
                                  ", ")))))
