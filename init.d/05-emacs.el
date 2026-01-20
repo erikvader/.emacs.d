@@ -25,7 +25,8 @@
 (setq-default bidi-inhibit-bpa t)
 (setq-default what-cursor-show-names t)
 (setq-default inhibit-x-resources t)
-(setq-default nobreak-char-display nil)
+;; TODO: why?
+;; (setq-default nobreak-char-display nil)
 (setq-default fill-column 90)
 (setq-default auto-save-no-message t)
 

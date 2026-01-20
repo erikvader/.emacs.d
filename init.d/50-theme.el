@@ -83,7 +83,8 @@ the default number back to the usual 2."
                           (ovwr 'fixme-face :inherit 'todo-face)
                           (ovwr 'note-face :foreground "chartreuse1" :weight 'bold)
                           (ovwr 'eshell-prompt)
-                          (ovwr 'tab-face :strike-through t :foreground "salmon")
+                          (ovwr 'tab-face :strike-through t :foreground dracula-orange)
+                          (ovwr 'trailing-whitespace :strike-through t :foreground dracula-orange)
                           (ovwr 'vertical-border :foreground dracula-fg)
                           (ovwr 'region :inverse-video t)
                           (ovwr 'sml/filename :inherit 'sml/global :foreground "gold2" :weight 'bold)
@@ -179,6 +180,6 @@ the default number back to the usual 2."
 (add-hook 'eriks/editable-file-hook #'eriks/add-tab-font-lock)
 
 (defun eriks/prog-mode-show-trailing-whitespace ()
-  (setq show-trailing-whitespace t))
+  (setq-local show-trailing-whitespace t))
 
 (add-hook 'eriks/editable-file-hook #'eriks/prog-mode-show-trailing-whitespace)
