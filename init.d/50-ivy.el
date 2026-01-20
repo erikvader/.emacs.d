@@ -9,6 +9,10 @@
    (assq t ivy-format-functions-alist)
    #'ivy-format-function-line)
 
+  ;; NOTE: don't sort directories first in `find-file'
+  (setf (alist-get 'read-file-name-internal ivy-sort-functions-alist)
+        '(ivy-string< ivy-sort-file-function-default))
+
   (evil-collection-ivy-setup)
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
   (evil-set-initial-state 'ivy-occur-mode 'normal)
@@ -45,6 +49,7 @@
   :custom
   ;; NOTE: remove -type f
   (counsel-file-jump-args (split-string ". -name .git -prune -o ! -name . -print"))
+  (counsel-preselect-current-file t)
   :config
   (counsel-mode 1)
   (eriks/leader-def 'normal
@@ -60,9 +65,6 @@ of its default of only looking for git folders."
     (projectile-acquire-root))
 
   :general-config
-  ('(counsel-ag-map counsel-git-grep-map)
-   :prefix "C-c"
-   "C-d" 'counsel-cd)
   ('counsel-mode-map
    "M-s" 'counsel-rg
    ;; NOTE: the original is better, and evil-owl covers most cases.
