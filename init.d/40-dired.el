@@ -56,42 +56,24 @@
    :prefix "g"
    "p" 'dired-preview-global-mode)
   :custom
-  (dired-preview-display-action-alist (cl-defun eriks/dired-preview-right ()
-                                        ;; NOTE: copy of
-                                        ;; `dired-preview-display-action-alist-below', but
-                                        ;; always puts it on the right instead of below
-                                        (let ((width (floor (window-total-width) 2)))
-                                          `((display-buffer-in-direction)
-                                            (direction . right)
-                                            (window-width . ,width)
-                                            (dedicated . t))))))
+  (dired-preview-max-size (* 10 1024 1024))
+  ;; TODO: do i really want this?
+  ;; (dired-preview-display-action-alist (cl-defun eriks/dired-preview-right ()
+  ;;                                       ;; NOTE: copy of
+  ;;                                       ;; `dired-preview-display-action-alist-below', but
+  ;;                                       ;; always puts it on the right instead of below
+  ;;                                       (let ((width (floor (window-total-width) 2)))
+  ;;                                         `((display-buffer-in-direction)
+  ;;                                           (direction . right)
+  ;;                                           (window-width . ,width)
+  ;;                                           (dedicated . t)))))
+  )
 
 (use-package dired-ranger
   :ensure t
   :custom
   (dired-ranger-bookmark-reopen 'always)
   :config
-  (defun eriks/dired-rename ()
-    "Rename the selected file, like cw in ranger. Basically
-`dired-do-rename', but without the code for handling marks."
-    (interactive nil dired-mode)
-    (let* ((cur (dired-get-filename))
-           (dir (file-name-directory cur))
-           new)
-      (when (or (string-equal cur dir)
-                (not (file-name-absolute-p cur)))
-        (error "Invalid path to rename: %s" cur))
-      (setq new (read-string "Rename: " (file-name-nondirectory cur)))
-      (unless (and (stringp new)
-                   (not (string-empty-p new))
-                   (= 1 (length (file-name-split new))))
-        (user-error "Invalid filename: %s" new))
-      (dired-create-files #'dired-rename-file
-                          "Rename"
-                          (list cur)
-                          (lambda (old) (file-name-concat dir new))
-                          dired-keep-marker-rename)))
-
   (defun eriks/dired-ranger-copy-append (arg)
     "Append the currently selected files to the current fileset."
     (interactive "P")
@@ -104,7 +86,6 @@
    "m" 'dired-ranger-move
    "c" 'dired-ranger-copy
    "a" 'eriks/dired-ranger-copy-append
-   "r" 'eriks/dired-rename
    "m" 'dired-ranger-bookmark
    "'" 'dired-ranger-bookmark-visit))
 
