@@ -118,7 +118,7 @@
   (aw-scope 'frame)
   (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  ;; NOTE: free bindinds: an,.lvr
+  ;; NOTE: free bindinds: an,.lir
   (aw-keys '(?f ?j ?d ?k))
   (aw-dispatch-alist '((?x aw-delete-window "Delete window")
                        (?X kill-buffer-and-window "Delete window and kill buffer")
@@ -153,8 +153,8 @@
 
                        (?w maximize-window "Maximize window")
                        (?W minimize-window "Minimize window")
-                       (?I eriks/shrink-window-dwim "Shrink window")
-                       (?i eriks/enlarge-window-dwim "Enlarge window")
+                       (?v eriks/shrink-window-dwim "Shrink window")
+                       (?^ eriks/enlarge-window-dwim "Enlarge window")
 
                        (?\M-o other-window-prefix)
                        (?h same-window-prefix)))
