@@ -45,6 +45,7 @@
                      'flycheck-verify-mode
                      'process-menu-mode
                      (eriks/regexp-quote-all "*Shell Command Output*")
+                     "^\\*apheleia-.+-log\\*$"
                      'compilation-mode
                      (eriks/regexp-quote-all "*Pp Macroexpand Output*")
                      (eriks/regexp-quote-all "*Pp Eval Output*")

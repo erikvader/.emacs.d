@@ -132,7 +132,11 @@
 
 ;;TODO: finns det en c-end-of-statement osv för rust? smie?
 (use-package rust-mode
-  :ensure t)
+  :ensure t
+  :gfhook
+  (nil (cl-defun eriks/rust-fill-column-hook-fun ()
+         ;; NOTE: the default in rustfmt
+         (setq-local fill-column 100))))
 
 (use-package m4-mode)
 

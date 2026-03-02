@@ -54,6 +54,21 @@ in the same projectile project also has flycheck enabled."
 (use-package apheleia
   :ensure t
   :diminish "Aph"
+  :config
+  (add-to-list 'apheleia-formatters
+               ;; NOTE: copy of the default black config with uv run added
+               '(black-uv "uv" "run" "--only-dev" "black"
+                          (when (apheleia-formatters-extension-p "pyi") "--pyi")
+                          (apheleia-formatters-fill-column "--line-length")
+                          "--stdin-filename" filepath "-"))
+  :gfhook
+  ('python-mode-hook (cl-defun eriks/apheleia-uv-black-python ()
+                       (when-let* ((venv-bin (eriks/python-find-venv-bin))
+                                   ((file-regular-p (file-name-concat venv-bin "black"))))
+                         (setq-local apheleia-formatter 'black-uv
+                                     ;; NOTE: black uses this maximum line length by
+                                     ;; default
+                                     fill-column 88))))
   :ghook 'emacs-lisp-mode-hook)
 
 (use-package rainbow-delimiters
