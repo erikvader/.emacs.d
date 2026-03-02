@@ -44,22 +44,6 @@
   (eriks/sp-open-on '(c-mode java-mode c++-mode) "{")
   (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))
 
-  (evil-define-text-object eriks/evil-sp-a-sexp (count &optional beg end type)
-    "Same as `eriks/evil-sp-inner-sexp', but also includes the delimiters,
-prefix and suffix."
-    (if-let ((bounds (sp-get-enclosing-sexp)))
-        (sp-get bounds
-          (evil-range :beg-prf :end-suf))
-      (user-error "Not inside an sexp")))
-
-  (evil-define-text-object eriks/evil-sp-inner-sexp (count &optional beg end type)
-    "Text object for the inner parts of the enclosing delimiters, according
-to smartparens"
-    (if-let ((bounds (sp-get-enclosing-sexp)))
-        (sp-get bounds
-          (evil-range :beg-in :end-in))
-      (user-error "Not inside an sexp")))
-
   ;;NOTE: remove normal state binding to let the motion state ones through
   (general-unbind 'normal "[" "]")
 
@@ -127,11 +111,6 @@ to smartparens"
    ")" 'sp-end-of-previous-sexp
    "j" 'sp-backward-down-sexp
    "k" 'sp-backward-up-sexp)
-  ;; NOTE: it doesn't work to bind to 'inner and 'outer with a mode
-  ('(operator visual)
-   'smartparens-mode-map
-   "is" 'eriks/evil-sp-inner-sexp
-   "as" 'eriks/evil-sp-a-sexp)
   ('motion
    'smartparens-mode-map
    "(" 'sp-beginning-of-sexp
@@ -146,10 +125,18 @@ to smartparens"
    'smartparens-mode-map
    "s" 'eriks/sp-surround))
 
-(use-package eriks-sp-jump-item
+(use-package eriks-sp-evil-motions
   :general-config
+  ;; NOTE: it doesn't work to bind to 'inner and 'outer with a mode
+  ('(operator visual)
+   'smartparens-mode-map
+   "is" 'eriks/evil-sp-inner-sexp
+   "as" 'eriks/evil-sp-a-sexp
+   "i%" 'eriks/evil-sp-inner-hybrid-sexp)
   ('motion
    'smartparens-mode-map
+   "]%" 'eriks/sp-evil-end-of-hybrid-sexp
+   "[%" 'eriks/sp-evil-beg-of-hybrid-sexp
    [remap evil-jump-item] 'eriks/sp-jump-item))
 
 (use-package eriks-sp-triple
