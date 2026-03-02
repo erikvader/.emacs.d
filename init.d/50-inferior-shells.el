@@ -1,11 +1,12 @@
 ;; TODO: eat
 ;; TODO: dircolors
-;; TODO: make the history get saved on emacs daemon kill
-;; TODO: don't store repeated elements in history
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)
   (eshell-banner-message "")
+  (eshell-hist-ignoredups 'erase)
+  (eshell-input-filter 'eshell-input-filter-initial-space)
+  (eshell-history-size 10000)
   :config
   (define-advice evil-collection-eshell-setup-keys (:before (&rest _args) eriks)
     "Evil collections defines the keys in a hook because eshell is weird or something?"
@@ -73,7 +74,16 @@
   :general-config
   ('eshell-hist-mode-map
    ;; NOTE: restore my counsel-rg
-   "M-s" nil))
+   "M-s" nil)
+  :gfhook
+  ('kill-emacs-hook (cl-defun eriks/kill-eshell-on-kill-emacs ()
+                      "Kills any eshell buffers when emacs itself is killed to make sure
+                      saving history and other things in
+                      `eshell-exit-hook' is actually done."
+                      (dolist (buf (buffer-list))
+                        (with-current-buffer buf
+                          (when (eq major-mode 'eshell-mode)
+                            (kill-buffer)))))))
 
 (use-package eshell-up
   :ensure t)

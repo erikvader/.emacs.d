@@ -29,6 +29,7 @@
 ;; (setq-default nobreak-char-display nil)
 (setq-default fill-column 90)
 (setq-default auto-save-no-message t)
+(setq-default history-delete-duplicates t)
 
 ;; A sort of global hook
 (defvar eriks/editable-file-hook nil
