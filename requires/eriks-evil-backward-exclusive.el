@@ -1,4 +1,3 @@
-;;TODO: what is my purpose of this? What situation does this solve that M-SPC doesn't?
 (evil-define-type exclusive-back
   "Does not include the first and last character"
   :expand (lambda (beg end)
@@ -7,7 +6,15 @@
 (evil-define-motion eriks/evil-backward-word-end-exclusive (count)
   "A version of `evil-backward-word-end' that doesn't include the last
 character of the previous word when performing an operator like
-`evil-delete'."
+`evil-delete'.
+
+This motion is nice for situations like:
+
+frobnicate       |asd
+
+where the cursor is before the second word and the goal is to delete all
+whitespace behind it, which can be done with dge. The emacs command
+`cycle-spacing' can alternatively be used to achieve the same thing."
   :type exclusive-back
   (evil-backward-word-end count))
 
