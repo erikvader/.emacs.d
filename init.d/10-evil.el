@@ -171,15 +171,6 @@
   ('normal
    "gp" 'evil-operator-clone))
 
-(use-package eriks-evil-column-numbers
-  :config
-  (eriks/leader-def 'visual
-    :infix "i"
-    "n" 'eriks/evil-column-numbers-insert-numbers
-    "z" 'eriks/evil-column-numbers-insert-numbers-zero
-    "l" 'eriks/evil-column-numbers-insert-letters
-    "i" 'eriks/evil-column-numbers-insert))
-
 (use-package eriks-line-cleanup
   :general-config
   ('normal
@@ -227,6 +218,8 @@
   (evil-collection-key-blacklist (list eriks/leader)))
 
 (use-package evil-numbers
+  ;; NOTE: use `rectangle-number-lines' for cases this doesn't support, like inserting
+  ;; letter a through z
   :ensure t
   :custom
   (evil-numbers-pad-default t)
