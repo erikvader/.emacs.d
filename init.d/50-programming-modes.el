@@ -120,6 +120,8 @@
    ;; NOTE: let my `ace-window' through
    "M-o" nil))
 
+;; TODO: den ser ut att återställas varje gång buffern döljs och visas på nytt
+;; TODO: och jag kommer inte ihåg varför det var ett problem
 (use-package man
   :custom
   (Man-notify-method 'aggressive)

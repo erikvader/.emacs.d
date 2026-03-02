@@ -21,6 +21,7 @@
 (use-package dash
   :ensure t)
 
+;; TODO: make describe keymaps exit on q
 (use-package general
   :ensure t
   :custom

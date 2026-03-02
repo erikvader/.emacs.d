@@ -165,6 +165,8 @@ Also that `evil-set-initial-state' does not always work"
   :ensure t)
 
 ;; TODO: how to change the major mode to get syntax highlighting after this has opened?
+;; Note from the future: I don't remember what situation this didn't syntax highlight the
+;; buffer, bad bug report.
 (use-package view
   :config
   (evil-collection-view-setup))
