@@ -22,7 +22,7 @@
     (map-y-or-n-p
      (lambda (buffer)
        (with-current-buffer buffer
-         (when (eq major-mode 'dired-mode)
+         (when (derived-mode-p 'dired-mode)
            (format "Kill dired buffer '%s'? " (buffer-name buffer)))))
      #'kill-buffer
      (buffer-list)))
@@ -83,10 +83,11 @@
    'dired-mode-map
    :prefix "r"
    "p" 'dired-ranger-paste
+   ;; TODO: this didn't actually rename buffers, just use normal dired?
    "m" 'dired-ranger-move
    "c" 'dired-ranger-copy
    "a" 'eriks/dired-ranger-copy-append
-   "m" 'dired-ranger-bookmark
+   "b" 'dired-ranger-bookmark
    "'" 'dired-ranger-bookmark-visit))
 
 (use-package dired-collapse
