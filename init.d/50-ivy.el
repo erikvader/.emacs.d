@@ -17,7 +17,7 @@
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
   (evil-set-initial-state 'ivy-occur-mode 'normal)
 
-  (eriks/leader-def 'normal
+  (eriks/leader-def 'normal 'ivy-mode-map
     "r" 'ivy-resume)
 
   :general-config
@@ -52,7 +52,7 @@
   (counsel-preselect-current-file t)
   :config
   (counsel-mode 1)
-  (eriks/leader-def 'normal
+  (eriks/leader-def 'normal 'counsel-mode-map
     "y" 'counsel-yank-pop)
 
   ;;NOTE: add smart-case to ripgrep
@@ -64,6 +64,17 @@
 of its default of only looking for git folders."
     (projectile-acquire-root))
 
+  ;; TODO: `counsel--find-file-1' let binds `default-directory', which is probably the
+  ;; cause of it not changing when moving the file of the current buffer. This advice
+  ;; would have worked, except that `counsel-find-file' also called
+  ;; `counsel--find-file-1'...
+  ;; (define-advice counsel-find-file-move (:around (fun old-path) fix-default-directory)
+  ;;   (let ((buf (get-file-buffer old-path)))
+  ;;     (funcall fun old-path)
+  ;;     (when buf
+  ;;       (with-current-buffer buf
+  ;;         (setq-local default-directory (file-name-directory buffer-file-name))))))
+
   :general-config
   ('counsel-mode-map
    "M-s" 'counsel-rg
@@ -71,7 +82,8 @@ of its default of only looking for git folders."
    ;; [remap evil-show-registers] 'counsel-evil-registers
    [remap org-goto] 'counsel-org-goto
    [remap eshell-previous-matching-input] 'counsel-esh-history
-   [remap flycheck-list-errors] 'counsel-flycheck
+   ;; TODO: is the normal buffer better?
+   ;; [remap flycheck-list-errors] 'counsel-flycheck
    [remap comint-history-isearch-backward-regexp] 'counsel-shell-history
    [remap dired] 'counsel-dired
    [remap describe-face] 'counsel-faces

@@ -82,7 +82,7 @@
                       `eshell-exit-hook' is actually done."
                       (dolist (buf (buffer-list))
                         (with-current-buffer buf
-                          (when (eq major-mode 'eshell-mode)
+                          (when (derived-mode-p 'eshell-mode)
                             (kill-buffer)))))))
 
 (use-package eshell-up

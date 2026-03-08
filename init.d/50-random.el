@@ -1,4 +1,5 @@
 (use-package yasnippet
+  :disabled ;; TODO: I think i only use the ift snippet in bash, so remove this package?
   :ensure t
   :diminish yas-minor-mode
   :custom
@@ -10,6 +11,7 @@
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets
+  :disabled ;; TODO: I think i only use the ift snippet in bash, so remove this package?
   :ensure t
   :after yasnippet)
 
@@ -205,6 +207,8 @@ Also that `evil-set-initial-state' does not always work"
 
 (use-package pp
   :general-config
+  ;; NOTE: these only makes sense in a emacs lisp buffer, but `eval-last-sexp' is bound
+  ;; globally, so these are as well.
   ('global
    :prefix "C-x"
    "m" 'pp-macroexpand-last-sexp

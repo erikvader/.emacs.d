@@ -87,7 +87,8 @@
    "gz" 'python-shell-switch-to-shell))
 
 ;; TODO: fix smartparens for these modes. Make [[ a pair and make sure two spaces are
-;; between. Same with a single [
+;; between. Same with a single [. Maybe fix that by adding a space in the pair definition
+;; itself? Or solve with a post-hook?
 (use-package sh-script
   :config
   (remove-hook 'sh-mode-hook 'sh-electric-here-document-mode))
@@ -123,8 +124,10 @@
   (Man-notify-method 'aggressive)
   :config
   (evil-collection-man-setup)
-  (eriks/leader-def 'normal
-    "m" 'man)
+  :general-config
+  ('global
+   :prefix "C-h"
+   "C-m" 'man)
   :gfhook
   ('Man-mode-hook 'scroll-lock-mode))
 
