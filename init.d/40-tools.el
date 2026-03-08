@@ -1,7 +1,20 @@
 (use-package eldoc
+  :diminish eldoc-mode
+  :custom
+  (eldoc-echo-area-prefer-doc-buffer t)
+  (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   :config
-  (global-eldoc-mode)
-  :diminish eldoc-mode)
+  (global-eldoc-mode 1)
+
+  (defalias 'eriks/eldoc-doc-buffer #'eldoc-doc-buffer
+    "An alias that doesn't select the window when using popper.")
+  (advice-add 'eriks/eldoc-doc-buffer :around #'eriks/popper-no-select-advice)
+
+  :general-config
+  ('global
+   :prefix "C-h"
+   "." 'eldoc
+   "C-." 'eriks/eldoc-doc-buffer))
 
 (use-package projectile
   :ensure t
