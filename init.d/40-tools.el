@@ -35,3 +35,17 @@
    "p" 'projectile-command-map))
 
 ;; TODO: use-package proced
+
+(use-package xref
+  :general-config
+  ('normal
+   :prefix "g"
+   "y" 'xref-find-references
+   "s" 'xref-find-apropos))
+
+(use-package find-file
+  :general-config
+  ('normal
+   :prefix "g"
+   "f" 'ff-find-related-file
+   "F" 'find-file-at-point))

@@ -13,11 +13,7 @@
   ('c-mode-common-hook (cl-defun c-mode-common-hook-fun ()
                          (setq-local comment-start "//")
                          (setq-local comment-end "")
-                         (abbrev-mode -1)))
-  :general-config
-  ('normal
-   '(c-mode-map c++-mode-map)
-   "gf" #'ff-find-other-file))
+                         (abbrev-mode -1))))
 
 (use-package cmake-mode
   :ensure t)
