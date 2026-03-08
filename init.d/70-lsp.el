@@ -1,5 +1,6 @@
 ;; TODO: breadcrumbs?
 (use-package lsp-mode
+  :disabled
   :ensure t
   :custom
   (lsp-prefer-flymake nil)
@@ -9,6 +10,7 @@
   (lsp-keep-workspace-alive nil)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-lens-enable nil)
+  (lsp-completion-provider :none)
   :config
   (eriks/leader-def
     'normal
@@ -88,6 +90,7 @@ negative."
 ;; TODO: (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
 ;;TODO: (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
 (use-package lsp-ui
+  :disabled
   :ensure t
   :ghook 'lsp-mode
   :custom
@@ -97,10 +100,12 @@ negative."
 ;; TODO: funkar imenu?
 
 (use-package lsp-ui-sideline
+  :disabled
   :gfhook
   ('flycheck-mode-hook 'lsp-ui-sideline-mode))
 
 (use-package lsp-pyls
+  :disabled
   :custom
   (lsp-pyls-plugins-pycodestyle-enabled nil)
   (lsp-pyls-plugins-pylint-enabled t)
@@ -108,6 +113,7 @@ negative."
   ('python-mode-hook 'eriks/lsp-if-already-started))
 
 (use-package lsp-rust
+  :disabled
   :custom
   (lsp-rust-clippy-preference "on")
   (lsp-rust-analyzer-closing-brace-hints nil)
@@ -116,11 +122,13 @@ negative."
   ('rust-mode-hook 'eriks/lsp-if-already-started))
 
 (use-package ccls
+  :disabled
   :ensure t
   :gfhook
   ('(c-mode-hook c++-mode-hook java-mode-hook) 'eriks/lsp-if-already-started))
 
 (use-package lsp-java
+  :disabled
   :ensure t)
 
 ;; TODO: https://github.com/emacs-lsp/lsp-ivy??
