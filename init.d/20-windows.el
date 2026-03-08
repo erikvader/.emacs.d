@@ -9,13 +9,15 @@
   (setq-default sml/theme nil)
   :custom
   (sml/replacer-regexp-list nil)
+  (sml/name-width '(10 . 44))
+  (sml/mode-width 'full)
+  (sml/extra-filler -5)
+  (sml/col-number-format "%2C")
+  (sml/line-number-format "%4l")
+  (sml/show-encoding "%Z")
+  (mode-line-percent-position '(-3 "%o"))
   :config
-  (sml/setup)
-  (unless column-number-indicator-zero-based
-    (setopt sml/col-number-format (cl-substitute ?C ?c sml/col-number-format)))
-  (setopt sml/line-number-format "%4l")
-  (setopt sml/show-encoding (cl-substitute ?Z ?z sml/show-encoding))
-  (setopt mode-line-percent-position '(-3 "%o")))
+  (sml/setup))
 
 (use-package auto-dim-other-buffers
   :ensure t
