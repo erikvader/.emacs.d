@@ -45,9 +45,13 @@
                      'inferior-python-mode
                      'messages-buffer-mode
                      'flycheck-verify-mode
+                     'flymake-project-diagnostics-mode
+                     'flymake-diagnostics-buffer-mode
                      'process-menu-mode
                      (eriks/regexp-quote-all "*Shell Command Output*")
                      "^\\*apheleia-.+-log\\*$"
+                     "^\\*eldoc"
+                     "^eglot-macro-"
                      'compilation-mode
                      (eriks/regexp-quote-all "*Pp Macroexpand Output*")
                      (eriks/regexp-quote-all "*Pp Eval Output*")
@@ -65,6 +69,7 @@
 
   (defun eriks/popper-toggle-display-function ()
     "Toggle which side to use when displaying popup buffers."
+    ;; TODO: make this respect `popper-display-function'
     (interactive)
     (if (advice-member-p 'eriks/popper-display-popup-on-the-right-advice 'popper-display-popup-at-bottom)
         (advice-remove 'popper-display-popup-at-bottom 'eriks/popper-display-popup-on-the-right-advice)
@@ -74,6 +79,13 @@
              do (progn
                   (delete-window win)
                   (display-buffer buf))))
+
+  (defun eriks/popper-no-select-advice (fun &rest args)
+    "Advice the function to display using popper without selecting the window."
+    ;; TODO: make this respect `popper-display-function'
+    (let ((display-buffer-alist (cons '(popper-display-control-p (popper-display-popup-at-bottom))
+                                      display-buffer-alist)))
+      (apply fun args)))
 
   (popper-mode 1)
   (popper-echo-mode 1)
