@@ -4,7 +4,7 @@
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   :config
   (general-define-key :keymaps 'flycheck-mode-map flycheck-keymap-prefix nil)
-  (eriks/leader-def 'normal
+  (eriks/leader-def 'normal 'flycheck-mode-map
     "f" flycheck-command-map)
   (flycheck-add-next-checker 'python-pylint '(warning . python-pyright))
   :init
@@ -50,6 +50,19 @@ in the same projectile project also has flycheck enabled."
                        ;; run this automatically after pylint
                        ;; (setq-local flycheck-disabled-checkers '(python-mypy))
                        (eriks/flycheck-activate-if-started-projectile))))
+
+(use-package flymake
+  :custom
+  (flymake-fringe-indicator-position nil)
+  (flymake-margin-indicator-position nil)
+  :config
+  (evil-collection-flymake-setup)
+  (eriks/leader-def 'normal 'flymake-mode-map
+    :infix "f"
+    "n" 'flymake-goto-next-error
+    "p" 'flymake-goto-prev-error
+    "l" 'flymake-show-project-diagnostics
+    "b" 'flymake-show-buffer-diagnostics))
 
 (use-package apheleia
   :ensure t
