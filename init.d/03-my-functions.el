@@ -104,19 +104,21 @@ determine if the hotfix has been fixed."
 of the input needs to match."
   (concat "^" (regexp-quote bufname) "$"))
 
-(defun fish-path (path)
+(defun fish-path (path &optional lastfull complen)
   "Displays the given path in a style similar to the fish shell. All
 components of the path are shortened to one character, except for the
 last. If a component starts with a dot, then two characters are kept."
-  (let* ((components (split-string path "/"))
-         (leading (-drop-last 1 components))
-         (last (-take-last 1 components))
+  (let* ((lastfull (or lastfull 1))
+         (complen (or complen 1))
+         (components (split-string path "/"))
+         (leading (-drop-last lastfull components))
+         (last (-take-last lastfull components))
          (shortened (--map (cond ((string-empty-p it) "")
                                  ((and
                                    (> (length it) 1)
                                    (string-prefix-p "." it))
-                                  (substring it 0 2))
-                                 (t (substring it 0 1)))
+                                  (substring it 0 (1+ complen)))
+                                 (t (substring it 0 complen)))
                            leading)))
     (-> shortened
         (-concat last)

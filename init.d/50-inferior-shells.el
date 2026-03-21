@@ -62,7 +62,7 @@
     ;; NOTE: must be compatible with `eshell-prompt-regexp'
     (let ((cwd (-> (eshell/pwd)
                    (abbreviate-file-name)
-                   (fish-path)
+                   (fish-path 2 2)
                    (propertize 'face 'eshell-ls-directory)))
           (status (unless (eshell-exit-success-p)
                     (-> (format " [%d]" eshell-last-command-status)
