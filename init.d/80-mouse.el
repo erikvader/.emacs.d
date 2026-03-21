@@ -13,3 +13,6 @@
 
 ;; Instruct emacs how my xmonad handles the mouse cursor, i.e., the mouse follows focus
 (setq-default focus-follows-mouse t)
+
+;; Make scrolling bearable
+(setq-default mouse-wheel-progressive-speed nil)
