@@ -98,9 +98,7 @@ path in the echo area since that is what is on the first line."
   :general-config
   ('eglot-mode-map
    [remap pp-macroexpand-last-sexp] 'eglot-x-expand-macro
-   [remap xref-find-references] 'eglot-x-find-refs
-   [remap drag-stuff-down] 'eglot-x-move-item-down
-   [remap drag-stuff-up] 'eglot-x-move-item-up)
+   [remap xref-find-references] 'eglot-x-find-refs)
   :config
   (eriks/leader-def 'normal 'eglot-mode-map
     :infix "l"
@@ -112,6 +110,14 @@ path in the echo area since that is what is on the first line."
     "C-p" 'eglot-x-rebuild-proc-macros
     "c" 'eglot-x-find-crate
     "C" 'eglot-x-view-crate-graph)
+
+  (eriks/defkey-repeat eglot-x-drag-stuff
+    :prefix eriks/leader
+    :infix "l"
+    :modes 'normal
+    :keymaps 'eglot-mode-map
+    "M-k" 'eglot-x-move-item-up
+    "M-j" 'eglot-x-move-item-down)
 
   (eriks/leader-def 'normal 'eglot-mode-map
     :infix "o"
