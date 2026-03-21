@@ -75,31 +75,6 @@ added."
   (dolist (i items)
     (add-to-list list i)))
 
-(defun eriks/init-warn (&rest warn-args)
-  "Runs `warn' with WARN-ARGS and also sends a notification with the
-same message if there aren't any frames open. This is a nice way to
-display warnings during startup of an Emacs instance started in daemon
-mode."
-  (apply #'warn warn-args)
-  (unless (eq (framep (selected-frame)) 'x)
-    (require 'notifications)
-    (notifications-notify :title "Emacs Warning" :body (apply #'format warn-args))))
-
-;; TODO: remove
-(defmacro eriks/hotfix (package &rest body)
-  "Executes BODY and warns, using `eriks/init-warn', if PACKAGE is
-outdated."
-  (declare (indent defun))
-  `(progn
-     (when (epl-package-outdated-p ,package)
-       (eriks/init-warn "\"%s\" got updated and hotfix maybe no longer applies" ,package))
-     ,@body))
-
-(defmacro eriks/hotfix-original (&rest _body)
-  "Show how the original buggy code looked like so it is easier to
-determine if the hotfix has been fixed."
-  nil)
-
 (defun eriks/regexp-quote-all (bufname)
   "Like `regexp-quote', but also adds anchors for beginning and end, so all
 of the input needs to match."
