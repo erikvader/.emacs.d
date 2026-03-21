@@ -19,25 +19,34 @@
   (setq deactivate-mark nil))
 
 (evil-define-operator eriks/evil-indent-line-right (beg end dir)
-  "An `evil-shift-right' that keeps visual mode activated."
+  "An `evil-shift-right' that keeps visual mode activated.
+
+See the note in `eriks/evil-indent-line-left'."
   :motion evil-line
   :type line
   :keep-visual t
   :move-point nil
   (interactive "<r><c>")
-  (save-excursion
-    (evil-shift-right beg end))
+  (let ((tab-width evil-shift-width))
+    (indent-rigidly-right-to-tab-stop beg end))
   (setq deactivate-mark nil))
 
 (evil-define-operator eriks/evil-indent-line-left (beg end dir)
-  "An `evil-shift-left' that keeps visual mode activated."
+  "An `evil-shift-left' that keeps visual mode activated.
+
+It's not actually using `evil-shift-left', but
+`indent-rigidly-left-to-tab-stop' instead, and that is because the
+former changes the relative indentation between the lines in a
+selection, while the latter just moves the lines to the side, as
+expected. This means that maybe not all settings related to the former
+will take effect here."
   :motion evil-line
   :type line
   :keep-visual t
   :move-point nil
   (interactive "<r><c>")
-  (save-excursion
-    (evil-shift-left beg end))
+  (let ((tab-width evil-shift-width))
+    (indent-rigidly-left-to-tab-stop beg end))
   (setq deactivate-mark nil))
 
 (provide 'eriks-evil-drag-line)
