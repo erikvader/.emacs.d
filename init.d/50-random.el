@@ -1,19 +1,10 @@
-(use-package yasnippet
-  :disabled ;; TODO: I think i only use the ift snippet in bash, so remove this package?
-  :ensure t
-  :diminish yas-minor-mode
-  :custom
-  (yas-expand-only-for-last-commands '(self-insert-command org-self-insert-command))
-  (yas-also-indent-empty-lines t)
-  :gfhook
-  ('snippet-mode-hook #'disable-require-final-newline)
+(use-package minibuffer
   :config
-  (yas-global-mode 1))
-
-(use-package yasnippet-snippets
-  :disabled ;; TODO: I think i only use the ift snippet in bash, so remove this package?
-  :ensure t
-  :after yasnippet)
+  (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function)
+  (add-hook 'completion-at-point-functions #'dabbrev-capf)
+  :general-config
+  ('insert
+   "C-SPC" 'completion-at-point))
 
 (use-package ediff
   :config

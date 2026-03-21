@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Cunit_assert_equal
-# key: cuae
-# --
-CU_ASSERT_EQUAL($0);

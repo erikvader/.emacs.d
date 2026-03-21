@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Cunit_assert_true
-# key: cuat
-# --
-CU_ASSERT_TRUE($0);

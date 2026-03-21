@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tablehpadding
-# key: thp
-# --
-\addtolength{\tabcolsep}{$0}

@@ -44,8 +44,6 @@
    "C-k" nil ;; let through kill line
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
-  ('insert
-   "C-SPC" 'completion-at-point)
   ('normal
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"

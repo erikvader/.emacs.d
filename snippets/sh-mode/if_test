@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: if_test
-# key: ift
-# --
-if [[ $0 ]]; then
-fi

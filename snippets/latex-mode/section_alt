@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: section_alt
-# key: secc
-# --
-\section${1:*}{$0}
