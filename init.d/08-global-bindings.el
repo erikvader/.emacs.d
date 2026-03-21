@@ -22,11 +22,11 @@
   :prefix "C-h"
   "w" 'eriks/what-face
   "c" 'describe-char
+  "F" 'describe-face
   "M" 'describe-keymap)
 
 (general-def
   "<next>" 'scroll-other-window
   "<prior>" 'scroll-other-window-down
-  "C-h F" 'describe-face
   "C-u" 'kill-whole-line
   "M-y" 'clipboard-yank)

@@ -93,7 +93,7 @@
   (eriks/leader-def 'normal
     "i" 'imenu
     "." 'evil-ex-repeat
-    "R" 'rename-visited-file
+    "C-w" 'rename-visited-file
     "C-u" 'universal-argument
     "q" 'kmacro-insert-counter
     "Q" 'kmacro-set-counter)
