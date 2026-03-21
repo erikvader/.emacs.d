@@ -56,7 +56,7 @@ avoiding having to add them in several places.")
 (defun eriks/setup-scroll-margin ()
   "Make scrolling nicer in text files."
   (setq-local scroll-margin 10
-              scroll-conservatively scroll-margin
+              scroll-conservatively 110 ;; > 100
               scroll-preserve-screen-position 'tt
               next-screen-context-lines 10))
 
