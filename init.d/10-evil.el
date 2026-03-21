@@ -1,4 +1,3 @@
-;; TODO: shortcur for `[v`] to select last paste
 (use-package evil
   :ensure t
   :init
@@ -45,6 +44,7 @@
    "M-p" 'previous-complete-history-element
    "M-n" 'next-complete-history-element)
   ('normal
+   "+" "`[v`]"
    "|" (general-simulate-key ('evil-execute-macro "@")
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
