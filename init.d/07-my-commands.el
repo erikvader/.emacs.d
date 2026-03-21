@@ -9,21 +9,6 @@
    #'kill-buffer
    (buffer-list)))
 
-;; TODO: remove?
-(defun eriks/eval-replace ()
-  "Evaluates the sexp at point and replaces it with the result."
-  (interactive)
-  (when-let* ((b (bounds-of-thing-at-point 'sexp))
-              (start (car b))
-              (end (cdr b))
-              (buf (current-buffer)))
-    (let ((res (save-excursion
-                 (goto-char start)
-                 (eval (read buf)))))
-      (kill-region start end)
-      (goto-char start)
-      (princ res buf))))
-
 (defun quit-window-kill (&optional not-kill window)
   "Same as `quit-window' except it's kill-argument has opposite meaning."
   (interactive "P")
@@ -66,3 +51,15 @@
                                          (when hardcoded-face (tostring "Hard" hardcoded-face))
                                          (mapcan (apply-partially #'tostring "Ovrl") overlays))
                                  ", ")))))
+
+(defun eriks/eval-replace-last-sexp (&optional arg)
+  "Like `eval-last-sexp', but the sexp is replaced with the result."
+  (interactive "P")
+  (let ((fmt (if arg "%s" "%S"))
+        ;; NOTE: `eval-last-sexp' uses `elisp--preceding-sexp', and `backward-kill-sexp'
+        ;; uses `forward-sexp', so it is not the exact same function that finds the
+        ;; preceding sexp, which I don't like, since there _could_ be differences. But I
+        ;; must admit that it is probably fine, but I don't like it.
+        (value (eval (elisp--preceding-sexp))))
+    (backward-kill-sexp)
+    (insert (format fmt value))))

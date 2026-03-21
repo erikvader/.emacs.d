@@ -165,6 +165,10 @@
 
 (use-package evil-extra-operator
   :ensure t
+  :config
+  (eriks/leader-def 'normal
+    "C-e" 'evil-operator-eval
+    "M-e" 'evil-operator-eval-replace)
   :general-config
   ('normal
    "gp" 'evil-operator-clone))
