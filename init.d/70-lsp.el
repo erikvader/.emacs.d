@@ -1,3 +1,5 @@
+;; TODO: remove this file?
+
 ;; TODO: breadcrumbs?
 (use-package lsp-mode
   :disabled

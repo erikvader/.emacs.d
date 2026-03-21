@@ -20,7 +20,8 @@
 (setq-default sentence-end-double-space nil)
 (setq-default select-enable-clipboard nil)
 (setq-default large-file-warning-threshold (* 1000 1000 20))
-;; (setq-default tab-width 4) ;; NOTE: don't change the default
+;; (setq-default tab-width 4) ;; NOTE: don't change the default. It seems that emacs elisp
+;; source is indented with a tab-width of 8
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 (setq-default what-cursor-show-names t)

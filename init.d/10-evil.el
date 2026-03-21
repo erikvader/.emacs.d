@@ -1,3 +1,5 @@
+;; TODO: a function similar to `unexpand-abbrev', but for dabbrev, used with
+;; `evil-complete-previous' to undo a wrong expansion and start over.
 (use-package evil
   :ensure t
   :init

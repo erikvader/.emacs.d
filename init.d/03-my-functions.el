@@ -31,6 +31,7 @@ it will not allow for `man' to know how wide it's window is."
                                              (inhibit-same-window . nil))))
      ,@body))
 
+;; TODO: remove?
 (defmacro eriks/unset-key (keymap key)
   "Completely removes KEY from KEYMAP. Just binding it to nil still
 leaves the key definition in the map and interferes with lookups in
