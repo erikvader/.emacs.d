@@ -1,10 +1,18 @@
+;; TODO: Figure out if i want to use `diredp-move-files-named-in-kill-ring' and
+;; `diredp-yank-files' to move and copy files in dired. Found in dired+.
 (use-package dired
   :custom
   ;; NOTE: filenames with spaces and other weird characters is not handled well, but
   ;; adding any kind of quoting style will make the filenames uglier in the normal case,
   ;; so hope no weird filenames are encountered!
   (dired-listing-switches "-l --almost-all --human-readable --sort=version --time-style=long-iso")
-  (shell-command-guess-open "rifle")
+  (shell-command-guess-functions '(shell-command-guess-open
+                                   eriks/shell-command-guess-rifle
+                                   shell-command-guess-dired-optional
+                                   shell-command-guess-mailcap
+                                   shell-command-guess-xdg
+                                   shell-command-guess-dired-default
+                                   shell-command-guess-dired-user))
   (dired-dwim-target t)
   (dired-free-space nil)
   (dired-mouse-drag-files t)
@@ -26,10 +34,19 @@
            (format "Kill dired buffer '%s'? " (buffer-name buffer)))))
      #'kill-buffer
      (buffer-list)))
+
+  (defun eriks/shell-command-guess-rifle (commands _files)
+    "Poulate COMMANDS with the rifle command."
+    (if (executable-find "rifle")
+        (cons "rifle" commands)
+      commands))
+
   :gfhook
   'auto-revert-mode
   'dired-hide-details-mode
   :general-config
+  ('global
+   "C-x C-d" 'find-name-dired)
   ('dired-jump-map
    ;;NOTE: can't go down after a jump with this
    "j" nil)
@@ -68,27 +85,6 @@
   ;;                                           (window-width . ,width)
   ;;                                           (dedicated . t)))))
   )
-
-(use-package dired-ranger
-  :ensure t
-  :custom
-  (dired-ranger-bookmark-reopen 'always)
-  :config
-  (defun eriks/dired-ranger-copy-append (arg)
-    "Append the currently selected files to the current fileset."
-    (interactive "P")
-    (dired-ranger-copy (not arg)))
-  :general-config
-  ('normal
-   'dired-mode-map
-   :prefix "r"
-   "p" 'dired-ranger-paste
-   ;; TODO: this didn't actually rename buffers, just use normal dired?
-   "m" 'dired-ranger-move
-   "c" 'dired-ranger-copy
-   "a" 'eriks/dired-ranger-copy-append
-   "b" 'dired-ranger-bookmark
-   "'" 'dired-ranger-bookmark-visit))
 
 (use-package dired-collapse
   :ensure t
