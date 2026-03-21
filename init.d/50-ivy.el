@@ -47,8 +47,6 @@
   :ensure t
   :diminish
   :custom
-  ;; NOTE: remove -type f
-  (counsel-file-jump-args (split-string ". -name .git -prune -o ! -name . -print"))
   (counsel-preselect-current-file t)
   :config
   (counsel-mode 1)
@@ -64,16 +62,16 @@
 of its default of only looking for git folders."
     (projectile-acquire-root))
 
-  ;; TODO: `counsel--find-file-1' let binds `default-directory', which is probably the
-  ;; cause of it not changing when moving the file of the current buffer. This advice
-  ;; would have worked, except that `counsel-find-file' also called
-  ;; `counsel--find-file-1'...
-  ;; (define-advice counsel-find-file-move (:around (fun old-path) fix-default-directory)
-  ;;   (let ((buf (get-file-buffer old-path)))
-  ;;     (funcall fun old-path)
-  ;;     (when buf
-  ;;       (with-current-buffer buf
-  ;;         (setq-local default-directory (file-name-directory buffer-file-name))))))
+  (define-advice counsel-find-file (:after (&rest _args) fix-default-dir)
+    "Fix bug when moving a file using `counsel-find-file-move'.
+
+The `default-directory' keeps its old value when moving the file of the
+current buffer to a different directory. It should be changed to the
+directory of the visited file, that's what `set-visited-file-name' and
+`find-file' does. Counsel keeps the old value because it let binds it in
+`counsel--find-file-1'."
+    (when buffer-file-name
+      (setq default-directory (file-name-directory buffer-file-name))))
 
   :general-config
   ('counsel-mode-map
@@ -130,3 +128,7 @@ of its default of only looking for git folders."
   (when (>= emacs-major-version 27)
     (setq xref-show-definitions-function #'ivy-xref-show-defs))
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+
+(use-package eriks-counsel-extern)
+
+(use-package eriks-counsel-dired-jump)
