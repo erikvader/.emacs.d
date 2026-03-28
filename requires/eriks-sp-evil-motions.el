@@ -31,6 +31,12 @@ don't work so well with this motion."
     (sp-get use
       (goto-char :beg-prf))))
 
+;; TODO: create an outer variant that tries to include all linues the hybrid sexp covers.
+;; The effect is the it follows "chained" parens over multiple lines. Useful for like
+;; for-loops where the first ()-paren spans multiple lines, and then the body of {}-paren
+;; spans multiple lines, and this text object would remove all of it if the cursor is on
+;; "for", and the parens start and stop on the same line like ){. Not sure how useful this
+;; would actually be? I don't know if this text object already does this?
 (evil-define-text-object eriks/evil-sp-inner-hybrid-sexp (count &optional beg end type)
   "Text object for the hybrid sexp, according to smartparens"
   (if-let ((bounds (sp-get-hybrid-sexp)))

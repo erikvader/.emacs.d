@@ -44,7 +44,7 @@ Each mode in emacs is largely divided into three modes:
   - special-mode for external processes and stuff
 
 But there are for some reason exceptions, like `conf-mode', which uses
-its own hiearchy of modes.
+its own hierarchy of modes, even though it probably should be a prog-mode.
 
 So this hook is meant to be an unified place to add functions to,
 avoiding having to add them in several places.")

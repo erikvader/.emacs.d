@@ -215,6 +215,7 @@
 (use-package conf-mode
   :config
   (evil-set-initial-state 'conf-mode 'normal)
+  (add-to-list 'auto-mode-alist '("/\\.gitconfig.d/.+\\'" . conf-mode))
   (mapcar (lambda (ext)
             (add-to-list 'auto-mode-alist (cons ext 'conf-unix-mode)))
           '("\\.service\\'"
