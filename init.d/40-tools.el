@@ -40,7 +40,6 @@
   :general-config
   ('normal
    :prefix "g"
-   ;; TODO: what is that ugly yellow color in ivy when using thsi?
    "y" 'xref-find-references
    "s" 'xref-find-apropos))
 

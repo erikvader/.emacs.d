@@ -114,6 +114,7 @@ the default number back to the usual 2."
                           (ovwr 'ivy-minibuffer-match-face-2 :box `(:line-width (-1 . -1) :color ,dracula-green))
                           (ovwr 'ivy-minibuffer-match-face-3 :box `(:line-width (-1 . -1) :color ,dracula-yellow))
                           (ovwr 'ivy-minibuffer-match-face-4 :box `(:line-width (-1 . -1) :color ,dracula-cyan))
+                          (ovwr 'xref-match :inherit 'ivy-minibuffer-match-face-3)
                           (modify 'magit-diff-hunk-heading-highlight :background (color-lighten-name dracula-current 40))
                           (ovwr 'diff-hunk-header :inherit 'magit-diff-hunk-heading)
                           (ovwr 'diff-header :inherit 'magit-diff-file-heading)
