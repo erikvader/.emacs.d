@@ -91,10 +91,12 @@ last. If a component starts with a dot, then two characters are kept."
          (last (-take-last lastfull components))
          (shortened (--map (cond ((string-empty-p it) "")
                                  ((and
-                                   (> (length it) 1)
+                                   (> (length it) (1+ complen))
                                    (string-prefix-p "." it))
                                   (substring it 0 (1+ complen)))
-                                 (t (substring it 0 complen)))
+                                 ((> (length it) complen)
+                                  (substring it 0 complen))
+                                 (t it))
                            leading)))
     (-> shortened
         (-concat last)
