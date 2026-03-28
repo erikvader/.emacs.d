@@ -32,7 +32,12 @@
    "C-SPC" 'ivy-mark
    "M-SPC" 'ivy-unmark-backward
    ;;NOTE: I don't use hydra
-   "C-o" 'ivy-partial)
+   "C-o" 'ivy-partial
+   ;; NOTE: disable the mouse to let my other mouse bindings switch window focus only
+   [mouse-1] nil
+   [mouse-3] nil)
+  ('ivy-occur-mode-map
+   [mouse-1] nil)
   :custom
   (ivy-count-format "%d/%d ")
   (ivy-on-del-error-function 'ignore)
