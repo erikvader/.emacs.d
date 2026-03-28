@@ -61,6 +61,17 @@
     "j" 'sp-join-sexp
     "d" 'sp-splice-sexp-killing-around)
 
+  (define-advice sp--indent-region (:around (fun start end &optional column) less-aggressive)
+    "Don't indent if the operation only touched a single line.
+
+It's really annoying that the current line is shifted to weird places if
+the current major modes doesn't like how the current line is indented.
+But it's extremely useful when it spans multiple lines, like when
+removing an enclosing xml-tag."
+    (when (/= (line-number-at-pos start)
+              (line-number-at-pos end))
+      (funcall fun start end column)))
+
   :ghook ('(prog-mode-hook conf-mode-hook TeXemode-hook)
           '(show-smartparens-mode smartparens-mode))
   :custom
