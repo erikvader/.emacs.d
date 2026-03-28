@@ -17,6 +17,7 @@
 (setq-default use-short-answers t)
 (setq-default column-number-mode t)
 (setq-default indent-tabs-mode nil)
+(setq-default indent-line-function #'indent-relative-first-indent-point)
 (setq-default sentence-end-double-space nil)
 (setq-default select-enable-clipboard nil)
 (setq-default large-file-warning-threshold (* 1000 1000 20))
@@ -31,6 +32,7 @@
 (setq-default fill-column 90)
 (setq-default auto-save-no-message t)
 (setq-default history-delete-duplicates t)
+(setq-default backward-delete-char-untabify-method nil)
 
 ;; A sort of global hook
 (defvar eriks/editable-file-hook nil
