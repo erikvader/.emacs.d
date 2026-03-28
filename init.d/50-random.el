@@ -1,10 +1,20 @@
 (use-package minibuffer
   :config
   (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function)
+  :general-config
+  ('insert
+   "C-SPC" 'completion-at-point)
+  ('evil-ex-completion-map
+   "C-SPC" 'completion-at-point))
+
+;; TODO: a function similar to `unexpand-abbrev', but for dabbrev, used with
+;; `evil-complete-previous' to undo a wrong expansion and start over.
+(use-package dabbrev
+  :config
   (add-hook 'completion-at-point-functions #'dabbrev-capf)
   :general-config
   ('insert
-   "C-SPC" 'completion-at-point))
+   "C-s" 'dabbrev-completion))
 
 (use-package ediff
   :config
