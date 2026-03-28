@@ -3,7 +3,9 @@
   (save-abbrevs nil)
   :config
   (defmacro eriks/define-abbrev-skeleton (tables abbrev doc &rest skel-body)
-    "Define a skeleton and associate it with an abbrev."
+    "Define a skeleton and associate it with an abbrev.
+
+The return value is the symbol of the created skeleton."
     (declare (indent defun)
              (doc-string 3))
     (let* ((tables (ensure-list tables))
@@ -15,9 +17,9 @@
                                       (define-abbrev ,table ,abbrev "" ',name)))
                             (cdr names)
                             (cdr tables))))
-      `(progn (define-skeleton ,(car names) ,doc ,@skel-body)
-              (define-abbrev ,(car tables) ,abbrev "" ',(car names))
-              ,@extra)))
+      `(prog1 (define-skeleton ,(car names) ,doc ,@skel-body)
+         (define-abbrev ,(car tables) ,abbrev "" ',(car names))
+         ,@extra)))
 
   ;; NOTE: These should probably belong to `eriks/editable-file-hook' somehow, because not
   ;; every mode that has comments belong to `prog-mode-abbrev-table' unfortunately. But
