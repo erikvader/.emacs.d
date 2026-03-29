@@ -41,6 +41,24 @@
         (cons "rifle" commands)
       commands))
 
+  (define-advice dired-rename-file (:filter-args (args) fix-newname-dir)
+    "Make this function work when NEWNAME is a directory.
+
+The underlying function `rename-file' will move FILE into NEWNAME if it
+ends with a slash, so that will work. But `set-visited-file-name' is
+called afterwards, and that errors if NEWNAME is a directory. There are
+no checks for this in `dired-rename-file', so this advice makes sure
+NEWNAME is not a directory by following the same logic as
+`rename-file'and `rename-visited-file'. It is possible that dired never
+calls this function with NEWNAME as a directory, but
+`counsel-find-file-move' does."
+    (cl-destructuring-bind (file newname &rest rest) args
+      (cl-list* file
+                (if (directory-name-p newname)
+                    (file-name-concat newname (file-name-nondirectory file))
+                  newname)
+                rest)))
+
   :gfhook
   'auto-revert-mode
   'dired-hide-details-mode
