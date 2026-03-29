@@ -28,6 +28,7 @@
                                            (sml/read-only mode-line-inactive)
                                            (sml/global mode-line-inactive)
                                            (sml/modified mode-line-inactive)
+                                           (warning mode-line-inactive)
                                            (aw-mode-line-face mode-line-inactive)))
   :config
   (auto-dim-other-buffers-mode 1))
@@ -56,6 +57,7 @@
                      (eriks/regexp-quote-all "*Pp Macroexpand Output*")
                      (eriks/regexp-quote-all "*Pp Eval Output*")
                      'help-mode
+                     'debugger-mode
                      'calendar-mode)
 
   (defun eriks/popper-display-popup-on-the-right-advice (buffer &optional alist)
