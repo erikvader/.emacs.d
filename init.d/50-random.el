@@ -191,16 +191,6 @@ Also that `evil-set-initial-state' does not always work"
   (evil-collection-define-key 'normal 'debugger-mode-map
     "q" 'debugger-quit))
 
-(use-package compile
-  :custom
-  ;; TODO: doesn't seem to scroll all the way to the bottom. Is the scroll margin
-  ;; interfering? Is there a scroll maximum as in eshell?
-  (compilation-scroll-output t)
-  :config
-  (evil-collection-compile-setup)
-  (eriks/leader-def 'normal
-    "c" 'compile))
-
 (use-package info
   :config
   ;;TODO: move these bindings to the standalone info program?

@@ -39,7 +39,7 @@
 
     (defun eriks/eglot--format-lighter ()
       "Return the lighter string"
-      (if (memq #'eglot-format-buffer before-save-hook) " Fmt" ""))
+      (if (memq #'eglot-format-buffer before-save-hook) " Fmt" (propertize " Fmt" 'face 'shadow)))
 
     (define-minor-mode eriks/eglot-format-on-save-mode
       "Format an eglot managed buffer when saving."
@@ -114,7 +114,7 @@ path in the echo area since that is what is on the first line."
   (eriks/defkey-repeat eglot-x-drag-stuff
     :prefix eriks/leader
     :infix "l"
-    :modes 'normal
+    :states 'normal
     :keymaps 'eglot-mode-map
     "M-k" 'eglot-x-move-item-up
     "M-j" 'eglot-x-move-item-down)

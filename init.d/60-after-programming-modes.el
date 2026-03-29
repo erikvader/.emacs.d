@@ -90,3 +90,17 @@ in the same projectile project also has flycheck enabled."
   'prog-mode-hook
   'conf-mode-hook
   'TeX-mode-hook)
+
+(use-package compile
+  :custom
+  (compilation-scroll-output t)
+  :config
+  (evil-collection-compile-setup)
+  (eriks/leader-def 'normal
+    "c" 'compile
+    "C" 'recompile)
+  :gfhook
+  ('compilation-mode-hook (cl-defun eriks/compile-hook ()
+                            (scroll-lock-mode 1)))
+  ('rust-mode-hook (cl-defun eriks/rust-compile-hook ()
+                     (setq-local compile-command "cargo build "))))
