@@ -2,7 +2,7 @@
   :ensure t
   :custom
   (magit-define-global-key-bindings nil)
-  (magit-diff-refine-hunk nil)
+  (magit-diff-refine-hunk 'all)
   (evil-collection-magit-use-$-for-end-of-line nil)
   (evil-collection-magit-use-0-for-beginning-of-line nil)
   (evil-collection-magit-use-z-for-folds t)
