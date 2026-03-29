@@ -74,6 +74,7 @@ the default number back to the usual 2."
                               (t xs))))
             (cl-list* theme
                       (-> specs
+                          (ovwr 'eriks/evil-ex-search-cursor :background dracula-pink)
                           (modify 'mode-line-inactive :background dracula-current :box dracula-current)
                           (ovwr 'evil-quickscope-first-face :foreground dracula-green :underline t :weight 'bold)
                           (ovwr 'evil-quickscope-second-face :foreground dracula-yellow :underline t :weight 'bold)

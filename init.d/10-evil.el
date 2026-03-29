@@ -69,6 +69,30 @@
                 evil-normal-state-modes '(prog-mode text-mode)
                 evil-emacs-state-cursor '(hollow))
 
+  (defface eriks/evil-ex-search-cursor nil
+    "Face of the cursor when searching with `evil-ex-search-forward'")
+  (define-advice evil-ex-start-search (:around (fun &rest args) make-cursor-more-visible)
+    "Make the cursor actually visible when incrementally searching.
+
+This advice applies the face `eriks/evil-ex-search-cursor' when
+searching and makes it into a box. This will unfortunately affect all
+buffers since there doesn't seem to be a way to change the cursor color
+buffer locally, and the cursor type is changed by
+`cursor-in-non-selected-windows'."
+    (if (not (and evil-ex-search-interactive
+                  evil-ex-search-incremental))
+        (apply fun args)
+      (let* ((cursor-in-non-selected-windows 'box)
+             (org-color (face-attribute 'cursor :background))
+             (new-color (if-let* ((color (face-attribute 'eriks/evil-ex-search-cursor :background))
+                                  ((not (eq 'unspecified color))))
+                            color
+                          org-color)))
+        (set-face-attribute 'cursor nil :background new-color)
+        (unwind-protect
+            (apply fun args)
+          (set-face-attribute 'cursor nil :background org-color)))))
+
   (evil-define-text-object evil-inner-defun (count &optional beg end _type)
     "Select inner defun."
     ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
