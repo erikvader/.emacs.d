@@ -56,10 +56,19 @@ avoiding having to add them in several places.")
 (add-hook 'prog-mode-hook 'eriks/run-editable-file-hook)
 (add-hook 'text-mode-hook 'eriks/run-editable-file-hook)
 
+;; NOTE: Setting this to a value greater than 100 disables recentering the cursor to the
+;; middle when it gets out of the screen. I don't think I want this behaviour anywhere,
+;; definitely not in text files, and it disturbs `compilation-mode'.
+(setq-default scroll-conservatively 110)
+
 (defun eriks/setup-scroll-margin ()
-  "Make scrolling nicer in text files."
+  "Make scrolling nicer in text files.
+
+Not all of these settings are desirable in all buffers, so these
+settings are opt-in with this function. The `help-mode' buffer with
+`scroll-lock-mode' did not behave well with a non-zero `scroll-margin',
+for example."
   (setq-local scroll-margin 10
-              scroll-conservatively 110 ;; > 100
               scroll-preserve-screen-position 'tt
               next-screen-context-lines 10))
 
