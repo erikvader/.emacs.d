@@ -2,6 +2,9 @@
   :config
   (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function)
   :general-config
+  ('minibuffer-inactive-mode-map
+   ;; NOTE: disable the mouse to let my other mouse bindings switch window focus only
+   [mouse-1] nil)
   ('insert
    "C-SPC" 'completion-at-point)
   ('evil-ex-completion-map
