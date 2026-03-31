@@ -27,3 +27,10 @@ difficult to read."
    'help-mode-map
    "p" 'eriks/help-revert-with-characters
    "o" 'eriks/help-revert-without-circle))
+
+(use-package button
+  :general-config
+  ('button-map
+   ;; NOTE: this interfered with the C-i binding in help-mode when the cursor was on a
+   ;; button
+   "TAB" nil))
