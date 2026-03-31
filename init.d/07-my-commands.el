@@ -63,3 +63,10 @@
         (value (eval (elisp--preceding-sexp))))
     (backward-kill-sexp)
     (insert (format fmt value))))
+
+(defun print-visited-file-name ()
+  "Print the path to file current buffer is visiting.
+
+Similar purpose as `pwd'."
+  (interactive)
+  (message "File %s" buffer-file-name))
