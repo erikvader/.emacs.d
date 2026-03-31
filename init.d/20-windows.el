@@ -1,37 +1,70 @@
 ;;NOTE: recommended by https://www.masteringemacs.org/article/demystifying-emacs-window-manager
 (setq-default switch-to-buffer-obey-display-actions t)
 
+;; Random variables
 (setq-default fit-window-to-buffer-horizontally t)
 
-(use-package smart-mode-line
-  :ensure t
-  :init
-  (setq-default sml/theme nil)
-  :custom
-  (sml/replacer-regexp-list nil)
-  (sml/name-width '(10 . 44))
-  (sml/mode-width 'full)
-  (sml/extra-filler -5)
-  (sml/col-number-format "%2C")
-  (sml/line-number-format "%4l")
-  (sml/show-encoding "%Z")
-  (mode-line-percent-position '(-3 "%o"))
-  :config
-  (sml/setup))
+;; mode-line
+(progn
+  (defface eriks/mode-line-modified-face '((t :foreground "red" :weight bold))
+    "Face for the buffer modified asterisks in the mode line")
+  (defface eriks/mode-line-read-only-face '((t :foreground "blue"))
+    "Face for the buffer read only percentages in the mode line")
 
-(use-package auto-dim-other-buffers
-  :ensure t
-  :custom
-  (auto-dim-other-buffers-dim-on-focus-out nil)
-  (auto-dim-other-buffers-affected-faces '((sml/filename mode-line-inactive)
-                                           (sml/prefix mode-line-inactive)
-                                           (sml/read-only mode-line-inactive)
-                                           (sml/global mode-line-inactive)
-                                           (sml/modified mode-line-inactive)
-                                           (warning mode-line-inactive)
-                                           (aw-mode-line-face mode-line-inactive)))
-  :config
-  (auto-dim-other-buffers-mode 1))
+  (defun eriks/mode-line-escape (str)
+    "Escape a string for the mode line by putting it behind a symbol.
+
+All strings in `mode-line-format' that has %-constructs get them
+substituted for various kinds of data, except if the string was the
+value of a symbol."
+    (let ((sym (make-symbol "magic")))
+      (put sym 'risky-local-variable t)
+      (set sym str)
+      sym))
+
+  (defun eriks/mode-line-dim (fmt)
+    "Removes all text properties of the given mode line format if window is not selected."
+    (eriks/mode-line-escape (format-mode-line fmt (and (not (mode-line-window-selected-p)) 1))))
+
+  (defun eriks/mode-line-buffer-identification ()
+    "Mode line thingy for buffer identification."
+    (let ((path (buffer-file-name))
+          (name (buffer-name)))
+      (eriks/mode-line-escape
+       (propertize (if path
+                       (fish-path (abbreviate-file-name path) :lastfull 2 :complen 0)
+                     name)
+                   'face 'mode-line-buffer-id
+                   'help-echo (format "File: %s\nBuffer: %s" path name)
+                   'mouse-face 'mode-line-highlight))))
+
+  (defun eriks/mode-line-modified ()
+    "Buffer modified and read only mode line thingies."
+    (let ((mod-char (propertize "*" 'face 'eriks/mode-line-modified-face))
+          (ro-char (propertize "%%" 'face 'eriks/mode-line-read-only-face))
+          (norm-char "-"))
+      (list (propertize (cond (buffer-read-only ro-char)
+                              ((buffer-modified-p) mod-char)
+                              (t norm-char))
+                        'help-echo 'mode-line-read-only-help-echo
+                        'mouse-face 'mode-line-highlight)
+            (propertize (cond ((buffer-modified-p) mod-char)
+                              (buffer-read-only ro-char)
+                              (t norm-char))
+                        'help-echo 'mode-line-modified-help-echo
+                        'mouse-face 'mode-line-highlight))))
+
+  (put 'mode-line-format 'original-value (default-value 'mode-line-format))
+
+  (setq-default mode-line-position-column-line-format '(" (%l,%C)")
+                mode-line-percent-position '("%q")
+                mode-line-buffer-identification '((projectile-mode ("" projectile--mode-line " "))
+                                                  (:eval (eriks/mode-line-buffer-identification)))
+                mode-line-modified '(:eval (eriks/mode-line-modified))
+                mode-line-compact 'long
+                mode-line-format '((:eval (eriks/mode-line-dim (get 'mode-line-format 'original-value)))))
+
+  (column-number-mode 1))
 
 (use-package popper
   :ensure t
@@ -98,7 +131,8 @@
     "<right>" 'popper-cycle
     "<left>" 'popper-cycle-backwards)
   :custom
-  (popper-mode-line-position 1)
+  (popper-mode-line-position 1) ;; NOTE: move past ace-window
+  (popper-mode-line '(:eval (eriks/mode-line-dim (propertize " POP" 'face 'mode-line-emphasis))))
   (popper-echo-dispatch-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
   (popper-window-width (cl-defun eriks/popper-fit-window-width (win)
                          "The is inspired by the default to adjust the width instead of the height."
@@ -124,7 +158,6 @@
    :prefix "C-x"
    "o" 'popper-toggle))
 
-;;NOTE: is loaded AFTER sml to have the mode line thingy at the front
 (use-package ace-window
   :ensure t
   :custom
@@ -186,6 +219,12 @@
         (list window parameter (format "(%s)" value)))))
 
   (ace-window-display-mode 1)
+  ;; NOTE: Makes the thingy `ace-window-display-mode' added to the mode-line dimmed if not
+  ;; active. This will unfortunately inhibit the mode to remove itself from the mode line,
+  ;; but I always have it one, so it is fine.
+  (let ((mlf (default-value 'mode-line-format)))
+    (setq-default mode-line-format (cons `(:eval (eriks/mode-line-dim ',(car mlf)))
+                                         (cdr mlf))))
 
   (defun eriks/aw-dispatch (char)
     "Wraps the standard dispatcher to use the selected window if the same

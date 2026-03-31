@@ -8,14 +8,12 @@
 (setq-default cursor-type 'bar)
 (setq-default blink-matching-paren nil)
 (global-hl-line-mode 1)
-(setq-default column-number-indicator-zero-based nil)
 (show-paren-mode -1)
 
 ;; variables
 (setq-default kill-buffer-delete-auto-save-files t)
 (setq-default line-move-visual nil)
 (setq-default use-short-answers t)
-(setq-default column-number-mode t)
 (setq-default indent-tabs-mode nil)
 (setq-default indent-line-function #'indent-relative-first-indent-point)
 (setq-default sentence-end-double-space nil)
