@@ -51,7 +51,9 @@ no checks for this in `dired-rename-file', so this advice makes sure
 NEWNAME is not a directory by following the same logic as
 `rename-file'and `rename-visited-file'. It is possible that dired never
 calls this function with NEWNAME as a directory, but
-`counsel-find-file-move' does."
+`counsel-find-file-move' does. It was actually an advice from
+smart-mode-line that caused problems, but the normal `set-visited-file'
+should fail as well."
     (cl-destructuring-bind (file newname &rest rest) args
       (cl-list* file
                 (if (directory-name-p newname)

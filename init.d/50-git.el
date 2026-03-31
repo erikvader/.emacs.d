@@ -57,6 +57,7 @@ untracked directories."
    "zL" 'evil-scroll-right
    "z S-<right>" 'evil-scroll-right))
 
+;; TODO: bindings don't work, at least the p button. Has to switch to emacs mode
 (use-package git-timemachine
   :ensure t
   :config
