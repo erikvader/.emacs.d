@@ -100,8 +100,7 @@
 
 (use-package diff-mode
   :custom
-  (diff-font-lock-syntax nil)
-  (diff-refine nil)
+  (diff-font-lock-syntax 'hunk-also)
   :config
   (evil-collection-diff-mode-setup)
   (define-advice diff-refine-hunk (:around (org) toggle)

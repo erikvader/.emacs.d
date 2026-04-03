@@ -24,6 +24,21 @@ untracked directories."
   (eriks/leader-def 'normal 'magit-status-mode-map
     "u" 'eriks/magit-refresh-with-all-untracked-files)
 
+  (progn
+    ;; https://github.com/magit/magit/issues/2942#issuecomment-4069825556
+    (defun magit-diff-fontify-with-diff-mode ()
+      (save-excursion
+        (let ((min (point-min))
+              (max (point-max)))
+          (save-restriction
+            (widen)
+            (setq-local buffer-read-only nil)
+            (setq-local diff-font-lock-syntax 'hunk-also)
+            (goto-char min)
+            (diff--font-lock-syntax max)))))
+
+    (add-hook 'magit-diff-wash-diffs-hook #'magit-diff-fontify-with-diff-mode))
+
   (evil-collection-magit-setup)
   (evil-set-initial-state 'git-commit-mode 'insert)
   :general-config
