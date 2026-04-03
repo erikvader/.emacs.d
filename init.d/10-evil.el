@@ -202,9 +202,10 @@ buffer locally, and the cursor type is changed by
   ('normal
    "C-a" 'eriks/line-cleanup-dwim))
 
-;; TODO: make the selection more visible
 (use-package evil-exchange
   :ensure t
+  :custom
+  (evil-exchange-highlight-face 'region)
   :config
   (evil-exchange-install))
 
