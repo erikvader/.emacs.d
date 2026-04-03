@@ -261,8 +261,6 @@ I also added a buffer local binding to quit the window."
   (eriks/leader-def 'normal
     "b" 'bookmark-jump))
 
-;; TODO: create evil motions? Can be implemented by temporarily rebinding the
-;; forward-evil-word thing for forward-subword?
 (use-package subword
   :config
   (defalias 'forward-subword 'subword-forward "To be compatible with thingatpt.el")

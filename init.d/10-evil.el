@@ -280,6 +280,7 @@ buffer locally, and the cursor type is changed by
   (evil-owl-mode 1))
 
 (use-package eriks-evil-symbol-motions
+  :disabled ;; NOTE: I never use these
   :general-config
   ('motion
    "M-w" 'eriks/evil-forward-symbol-begin
