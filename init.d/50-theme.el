@@ -30,6 +30,7 @@ the default number back to the usual 2."
               (bg3 "#565761")
               (fg2 "#e2e2dc")
               (fg3 "#ccccc7")
+              (dracula-fg "#f8f8f2")
               (dark-red "#880000") ;; 40% darker
               (dark-green "#037a22") ;; 40% darker
               (dracula-orange "#ffb86c")
@@ -40,7 +41,6 @@ the default number back to the usual 2."
               (dracula-green "#50fa7b")
               (dracula-cyan "#8be9fd")
               (dracula-current "#44475a")
-              (dracula-fg "#f8f8f2")
               (vibrant-pink "violet")
               (vibrant-blue "DeepSkyBlue")
               (vibrant-yellow "gold2")
@@ -82,12 +82,14 @@ the default number back to the usual 2."
                               (t xs))))
             (cl-list* theme
                       (-> specs
+                          ;; Mode line
                           (ovwr 'eriks/mode-line-modified-face :foreground vibrant-red :weight 'bold)
                           (ovwr 'eriks/mode-line-read-only-face :foreground vibrant-yellow :weight 'bold)
                           (ovwr 'eriks/mode-line-projectile-face :foreground vibrant-blue)
                           (modify 'mode-line-inactive :background dracula-current :box dracula-current)
                           (ovwr 'aw-mode-line-face :foreground vibrant-pink :weight 'bold)
                           (ovwr 'mode-line-buffer-id :foreground vibrant-yellow :weight 'bold)
+                          ;; VC Mode line
                           (ovwr 'vc-up-to-date-state :inherit '(mode-line-emphasis vc-state-base))
                           (ovwr 'vc-needs-update-state :inherit 'vc-state-base :foreground vibrant-pink)
                           (ovwr 'vc-locked-state :inherit 'vc-state-base :foreground vibrant-blue)
@@ -97,35 +99,43 @@ the default number back to the usual 2."
                           (ovwr 'vc-missing-state :inherit 'vc-state-base :foreground vibrant-red)
                           (ovwr 'vc-edited-state :inherit 'vc-state-base :foreground vibrant-yellow)
                           (ovwr 'vc-ignored-state :inherit '(shadow vc-state-base))
+                          ;; Evil
                           (ovwr 'eriks/evil-ex-search-cursor :background dracula-pink)
                           (ovwr 'evil-quickscope-first-face :foreground dracula-green :underline t :weight 'bold)
                           (ovwr 'evil-quickscope-second-face :foreground dracula-yellow :underline t :weight 'bold)
+                          ;; Man
                           (ovwr 'Man-overstrike :weight 'bold :foreground dracula-pink)
                           (ovwr 'Man-underline :weight 'bold :foreground dracula-purple)
+                          ;; My faces
                           (ovwr 'todo-face :foreground vibrant-orange :weight 'bold)
                           (ovwr 'fixme-face :inherit 'todo-face)
                           (ovwr 'note-face :foreground vibrant-green :weight 'bold)
-                          (ovwr 'eshell-prompt)
+                          ;; Highlighting
                           (ovwr 'tab-face :strike-through t :foreground dracula-orange)
                           (ovwr 'trailing-whitespace :strike-through t :foreground dracula-orange)
                           (ovwr 'vertical-border :foreground dracula-fg)
                           (ovwr 'region :inverse-video t)
                           (ovwr 'vline :inherit 'hl-line)
-                          (ovwr 'dired-directory :foreground dracula-purple :weight 'bold)
+                          ;; Eshell
+                          (ovwr 'eshell-prompt)
                           (ovwr 'eshell-ls-directory :inherit 'dired-directory)
-                          (ovwr 'ivy-subdir :inherit 'dired-directory)
-                          (ovwr 'counsel-evil-register-face :foreground dracula-pink)
-                          (ovwr 'dired-symlink :foreground dracula-cyan :weight 'bold)
                           (ovwr 'eshell-ls-symlink :inherit 'dired-symlink)
-                          (ovwr 'eshell-ls-executable :foreground dracula-green :weight 'bold)
-                          (ovwr 'dired-broken-symlink :foreground dracula-red :weight 'bold)
                           (ovwr 'eshell-ls-missing :inherit 'dired-broken-symlink)
+                          (ovwr 'eshell-ls-executable :foreground dracula-green :weight 'bold)
                           (ovwr 'eshell-ls-product :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-clutter :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-backup :inherit 'dired-ignored)
-                          (ovwr 'dired-special :foreground dracula-yellow :weight 'bold)
                           (ovwr 'eshell-ls-special :inherit 'dired-special)
+                          ;; Dired
+                          (ovwr 'dired-directory :foreground dracula-purple :weight 'bold)
+                          (ovwr 'dired-symlink :foreground dracula-cyan :weight 'bold)
+                          (ovwr 'dired-broken-symlink :foreground dracula-red :weight 'bold)
+                          (ovwr 'dired-special :foreground dracula-yellow :weight 'bold)
                           (ovwr 'dired-set-id :background dracula-yellow :foreground dracula-bg)
+                          ;; Ivy/counsel
+                          (ovwr 'ivy-subdir :inherit 'dired-directory)
+                          (ovwr 'counsel-evil-register-face :foreground dracula-pink)
+                          ;; Minibuffer match
                           (ovwr 'swiper-match-face-1 :inherit 'ivy-minibuffer-match-face-1)
                           (ovwr 'swiper-match-face-2 :background dracula-green :foreground dracula-bg)
                           (ovwr 'swiper-match-face-3 :background dracula-yellow :foreground dracula-bg)
@@ -134,20 +144,24 @@ the default number back to the usual 2."
                           (ovwr 'ivy-minibuffer-match-face-3 :box `(:line-width (-1 . -1) :color ,dracula-yellow))
                           (ovwr 'ivy-minibuffer-match-face-4 :box `(:line-width (-1 . -1) :color ,dracula-cyan))
                           (ovwr 'xref-match :inherit 'ivy-minibuffer-match-face-3)
+                          ;; Diff
                           (modify 'magit-diff-hunk-heading-highlight :foreground dracula-cyan)
                           (modify 'magit-diff-hunk-heading :foreground dracula-cyan)
+                          (ovwr 'magit-diff-added :inherit 'diff-added)
+                          (ovwr 'magit-diff-removed :inherit 'diff-removed)
+                          (ovwr 'magit-diff-added-highlight :inherit '(diff-added magit-section-highlight))
+                          (ovwr 'magit-diff-removed-highlight :inherit '(diff-removed magit-section-highlight))
                           (modify 'magit-section-highlight :background (color-darken-name dracula-current 65))
-                          (modify 'magit-diff-removed-highlight :background (color-darken-name dracula-current 65))
-                          (modify 'magit-diff-added-highlight :background (color-darken-name dracula-current 65))
                           (ovwr 'diff-hunk-header :inherit 'magit-diff-hunk-heading)
                           (ovwr 'diff-header :inherit 'magit-diff-file-heading)
                           (ovwr 'diff-file-header :inherit 'magit-diff-file-heading-highlight)
                           (ovwr 'diff-hl-change :foreground dracula-yellow :background dracula-yellow)
                           (ovwr 'diff-indicator-changed :foreground dracula-yellow)
-                          (ovwr 'diff-refine-added :foreground dracula-fg :background dark-green)
-                          (ovwr 'diff-refine-removed :foreground dracula-fg :background dark-red)
-                          (ovwr 'diff-added :inherit 'magit-diff-added)
-                          (ovwr 'diff-removed :inherit 'magit-diff-removed)
+                          (ovwr 'diff-refine-added :background (color-darken-name dracula-green 50))
+                          (ovwr 'diff-refine-removed :background (color-darken-name dracula-red 50))
+                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dark-green 50) :extend t)
+                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dark-red 50) :extend t)
+                          ;; Ansi
                           (ovwr 'ansi-color-bright-black :foreground "gray40" :background "gray40")
                           (brighten 'ansi-color-bright-blue dracula-purple 10)
                           (brighten 'ansi-color-bright-cyan dracula-cyan 10)
@@ -155,7 +169,9 @@ the default number back to the usual 2."
                           (brighten 'ansi-color-bright-magenta dracula-pink 10)
                           (brighten 'ansi-color-bright-red dracula-red 10)
                           (brighten 'ansi-color-bright-yellow dracula-yellow 10)
+                          ;; Global change
                           subs
+                          ;; Override global
                           (ovwr 'lazy-highlight :background dracula-comment :foreground dracula-fg))))))))
 
   ;;NOTE: Some color manipulation functions, like `color-lighten-name', depend on the type
@@ -163,7 +179,7 @@ the default number back to the usual 2."
   ;;for this behaviour. I only care about GUI frames, so only load this theme after one is
   ;;created. The colors can get incorrect if this is evaluated as a daemon without a
   ;;frame.
-  (general-after-gui
+  (eriks/while-initializing (general-after-gui)
     (load-theme 'dracula t nil)))
 
 ;; Easier to remember aliases
