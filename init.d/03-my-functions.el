@@ -115,9 +115,17 @@ last. If a component starts with a dot, then two characters are kept."
        (cl-every #'symbolp x))))
 
 (defun eriks/evil-setup-local-quit ()
+  "Add a binding to quit the current buffer."
   (general-def
     'normal
     'local
     "q" 'quit-window)
   (message "Press %s to quit this window"
            (substitute-command-keys "\\[quit-window]")))
+
+(defmacro eriks/while-initializing (init-form &rest body)
+  "Wrap BODY in INIT-FORM if emacs is initializing, eval BODY normally otherwise"
+  (declare (indent defun))
+  `(if after-init-time
+       (progn ,@body)
+     ,(append init-form body)))

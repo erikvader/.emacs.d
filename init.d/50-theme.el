@@ -159,8 +159,8 @@ the default number back to the usual 2."
                           (ovwr 'diff-indicator-changed :foreground dracula-yellow)
                           (ovwr 'diff-refine-added :background (color-darken-name dracula-green 50))
                           (ovwr 'diff-refine-removed :background (color-darken-name dracula-red 50))
-                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dark-green 50) :extend t)
-                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dark-red 50) :extend t)
+                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dark-green 60) :extend t)
+                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dark-red 60) :extend t)
                           ;; Ansi
                           (ovwr 'ansi-color-bright-black :foreground "gray40" :background "gray40")
                           (brighten 'ansi-color-bright-blue dracula-purple 10)
