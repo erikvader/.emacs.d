@@ -144,7 +144,7 @@ the default number back to the usual 2."
                           (ovwr 'ivy-minibuffer-match-face-3 :box `(:line-width (-1 . -1) :color ,dracula-yellow))
                           (ovwr 'ivy-minibuffer-match-face-4 :box `(:line-width (-1 . -1) :color ,dracula-cyan))
                           (ovwr 'xref-match :inherit 'ivy-minibuffer-match-face-3)
-                          ;; Diff
+                          ;; Magit
                           (modify 'magit-diff-hunk-heading-highlight :foreground dracula-cyan)
                           (modify 'magit-diff-hunk-heading :foreground dracula-cyan)
                           (ovwr 'magit-diff-added :inherit 'diff-added)
@@ -152,15 +152,24 @@ the default number back to the usual 2."
                           (ovwr 'magit-diff-added-highlight :inherit '(diff-added magit-section-highlight))
                           (ovwr 'magit-diff-removed-highlight :inherit '(diff-removed magit-section-highlight))
                           (modify 'magit-section-highlight :background (color-darken-name dracula-current 65))
+                          ;; Diff
                           (ovwr 'diff-hunk-header :inherit 'magit-diff-hunk-heading)
                           (ovwr 'diff-header :inherit 'magit-diff-file-heading)
                           (ovwr 'diff-file-header :inherit 'magit-diff-file-heading-highlight)
                           (ovwr 'diff-hl-change :foreground dracula-yellow :background dracula-yellow)
                           (ovwr 'diff-indicator-changed :foreground dracula-yellow)
-                          (ovwr 'diff-refine-added :background (color-darken-name dracula-green 50))
-                          (ovwr 'diff-refine-removed :background (color-darken-name dracula-red 50))
-                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dark-green 60) :extend t)
-                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dark-red 60) :extend t)
+                          (ovwr 'diff-refine-added :underline `(:color ,dracula-green :position t))
+                          (ovwr 'diff-refine-removed :underline `(:color ,dracula-red :position t))
+                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dark-green 50) :extend t)
+                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dark-red 50) :extend t)
+                          ;; TODO: `diff-changed' and `diff-refine-changed'
+                          ;; Smerge
+                          (ovwr 'smerge-upper :inherit 'magit-diff-our)
+                          (ovwr 'smerge-base :inherit 'magit-diff-base)
+                          (ovwr 'smerge-lower :inherit 'magit-diff-their)
+                          (ovwr 'smerge-refined-added :inherit 'diff-refine-added)
+                          (ovwr 'smerge-refined-removed :inherit 'diff-refine-removed)
+                          (ovwr 'smerge-refined-changed :inherit 'diff-refine-changed)
                           ;; Ansi
                           (ovwr 'ansi-color-bright-black :foreground "gray40" :background "gray40")
                           (brighten 'ansi-color-bright-blue dracula-purple 10)
