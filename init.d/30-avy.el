@@ -1,8 +1,9 @@
+;; TODO: an avy dispatch that moves the target line to under the cursor
 (use-package avy
   :ensure t
   :custom
   (avy-keys '(?h ?g ?j ?f ?k ?d ?l ?s))
-  (avy-timeout-seconds nil) ;; no timeout ("infinite" timeout)
+  (avy-timeout-seconds nil) ;; NOTE: no timeout ("infinite" timeout)
   (avy-background t)
   (avy-highlight-first nil)
   (avy-style 'at-full)
