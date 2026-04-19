@@ -62,7 +62,7 @@ should fail as well."
                 rest)))
 
   :gfhook
-  'auto-revert-mode
+  'turn-on-auto-revert-mode
   'dired-hide-details-mode
   :general-config
   ('global
@@ -127,4 +127,6 @@ should fail as well."
   :config
   ;; NOTE: I could have used `eshell-ls-use-in-dired' instead to get the colors, I think,
   ;; but the output of it is not very flexible, so I can't make it look like I want.
-  (dired-rainbow-define-chmod executable eshell-ls-executable "-.*x.*"))
+  (defface dired-executable '((t :foreground "green"))
+    "Face for files with the executable bit set, in dired.")
+  (dired-rainbow-define-chmod executable dired-executable "-.*x.*"))
