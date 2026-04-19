@@ -22,7 +22,7 @@
 
   :general-config
   ('(ivy-minibuffer-map minibuffer-local-map)
-   "C-r" 'counsel-minibuffer-history
+   ;; NOTE: same as C-g
    "<escape>" 'minibuffer-keyboard-quit
    ;;TODO: this won't use evil kill word, but ivy kill word. Possible to merge them?
    "C-w" 'backward-kill-word)
@@ -79,6 +79,9 @@ directory of the visited file, that's what `set-visited-file-name' and
       (setq default-directory (file-name-directory buffer-file-name))))
 
   :general-config
+  ('(ivy-minibuffer-map minibuffer-local-map)
+   ;; TODO: something like this for evil-ex as well, but not on the same binding
+   "C-r" 'counsel-minibuffer-history)
   ('counsel-mode-map
    "M-s" 'counsel-rg
    ;; NOTE: the original is better, and evil-owl covers most cases.
