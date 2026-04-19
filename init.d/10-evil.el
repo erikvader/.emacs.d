@@ -278,6 +278,7 @@ buffer locally, and the cursor type is changed by
   :ensure t
   :diminish
   :config
+  (add-to-list 'evil-owl-register-groups '("Ex" . (?\C-w ?\C-a ?\C-o ?\C-f)) t)
   (evil-owl-mode 1))
 
 (use-package eriks-evil-symbol-motions
