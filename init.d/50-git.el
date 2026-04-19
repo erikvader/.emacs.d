@@ -1,6 +1,8 @@
+;; TODO: the tabs face is not shown in diff view
 (use-package magit
   :ensure t
   :custom
+  (magit-auto-revert-tracked-only nil)
   (magit-define-global-key-bindings nil)
   (magit-diff-refine-hunk 'all)
   (evil-collection-magit-use-$-for-end-of-line nil)
@@ -11,6 +13,8 @@
     "Shows all untracked files in the current buffer, and do not stop at
 untracked directories."
     (interactive)
+    (unless (derived-mode-p 'magit-status-mode)
+      (user-error "Must be in a magit status buffer"))
     (setq-local magit-status-show-untracked-files 'all)
     (magit-refresh)
     (message "Showing all untracked files"))
@@ -18,10 +22,13 @@ untracked directories."
   (eriks/leader-def 'normal
     :infix "g"
     "s" 'magit-status
+    "h" 'magit-status-here
+    "d" 'magit-diff-buffer-file
     "f" 'magit-file-dispatch
     "g" 'magit-dispatch)
 
   (eriks/leader-def 'normal 'magit-status-mode-map
+    :infix "g"
     "u" 'eriks/magit-refresh-with-all-untracked-files)
 
   (progn
@@ -118,7 +125,10 @@ untracked directories."
 
 (use-package vc
   :custom
+  (vc-display-status nil)
+  (vc-handled-backends '(git))
   (vc-follow-symlinks nil))
+
 (use-package git-modes
   :ensure t
   :config
