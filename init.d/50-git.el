@@ -119,3 +119,7 @@ untracked directories."
 (use-package vc
   :custom
   (vc-follow-symlinks nil))
+(use-package git-modes
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("/git/config\\..+\\'" . gitconfig-mode)))
