@@ -6,10 +6,18 @@
 
 ;; mode-line
 (progn
-  (defface eriks/mode-line-modified-face '((t :foreground "red" :weight bold))
-    "Face for the buffer modified asterisks in the mode line")
-  (defface eriks/mode-line-read-only-face '((t :foreground "blue"))
-    "Face for the buffer read only percentages in the mode line")
+  (defface eriks/mode-line-error-face '((t :foreground "red" :weight bold))
+    "Face for bl.a. the buffer modified asterisks in the mode line")
+  (defface eriks/mode-line-warning-face '((t :foreground "yellow"))
+    "Face for bl.a. the buffer read only percentages in the mode line")
+
+  (define-advice mode-line-eol-desc (:filter-return (desc) reddify)
+    "Make the mode line red if the current buffer uses non-LF line endings."
+    (let ((eol (coding-system-eol-type buffer-file-coding-system)))
+      (cond ((or (vectorp eol)
+                 (eql eol 0))
+             desc)
+            (t (propertize desc 'face 'eriks/mode-line-error-face)))))
 
   (defun eriks/mode-line-escape (str)
     "Escape a string for the mode line by putting it behind a symbol.
@@ -35,13 +43,14 @@ value of a symbol."
                        (fish-path (abbreviate-file-name path) :lastfull 2 :complen 0)
                      name)
                    'face 'mode-line-buffer-id
-                   'help-echo (format "File: %s\nBuffer: %s" path name)
+                   ;; TODO: also add buffer-file-truename
+                   'help-echo (format "File: %s\nBuffer: %s\nDefault directory: %s" path name default-directory)
                    'mouse-face 'mode-line-highlight))))
 
   (defun eriks/mode-line-modified ()
     "Buffer modified and read only mode line thingies."
-    (let ((mod-char (propertize "*" 'face 'eriks/mode-line-modified-face))
-          (ro-char (propertize "%%" 'face 'eriks/mode-line-read-only-face))
+    (let ((mod-char (propertize "*" 'face 'eriks/mode-line-error-face))
+          (ro-char (propertize "%%" 'face 'eriks/mode-line-warning-face))
           (norm-char "-"))
       (list (propertize (cond (buffer-read-only ro-char)
                               ((buffer-modified-p) mod-char)
@@ -260,11 +269,15 @@ action is pressed twice, akin to something like dd in vim."
       (user-error "Got dead window"))
     (kill-buffer (window-buffer window)))
 
-  (defun eriks/aw-quit-window (window)
-    (quit-window nil window))
+  (defun eriks/aw-quit-window (window &optional kill)
+    (with-selected-window window
+      (if (derived-mode-p 'magit-mode)
+          ;; NOTE: found in `magit-mode-map'
+          (magit-mode-bury-buffer kill)
+        (quit-window kill))))
 
   (defun eriks/aw-quit-kill-window (window)
-    (quit-window t window))
+    (eriks/aw-quit-window window t))
 
   (defun eriks/aw-clone-buffer (window)
     "Clone the current buffer to WINDOW. Alternative to `aw-copy-window'."
