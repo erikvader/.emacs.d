@@ -15,9 +15,19 @@
 (use-package dabbrev
   :config
   (add-hook 'completion-at-point-functions #'dabbrev-capf)
+  (defun eriks/evil-dabbrev-completion (arg)
+    "This is an evil wrapper around `dabbrev-completion'.
+
+Makes that function behave like the default
+`evil-complete-previous-func' and `evil-complete-next-func'."
+    (interactive "P")
+    (let (dabbrev-case-distinction)
+      (dabbrev-completion evil-complete-all-buffers)))
+  :custom
+  (dabbrev-case-fold-search nil)
   :general-config
   ('insert
-   "C-s" 'dabbrev-completion))
+   "C-s" 'eriks/evil-dabbrev-completion))
 
 (use-package ediff
   :config
