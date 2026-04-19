@@ -2,6 +2,32 @@
   :custom
   (save-abbrevs nil)
   :config
+  (defalias 'eriks/abbrev-before-point-p 'abbrev--before-point)
+  (defun eriks/abbrev-syntax-hack-advice (fun &rest args)
+    "Make more characters available for use in an abbrev.
+
+Only characters that are of class word constituent can be used as an
+abbrev, so this advice temporarily makes all characters in all abbrevs
+in the current mode into word characters during expansion."
+    ;; TODO: cache this copied syntax table? How to know if it has been invalidated?
+    ;; TODO: There's also a :regex that can be set on the abbrev table, might be of interest?
+    (with-syntax-table (copy-syntax-table (syntax-table))
+      (dolist (tbl (abbrev--active-tables))
+        (mapatoms (lambda (a)
+                    (seq-doseq (char (symbol-name a))
+                      (modify-syntax-entry char "w")))
+                  tbl))
+      (apply fun args)))
+  ;; NOTE: There are more functions in the abbrev file that depend on the syntax table,
+  ;; but it seems like only these two are needed for my purposes, which is to manually
+  ;; invoke `expand-abbrev', the others take care of suggestions and dynamically adding
+  ;; new abbrevs, mostly.
+  (advice-add 'eriks/abbrev-before-point-p :around 'eriks/abbrev-syntax-hack-advice)
+  (advice-add 'expand-abbrev :around 'eriks/abbrev-syntax-hack-advice)
+
+  ;; NOTE: An abbrev doesn't care about case, and it doesn't seem like there is a config
+  ;; variable to make it case sensitive, so having anything other than lower case letters
+  ;; in the abbrev string is pointless.
   (defmacro eriks/define-abbrev-skeleton (tables abbrev doc &rest skel-body)
     "Define a skeleton and associate it with an abbrev.
 
@@ -35,7 +61,7 @@ The return value is the symbol of the created skeleton."
 
   :general-config
   ('insert
-   :predicate '(abbrev--before-point)
+   :predicate '(eriks/abbrev-before-point-p)
    "TAB" 'expand-abbrev))
 
 (use-package autoinsert
