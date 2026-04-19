@@ -10,17 +10,19 @@
 (global-hl-line-mode 1)
 (show-paren-mode -1)
 
-;; variables
+;; Indentation
+(setq-default indent-tabs-mode nil
+              indent-line-function #'indent-relative-first-indent-point
+              tab-width (default-value 'standard-indent)
+              backward-delete-char-untabify-method nil)
+
+;; Variables
 (setq-default kill-buffer-delete-auto-save-files t)
 (setq-default line-move-visual nil)
 (setq-default use-short-answers t)
-(setq-default indent-tabs-mode nil)
-(setq-default indent-line-function #'indent-relative-first-indent-point)
 (setq-default sentence-end-double-space nil)
 (setq-default select-enable-clipboard nil)
 (setq-default large-file-warning-threshold (* 1000 1000 20))
-;; (setq-default tab-width 4) ;; NOTE: don't change the default. It seems that emacs elisp
-;; source is indented with a tab-width of 8
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 (setq-default what-cursor-show-names t)
@@ -30,7 +32,6 @@
 (setq-default fill-column 90)
 (setq-default auto-save-no-message t)
 (setq-default history-delete-duplicates t)
-(setq-default backward-delete-char-untabify-method nil)
 
 ;; A sort of global hook
 (defvar eriks/editable-file-hook nil

@@ -100,7 +100,5 @@ in the same projectile project also has flycheck enabled."
     "c" 'compile
     "C" 'recompile)
   :gfhook
-  ('compilation-mode-hook (cl-defun eriks/compile-hook ()
-                            (scroll-lock-mode 1)))
   ('rust-mode-hook (cl-defun eriks/rust-compile-hook ()
                      (setq-local compile-command "cargo build "))))

@@ -18,10 +18,7 @@
 (use-package cmake-mode
   :ensure t)
 
-(use-package make-mode
-  :gfhook
-  ('makefile-mode-hook (cl-defun eriks/make-tab-width ()
-                         (setq-local tab-width 4))))
+(use-package make-mode)
 
 ;; NOTE: `sgml-electric-tag-pair-mode' doesn't work well with yasnippets nor things that
 ;; aren't simple inserts, so it is not enabled.
@@ -241,4 +238,9 @@
   :gfhook ('lisp-data-mode-hook (cl-defun eriks/lisp-comment-start ()
                                   (setq-local comment-start ";; "))))
 
-(use-package elisp-mode)
+(use-package elisp-mode
+  :gfhook
+  ('emacs-lisp-mode-hook (cl-defun eriks/elisp-tab-width ()
+                           ;; NOTE: It seems that the elisp source in emacs itself uses a
+                           ;; mix of spaces and 8 character wide tabs.
+                           (setq-local tab-width 8))))
