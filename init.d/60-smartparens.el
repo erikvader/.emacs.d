@@ -15,33 +15,10 @@
                          intern-soft)))
       (add-hook hook 'smartparens-mode)))
 
-  (defun eriks/create--newline-and-enter-sexp (&rest _ignored)
-    "Open a new brace or bracket expression, with relevant newlines and indentation."
-    (save-excursion
-      (insert "\n")
-      (indent-according-to-mode))
-    (indent-according-to-mode))
-
-  (defun eriks/sp-open-on (modes paren)
-    "Makes all delimeter openers in paren \"open\" after enter has been pressed."
-    (when (stringp paren)
-      (setq paren (list paren)))
-    (dolist (i paren)
-      (sp-local-pair modes i nil :post-handlers '((eriks/create--newline-and-enter-sexp "RET")
-                                                  (eriks/create--newline-and-enter-sexp "<return>")))))
-
-
-  (eriks/sp-open-on 'sh-mode "{")
-  (eriks/sp-open-on 'js-mode '("[" "{"))
-  (eriks/sp-open-on 'rust-mode "{")
-  (eriks/sp-open-on 'typescript-mode '("[" "{"))
-  (eriks/sp-open-on 'css-mode "{")
   (sp-local-pair 'lua-mode "if" nil :actions nil)
   (sp-local-pair 'lua-mode "while" nil :actions nil)
   (sp-local-pair 'lua-mode "for" nil :actions nil)
   (sp-local-pair 'lua-mode "function" nil :actions nil)
-  (eriks/sp-open-on 'conf-mode '("[" "{"))
-  (eriks/sp-open-on '(c-mode java-mode c++-mode) "{")
   (sp-local-pair 'm4-mode "`" "'" :actions '(insert autoskip navigate))
 
   ;;NOTE: remove normal state binding to let the motion state ones through
@@ -67,7 +44,10 @@
 It's really annoying that the current line is shifted to weird places if
 the current major modes doesn't like how the current line is indented.
 But it's extremely useful when it spans multiple lines, like when
-removing an enclosing xml-tag."
+removing an enclosing xml-tag.
+
+See also: `sp-no-reindent-after-kill-modes' and
+`sp-no-reindent-after-kill-indent-line-functions'."
     (when (/= (line-number-at-pos start)
               (line-number-at-pos end))
       (funcall fun start end column)))
@@ -155,5 +135,15 @@ removing an enclosing xml-tag."
   (sp-with-modes '(python-mode)
     (sp-local-pair "'" nil :post-handlers '((:rem sp-python-fix-tripple-quotes)))
     (sp-local-pair "\"" nil :post-handlers '((:rem sp-python-fix-tripple-quotes)))
-    (eriks/sp-open-on "'''")
-    (eriks/sp-open-on "\"\"\"")))
+    (eriks/sp-post-handlers '("'''" "\"\"\"") :open)))
+
+(use-package eriks-sp-post-handlers
+  :config
+  (eriks/sp-post-handlers 'sh-mode "{" :widen :open)
+  (eriks/sp-post-handlers 'sh-mode "[" :widen)
+  (eriks/sp-post-handlers 'js-mode '("[" "{") :open)
+  (eriks/sp-post-handlers 'rust-mode "{" :open)
+  (eriks/sp-post-handlers 'typescript-mode '("[" "{") :open)
+  (eriks/sp-post-handlers 'css-mode "{" :open)
+  (eriks/sp-post-handlers 'conf-mode '("[" "{") :open)
+  (eriks/sp-post-handlers '(c-mode java-mode c++-mode) "{" :open))
