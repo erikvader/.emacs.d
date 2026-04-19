@@ -1,9 +1,4 @@
 ;; color theme
-(defface todo-face nil "face for TODO")
-(defface fixme-face nil "face for FIXME")
-(defface note-face nil "face for NOTE")
-(defface tab-face nil "face for tabs")
-
 (define-advice color-rgb-to-hex  (:filter-args (args) change-default)
   "This function will, by default, return RGB strings with four characters
 per component instead of usual two. Some code is not expecting that,
@@ -25,14 +20,14 @@ the default number back to the usual 2."
 
         (let ((display-graphical '((min-colors 16777216)))
               (dracula-bg "#282a36")
+              (dark-bg "black")
+              (bright-black "gray40")
               (dracula-comment "#6272a4")
               (bg2 "#373844")
               (bg3 "#565761")
               (fg2 "#e2e2dc")
               (fg3 "#ccccc7")
               (dracula-fg "#f8f8f2")
-              (dark-red "#880000") ;; 40% darker
-              (dark-green "#037a22") ;; 40% darker
               (dracula-orange "#ffb86c")
               (dracula-purple "#bd93f9")
               (dracula-yellow "#f1fa8c")
@@ -74,7 +69,7 @@ the default number back to the usual 2."
                         (cond ((and (consp xs) (atom (cdr xs)) (cons (subs (car xs)) (subs (cdr xs)))))
                               ((listp xs) (mapcar #'subs xs))
                               ;; background. Make it as dark as possible
-                              ((equal xs dracula-bg) "black")
+                              ((equal xs dracula-bg) dark-bg)
                               ;; darken alt backgrounds to match new background
                               ((member xs (list bg2 bg3 dracula-current)) (color-darken-name xs 50))
                               ;; font-lock-comment. Contrast better with the new background
@@ -83,8 +78,8 @@ the default number back to the usual 2."
             (cl-list* theme
                       (-> specs
                           ;; Mode line
-                          (ovwr 'eriks/mode-line-modified-face :foreground vibrant-red :weight 'bold)
-                          (ovwr 'eriks/mode-line-read-only-face :foreground vibrant-yellow :weight 'bold)
+                          (ovwr 'eriks/mode-line-error-face :foreground vibrant-red :weight 'bold)
+                          (ovwr 'eriks/mode-line-warning-face :foreground vibrant-yellow :weight 'bold)
                           (ovwr 'eriks/mode-line-projectile-face :foreground vibrant-blue)
                           (modify 'mode-line-inactive :background dracula-current :box dracula-current)
                           (ovwr 'aw-mode-line-face :foreground vibrant-pink :weight 'bold)
@@ -110,8 +105,8 @@ the default number back to the usual 2."
                           (ovwr 'todo-face :foreground vibrant-orange :weight 'bold)
                           (ovwr 'fixme-face :inherit 'todo-face)
                           (ovwr 'note-face :foreground vibrant-green :weight 'bold)
+                          (ovwr 'tab-face :underline `(:color ,dracula-purple :style dashes))
                           ;; Highlighting
-                          (ovwr 'tab-face :strike-through t :foreground dracula-orange)
                           (ovwr 'trailing-whitespace :strike-through t :foreground dracula-orange)
                           (ovwr 'vertical-border :foreground dracula-fg)
                           (ovwr 'region :inverse-video t)
@@ -121,12 +116,13 @@ the default number back to the usual 2."
                           (ovwr 'eshell-ls-directory :inherit 'dired-directory)
                           (ovwr 'eshell-ls-symlink :inherit 'dired-symlink)
                           (ovwr 'eshell-ls-missing :inherit 'dired-broken-symlink)
-                          (ovwr 'eshell-ls-executable :foreground dracula-green :weight 'bold)
+                          (ovwr 'eshell-ls-executable :inherit 'dired-executable)
                           (ovwr 'eshell-ls-product :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-clutter :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-backup :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-special :inherit 'dired-special)
                           ;; Dired
+                          (ovwr 'dired-executable :foreground dracula-green :weight 'bold)
                           (ovwr 'dired-directory :foreground dracula-purple :weight 'bold)
                           (ovwr 'dired-symlink :foreground dracula-cyan :weight 'bold)
                           (ovwr 'dired-broken-symlink :foreground dracula-red :weight 'bold)
@@ -149,20 +145,22 @@ the default number back to the usual 2."
                           (modify 'magit-diff-hunk-heading :foreground dracula-cyan)
                           (ovwr 'magit-diff-added :inherit 'diff-added)
                           (ovwr 'magit-diff-removed :inherit 'diff-removed)
+                          (ovwr 'magit-diff-base :inherit 'diff-changed)
                           (ovwr 'magit-diff-added-highlight :inherit '(diff-added magit-section-highlight))
                           (ovwr 'magit-diff-removed-highlight :inherit '(diff-removed magit-section-highlight))
-                          (modify 'magit-section-highlight :background (color-darken-name dracula-current 65))
+                          (ovwr 'magit-diff-base-highlight :inherit '(diff-changed magit-section-highlight))
                           ;; Diff
                           (ovwr 'diff-hunk-header :inherit 'magit-diff-hunk-heading)
                           (ovwr 'diff-header :inherit 'magit-diff-file-heading)
                           (ovwr 'diff-file-header :inherit 'magit-diff-file-heading-highlight)
                           (ovwr 'diff-hl-change :foreground dracula-yellow :background dracula-yellow)
                           (ovwr 'diff-indicator-changed :foreground dracula-yellow)
-                          (ovwr 'diff-refine-added :underline `(:color ,dracula-green :position t))
-                          (ovwr 'diff-refine-removed :underline `(:color ,dracula-red :position t))
-                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dark-green 50) :extend t)
-                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dark-red 50) :extend t)
-                          ;; TODO: `diff-changed' and `diff-refine-changed'
+                          (ovwr 'diff-refine-added :box `(:line-width (2 . -1) :color ,dracula-green) :extend t)
+                          (ovwr 'diff-refine-removed :box `(:line-width (2 . -1) :color ,dracula-red) :extend t)
+                          (ovwr 'diff-refine-changed :box `(:line-width (2 . -1) :color ,dracula-yellow) :extend t)
+                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dracula-green 80) :extend t)
+                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dracula-red 80) :extend t)
+                          (ovwr 'diff-changed :foreground dracula-fg :background (color-darken-name dracula-yellow 80) :extend t)
                           ;; Smerge
                           (ovwr 'smerge-upper :inherit 'magit-diff-our)
                           (ovwr 'smerge-base :inherit 'magit-diff-base)
@@ -171,7 +169,7 @@ the default number back to the usual 2."
                           (ovwr 'smerge-refined-removed :inherit 'diff-refine-removed)
                           (ovwr 'smerge-refined-changed :inherit 'diff-refine-changed)
                           ;; Ansi
-                          (ovwr 'ansi-color-bright-black :foreground "gray40" :background "gray40")
+                          (ovwr 'ansi-color-bright-black :foreground bright-black :background bright-black)
                           (brighten 'ansi-color-bright-blue dracula-purple 10)
                           (brighten 'ansi-color-bright-cyan dracula-cyan 10)
                           (brighten 'ansi-color-bright-green dracula-green 10)
@@ -181,7 +179,8 @@ the default number back to the usual 2."
                           ;; Global change
                           subs
                           ;; Override global
-                          (ovwr 'lazy-highlight :background dracula-comment :foreground dracula-fg))))))))
+                          (ovwr 'lazy-highlight :background dracula-comment :foreground dracula-fg)
+                          (modify 'magit-diff-hunk-heading-highlight :background dracula-current))))))))
 
   ;;NOTE: Some color manipulation functions, like `color-lighten-name', depend on the type
   ;;of the frame and its capabilities. The function `color-values' is the one responsible
@@ -191,7 +190,7 @@ the default number back to the usual 2."
   (eriks/while-initializing (general-after-gui)
     (load-theme 'dracula t nil)))
 
-;; Easier to remember aliases
+;; Aliases that are easier to remember
 (defalias 'theme-enable #'enable-theme)
 (defalias 'theme-disable #'disable-theme)
 
@@ -218,6 +217,10 @@ the default number back to the usual 2."
             (setq display-fill-column-indicator-character ?│)))
 
 ;; font-locks
+(defface todo-face nil "face for TODO")
+(defface fixme-face nil "face for FIXME")
+(defface note-face nil "face for NOTE")
+
 (defun eriks/add-marker-font-locks ()
   "Makes FIXME, TODO and NOTE get highlighted in current buffer"
   (font-lock-add-keywords
@@ -228,6 +231,7 @@ the default number back to the usual 2."
 
 (add-hook 'eriks/editable-file-hook #'eriks/add-marker-font-locks)
 
+(defface tab-face nil "face for tabs")
 (defun eriks/add-tab-font-lock ()
   "Display tabs in the current buffer using `tab-face'."
   (interactive)
