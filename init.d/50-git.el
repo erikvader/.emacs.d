@@ -82,13 +82,6 @@ untracked directories."
     :infix "g"
     "t" 'git-timemachine))
 
-(use-package what-the-commit
-  :ensure t
-  :config
-  (eriks/leader-def 'normal
-    :infix "g"
-    "w" 'what-the-commit-insert))
-
 (use-package diff-hl
   :ensure t
   :gfhook
