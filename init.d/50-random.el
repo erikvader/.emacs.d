@@ -273,3 +273,62 @@ I also added a buffer local binding to quit the window."
   :general-config
   ('inner
    "u" 'evil-inner-subword))
+
+(use-package autorevert
+  :custom
+  ;; NOTE: Network mounted file systems will most likely not support inotify, so use
+  ;; `auto-revert-notify-exclude-dir-regexp' for those, auto-revert won't work otherwise?
+  (auto-revert-avoid-polling t)
+  (auto-revert-mode-text '(:eval (seq-remove #'null
+                                             (list " ARev"
+                                                   (unless auto-revert-notify-watch-descriptor
+                                                     '(:propertize "/p"
+                                                                   face warning
+                                                                   help-echo "Current buffer is polling"))
+                                                   (cond ((eq t eriks/auto-revert-file-deleted)
+                                                          '(:propertize "/d"
+                                                                        face error
+                                                                        help-echo "Buffer visited file is deleted"))
+                                                         ((eq 'dunno eriks/auto-revert-file-deleted)
+                                                          '(:propertize "/?"
+                                                                        face warning
+                                                                        help-echo "State unknown for visited file")))))))
+  :config
+  ;; NOTE: makes the mode line work
+  (put 'auto-revert-mode-text 'risky-local-variable t)
+
+  (defvar-local eriks/auto-revert-file-deleted 'dunno
+    "Non-nil if the current visited file is deleted")
+
+  (add-variable-watcher 'eriks/auto-revert-file-deleted #'eriks/variable-watcher-update-modeline)
+  (add-variable-watcher 'auto-revert-notify-watch-descriptor #'eriks/variable-watcher-update-modeline)
+
+  (define-advice auto-revert-notify-handler (:before (event) file-deleted)
+    "Update file deletion status on notifications."
+    (let* ((descriptor (car event))
+           (action (nth 1 event))
+           (buffer (alist-get descriptor auto-revert--buffer-by-watch-descriptor nil nil #'equal)))
+      (when (buffer-live-p buffer)
+        (with-current-buffer buffer
+          (when buffer-file-name
+            (setq-local eriks/auto-revert-file-deleted
+                        (cond ((memq action '(created changed attribute-changed)) nil)
+                              ((eq action 'deleted) t)
+                              (t eriks/auto-revert-file-deleted))))))))
+
+  (defun eriks/auto-revert-poll-deleted (&rest _args)
+    "Check the file system if the current visited file exists"
+    (when (auto-revert-active-p)
+      (setq-local eriks/auto-revert-file-deleted
+                  ;; TODO: what to do in buffers not visiting files? Show
+                  ;; buffer-stale-function instead?
+                  (cond ((not buffer-file-name) 'dunno)
+                        (buffer-file-name (not (file-exists-p buffer-file-name)))
+                        (t eriks/auto-revert-file-deleted)))))
+
+  ;; NOTE: this function runs when the global timer fires and the correct conditions are
+  ;; met for auto-revert to poll the current status, see `auto-revert-handler'.
+  (advice-add buffer-stale-function :before #'eriks/auto-revert-poll-deleted)
+
+  (general-add-hook '(auto-revert-mode-hook after-set-visited-file-name-hook)
+                    #'eriks/auto-revert-poll-deleted))

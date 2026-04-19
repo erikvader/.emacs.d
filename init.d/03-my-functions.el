@@ -129,3 +129,10 @@ last. If a component starts with a dot, then two characters are kept."
   `(if after-init-time
        (progn ,@body)
      ,(append init-form body)))
+
+(defun eriks/variable-watcher-update-modeline (symbol newval _operation where)
+  "To be used with `add-variable-watcher' to force mode line update if the value changes."
+  (when (and (not (eq newval (symbol-value symbol)))
+             (buffer-live-p where))
+    (with-current-buffer where
+      (force-mode-line-update))))
