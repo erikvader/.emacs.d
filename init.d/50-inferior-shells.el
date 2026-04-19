@@ -1,5 +1,7 @@
 ;; TODO: eat
 ;; TODO: dircolors
+;; TODO: make q do quit-window and make Q also record a macro. That binding is
+;; non-standard evil-specific anyways.
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)

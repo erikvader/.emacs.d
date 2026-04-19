@@ -80,6 +80,13 @@ added."
 of the input needs to match."
   (concat "^" (regexp-quote bufname) "$"))
 
+;; TODO: move to own file, then add unit tests that are wrapped in an ignore so they can
+;; only get executed manually
+;; TODO: theres an initial slash when there isn't a projectile project?? Most likely
+;; related to if the path begins with a tilde or not?
+;; TODO: add the option to add ... for removed dirs
+;; (fish-path "/usr/share/emacs/30.2/lisp/abbrev.el.gz" :lastfull 2 :complen 0)
+;; (fish-path "/home/erik/.emacs.d/init.d/03-my-functions.el" :lastfull 2 :complen 0)
 (cl-defun fish-path (path &key (lastfull 1) (complen 1))
   "Displays the given path in a style similar to the fish shell. All
 components of the path are shortened to one character, except for the

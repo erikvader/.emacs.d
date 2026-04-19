@@ -162,6 +162,7 @@
   :custom
   (lua-indent-level 4))
 
+;; TODO: remove this and the submodule
 (use-package minizinc-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode)))

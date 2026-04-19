@@ -48,4 +48,10 @@ line instead. Preserves column placement."
     (evil-next-line (or count 1)))
   (evil-end-of-line))
 
+;; TODO: a next and prev that go as far as they can as long as the current column is the
+;; same. Good for rectangle select when going to the last or first row of an aligned
+;; block. Or maybe a function that enables rectangle select and goes up and down as far as
+;; it can immediately? It could also be a good idea to check tha character class and make
+;; sure it is the same on all included lines.
+
 (provide 'eriks-evil-random)

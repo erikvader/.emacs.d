@@ -1,3 +1,6 @@
+;; TODO: add my own better documentation for / that actually says what all flags that are
+;; available do. Also for s//. The case sensitive match is important, and the goto end.
+;; Maybe also mention that a replacement tries to match case?
 (use-package evil
   :ensure t
   :init

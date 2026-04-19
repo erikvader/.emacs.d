@@ -108,6 +108,7 @@ directory of the visited file, that's what `set-visited-file-name' and
   :ensure t
   :general-config
   ('ivy-mode-map
+   ;; TODO: how to search for strings directly after indentation? ^ +asd doesn't work
    "C-s" 'swiper))
 
 (use-package eriks-counsel-evil-marks

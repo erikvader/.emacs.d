@@ -69,4 +69,5 @@
 
 Similar purpose as `pwd'."
   (interactive)
+  ;; TODO: also show buffer-file-truename if different?
   (message "File %s" buffer-file-name))
