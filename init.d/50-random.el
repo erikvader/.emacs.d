@@ -340,5 +340,4 @@ I also added a buffer local binding to quit the window."
   ;; met for auto-revert to poll the current status, see `auto-revert-handler'.
   (advice-add buffer-stale-function :before #'eriks/auto-revert-poll-deleted)
 
-  (general-add-hook '(auto-revert-mode-hook after-set-visited-file-name-hook)
-                    #'eriks/auto-revert-poll-deleted))
+  (add-hook 'auto-revert-mode-hook #'eriks/auto-revert-poll-deleted))

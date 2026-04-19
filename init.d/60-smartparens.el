@@ -130,13 +130,6 @@ See also: `sp-no-reindent-after-kill-modes' and
    "[%" 'eriks/sp-evil-beg-of-hybrid-sexp
    [remap evil-jump-item] 'eriks/sp-jump-item))
 
-(use-package eriks-sp-triple
-  :config
-  (sp-with-modes '(python-mode)
-    (sp-local-pair "'" nil :post-handlers '((:rem sp-python-fix-tripple-quotes)))
-    (sp-local-pair "\"" nil :post-handlers '((:rem sp-python-fix-tripple-quotes)))
-    (eriks/sp-post-handlers '("'''" "\"\"\"") :open)))
-
 (use-package eriks-sp-post-handlers
   :config
   (eriks/sp-post-handlers 'sh-mode "{" :widen :open)
@@ -147,3 +140,10 @@ See also: `sp-no-reindent-after-kill-modes' and
   (eriks/sp-post-handlers 'css-mode "{" :open)
   (eriks/sp-post-handlers 'conf-mode '("[" "{") :open)
   (eriks/sp-post-handlers '(c-mode java-mode c++-mode) "{" :open))
+
+(use-package eriks-sp-triple
+  :config
+  (sp-with-modes '(python-mode)
+    (sp-local-pair "'" nil :post-handlers '((:rem sp-python-fix-tripple-quotes)))
+    (sp-local-pair "\"" nil :post-handlers '((:rem sp-python-fix-tripple-quotes)))
+    (eriks/sp-post-handlers '("'''" "\"\"\"") :open)))
