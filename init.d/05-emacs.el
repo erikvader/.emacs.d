@@ -1,4 +1,4 @@
-;; looks
+;; Looks
 (blink-cursor-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -26,8 +26,6 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 (setq-default what-cursor-show-names t)
-;; TODO: why?
-;; (setq-default nobreak-char-display nil)
 (setq-default fill-column 90)
 (setq-default auto-save-no-message t)
 (setq-default history-delete-duplicates t)

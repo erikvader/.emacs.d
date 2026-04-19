@@ -196,8 +196,17 @@ the default number back to the usual 2."
 (defalias 'theme-disable #'disable-theme)
 
 ;; font
+;; TODO: these fonts seem to be the exact same size as ubuntu mono, so perhaps use those
+;; alongside? Maybe that docstrings get the handwriting font or smth
+;; https://monaspace.githubnext.com/
 (add-to-list 'default-frame-alist '(font . "Ubuntu Mono 14"))
-(set-fontset-font t 'symbol "Noto Color Emoji")
+(set-fontset-font t 'emoji "Noto Color Emoji")
+
+;; NOTE: ubuntu mono does not include some hyphens, but it does include 'soft hyphen', so
+;; make the others get displayed as that one.
+(let ((new-hyphen (make-glyph-code ?\u00ad 'escape-glyph)))
+  (dolist (h (list ?\u2010 ?\u2011))
+    (aset standard-display-table h (vector new-hyphen))))
 
 ;; transparent background
 (add-to-list 'default-frame-alist '(alpha-background . 80))
