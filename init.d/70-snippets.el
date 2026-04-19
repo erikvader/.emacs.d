@@ -59,6 +59,14 @@ The return value is the symbol of the created skeleton."
     "Insert TODO"
     nil comment-start "TODO: ")
 
+  ;; sh/bash
+  (defalias 'eriks/shebang-bash-skeleton
+    (eriks/define-abbrev-skeleton (sh-mode-abbrev-table text-mode-abbrev-table) "!bash"
+      "Insert a shebang for bash" nil
+      "#!/bin/bash\n\n"
+      "set -euo pipefail\n\n"
+      '(normal-mode)))
+
   :general-config
   ('insert
    :predicate '(eriks/abbrev-before-point-p)
@@ -66,10 +74,14 @@ The return value is the symbol of the created skeleton."
 
 (use-package autoinsert
   :custom
-  (auto-insert-alist nil)
   (auto-insert-query nil)
   (auto-insert t)
   :config
+  (setopt auto-insert-alist nil)
+
+  ;; Bash
+  (define-auto-insert '("\\.bash\\'" . "Bash script file") 'eriks/shebang-bash-skeleton)
+
   ;; C++
   (define-auto-insert '("\\.\\([Hh]\\|hh\\|hpp\\|hxx\\|h\\+\\+\\)\\'" . "C / C++ header")
     '((replace-regexp-in-string "[^A-Z0-9]" "_"
@@ -80,7 +92,7 @@ The return value is the symbol of the created skeleton."
       _
       "\n\n#endif"))
 
-  ;; emacs lisp
+  ;; Emacs Lisp
   (define-skeleton eriks/elisp-lexical-binding-skeleton
     "Insert lexical binding header" nil
     ";; -*- lexical-binding: t; -*-\n\n"
