@@ -26,7 +26,6 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default bidi-inhibit-bpa t)
 (setq-default what-cursor-show-names t)
-(setq-default inhibit-x-resources t)
 ;; TODO: why?
 ;; (setq-default nobreak-char-display nil)
 (setq-default fill-column 90)
