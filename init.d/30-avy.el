@@ -1,6 +1,5 @@
 ;; TODO: an avy dispatch that moves the target line to under the cursor
 ;; TODO: this doesn't darken all colors
-;; TODO: use the dracula colors?
 (use-package avy
   :ensure t
   :custom

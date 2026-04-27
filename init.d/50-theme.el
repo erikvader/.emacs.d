@@ -176,6 +176,10 @@ the default number back to the usual 2."
                           (brighten 'ansi-color-bright-magenta dracula-pink 10)
                           (brighten 'ansi-color-bright-red dracula-red 10)
                           (brighten 'ansi-color-bright-yellow dracula-yellow 10)
+                          ;; Avy
+                          (ovwr 'avy-lead-face :background dracula-pink :foreground dracula-bg)
+                          (ovwr 'avy-lead-face-0 :background dracula-cyan :foreground dracula-bg)
+                          (ovwr 'avy-lead-face-2 :background dracula-purple :foreground dracula-bg)
                           ;; Global change
                           subs
                           ;; Override global
