@@ -5,6 +5,11 @@
   ('minibuffer-inactive-mode-map
    ;; NOTE: disable the mouse to let my other mouse bindings switch window focus only
    [mouse-1] nil)
+  ('minibuffer-local-map
+   ;; NOTE: make it more evil-friendly
+   "<escape>" 'minibuffer-keyboard-quit
+   ;; NOTE: make it more bash-like, this is kill-region normally
+   "C-w" 'backward-kill-word)
   ('insert
    "C-SPC" 'completion-at-point)
   ('evil-ex-completion-map
@@ -295,6 +300,7 @@ I also added a buffer local binding to quit the window."
                                                      '(:propertize "/p"
                                                                    face warning
                                                                    help-echo "Current buffer is polling"))
+                                                   ;; TODO: files are sometimes wrongly marked as deleted
                                                    (cond ((eq t eriks/auto-revert-file-deleted)
                                                           '(:propertize "/d"
                                                                         face error
