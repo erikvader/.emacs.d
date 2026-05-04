@@ -41,11 +41,13 @@
    "{" 'evil-backward-section-begin
    "p" 'evil-backward-paragraph)
   ;;NOTE: make it more emacsy
-  ('evil-ex-completion-map
+  ('evil-command-line-map
    "C-a" nil ;; let through beginning of line
    "C-k" nil ;; let through kill line
    "M-p" 'previous-complete-history-element
-   "M-n" 'next-complete-history-element)
+   "M-n" 'next-complete-history-element
+   "<up>" 'previous-line
+   "<down>" 'next-line)
   ('normal
    "+" "`[v`]"
    "|" (general-simulate-key ('evil-execute-macro "@")

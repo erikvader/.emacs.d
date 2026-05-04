@@ -9,10 +9,17 @@
    ;; NOTE: make it more evil-friendly
    "<escape>" 'minibuffer-keyboard-quit
    ;; NOTE: make it more bash-like, this is kill-region normally
-   "C-w" 'backward-kill-word)
+   "C-w" 'backward-kill-word
+   ;; NOTE: make the history more consistent with everything else
+   "C-p" 'previous-history-element
+   "C-n" 'next-history-element
+   "M-p" 'previous-complete-history-element
+   "M-n" 'next-complete-history-element
+   "<up>" 'previous-line
+   "<down>" 'next-line)
   ('insert
    "C-SPC" 'completion-at-point)
-  ('evil-ex-completion-map
+  ('evil-command-line-map
    "C-SPC" 'completion-at-point))
 
 ;; TODO: a function similar to `unexpand-abbrev', but for dabbrev, used with

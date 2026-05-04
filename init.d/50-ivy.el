@@ -23,7 +23,7 @@
   :general-config
   ('ivy-minibuffer-map
    ;; NOTE: make it more bash-like, this is kill-region normally
-   "C-w" 'backward-kill-word
+   "C-w" 'ivy-backward-kill-word
    ;; TODO: make M-n and M-p search matching input ala `previous-complete-history-element'
    "C-p" 'ivy-previous-history-element
    "C-n" 'ivy-next-history-element
@@ -81,7 +81,7 @@ directory of the visited file, that's what `set-visited-file-name' and
   :general-config
   ;; NOTE: remaps don't work in minibuffer-local-map and similar for some reason. The
   ;; activation of `counsel-mode' adds a binding there directly too.
-  ('evil-ex-completion-map
+  ('evil-command-line-map
    ;; NOTE: C-r is taken
    "M-r" 'counsel-minibuffer-history)
   ('counsel-mode-map
