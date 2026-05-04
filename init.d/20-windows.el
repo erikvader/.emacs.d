@@ -176,7 +176,7 @@ value of a symbol."
   (aw-scope 'frame)
   (aw-display-mode-overlay nil)
   (aw-dispatch-always t)
-  ;; NOTE: free bindinds: an,.lir
+  ;; NOTE: free bindinds: an,lir
   (aw-keys '(?f ?j ?d ?k))
   (aw-dispatch-alist '((?x aw-delete-window "Delete window")
                        (?X kill-buffer-and-window "Delete window and kill buffer")
@@ -208,6 +208,7 @@ value of a symbol."
                        (?= balance-windows)
 
                        (?? eriks/aw-show-dispatch-help)
+                       (?. eriks/switch-to-minibuffer)
 
                        (?w maximize-window "Maximize window")
                        (?W minimize-window "Minimize window")
@@ -310,6 +311,14 @@ action is pressed twice, akin to something like dd in vim."
         (cond ((> ver 0) (shrink-window (min ver (floor (frame-total-lines) eriks/vertical-resize-amount))))
               ((> hor 0) (shrink-window-horizontally (min hor (floor (frame-total-cols) eriks/horizontal-resize-amount))))
               (t (user-error "Window is not resizable"))))))
+
+  (defun eriks/switch-to-minibuffer ()
+    "Switch to the minibuffer"
+    (interactive)
+    (let ((win (active-minibuffer-window)))
+      (unless win
+        (user-error "No active minibuffer"))
+      (select-window win)))
 
   :general-config
   ('global
