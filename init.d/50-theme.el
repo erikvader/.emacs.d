@@ -158,9 +158,9 @@ the default number back to the usual 2."
                           (ovwr 'diff-refine-added :underline dracula-green)
                           (ovwr 'diff-refine-removed :underline dracula-red)
                           (ovwr 'diff-refine-changed :underline dracula-yellow)
-                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dracula-green 80) :extend t)
-                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dracula-red 80) :extend t)
-                          (ovwr 'diff-changed :foreground dracula-fg :background (color-darken-name dracula-yellow 80) :extend t)
+                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dracula-green 85) :extend t)
+                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dracula-red 85) :extend t)
+                          (ovwr 'diff-changed :foreground dracula-fg :background (color-darken-name dracula-yellow 85) :extend t)
                           ;; Smerge
                           (ovwr 'smerge-upper :inherit 'magit-diff-our)
                           (ovwr 'smerge-base :inherit 'magit-diff-base)
