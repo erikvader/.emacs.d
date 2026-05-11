@@ -17,10 +17,9 @@
   (evil-set-initial-state 'ivy-occur-grep-mode 'normal)
   (evil-set-initial-state 'ivy-occur-mode 'normal)
 
-  (eriks/leader-def 'normal 'ivy-mode-map
-    "r" 'ivy-resume)
-
   :general-config
+  ('ivy-mode-map
+   "C-c C-r" 'ivy-resume)
   ('ivy-minibuffer-map
    ;; NOTE: make it more bash-like, this is kill-region normally
    "C-w" 'ivy-backward-kill-word

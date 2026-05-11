@@ -19,7 +19,7 @@
    "<down>" 'next-line)
   ('insert
    "C-SPC" 'completion-at-point)
-  ('evil-command-line-map
+  ('(evil-command-line-map minibuffer-local-map)
    "C-SPC" 'completion-at-point))
 
 ;; TODO: a function similar to `unexpand-abbrev', but for dabbrev, used with
@@ -258,6 +258,7 @@ I also added a buffer local binding to quit the window."
               (setq-local font-lock-verbose nil))))
       (message "%s" expression))))
 
+;; NOTE: start with `calendar'
 (use-package calendar
   :custom
   (calendar-week-start-day 1)
@@ -270,8 +271,6 @@ I also added a buffer local binding to quit the window."
             'font-lock-face 'font-lock-function-name-face))
   :config
   (evil-collection-calendar-setup)
-  (eriks/leader-def 'normal
-    "C" 'calendar)
   :gfhook
   ('calendar-today-visible-hook 'calendar-mark-today))
 

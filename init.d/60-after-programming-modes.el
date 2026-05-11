@@ -98,7 +98,7 @@ in the same projectile project also has flycheck enabled."
   (evil-collection-compile-setup)
   (eriks/leader-def 'normal
     "c" 'compile
-    "C" 'recompile)
+    "r" 'recompile)
   :gfhook
   ('rust-mode-hook (cl-defun eriks/rust-compile-hook ()
                      (setq-local compile-command "cargo build "))))
