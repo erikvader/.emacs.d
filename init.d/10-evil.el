@@ -54,14 +54,6 @@
          ;; Prefix args actually work compared to a macro, i.e., binding to "@@"
          :docstring "Shorthand for executing the last macro, aka @@")
    "U" 'evil-redo)
-  ('global
-   [remap scroll-down-command] 'evil-scroll-up
-   [remap scroll-up-command] 'evil-scroll-down
-   [remap backward-kill-word] 'evil-delete-backward-word
-   [remap backward-word] 'evil-backward-word-begin
-   [remap forward-word] 'evil-forward-word-begin
-   ;; [remap kill-word] 'evil-delete-forward-word ;;TODO: something like this doesn't exist
-   )
   ('inner
    "d" 'evil-inner-defun)
   :config
