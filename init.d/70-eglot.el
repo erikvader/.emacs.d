@@ -58,6 +58,7 @@
           (progn
             (remove-hook 'eldoc-documentation-functions #'eglot-hover-eldoc-function t)
             (add-hook 'eldoc-documentation-functions #'eriks/eglot-rust-hover-eldoc-function nil t))
+        (add-hook 'eldoc-documentation-functions #'eglot-hover-eldoc-function nil t)
         (remove-hook 'eldoc-documentation-functions #'eriks/eglot-rust-hover-eldoc-function t)))
 
     (add-hook 'eglot-managed-mode-hook #'eriks/eglot-rust-hover-hook)
