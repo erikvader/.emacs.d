@@ -135,7 +135,7 @@ See also: `sp-no-reindent-after-kill-modes' and
   (eriks/sp-post-handlers 'sh-mode "{" :widen :open)
   (eriks/sp-post-handlers 'sh-mode "[" :widen)
   (eriks/sp-post-handlers 'js-mode '("[" "{") :open)
-  (eriks/sp-post-handlers 'rust-mode "{" :open)
+  (eriks/sp-post-handlers '(rust-mode rust-ts-mode) "{" :open)
   (eriks/sp-post-handlers 'typescript-mode '("[" "{") :open)
   (eriks/sp-post-handlers 'css-mode "{" :open)
   (eriks/sp-post-handlers 'conf-mode '("[" "{") :open)

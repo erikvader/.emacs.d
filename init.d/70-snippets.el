@@ -59,6 +59,30 @@ The return value is the symbol of the created skeleton."
     "Insert TODO"
     nil comment-start "TODO: ")
 
+  ;; Rust
+  (eriks/define-abbrev-skeleton rust-mode-abbrev-table "<"
+    "Add a krokodilmun pair.
+
+Languages like rust and C++ use <> as both operators and parens, which
+can make automatic insertion confused sometimes. This enables a quick
+way to add a closing krokodilmun."
+    nil
+    ;; TODO: this inserts an extra newline when there is a character right after <
+    "<" _ ">")
+
+  (eriks/define-abbrev-skeleton rust-mode-abbrev-table "test"
+    "Add a test module" nil
+    "#[cfg(test)]\n"
+    "mod test {\n"
+    "use super::*;" >
+    "\n\n"
+    "#[test]" >
+    "\n"
+    "fn test_something() {" >
+    "\n" > _ "\n"
+    "}" >
+    "\n}\n")
+
   ;; sh/bash
   (defalias 'eriks/shebang-bash-skeleton
     (eriks/define-abbrev-skeleton (sh-mode-abbrev-table text-mode-abbrev-table) "!bash"
