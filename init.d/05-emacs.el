@@ -119,7 +119,9 @@ The major modes are supposed to enable this by themselves, but far from all do."
   (not (eq 'no-conversion buffer-file-coding-system)))
 (add-to-list 'magic-fallback-mode-alist '(eriks/use-text-mode-p . text-mode) t)
 
-;; add a more handy way to enable and disable minor modes in file local variables
+;; TODO: create a wrapper around `add-dir-local-variable' that autocompletes minor modes
+;; and adds them to this variable.
+;; A more handy way to enable and disable minor modes in file local variables
 (defcustom eriks/activate-minor-modes nil
   "List of minor modes to enable from file local variables. This is
 intended to be more ergonomic than `eval'.

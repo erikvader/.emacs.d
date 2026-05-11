@@ -16,6 +16,8 @@
    "." 'eldoc
    "C-." 'eriks/eldoc-doc-buffer))
 
+;; TODO: remove various manual project.el overrides i have added, projectile integrates to
+;; that itself, so no need for my advices and stuff.
 (use-package projectile
   :ensure t
   :diminish

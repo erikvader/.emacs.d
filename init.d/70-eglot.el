@@ -70,6 +70,8 @@ path in the echo area since that is what is on the first line."
       (eglot-hover-eldoc-function (lambda (info &rest args)
                                     (let ((echo (pcase (seq-remove #'string-blank-p (string-lines info))
                                                   ((and `(,_ ,fn-line . ,_)
+                                                        ;; TODO: borde kolla mer robust efter fn med lite word boundaries osv
+                                                        ;; TODO: hantera struct samt trait
                                                         (guard (string-search "fn " fn-line)))
                                                    fn-line)
                                                   (`(,module-line . ,_)

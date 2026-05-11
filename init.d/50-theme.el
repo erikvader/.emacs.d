@@ -221,6 +221,7 @@ the default number back to the usual 2."
             (setq display-fill-column-indicator-character ?│)))
 
 ;; font-locks
+;; TODO: add BUG and XXX and HACK
 (defface todo-face nil "face for TODO")
 (defface fixme-face nil "face for FIXME")
 (defface note-face nil "face for NOTE")

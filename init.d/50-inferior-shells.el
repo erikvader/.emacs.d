@@ -1,7 +1,7 @@
 ;; TODO: eat
 ;; TODO: dircolors
-;; TODO: make q do quit-window and make Q also record a macro. That binding is
-;; non-standard evil-specific anyways.
+;; TODO: running compile from eshell will make the program (cargo) emit escape codes.
+;; Either make it don't or add ansi support to compile
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)
@@ -21,8 +21,10 @@
       "M-." 'eriks/eshell-yank-last-arg)
 
     (general-def 'normal 'eshell-hist-mode-map
+      ;; TODO: these arrows should only do this in insert?
       "<up>" #'eshell-previous-matching-input-from-input
       "<down>" #'eshell-next-matching-input-from-input
+      ;; TODO: is M-n and M-p bound correctly?
       "C-p" #'eshell-previous-input
       "C-n" #'eshell-next-input
       "C-r" #'eshell-previous-matching-input)
@@ -116,6 +118,7 @@
 
 ;; TODO: i think it is necessary to bind RET in normal mode to comint-send-input, but an
 ;; example where that is the case
+;; TODO: make these bindings match eshell and minibuffer
 (use-package comint
   :config
   (evil-set-initial-state 'comint-mode 'normal)
