@@ -14,8 +14,12 @@
     "Evil collections defines the keys in a hook because eshell is weird or something?"
     (general-def 'normal 'eshell-mode-map
       ;; NOTE: to match comint
+      ;; TODO: why both here and in hist map?
       "C-n" 'eshell-next-input
-      "C-p" 'eshell-previous-input)
+      "C-p" 'eshell-previous-input
+      ;; NOTE: make it easier to close the window. Q is bound to an evil extension normally
+      "q" 'quit-window
+      "Q" 'evil-record-macro)
 
     (general-def 'eshell-mode-map
       "M-." 'eriks/eshell-yank-last-arg)
