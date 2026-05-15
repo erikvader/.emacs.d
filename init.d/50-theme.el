@@ -102,9 +102,12 @@ the default number back to the usual 2."
                           (ovwr 'Man-overstrike :weight 'bold :foreground dracula-pink)
                           (ovwr 'Man-underline :weight 'bold :foreground dracula-purple)
                           ;; My faces
-                          (ovwr 'todo-face :foreground vibrant-orange :weight 'bold)
-                          (ovwr 'fixme-face :inherit 'todo-face)
                           (ovwr 'note-face :foreground vibrant-green :weight 'bold)
+                          (ovwr 'hack-face :inherit 'note-face)
+                          (ovwr 'todo-face :foreground vibrant-orange :weight 'bold)
+                          (ovwr 'bug-face :inherit 'todo-face)
+                          (ovwr 'fixme-face :foreground vibrant-red :weight 'bold)
+                          (ovwr 'xxx-face :inherit 'fixme-face)
                           (ovwr 'tab-face :underline `(:color ,dracula-purple :style dashes))
                           ;; Highlighting
                           (ovwr 'trailing-whitespace :strike-through t :foreground dracula-orange)
@@ -221,10 +224,12 @@ the default number back to the usual 2."
             (setq display-fill-column-indicator-character ?│)))
 
 ;; font-locks
-;; TODO: add BUG and XXX and HACK
-(defface todo-face nil "face for TODO")
-(defface fixme-face nil "face for FIXME")
-(defface note-face nil "face for NOTE")
+(defface todo-face nil "face for TODO. Future work or planned enhancements.")
+(defface fixme-face nil "face for FIXME. Known broken code that needs a fix.")
+(defface note-face nil "face for NOTE. Explanations, context, or reminders about how it works.")
+(defface bug-face nil "face for BUG. Flags a specific known bug (often tied to an issue ticket).")
+(defface xxx-face nil "face for XXX. Critical warning about dangerous, messy, or tricky code.")
+(defface hack-face nil "face for HACK. A temporary, sub-optimal workaround that should be refactored later.")
 
 (defun eriks/add-marker-font-locks ()
   "Makes FIXME, TODO and NOTE get highlighted in current buffer"
@@ -232,7 +237,10 @@ the default number back to the usual 2."
    nil
    '(("\\<\\(FIXME\\):" 1 'fixme-face t)
      ("\\<\\(TODO\\):" 1 'todo-face t)
-     ("\\<\\(NOTE\\):" 1 'note-face t))))
+     ("\\<\\(NOTE\\):" 1 'note-face t)
+     ("\\<\\(BUG\\):" 1 'bug-face t)
+     ("\\<\\(XXX\\):" 1 'xxx-face t)
+     ("\\<\\(HACK\\):" 1 'hack-face t))))
 
 (add-hook 'eriks/editable-file-hook #'eriks/add-marker-font-locks)
 

@@ -58,6 +58,18 @@ The return value is the symbol of the created skeleton."
   (eriks/define-abbrev-skeleton global-abbrev-table "to"
     "Insert TODO"
     nil comment-start "TODO: ")
+  (eriks/define-abbrev-skeleton global-abbrev-table "fi"
+    "Insert FIXME"
+    nil comment-start "FIXME: ")
+  (eriks/define-abbrev-skeleton global-abbrev-table "bu"
+    "Insert BUG"
+    nil comment-start "BUG: ")
+  (eriks/define-abbrev-skeleton global-abbrev-table "xx"
+    "Insert XXX"
+    nil comment-start "XXX: ")
+  (eriks/define-abbrev-skeleton global-abbrev-table "ha"
+    "Insert HACK"
+    nil comment-start "HACK: ")
 
   ;; Rust
   (eriks/define-abbrev-skeleton rust-mode-abbrev-table "<"
