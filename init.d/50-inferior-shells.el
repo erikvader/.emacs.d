@@ -104,11 +104,62 @@
     :infix "o"
     "a" 'ansi-term))
 
+(use-package comint
+  :config
+  (evil-set-initial-state 'comint-mode 'insert)
+  (evil-collection-comint-setup)
+  :custom
+  (comint-prompt-read-only t)
+  (comint-input-ignoredups t)
+  ;; TODO: figure out how to integrate the history with the shell itself. It seems like it is?
+  ;; TODO: enable savehist-mode and use savehist-length here so they are the same?
+  (comint-input-ring-size 10000)
+  :general-config
+  ('insert
+   'comint-mode-map
+   ;; Make it more bash/minibuffer-like. NOTE: It didn't work to simply bind to nil
+   "C-a" 'move-beginning-of-line ;; I have never used this
+   "C-k" 'kill-line ;; not using digraphs
+   "C-e" 'move-end-of-line ;; not really useful in this context
+   ;; History
+   "M-p" 'comint-previous-matching-input-from-input
+   "M-n" 'comint-next-matching-input-from-input
+   ;; NOTE: C-r is taken by evil
+   "M-r" 'comint-history-isearch-backward-regexp
+   ;; To send _anything_
+   "RET" 'comint-send-input)
+  ('normal
+   'comint-mode-map
+   ;; NOTE: make it easier to close the window. Q is bound to an evil extension normally
+   "q" 'quit-window
+   "Q" 'evil-record-macro)
+  ('motion
+   'comint-mode-map
+   ;; NOTE: The evil variant tries to preserve the column, which means it doesn't
+   ;; always go to the last prompt, but sometime on it. This also makes it difficult to
+   ;; catch a command that it outputting a lot of text. The normal emacs variant works
+   ;; best in this mode.
+   "G" 'end-of-buffer)
+  :gfhook
+  ('comint-output-filter-functions #'comint-osc-process-output))
+
 (use-package shell
   :config
   (eriks/leader-def 'normal
     :infix "o"
-    "s" 'shell))
+    "s" 'shell)
+  :general-config
+  ('insert
+   'shell-mode-map
+   "M-." 'comint-insert-previous-argument))
+
+(use-package coterm
+  :ensure t
+  :config
+  (coterm-mode 1)
+  :general-config
+  ('comint-mode-map
+   "C-," #'coterm-char-mode-cycle))
 
 (use-package ielm
   :custom
@@ -121,23 +172,3 @@
   ('normal
    'ielm-map
    "RET" 'ielm-return))
-
-;; TODO: i think it is necessary to bind RET in normal mode to comint-send-input, but an
-;; example where that is the case
-;; TODO: make these bindings match eshell and minibuffer
-(use-package comint
-  :config
-  (evil-set-initial-state 'comint-mode 'normal)
-  (evil-collection-comint-setup)
-  :general-config
-  ('(normal insert)
-   'comint-mode-map
-   "<up>" 'comint-previous-matching-input-from-input
-   "<down>" 'comint-next-matching-input-from-input)
-  ('comint-mode-map
-   "M-p" 'comint-previous-matching-input-from-input
-   "M-n" 'comint-next-matching-input-from-input)
-  ('normal
-   'comint-mode-map
-   "C-r" 'comint-history-isearch-backward-regexp))
-

@@ -124,6 +124,8 @@ the default number back to the usual 2."
                           (ovwr 'eshell-ls-clutter :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-backup :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-special :inherit 'dired-special)
+                          ;; Shell
+                          (ovwr 'comint-highlight-prompt)
                           ;; Dired
                           (ovwr 'dired-executable :foreground dracula-green :weight 'bold)
                           (ovwr 'dired-directory :foreground dracula-purple :weight 'bold)
