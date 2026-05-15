@@ -34,19 +34,6 @@ value of a symbol."
     "Removes all text properties of the given mode line format if window is not selected."
     (eriks/mode-line-escape (format-mode-line fmt (and (not (mode-line-window-selected-p)) 1))))
 
-  (defun eriks/mode-line-buffer-identification ()
-    "Mode line thingy for buffer identification."
-    (let ((path (buffer-file-name))
-          (name (buffer-name)))
-      (eriks/mode-line-escape
-       (propertize (if path
-                       (fish-path (abbreviate-file-name path) :lastfull 2 :complen 0)
-                     name)
-                   'face 'mode-line-buffer-id
-                   ;; TODO: also add buffer-file-truename
-                   'help-echo (format "File: %s\nBuffer: %s\nDefault directory: %s" path name default-directory)
-                   'mouse-face 'mode-line-highlight))))
-
   (defun eriks/mode-line-modified ()
     "Buffer modified and read only mode line thingies."
     (let ((mod-char (propertize "*" 'face 'eriks/mode-line-error-face))
@@ -67,8 +54,8 @@ value of a symbol."
 
   (setq-default mode-line-position-column-line-format '(" (%l,%C)")
                 mode-line-percent-position '("%q")
-                mode-line-buffer-identification '((projectile-mode ("" projectile--mode-line " "))
-                                                  (:eval (eriks/mode-line-buffer-identification)))
+                mode-line-buffer-identification `((projectile-mode ("" projectile--mode-line " "))
+                                                  ,(propertized-buffer-identification "%12b"))
                 mode-line-modified '(:eval (eriks/mode-line-modified))
                 mode-line-compact 'long
                 mode-line-format '((:eval (eriks/mode-line-dim (get 'mode-line-format 'original-value)))))

@@ -356,3 +356,7 @@ hack, so I didn't even want to try."
   (advice-add buffer-stale-function :before #'eriks/auto-revert-poll-deleted)
 
   (add-hook 'auto-revert-mode-hook #'eriks/auto-revert-poll-deleted))
+
+(use-package uniquify
+  :custom
+  (uniquify-buffer-name-style 'forward))
