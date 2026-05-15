@@ -40,14 +40,14 @@
    "}" 'evil-backward-section-end
    "{" 'evil-backward-section-begin
    "p" 'evil-backward-paragraph)
-  ;;NOTE: make it more emacsy
+  ;;NOTE: make it more emacsy by setting keybinds like the minibuffer
   ('evil-command-line-map
-   "C-a" nil ;; let through beginning of line
-   "C-k" nil ;; let through kill line
+   "<up>" 'previous-line-or-history-element
+   "<down>" 'next-line-or-history-element
+   "C-a" nil ;; let through beginning of line, completion is bound to many other keys
+   "C-k" nil ;; let through kill line, not using digraphs
    "M-p" 'previous-complete-history-element
-   "M-n" 'next-complete-history-element
-   "<up>" 'previous-line
-   "<down>" 'next-line)
+   "M-n" 'next-complete-history-element)
   ('normal
    "+" "`[v`]"
    "|" (general-simulate-key ('evil-execute-macro "@")
