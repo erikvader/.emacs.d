@@ -243,7 +243,12 @@ this custom behavior, but is otherwise a copy of it.
 While I'm at it, I also removed the possibility to show the result as
 `message', a buffer is always shown now, unless the result is nil.
 
-I also added a buffer local binding to quit the window."
+I also added a buffer local binding to quit the window. That could have
+been solved by using `view-mode' instead, but the original function was
+writable, so I kept it. There's also another command, which I have
+forgotten which one, that would've also needed to be changed to use
+`view-mode' to make it consistent, but that one was near impossible to
+hack, so I didn't even want to try."
     (if expression
         (let* ((lexical lexical-binding))
           (with-output-to-temp-buffer out-buffer-name
@@ -306,7 +311,7 @@ I also added a buffer local binding to quit the window."
                                                      '(:propertize "/p"
                                                                    face warning
                                                                    help-echo "Current buffer is polling"))
-                                                   ;; TODO: files are sometimes wrongly marked as deleted
+                                                   ;; BUG: files are sometimes wrongly marked as deleted
                                                    (cond ((eq t eriks/auto-revert-file-deleted)
                                                           '(:propertize "/d"
                                                                         face error
@@ -343,7 +348,8 @@ I also added a buffer local binding to quit the window."
     (when (auto-revert-active-p)
       (setq-local eriks/auto-revert-file-deleted
                   ;; TODO: what to do in buffers not visiting files? Show
-                  ;; buffer-stale-function instead?
+                  ;; buffer-stale-function instead? Make this into a map-return in that
+                  ;; case
                   (cond ((not buffer-file-name) 'dunno)
                         (buffer-file-name (not (file-exists-p buffer-file-name)))
                         (t eriks/auto-revert-file-deleted)))))

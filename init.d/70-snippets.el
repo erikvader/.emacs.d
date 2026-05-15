@@ -79,7 +79,7 @@ Languages like rust and C++ use <> as both operators and parens, which
 can make automatic insertion confused sometimes. This enables a quick
 way to add a closing krokodilmun."
     nil
-    ;; TODO: this inserts an extra newline when there is a character right after <
+    ;; BUG: this inserts an extra newline when there is a character right after <
     "<" _ ">")
 
   (eriks/define-abbrev-skeleton rust-mode-abbrev-table "test"
@@ -96,6 +96,8 @@ way to add a closing krokodilmun."
     "\n}\n")
 
   ;; sh/bash
+  ;; BUG: M-q auto fill doesn't work without calling normal-mode a second time for some
+  ;; reason.
   (defalias 'eriks/shebang-bash-skeleton
     (eriks/define-abbrev-skeleton (sh-mode-abbrev-table text-mode-abbrev-table) "!bash"
       "Insert a shebang for bash" nil
@@ -106,6 +108,10 @@ way to add a closing krokodilmun."
   :general-config
   ('insert
    :predicate '(eriks/abbrev-before-point-p)
+   ;; BUG: this can expand old text on the previous line, the cursor doesn't have to be
+   ;; directly after the thing to expand. Fix! So 'to' at the end of the previous line
+   ;; will expand when pressing TAB at the beginning of the next. Possibly fix by making
+   ;; sure backwards-word or whatever doesn't go across whitespace.
    "TAB" 'expand-abbrev))
 
 (use-package autoinsert

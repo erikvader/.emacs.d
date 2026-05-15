@@ -81,7 +81,7 @@ directory of the visited file, that's what `set-visited-file-name' and
   ;; NOTE: remaps don't work in minibuffer-local-map and similar for some reason. The
   ;; activation of `counsel-mode' adds a binding there directly too.
   ('evil-command-line-map
-   ;; NOTE: C-r is taken
+   ;; NOTE: C-r is taken by evil
    "M-r" 'counsel-minibuffer-history)
   ('counsel-mode-map
    "M-s" 'counsel-rg
@@ -109,7 +109,7 @@ directory of the visited file, that's what `set-visited-file-name' and
   :ensure t
   :general-config
   ('ivy-mode-map
-   ;; TODO: how to search for strings directly after indentation? ^ +asd doesn't work
+   ;; NOTE: A space can be used as an regex as [ ]
    "C-s" 'swiper))
 
 (use-package eriks-counsel-evil-marks

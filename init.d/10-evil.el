@@ -236,6 +236,8 @@ buffer locally, and the cursor type is changed by
   :config
   (evil-indent-plus-default-bindings))
 
+;; TODO: a never version will introduce `evil-collection-repl-submit-state', set it
+;; accordingly
 (use-package evil-collection
   :ensure t
   :custom

@@ -87,6 +87,7 @@ of the input needs to match."
 ;; TODO: add the option to add ... for removed dirs
 ;; (fish-path "/usr/share/emacs/30.2/lisp/abbrev.el.gz" :lastfull 2 :complen 0)
 ;; (fish-path "/home/erik/.emacs.d/init.d/03-my-functions.el" :lastfull 2 :complen 0)
+;; TODO: remove?
 (cl-defun fish-path (path &key (lastfull 1) (complen 1))
   "Displays the given path in a style similar to the fish shell. All
 components of the path are shortened to one character, except for the

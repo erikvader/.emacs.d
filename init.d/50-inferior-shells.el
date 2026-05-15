@@ -2,6 +2,7 @@
 ;; TODO: dircolors
 ;; TODO: running compile from eshell will make the program (cargo) emit escape codes.
 ;; Either make it don't or add ansi support to compile
+;; TODO: remove and use shell-mode instead?
 (use-package eshell
   :custom
   (eshell-prompt-function #'eriks/eshell-prompt)
@@ -12,6 +13,7 @@
   :config
   (define-advice evil-collection-eshell-setup-keys (:before (&rest _args) eriks)
     "Evil collections defines the keys in a hook because eshell is weird or something?"
+    ;; TODO: make these match comint
     (general-def 'normal 'eshell-mode-map
       ;; NOTE: to match comint
       ;; TODO: why both here and in hist map?
