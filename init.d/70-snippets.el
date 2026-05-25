@@ -84,16 +84,15 @@ way to add a closing krokodilmun."
 
   (eriks/define-abbrev-skeleton rust-mode-abbrev-table "test"
     "Add a test module" nil
+    ;; NOTE: just let the formatter handle the indentation
     "#[cfg(test)]\n"
     "mod test {\n"
-    "use super::*;" >
-    "\n\n"
-    "#[test]" >
-    "\n"
-    "fn test_something() {" >
-    "\n" > _ "\n"
-    "}" >
-    "\n}\n")
+    "  use super::*;\n\n"
+    "  #[test]\n"
+    "  fn test_something() {\n"
+    "    " _ "\n"
+    "  }\n"
+    "}\n")
 
   ;; sh/bash
   ;; BUG: M-q auto fill doesn't work without calling normal-mode a second time for some
