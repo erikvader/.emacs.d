@@ -108,6 +108,14 @@
   :config
   (evil-set-initial-state 'comint-mode 'insert)
   (evil-collection-comint-setup)
+
+  (defun eriks/comint-scroll-prompt-to-bottom (win)
+    "Make sure the prompt is at the bottom on window size changes."
+    (when (window-live-p win)
+      (with-selected-window win
+        (when (and (derived-mode-p 'comint-mode)
+                   (eobp))
+          (recenter -1)))))
   :custom
   (comint-prompt-read-only t)
   (comint-input-ignoredups t)
@@ -115,6 +123,8 @@
   ;; TODO: enable savehist-mode and use savehist-length here so they are the same?
   (comint-input-ring-size 10000)
   :general-config
+  ('comint-mode-map
+   "C-l" 'comint-clear-buffer)
   ('insert
    'comint-mode-map
    ;; Make it more bash/minibuffer-like. NOTE: It didn't work to simply bind to nil
@@ -126,13 +136,15 @@
    "M-n" 'comint-next-matching-input-from-input
    ;; NOTE: C-r is taken by evil
    "M-r" 'comint-history-isearch-backward-regexp
-   ;; To send _anything_
+   ;; To send stuff
    "RET" 'comint-send-input)
   ('normal
    'comint-mode-map
    ;; NOTE: make it easier to close the window. Q is bound to an evil extension normally
    "q" 'quit-window
-   "Q" 'evil-record-macro)
+   "Q" 'evil-record-macro
+   ;; Do it in normal mode as well to mimic `set -o vi' in bash
+   "RET" 'comint-send-input)
   ('motion
    'comint-mode-map
    ;; NOTE: The evil variant tries to preserve the column, which means it doesn't
@@ -141,17 +153,25 @@
    ;; best in this mode.
    "G" 'end-of-buffer)
   :gfhook
-  ('comint-output-filter-functions #'comint-osc-process-output))
+  ('comint-output-filter-functions #'comint-osc-process-output)
+  (nil (cl-defun eriks/comint-install-size-change-function ()
+         (add-hook 'window-size-change-functions #'eriks/comint-scroll-prompt-to-bottom nil t))))
 
 (use-package shell
   :config
   (eriks/leader-def 'normal
     :infix "o"
     "s" 'shell)
+  :custom
+  (shell-kill-buffer-on-exit t)
+  (shell-font-lock-keywords nil)
   :general-config
   ('insert
    'shell-mode-map
-   "M-." 'comint-insert-previous-argument))
+   "M-." 'comint-insert-previous-argument)
+  :gfhook
+  (nil (cl-defun eriks/shell-mode-hook ()
+         (face-remap-add-relative 'comint-highlight-prompt 'default))))
 
 (use-package coterm
   :ensure t
