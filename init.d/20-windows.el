@@ -69,10 +69,15 @@ value of a symbol."
                      (eriks/regexp-quote-all "*Warnings*")
                      'evil-list-view-mode
                      (eriks/regexp-quote-all "*eshell*")
+
+                     ;; NOTE: it's not enough to just specify comint-mode
                      (eriks/regexp-quote-all "*shell*")
-                     (eriks/regexp-quote-all trace-buffer)
                      'inferior-emacs-lisp-mode
                      'inferior-python-mode
+
+                     'flycheck-error-list-mode
+                     'lsp-help-mode
+                     (eriks/regexp-quote-all trace-buffer)
                      'messages-buffer-mode
                      'flycheck-verify-mode
                      'flymake-project-diagnostics-mode
@@ -89,8 +94,29 @@ value of a symbol."
                      'debugger-mode
                      'calendar-mode)
 
-  (defun eriks/popper-display-popup-on-the-right-advice (buffer &optional alist)
-    "Advice to override what `popper-display-popup-at-bottom' does."
+  (defvar-local eriks/popper-display-this-buffer-rule 'bottom
+    "How the current buffer should be displayed by popper.")
+
+  (defvar eriks/popper-display-inhibit-select nil
+    "Inhibit select-window when non-nil")
+
+  (defun eriks/popper-display-function (buffer &optional alist)
+    "My custom popper display, which is `popper-select-popup-at-bottom' by default"
+    ;; NOTE: This is probably messing with popper toggle all, but I'm not using that
+    ;; anyways. This loop is needed to make sure only one popup is open at a time.
+    (cl-loop for (win . _) in popper-open-popup-alist
+             when (window-live-p win)
+             do (delete-window win))
+
+    (let ((window (pcase (with-current-buffer buffer
+                           eriks/popper-display-this-buffer-rule)
+                    ('right (eriks/popper-display-popup-right buffer alist))
+                    (_ (popper-display-popup-at-bottom buffer alist)))))
+      (unless eriks/popper-display-inhibit-select
+        (select-window window))))
+
+  (defun eriks/popper-display-popup-right (buffer &optional alist)
+    "Display the buffer on the right"
     (display-buffer-in-side-window
      buffer
      (append alist
@@ -99,27 +125,21 @@ value of a symbol."
                (slot . 0)))))
 
   (defun eriks/popper-toggle-display-function ()
-    "Toggle which side to use when displaying popup buffers."
-    ;; TODO: make this respect `popper-display-function'
+    "Toggle which side to use when displaying the current popup buffer."
     (interactive)
-    (if (advice-member-p 'eriks/popper-display-popup-on-the-right-advice 'popper-display-popup-at-bottom)
-        (advice-remove 'popper-display-popup-at-bottom 'eriks/popper-display-popup-on-the-right-advice)
-      (advice-add 'popper-display-popup-at-bottom :override 'eriks/popper-display-popup-on-the-right-advice))
+    (setq-local eriks/popper-display-this-buffer-rule
+                (pcase eriks/popper-display-this-buffer-rule
+                  ('right 'bottom)
+                  (_ 'right)))
 
-    (cl-loop for (win . buf) in popper-open-popup-alist
-             do (progn
-                  (delete-window win)
-                  (display-buffer buf))))
+    (display-buffer (current-buffer)))
 
   (defun eriks/popper-no-select-advice (fun &rest args)
     "Advice the function to display using popper without selecting the window."
-    ;; TODO: make this respect `popper-display-function'
-    (let ((display-buffer-alist (cons '(popper-display-control-p (popper-display-popup-at-bottom))
-                                      display-buffer-alist)))
+    (let ((eriks/popper-display-inhibit-select t))
       (apply fun args)))
 
   (popper-mode 1)
-  (popper-echo-mode 1)
 
   (eriks/defkey-repeat (popper-cycle)
     :keymaps 'popper-mode-map
@@ -127,6 +147,7 @@ value of a symbol."
     "<right>" 'popper-cycle
     "<left>" 'popper-cycle-backwards)
   :custom
+  (popper-display-function #'eriks/popper-display-function)
   (popper-mode-line-position 1) ;; NOTE: move past ace-window
   (popper-mode-line '(:eval (eriks/mode-line-dim (propertize " POP" 'face 'mode-line-emphasis))))
   (popper-echo-dispatch-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
