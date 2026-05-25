@@ -71,3 +71,10 @@ Similar purpose as `pwd'."
   (interactive)
   ;; TODO: also show buffer-file-truename if different?
   (message "File %s" buffer-file-name))
+
+(defun eriks/find-problems ()
+  "Searching for various problem markers"
+  (interactive)
+  ;; NOTE: skipping NOTE and HACK on purpose, since those are more for documentation and
+  ;; not something to be fixed.
+  (counsel-rg "TODO:\\|FIXME:\\|BUG:\\|XXX:"))
