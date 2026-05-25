@@ -308,7 +308,6 @@ hack, so I didn't even want to try."
                                                      '(:propertize "/p"
                                                                    face warning
                                                                    help-echo "Current buffer is polling"))
-                                                   ;; BUG: files are sometimes wrongly marked as deleted
                                                    (cond ((eq t eriks/auto-revert-file-deleted)
                                                           '(:propertize "/d"
                                                                         face error
@@ -331,10 +330,14 @@ hack, so I didn't even want to try."
     "Update file deletion status on notifications."
     (let* ((descriptor (car event))
            (action (nth 1 event))
+           (file (nth 2 event))
            (buffer (alist-get descriptor auto-revert--buffer-by-watch-descriptor nil nil #'equal)))
       (when (buffer-live-p buffer)
         (with-current-buffer buffer
-          (when buffer-file-name
+          (when (and (stringp buffer-file-name)
+                     (string-equal buffer-file-name file))
+            ;; TODO: this doesn't do anything when the file is mv, but it should probably
+            ;; check whether the new name matches the new buffer file name?
             (setq-local eriks/auto-revert-file-deleted
                         (cond ((memq action '(created changed attribute-changed)) nil)
                               ((eq action 'deleted) t)
