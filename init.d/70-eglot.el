@@ -1,5 +1,11 @@
 ;; -*- lexical-binding: t; -*-
 
+;; BUG: ivy and eglot conflict in a weird way when doing `completion-at-point'. It doesn't
+;; remove the old text, it sometimes inserts a newline followed by the completion. It was
+;; mostly fixed by https://github.com/abo-abo/swiper/pull/3069, but it seems like there
+;; are some corner cases left, like expanding a rust struct at the beginning of line,
+;; sometimes. Hopefully this just fixes itself eventually. It seems that this only happens
+;; when completing modules in rust.
 (use-package eglot
   :custom
   (eglot-autoshutdown t)
@@ -128,9 +134,7 @@ path in the echo area since that is what is on the first line."
 
   (eglot-x-setup))
 
-;; TODO: remove? This doesn't work that well
 (use-package flycheck-eglot
-  :disabled
   :ensure t
   :custom
   (flycheck-eglot-enable-diagnostic-tags nil)

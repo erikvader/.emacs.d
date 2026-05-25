@@ -52,6 +52,7 @@ in the same projectile project also has flycheck enabled."
                        (eriks/flycheck-activate-if-started-projectile))))
 
 (use-package flymake
+  :disabled ;; TODO: i used this for eglot, but not anymore, so remove?
   :custom
   (flymake-fringe-indicator-position nil)
   (flymake-margin-indicator-position nil)
