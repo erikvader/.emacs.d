@@ -2,11 +2,48 @@
   :ensure t
   :custom
   (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+  (flycheck-mode-line-color nil)
   :config
+  (define-advice flycheck-mode-line-status-text (:filter-return (text) colorize)
+    (cond ((string-match "^\\(.*\\):\\([0-9]+\\)|\\([0-9]+\\)|\\([0-9]+\\)" text)
+           `(,(match-string 1 text)
+             ":" (:propertize ,(match-string 2 text) face error)
+             "|" (:propertize ,(match-string 3 text) face warning)
+             "|" (:propertize ,(match-string 4 text) face success)))
+          ((string-match "^\\(.*\\):\\([0-9]+\\)" text)
+           `(,(match-string 1 text)
+             ":" (:propertize ,(match-string 2 text) face success)))
+          (t text)))
   (general-define-key :keymaps 'flycheck-mode-map flycheck-keymap-prefix nil)
   (eriks/leader-def 'normal 'flycheck-mode-map
     "f" flycheck-command-map)
+  (evil-collection-flycheck-setup)
   (flycheck-add-next-checker 'python-pylint '(warning . python-pyright))
+
+  ;; NOTE: Originally taken from
+  ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+  (defun eriks/flycheck-eldoc (callback &rest _ignored)
+    "Print flycheck messages at point by calling CALLBACK."
+    (when-let ((flycheck-errors (and flycheck-mode (flycheck-overlay-errors-at (point)))))
+      (mapc
+       (lambda (err)
+         (funcall callback
+                  (format "%s: %s"
+                          (let ((level (flycheck-error-level err)))
+                            (pcase level
+                              ('info (propertize "I" 'face 'flycheck-error-list-info))
+                              ('error (propertize "E" 'face 'flycheck-error-list-error))
+                              ('warning (propertize "W" 'face 'flycheck-error-list-warning))
+                              (_ level)))
+                          (flycheck-error-message err))
+                  :echo (-> (flycheck-error-message err)
+                            (split-string "\n")
+                            car)
+                  :thing (or (flycheck-error-id err)
+                             (flycheck-error-group err))
+                  :face 'font-lock-doc-face))
+       flycheck-errors)))
+
   :init
   (cl-defun eriks/flycheck-activate-if-started-projectile ()
     "Activates `flycheck-mode' in the current buffer if another buffer
@@ -26,6 +63,11 @@ in the same projectile project also has flycheck enabled."
   ('flycheck-command-map
    "f" 'flycheck-first-error)
   :gfhook
+  (nil (cl-defun eriks/flycheck-prefer-eldoc ()
+         "Display flycheck text using eldoc to prevent minibuffer conflicts."
+         (add-hook 'eldoc-documentation-functions #'eriks/flycheck-eldoc nil t)
+         (setq-local flycheck-display-errors-function nil
+                     flycheck-help-echo-function nil)))
   ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
    'flycheck-mode-on-safe)
   ('haskell-mode-hook (cl-defun eriks/flycheck-haskell-hook ()
@@ -95,6 +137,9 @@ in the same projectile project also has flycheck enabled."
   'conf-mode-hook
   'TeX-mode-hook)
 
+;; TODO: add ansi-color-compilation-filter till compilation-filter-hook for colors, but do
+;; i really need that? There is also some variable to adjust the environment to change
+;; TERM.
 (use-package compile
   :custom
   (compilation-scroll-output t)
