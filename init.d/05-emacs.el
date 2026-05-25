@@ -3,10 +3,10 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(setq-default inhibit-startup-screen t)
-(setq-default frame-title-format "Emacs - %b")
-(setq-default cursor-type 'bar)
-(setq-default blink-matching-paren nil)
+(setq-default inhibit-startup-screen t
+              frame-title-format "Emacs - %b"
+              cursor-type 'bar
+              blink-matching-paren nil)
 (global-hl-line-mode 1)
 (show-paren-mode -1)
 
@@ -17,18 +17,18 @@
               backward-delete-char-untabify-method nil)
 
 ;; Variables
-(setq-default kill-buffer-delete-auto-save-files t)
-(setq-default line-move-visual nil)
-(setq-default use-short-answers t)
-(setq-default sentence-end-double-space nil)
-(setq-default select-enable-clipboard nil)
-(setq-default large-file-warning-threshold (* 1000 1000 20))
-(setq-default bidi-paragraph-direction 'left-to-right)
-(setq-default bidi-inhibit-bpa t)
-(setq-default what-cursor-show-names t)
-(setq-default fill-column 90)
-(setq-default auto-save-no-message t)
-(setq-default history-delete-duplicates t)
+(setq-default kill-buffer-delete-auto-save-files t
+              line-move-visual nil
+              use-short-answers t
+              sentence-end-double-space nil
+              select-enable-clipboard nil
+              large-file-warning-threshold (* 1000 1000 20)
+              bidi-paragraph-direction 'left-to-right
+              bidi-inhibit-bpa t
+              what-cursor-show-names t
+              fill-column 90
+              auto-save-no-message t
+              history-delete-duplicates t)
 
 ;; A sort of global hook
 (defvar eriks/editable-file-hook nil
