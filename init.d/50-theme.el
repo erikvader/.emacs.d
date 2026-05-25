@@ -124,8 +124,6 @@ the default number back to the usual 2."
                           (ovwr 'eshell-ls-clutter :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-backup :inherit 'dired-ignored)
                           (ovwr 'eshell-ls-special :inherit 'dired-special)
-                          ;; Shell
-                          (ovwr 'comint-highlight-prompt)
                           ;; Dired
                           (ovwr 'dired-executable :foreground dracula-green :weight 'bold)
                           (ovwr 'dired-directory :foreground dracula-purple :weight 'bold)
@@ -181,10 +179,13 @@ the default number back to the usual 2."
                           (brighten 'ansi-color-bright-magenta dracula-pink 10)
                           (brighten 'ansi-color-bright-red dracula-red 10)
                           (brighten 'ansi-color-bright-yellow dracula-yellow 10)
+                          (ovwr 'ansi-color-faint :weight 'light :foreground bright-black)
                           ;; Avy
                           (ovwr 'avy-lead-face :background dracula-pink :foreground dracula-bg :weight 'bold)
                           (ovwr 'avy-lead-face-0 :background dracula-cyan :foreground dracula-bg :weight 'bold)
                           (ovwr 'avy-lead-face-2 :background dracula-purple :foreground dracula-bg :weight 'bold)
+                          ;; Rust
+                          (ovwr 'rust-question-mark :weight 'bold :foreground dracula-orange)
                           ;; Global change
                           subs
                           ;; Override global
