@@ -239,10 +239,15 @@ buffer locally, and the cursor type is changed by
   :config
   (evil-indent-plus-default-bindings))
 
-;; TODO: a never version will introduce `evil-collection-repl-submit-state', set it
-;; accordingly
 (use-package evil-collection
-  :ensure t
+  ;; NOTE: This is pinned because the commit after introduces an annoying switch that
+  ;; changes how RET works in REPL modes. I want RET to send the input to the repl both in
+  ;; normal and insert states, and i don't like that they implemented it by binding to
+  ;; [return] and stuff, only RET is enough.
+  ;; https://github.com/emacs-evil/evil-collection/issues/904
+  ;; https://github.com/emacs-evil/evil-collection/commit/14c09ec65c0d6184115233741f5667a1de5a7f6b
+  :vc (:url https://github.com/emacs-evil/evil-collection.git
+            :rev "c214d48dd80d5ba9b7d05b7751d67b9281cd25f4")
   :custom
   (evil-collection-key-blacklist (list eriks/leader)))
 
