@@ -33,13 +33,16 @@
    "s" 'evil-forward-sentence-begin
    "}" 'evil-forward-section-end
    "{" 'evil-forward-section-begin
-   "p" 'evil-forward-paragraph)
+   "p" 'evil-forward-paragraph
+   "e" 'next-error)
   ('motion
    :prefix "["
    "s" 'evil-backward-sentence-begin
    "}" 'evil-backward-section-end
    "{" 'evil-backward-section-begin
-   "p" 'evil-backward-paragraph)
+   "p" 'evil-backward-paragraph
+   "e" 'previous-error
+   "E" 'first-error)
   ;;NOTE: make it more emacsy by setting keybinds like the minibuffer
   ('evil-command-line-map
    "<up>" 'previous-line-or-history-element

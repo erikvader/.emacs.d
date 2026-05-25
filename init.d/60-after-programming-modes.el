@@ -22,6 +22,9 @@ in the same projectile project also has flycheck enabled."
                                   flycheck-mode)))
                          (projectile-project-buffers root))))
       (flycheck-mode 1)))
+  :general-config
+  ('flycheck-command-map
+   "f" 'flycheck-first-error)
   :gfhook
   ('(sh-mode-hook LaTeX-mode-hook minizinc-mode-hook)
    'flycheck-mode-on-safe)
