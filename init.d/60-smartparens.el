@@ -29,9 +29,9 @@
 
   (eriks/leader-def 'normal 'smartparens-mode-map
     :infix "s"
-    ;; TODO: also try/evaluate `sp-indent-adjust-sexp' and `sp-push-hybrid-sexp'
-    "h" 'sp-transpose-hybrid-sexp
-    "k" 'sp-kill-hybrid-sexp
+    ;; NOTE: `sp-indent-adjust-sexp', `sp-transpose-hybrid-sexp' and `sp-push-hybrid-sexp'
+    ;; don't work that well, at least not for rust, since the semicolons end up in
+    ;; unexpected places. Also, `sp-kill-hybrid-sexp' is redundant.
     "t" 'sp-transpose-sexp
     "w" 'sp-swap-enclosing-sexp
     "s" 'sp-split-sexp
