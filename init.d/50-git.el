@@ -1,10 +1,11 @@
-;; TODO: the tabs face is not shown in diff view
 (use-package magit
   :ensure t
   :custom
   (magit-auto-revert-tracked-only nil)
   (magit-define-global-key-bindings nil)
   (magit-diff-refine-hunk 'all)
+  (magit-diff-use-indicator-faces t)
+  (magit-diff-refine-ignore-whitespace nil)
   (evil-collection-magit-use-$-for-end-of-line nil)
   (evil-collection-magit-use-0-for-beginning-of-line nil)
   (evil-collection-magit-use-z-for-folds t)
@@ -33,7 +34,7 @@ untracked directories."
 
   (progn
     ;; https://github.com/magit/magit/issues/2942#issuecomment-4069825556
-    (defun magit-diff-fontify-with-diff-mode ()
+    (defun eriks/magit-diff-fontify-with-diff-mode ()
       (save-excursion
         (let ((min (point-min))
               (max (point-max)))
@@ -44,7 +45,9 @@ untracked directories."
             (goto-char min)
             (diff--font-lock-syntax max)))))
 
-    (add-hook 'magit-diff-wash-diffs-hook #'magit-diff-fontify-with-diff-mode))
+    (add-hook 'magit-diff-wash-diffs-hook #'eriks/magit-diff-fontify-with-diff-mode))
+
+  (add-hook 'magit-diff-wash-diffs-hook #'eriks/add-tab-font-lock)
 
   (evil-collection-magit-setup)
   (evil-set-initial-state 'git-commit-mode 'insert)
