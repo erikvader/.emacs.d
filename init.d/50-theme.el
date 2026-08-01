@@ -102,13 +102,9 @@ the default number back to the usual 2."
                           (ovwr 'Man-overstrike :weight 'bold :foreground dracula-pink)
                           (ovwr 'Man-underline :weight 'bold :foreground dracula-purple)
                           ;; My faces
-                          (ovwr 'note-face :foreground vibrant-green :weight 'bold)
-                          (ovwr 'hack-face :inherit 'note-face)
-                          (ovwr 'todo-face :foreground vibrant-orange :weight 'bold)
-                          (ovwr 'bug-face :inherit 'todo-face)
-                          (ovwr 'fixme-face :foreground vibrant-red :weight 'bold)
-                          (ovwr 'xxx-face :inherit 'fixme-face)
-                          (ovwr 'tab-face :underline `(:color ,dracula-purple :style dashes))
+                          (ovwr 'eriks/marker-low-face :foreground vibrant-green :weight 'bold)
+                          (ovwr 'eriks/marker-medium-face :foreground vibrant-orange :weight 'bold)
+                          (ovwr 'eriks/marker-high-face :foreground vibrant-red :weight 'bold)
                           ;; Highlighting
                           (ovwr 'trailing-whitespace :strike-through t :foreground dracula-orange)
                           (ovwr 'vertical-border :foreground dracula-fg)
@@ -227,23 +223,47 @@ the default number back to the usual 2."
             (setq display-fill-column-indicator-character ?│)))
 
 ;; font-locks
-(defface todo-face nil "face for TODO. Future work or planned enhancements.")
-(defface fixme-face nil "face for FIXME. Known broken code that needs a fix.")
-(defface note-face nil "face for NOTE. Explanations, context, or reminders about how it works.")
-(defface bug-face nil "face for BUG. Flags a specific known bug (often tied to an issue ticket).")
-(defface xxx-face nil "face for XXX. Critical warning about dangerous, messy, or tricky code.")
-(defface hack-face nil "face for HACK. A temporary, sub-optimal workaround that should be refactored later.")
+(defface eriks/marker-low-face '((t :foreground "green")) "face for low prio markers")
+(defface eriks/marker-medium-face '((t :foreground "orange")) "face for medium prio markers")
+(defface eriks/marker-high-face '((t :foreground "red")) "face for high prio markers")
+(defconst eriks/markers '((todo "TODO" medium "to" "Future work or planned enhancements.")
+                          (fixme "FIXME" high "fi" "Known broken code that needs a fix.")
+                          (note "NOTE" low "no" "Explanations, context, or reminders about how it works.")
+                          (bug "BUG" medium "bu" "Flags a specific known bug (often tied to an issue ticket).")
+                          (xxx "XXX" high "xx" "Critical warning about dangerous, messy, or tricky code.")
+                          (hack "HACK" low "ha" "A temporary, sub-optimal workaround that should be refactored later.")
+                          (rant "RANT" low "ra" "Informal remark to vent frustration, explain bizarre workarounds, or document non-obvious design flaws")))
+(defconst eriks/marker-suffix ":")
+
+(defun eriks/marker-face-name (name)
+  (intern (concat "eriks/" (symbol-name name) "-marker-face")))
+
+(defun eriks/marker-level-face-name (level)
+  (intern (concat "eriks/marker-" (symbol-name level) "-face")))
+
+(dolist (i eriks/markers)
+  (cl-destructuring-bind (name str level snippet doc) i
+    ;; NOTE: same as defface, but not a macro
+    (custom-declare-face (eriks/marker-face-name name)
+                         `((t :inherit ,(eriks/marker-level-face-name level)))
+                         (concat "Face for " str ". " doc))))
 
 (defun eriks/add-marker-font-locks ()
   "Makes FIXME, TODO and NOTE get highlighted in current buffer"
+  ;; TODO: it seems like a buffer could use syntax thingies instead of regexes for
+  ;; comments, what to do in those cases?
+  (if (null comment-start-skip)
+      (message "No comment syntax in current buffer, can't highlight comment markers")
+    (let ((start-groups (regexp-opt-depth comment-start-skip)))
   (font-lock-add-keywords
    nil
-   '(("\\<\\(FIXME\\):" 1 'fixme-face t)
-     ("\\<\\(TODO\\):" 1 'todo-face t)
-     ("\\<\\(NOTE\\):" 1 'note-face t)
-     ("\\<\\(BUG\\):" 1 'bug-face t)
-     ("\\<\\(XXX\\):" 1 'xxx-face t)
-     ("\\<\\(HACK\\):" 1 'hack-face t))))
+       (seq-map (lambda (i)
+                  (cl-destructuring-bind (key regx level snippet doc) i
+                    (list (concat comment-start-skip "\\<\\(" regx "\\)\\>")
+                          (1+ start-groups)
+                          `',(eriks/marker-face-name key)
+                          'prepend)))
+                eriks/markers)))))
 
 (add-hook 'eriks/editable-file-hook #'eriks/add-marker-font-locks)
 

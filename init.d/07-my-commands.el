@@ -75,6 +75,13 @@ Similar purpose as `pwd'."
 (defun eriks/find-problems ()
   "Searching for various problem markers"
   (interactive)
-  ;; NOTE: skipping NOTE and HACK on purpose, since those are more for documentation and
-  ;; not something to be fixed.
-  (counsel-rg "TODO:\\|FIXME:\\|BUG:\\|XXX:"))
+  (counsel-rg
+   (string-join
+    (->> eriks/markers
+         (seq-filter (lambda (i)
+                       (cl-destructuring-bind (key str level snippet doc) i
+                         (not (eq level 'low)))))
+         (seq-map (lambda (i)
+                    (cl-destructuring-bind (key str level snippet doc) i
+                      (concat str eriks/marker-suffix)))))
+    "\\|")))
