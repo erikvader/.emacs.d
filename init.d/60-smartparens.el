@@ -123,11 +123,14 @@ See also: `sp-no-reindent-after-kill-modes' and
    'smartparens-mode-map
    "is" 'eriks/evil-sp-inner-sexp
    "as" 'eriks/evil-sp-a-sexp
-   "i%" 'eriks/evil-sp-inner-hybrid-sexp)
+   "i%" 'eriks/evil-sp-inner-hybrid-sexp
+   "i#" 'eriks/evil-sp-inner-long-hybrid-sexp)
   ('motion
    'smartparens-mode-map
    "]%" 'eriks/sp-evil-end-of-hybrid-sexp
    "[%" 'eriks/sp-evil-beg-of-hybrid-sexp
+   "[#" 'eriks/sp-evil-beg-of-long-hybrid-sexp
+   "]#" 'eriks/sp-evil-end-of-long-hybrid-sexp
    [remap evil-jump-item] 'eriks/sp-jump-item))
 
 (use-package eriks-sp-post-handlers
