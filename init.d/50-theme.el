@@ -105,8 +105,9 @@ the default number back to the usual 2."
                           (ovwr 'eriks/marker-low-face :foreground vibrant-green :weight 'bold)
                           (ovwr 'eriks/marker-medium-face :foreground vibrant-orange :weight 'bold)
                           (ovwr 'eriks/marker-high-face :foreground vibrant-red :weight 'bold)
+                          (ovwr 'tab-face :strike-through dracula-purple)
                           ;; Highlighting
-                          (ovwr 'trailing-whitespace :strike-through t :foreground dracula-orange)
+                          (ovwr 'trailing-whitespace :strike-through dracula-orange)
                           (ovwr 'vertical-border :foreground dracula-fg)
                           (ovwr 'region :inverse-video t)
                           (ovwr 'vline :inherit 'hl-line)
@@ -175,7 +176,7 @@ the default number back to the usual 2."
                           (brighten 'ansi-color-bright-magenta dracula-pink 10)
                           (brighten 'ansi-color-bright-red dracula-red 10)
                           (brighten 'ansi-color-bright-yellow dracula-yellow 10)
-                          (ovwr 'ansi-color-faint :weight 'light :foreground bright-black)
+                          (ovwr 'ansi-color-faint :foreground bright-black)
                           ;; Avy
                           (ovwr 'avy-lead-face :background dracula-pink :foreground dracula-bg :weight 'bold)
                           (ovwr 'avy-lead-face-0 :background dracula-cyan :foreground dracula-bg :weight 'bold)
@@ -273,7 +274,7 @@ the default number back to the usual 2."
   (interactive)
   (font-lock-add-keywords
    nil
-   '(("\t" 0 'tab-face t))))
+   '(("\t" 0 'tab-face prepend))))
 
 (add-hook 'eriks/editable-file-hook #'eriks/add-tab-font-lock)
 
