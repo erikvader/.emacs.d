@@ -10,7 +10,7 @@
   :custom
   (eglot-autoshutdown t)
   (eglot-extend-to-xref t)
-  (eglot-stay-out-of '(yasnippet company))
+  (eglot-stay-out-of '(yasnippet company eldoc-documentation-strategy flymake))
   :gfhook
   ;; NOTE: evil fixes the keymaps frequently, e.g. when switching states, but apparently
   ;; not the moment when eglot is activated, so add an extra normalize here.
@@ -64,7 +64,7 @@
           (progn
             (remove-hook 'eldoc-documentation-functions #'eglot-hover-eldoc-function t)
             (add-hook 'eldoc-documentation-functions #'eriks/eglot-rust-hover-eldoc-function nil t))
-        (add-hook 'eldoc-documentation-functions #'eglot-hover-eldoc-function nil t)
+        ;; NOTE: not re-adding the original one since managed mode just got disabled here
         (remove-hook 'eldoc-documentation-functions #'eriks/eglot-rust-hover-eldoc-function t)))
 
     (add-hook 'eglot-managed-mode-hook #'eriks/eglot-rust-hover-hook)
