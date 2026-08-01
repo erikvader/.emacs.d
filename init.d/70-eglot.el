@@ -12,6 +12,20 @@
   (eglot-extend-to-xref t)
   (eglot-stay-out-of '(yasnippet company eldoc-documentation-strategy flymake))
   :gfhook
+  ('after-set-visited-file-name-hook (cl-defun eriks/eglot-after-set-visited ()
+                                       "Workaround for renaming files with eglot.
+
+It does not, for some reason, not support renaming files, eglot doesn't
+offer that capability to the server. There are commands to send to the
+server that says the client has or will rename some file to another, but
+eglot doesn't send them. There are also server initiated renames, but
+eglot doesn't support them either. This is an ugly workaround that just
+reconnects to the server after a rename so the server is at least not
+lost, but automatic import changes and stuff is not supported by this
+method."
+                                       (let ((serv (eglot-current-server)))
+                                         (when (and serv (eglot-managed-p))
+                                           (eglot-reconnect serv)))))
   ;; NOTE: evil fixes the keymaps frequently, e.g. when switching states, but apparently
   ;; not the moment when eglot is activated, so add an extra normalize here.
   ('eglot-managed-mode-hook `(evil-normalize-keymaps
