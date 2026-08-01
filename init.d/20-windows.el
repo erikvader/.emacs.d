@@ -175,6 +175,10 @@ value of a symbol."
    :prefix "C-x"
    "o" 'popper-toggle))
 
+;; BUG: when i do C-h C-k in a shell-mode buffer to figure out what a key does,
+;; quit-window from the help-buffer that replaces the shell buffer in the popup window
+;; deletes the whole window. I expect it to keep the window and return to the shell-mode
+;; buffer.
 (use-package ace-window
   :ensure t
   :custom

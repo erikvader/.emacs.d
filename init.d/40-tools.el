@@ -2,6 +2,7 @@
   :diminish eldoc-mode
   :custom
   (eldoc-echo-area-prefer-doc-buffer t)
+  ;; NOTE: the non-eager one doesn't work if a function uses the callback delayed
   (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
   :config
   (global-eldoc-mode 1)

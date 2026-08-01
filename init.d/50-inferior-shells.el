@@ -119,7 +119,6 @@
   :custom
   (comint-prompt-read-only t)
   (comint-input-ignoredups t)
-  ;; TODO: figure out how to integrate the history with the shell itself. It seems like it is?
   ;; TODO: enable savehist-mode and use savehist-length here so they are the same?
   (comint-input-ring-size 10000)
   :general-config

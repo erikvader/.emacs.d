@@ -89,7 +89,7 @@ directory of the visited file, that's what `set-visited-file-name' and
    ;; [remap evil-show-registers] 'counsel-evil-registers
    [remap org-goto] 'counsel-org-goto
    [remap eshell-previous-matching-input] 'counsel-esh-history
-   ;; TODO: is the normal buffer better?
+   ;; NOTE: I think the normal buffer is better
    ;; [remap flycheck-list-errors] 'counsel-flycheck
    [remap comint-history-isearch-backward-regexp] 'counsel-shell-history
    [remap dired] 'counsel-dired

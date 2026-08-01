@@ -10,6 +10,11 @@ those when available."
               :require-match t
               :caller 'eriks/counsel-projectile-switch-project
               :action '(1
+                        ;; TODO: add a binding in this thingy to switch to counsel-rg
+                        ;; instead. I often enter this default and don't know what file i
+                        ;; want, but i know what line i want. A better solution would
+                        ;; maybe be to add a binding to "undo" and go back to this switch
+                        ;; project from a binding?
                         ("o" projectile-switch-project-by-name "default")
                         ("d" projectile-find-dir "dired")
                         ("s" eriks/projectile-switch-ripgrep-action "search files")

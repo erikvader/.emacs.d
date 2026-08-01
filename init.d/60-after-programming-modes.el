@@ -1,3 +1,4 @@
+;; TODO: make flycheck-next-error only consider errors
 (use-package flycheck
   :ensure t
   :custom
@@ -17,6 +18,7 @@
   (general-define-key :keymaps 'flycheck-mode-map flycheck-keymap-prefix nil)
   (eriks/leader-def 'normal 'flycheck-mode-map
     "f" flycheck-command-map)
+  ;; TODO: an error list goto error that doesn't move window focus
   (evil-collection-flycheck-setup)
   (flycheck-add-next-checker 'python-pylint '(warning . python-pyright))
 

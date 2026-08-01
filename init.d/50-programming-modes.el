@@ -127,7 +127,10 @@
   :gfhook
   ('Man-mode-hook 'scroll-lock-mode))
 
-;;TODO: finns det en c-end-of-statement osv för rust? smie?
+;; TODO: would be nice to have some kind of ds that removes angle brackes regardless. They
+;; are conditional in rust, so it doesn't always work, even though it should. Maybe fix
+;; the smartparens definition otherwise? Specifically fn .... -> <T> can't remove the
+;; angles with ds
 (use-package rust-mode
   :ensure t
   :gfhook
