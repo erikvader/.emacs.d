@@ -1,6 +1,7 @@
 ;; TODO: add my own better documentation for / that actually says what all flags that are
 ;; available do. Also for s//. The case sensitive match is important, and the goto end.
-;; Maybe also mention that a replacement tries to match case?
+;; Maybe also mention that a replacement tries to match case? Defalias could be a way to
+;; provide alternative docs.
 (use-package evil
   :ensure t
   :init
@@ -41,6 +42,8 @@
    "}" 'evil-backward-section-end
    "{" 'evil-backward-section-begin
    "p" 'evil-backward-paragraph
+   ;; BUG: it doesn't seem like these work with flycheck, it seems like xref is taking
+   ;; precedence, i think
    "e" 'previous-error
    "E" 'first-error)
   ;;NOTE: make it more emacsy by setting keybinds like the minibuffer
@@ -59,6 +62,8 @@
    "U" 'evil-redo)
   ('inner
    "d" 'evil-inner-defun)
+  ('outer
+   "d" 'evil-a-defun)
   :config
   (evil-mode 1)
   ;; NOTE: Doesn't work to set these in :custom, They overwrite later calls
@@ -94,9 +99,42 @@ buffer locally, and the cursor type is changed by
           (set-face-attribute 'cursor nil :background org-color)))))
 
   (evil-define-text-object evil-inner-defun (count &optional beg end _type)
-    "Select inner defun."
-    ;;NOTE: an outer variant is not possible? https://github.com/emacs-evil/evil/issues/874
-    (evil-select-inner-object 'evil-defun beg end type count))
+    "Select inner defun, aka section."
+    :type line
+    (evil-select-inner-object 'evil-defun beg end type count t))
+
+  (evil-define-text-object evil-a-defun (count &optional beg end _type)
+    "Select outer defun, aka section."
+    :type line
+    ;;NOTE: an outer variant is not possible?
+    ;;https://github.com/emacs-evil/evil/issues/874, so the end whitespace is added
+    ;;manully.
+    (when-let* ((range (evil-select-inner-object 'evil-defun beg end type count t)))
+      (eriks/evil-select-outer-whitespace-lines range)))
+
+  (defun eriks/evil-select-outer-whitespace-lines (range)
+    "Extends an evil range to include surrounding empty lines.
+
+This mimics what `evil-select-an-object' does, but only works on
+whitespace. The normal one tries to figure out a non-thing, but that
+doesn't work for all things.
+
+The type of the range should be line."
+    (let ((org-end (evil-range-end range))
+          (org-beg (evil-range-beginning range))
+          (regex "\\(?:[[:space:]]*\n\\)+"))
+      (evil-set-range-end range
+                          (save-excursion
+                            (goto-char org-end)
+                            (or (re-search-forward regex nil t)
+                                org-end)))
+      (when (= org-end (evil-range-end range))
+        (evil-set-range-beginning range
+                                  (save-excursion
+                                    (goto-char org-beg)
+                                    (or (re-search-backward regex nil t)
+                                        org-beg)))))
+    range)
 
   ;;NOTE: `scroll-other-window' doesn't have the scroll-command property
   (defun eriks/evil-scroll-down-half-other-window (&optional lines)
