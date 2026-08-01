@@ -133,10 +133,18 @@
 ;; angles with ds
 (use-package rust-mode
   :ensure t
+  :config
+  (defface rust-safety-face '((t :inherit rust-unsafe)) "face for SAFETY")
   :gfhook
   (nil (cl-defun eriks/rust-fill-column-hook-fun ()
          ;; NOTE: the default in rustfmt
-         (setq-local fill-column 100))))
+         (setq-local fill-column 100)))
+  (nil (cl-defun eriks/add-rust-font-locks ()
+         "Adds rust font locks"
+         (font-lock-add-keywords
+          nil
+          ;; TODO: comment-start-skip and prepend, like marker faces
+          '(("\\<\\(SAFETY\\):" 1 'rust-safety-face t))))))
 
 (use-package m4-mode)
 
