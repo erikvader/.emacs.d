@@ -39,11 +39,7 @@ method."
                '((rust-ts-mode rust-mode) .
                  ("rust-analyzer"
                   :initializationOptions
-                  ( ;; make emacs indent this correctly
-                   :check (:command "clippy")
-                   ;; TODO: use this?
-                   ;; :inlayHints (:closingBraceHints (:enable :json-false))
-                   ))))
+                  (:check (:command "clippy")))))
 
   ;; TODO: move these formatting thingies to a file
   (progn
@@ -91,6 +87,7 @@ path in the echo area since that is what is on the first line."
                                     (let ((echo (pcase (seq-remove #'string-blank-p (string-lines info))
                                                   ((and `(,_ ,fn-line . ,_)
                                                         ;; TODO: borde kolla mer robust efter fn med lite word boundaries osv
+                                                        ;; TODO: functions with type parameters can have a impl block before the function signature, so it's probably best to search each line for the fn keyword?
                                                         ;; TODO: hantera struct samt trait
                                                         (guard (string-search "fn " fn-line)))
                                                    fn-line)
