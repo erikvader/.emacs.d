@@ -52,26 +52,14 @@ The return value is the symbol of the created skeleton."
   ;; not everything in my hook is guaranteed to have comments either... So it's easier to
   ;; just add these globally and call it a day. The majority of files I edit do have
   ;; comments, and these won't break anything in files that don't.
-  (eriks/define-abbrev-skeleton global-abbrev-table "no"
-    "Insert NOTE"
-    nil comment-start "NOTE: ")
-  (eriks/define-abbrev-skeleton global-abbrev-table "to"
-    "Insert TODO"
-    nil comment-start "TODO: ")
-  (eriks/define-abbrev-skeleton global-abbrev-table "fi"
-    "Insert FIXME"
-    nil comment-start "FIXME: ")
-  (eriks/define-abbrev-skeleton global-abbrev-table "bu"
-    "Insert BUG"
-    nil comment-start "BUG: ")
-  (eriks/define-abbrev-skeleton global-abbrev-table "xx"
-    "Insert XXX"
-    nil comment-start "XXX: ")
-  (eriks/define-abbrev-skeleton global-abbrev-table "ha"
-    "Insert HACK"
-    nil comment-start "HACK: ")
+  (dolist (i eriks/markers)
+    (cl-destructuring-bind (key str level snippet doc) i
+      (eval `(eriks/define-abbrev-skeleton global-abbrev-table ,snippet
+               ,(concat "Insert " str)
+               nil comment-start ,(concat str eriks/marker-suffix " ")))))
 
   ;; Rust
+  (progn
   (eriks/define-abbrev-skeleton rust-mode-abbrev-table "<"
     "Add a krokodilmun pair.
 
@@ -82,19 +70,30 @@ way to add a closing krokodilmun."
     ;; BUG: this inserts an extra newline when there is a character right after <
     "<" _ ">")
 
-  (eriks/define-abbrev-skeleton rust-mode-abbrev-table "test"
+    (eriks/define-abbrev-skeleton rust-mode-abbrev-table "der"
+      "Add a derive macro."
+      nil
+      "#[derive(" _ ")]")
+
+    (eriks/define-abbrev-skeleton rust-mode-abbrev-table "saf"
+      "Safety comment"
+      nil
+      comment-start "SAFETY: ")
+
+    (eriks/define-abbrev-skeleton rust-mode-abbrev-table "tests"
     "Add a test module" nil
     ;; NOTE: just let the formatter handle the indentation
     "#[cfg(test)]\n"
-    "mod test {\n"
+      "mod tests {\n"
     "  use super::*;\n\n"
     "  #[test]\n"
-    "  fn test_something() {\n"
+      "  fn rename_me() {\n"
     "    " _ "\n"
     "  }\n"
-    "}\n")
+      "}\n"))
 
   ;; sh/bash
+  (progn
   ;; BUG: M-q auto fill doesn't work without calling normal-mode a second time for some
   ;; reason.
   (defalias 'eriks/shebang-bash-skeleton
@@ -102,7 +101,7 @@ way to add a closing krokodilmun."
       "Insert a shebang for bash" nil
       "#!/bin/bash\n\n"
       "set -euo pipefail\n\n"
-      '(normal-mode)))
+        '(normal-mode))))
 
   :general-config
   ('insert
