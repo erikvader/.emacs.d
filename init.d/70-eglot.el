@@ -6,6 +6,7 @@
 ;; are some corner cases left, like expanding a rust struct at the beginning of line,
 ;; sometimes. Hopefully this just fixes itself eventually. It seems that this only happens
 ;; when completing modules in rust.
+;; BUG: it doesn't seem like imenu can find some things in rust files, like async fn
 (use-package eglot
   :custom
   (eglot-autoshutdown t)

@@ -258,8 +258,8 @@ the default number back to the usual 2."
   (if (null comment-start-skip)
       (message "No comment syntax in current buffer, can't highlight comment markers")
     (let ((start-groups (regexp-opt-depth comment-start-skip)))
-  (font-lock-add-keywords
-   nil
+      (font-lock-add-keywords
+       nil
        (seq-map (lambda (i)
                   (cl-destructuring-bind (key regx level snippet doc) i
                     (list (concat comment-start-skip "\\<\\(" regx "\\)\\>")

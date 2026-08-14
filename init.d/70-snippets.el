@@ -60,15 +60,15 @@ The return value is the symbol of the created skeleton."
 
   ;; Rust
   (progn
-  (eriks/define-abbrev-skeleton rust-mode-abbrev-table "<"
-    "Add a krokodilmun pair.
+    (eriks/define-abbrev-skeleton rust-mode-abbrev-table "<"
+      "Add a krokodilmun pair.
 
 Languages like rust and C++ use <> as both operators and parens, which
 can make automatic insertion confused sometimes. This enables a quick
 way to add a closing krokodilmun."
-    nil
-    ;; BUG: this inserts an extra newline when there is a character right after <
-    "<" _ ">")
+      nil
+      ;; BUG: this inserts an extra newline when there is a character right after <
+      "<" _ ">")
 
     (eriks/define-abbrev-skeleton rust-mode-abbrev-table "der"
       "Add a derive macro."
@@ -81,26 +81,26 @@ way to add a closing krokodilmun."
       comment-start "SAFETY: ")
 
     (eriks/define-abbrev-skeleton rust-mode-abbrev-table "tests"
-    "Add a test module" nil
-    ;; NOTE: just let the formatter handle the indentation
-    "#[cfg(test)]\n"
+      "Add a test module" nil
+      ;; NOTE: just let the formatter handle the indentation
+      "#[cfg(test)]\n"
       "mod tests {\n"
-    "  use super::*;\n\n"
-    "  #[test]\n"
+      "  use super::*;\n\n"
+      "  #[test]\n"
       "  fn rename_me() {\n"
-    "    " _ "\n"
-    "  }\n"
+      "    " _ "\n"
+      "  }\n"
       "}\n"))
 
   ;; sh/bash
   (progn
-  ;; BUG: M-q auto fill doesn't work without calling normal-mode a second time for some
-  ;; reason.
-  (defalias 'eriks/shebang-bash-skeleton
-    (eriks/define-abbrev-skeleton (sh-mode-abbrev-table text-mode-abbrev-table) "!bash"
-      "Insert a shebang for bash" nil
-      "#!/bin/bash\n\n"
-      "set -euo pipefail\n\n"
+    ;; BUG: M-q auto fill doesn't work without calling normal-mode a second time for some
+    ;; reason.
+    (defalias 'eriks/shebang-bash-skeleton
+      (eriks/define-abbrev-skeleton (sh-mode-abbrev-table text-mode-abbrev-table) "!bash"
+        "Insert a shebang for bash" nil
+        "#!/bin/bash\n\n"
+        "set -euo pipefail\n\n"
         '(normal-mode))))
 
   :general-config

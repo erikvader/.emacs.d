@@ -65,6 +65,7 @@ value of a symbol."
 (use-package popper
   :ensure t
   :config
+  ;; TODO: ivy-occur should be a popup?
   (eriks/add-to-list 'popper-reference-buffers
                      (eriks/regexp-quote-all "*Warnings*")
                      'evil-list-view-mode
