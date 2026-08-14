@@ -1,7 +1,3 @@
-;; TODO: add my own better documentation for / that actually says what all flags that are
-;; available do. Also for s//. The case sensitive match is important, and the goto end.
-;; Maybe also mention that a replacement tries to match case? Defalias could be a way to
-;; provide alternative docs.
 (use-package evil
   :ensure t
   :init
@@ -171,7 +167,103 @@ The type of the range should be line."
   (define-advice evil-use-register (:after (register) echo)
     "Echo the chosen register and hope evil will support this natively soon."
     ;;TODO: echo current evil commands in the minibuffer https://github.com/emacs-evil/evil/issues/1755
-    (message "Using register: %c" register)))
+    (message "Using register: %c" register))
+
+  (define-advice evil-ex-search-forward (:after (&rest args) extra-docs)
+    "Extra documentation for evil search.
+
+Every slash can be a question mark to go the other way.
+
+/pattern
+/pattern/offset
+
+The offset can contain a semicolon, in which a new search can be
+started, can be chained more than once.
+
+/pattern1/;?pattern2
+/pattern1/1;/pattern2
+
+Pattern can be omitted to mean the last used pattern, i.e. //
+
+pattern:
+  - Can contain the flags \\c and \\C to force case-insensitivity and case-sensitivity,
+    respectively. Otherwise the default is used as given by `evil-ex-search-case'.
+
+offset:
+  - [num]: num lines downward, can be negative
+  - e[num]: num characters to the right of the end, can be negative or omitted
+  - s[num]: num characters to the right of the start, can be negative or omitted"
+    nil)
+
+  (define-advice evil-ex-substitute (:after (&rest args) extra-docs)
+    "Extra documentation for evil substitute.
+
+:[range]s/pattern/string/flags
+
+range:
+  - nothing or .: current line
+  - a,b: range from a to b, and the cursor is left on the current line to calculate b
+  - a;b: range from a to b, but the cursor is moved to a before calculating b
+  - [range]{- or +}[num]: move cursor num lines up or down from another range or the
+    current line
+  - number: absolute line
+  - $: last line
+  - %: the entire buffer
+  - '<,'> or *: current selection
+  - '[,']: most recent yank (paste)
+  - /pattern/: the next line the matches pattern
+  - 'x: the line where mark x is
+
+pattern:
+  - Normal regex, much the same as `evil-ex-search-forward'.
+  - Smart case is used by default, according to `evil-ex-substitute-case'.
+
+string:
+  - Replacement string
+  - \\[num]: replace with the nth capture group.
+  - &: same as \\0, i.e. the whole match
+  - ~: use last replacement string
+  - The replacement will match the case of the search ala `case-replace'. Disable this
+    behaviour be using the `I' flag or \\C, i.e. make the search case-sensitive. This also
+    messes with \\l and friends, they don't always work with case matching enabled.
+  - \\u and \\l: make the next character upper or lower case
+  - \\U and \\L: make all subsequent characters upper or lower case, until a \\e or \\E is
+    encountered.
+  - \\t and \\n: insert tab and newline
+
+flags:
+  - &: use the previous flags
+  - c: confirm each substitution
+  - g: replace all occurences in the line, not just the first
+  - i: ignore case, case-insensitive
+  - I: don't ignore case, case-sensitive
+  - n: count occurences instead of substituting
+  - p: print the line containing the last subsitute
+  - #: the same as p, but also print the line number"
+    nil)
+
+  (define-advice evil-ex-global (:after (&rest args) extra-docs)
+    "Extra documentation for evil global.
+
+:[range]g/pattern/cmd
+
+Runs cmd on each line matching pattern. Use g! or v to invert the
+pattern, i.e. run command on non-matching lines.
+
+range:
+  - Same as for `evil-ex-substitute'.
+
+pattern:
+  - Normal regex, much the same as `evil-ex-search-forward'.
+
+cmd:
+  - The ex command to run on each matching line
+  - The default command is p(rint)
+  - Another useful command is d(elete)
+  - Use normal to run a normal command, like :g/asd/normal Ihej
+  - Globals can be chained, like g/include/v/exclude/p, but it doesn't seem to work in
+    evil."
+    nil))
 
 (use-package drag-stuff
   :ensure t
