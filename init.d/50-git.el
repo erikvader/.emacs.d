@@ -1,3 +1,13 @@
+(use-package smerge-mode
+  :custom
+  ;; HACK: magit has its own config that overrides and defaults to this one, so make sure
+  ;; this is set before magit is loaded. `magit-diff-refine-ignore-whitespace'.
+  (smerge-refine-ignore-whitespace nil)
+  ;; TODO: evaluate setting this to nil, how does it effect diffs?
+  (smerge-refine-weight-hack nil))
+
+;; TODO: add a binding to quickly toggle --ignore-space-change in the status buffer. Or
+;; D-bg is maybe short enough?
 (use-package magit
   :ensure t
   :custom
@@ -5,7 +15,6 @@
   (magit-define-global-key-bindings nil)
   (magit-diff-refine-hunk 'all)
   (magit-diff-use-indicator-faces t)
-  (magit-diff-refine-ignore-whitespace nil)
   (evil-collection-magit-use-$-for-end-of-line nil)
   (evil-collection-magit-use-0-for-beginning-of-line nil)
   (evil-collection-magit-use-z-for-folds t)
