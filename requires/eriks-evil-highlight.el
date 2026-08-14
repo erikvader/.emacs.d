@@ -40,6 +40,9 @@ Uses a default face unless C-u is used."
    (read-regexp "highlight" "" 'evil-ex-search-history)
    (null (equal arg '(4)))))
 
+;; TODO: should i use this on * instead cuz i overrode # with something else? The symmetry
+;; is gone. Don't forget to bind g* with a command that doesn't att symbol boundaries to
+;; the regex. Also remove g#?
 (defun eriks/evil-search-highlight-current-symbol ()
   "Put the current symbol at point in the search history. If
 search highlighting in evil is activated this will highlight the

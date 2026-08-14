@@ -85,6 +85,9 @@ See also: `sp-no-reindent-after-kill-modes' and
    :prefix "]"
    "[" 'sp-next-sexp
    "]" 'sp-forward-sexp
+   ;; BUG: these restrict to pair object don't include double quotes for some reason, even
+   ;; though they are included in `sp-pair-list', which the doc explicitly says is the
+   ;; variable it looks at.
    ">" (sp-restrict-to-object-interactive #'sp-prefix-pair-object 'sp-forward-sexp)
    "<" (sp-restrict-to-object-interactive #'sp-prefix-pair-object 'sp-next-sexp)
    ")" 'sp-end-of-next-sexp
@@ -131,7 +134,10 @@ See also: `sp-no-reindent-after-kill-modes' and
    "[%" 'eriks/sp-evil-beg-of-hybrid-sexp
    "[#" 'eriks/sp-evil-beg-of-long-hybrid-sexp
    "]#" 'eriks/sp-evil-end-of-long-hybrid-sexp
-   [remap evil-jump-item] 'eriks/sp-jump-item))
+   [remap evil-jump-item] 'eriks/sp-jump-item
+   ;; NOTE: I basically never user this binding, I always reach for *, and I can go
+   ;; backwards with N
+   "#" 'eriks/sp-jump-item-beg))
 
 (use-package eriks-sp-post-handlers
   :config

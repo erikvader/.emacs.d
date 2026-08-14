@@ -16,6 +16,17 @@ don't work so well with this motion."
                      :beg
                    :end-in)))))
 
+(evil-define-motion eriks/sp-jump-item-beg ()
+  "Like `eriks/sp-jump-item', but it goes to the beginning instead of the end."
+  :jump t
+  :type inclusive
+  (let ((use (or (sp-get-sexp)
+                 (user-error "No sexp found"))))
+    (sp-get use
+      (goto-char (if (= (point) :beg)
+                     :end-in
+                   :beg)))))
+
 (evil-define-motion eriks/sp-evil-end-of-hybrid-sexp ()
   "Move to end of hybrid sexp"
   :jump t
@@ -83,7 +94,7 @@ It will include as much as possible."
   "Text object for the hybrid sexp, according to smartparens"
   (let ((bounds (or (sp-get-hybrid-sexp)
                     (user-error "Not inside a hybrid sexp"))))
-      (sp-get bounds
+    (sp-get bounds
       (evil-range :beg-prf :end-suf))))
 
 ;; TODO: should there be an outer version that includes surrounding whitespace or smth?
@@ -99,7 +110,7 @@ It will include as much as possible."
 prefix and suffix."
   (let ((bounds (or (sp-get-enclosing-sexp)
                     (user-error "Not inside an sexp"))))
-      (sp-get bounds
+    (sp-get bounds
       (evil-range :beg-prf :end-suf))))
 
 (evil-define-text-object eriks/evil-sp-inner-sexp (count &optional beg end type)
@@ -107,7 +118,7 @@ prefix and suffix."
 to smartparens"
   (let ((bounds (or (sp-get-enclosing-sexp)
                     (user-error "Not inside an sexp"))))
-      (sp-get bounds
+    (sp-get bounds
       (evil-range :beg-in :end-in))))
 
 (provide 'eriks-sp-evil-motions)
