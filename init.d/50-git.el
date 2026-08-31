@@ -3,11 +3,12 @@
   ;; HACK: magit has its own config that overrides and defaults to this one, so make sure
   ;; this is set before magit is loaded. `magit-diff-refine-ignore-whitespace'.
   (smerge-refine-ignore-whitespace nil)
-  ;; TODO: evaluate setting this to nil, how does it effect diffs?
-  (smerge-refine-weight-hack nil))
+  ;; NOTE: keeping this setting with its default yields the best refinements, I have
+  ;; tried with it off, and it's not that good.
+  ;; (smerge-refine-weight-hack t)
+  )
 
-;; TODO: add a binding to quickly toggle --ignore-space-change in the status buffer. Or
-;; D-bg is maybe short enough?
+;; BUG: the - and + in the left fringe are included in the refinement
 (use-package magit
   :ensure t
   :custom
@@ -29,6 +30,23 @@ untracked directories."
     (magit-refresh)
     (message "Showing all untracked files"))
 
+  (defun eriks/magit-toggle-whitespace ()
+    "Toggle whether whitespace should be ignored.
+
+Diff settings is normally tweaked with `magit-diff-refresh', this is
+just a shortcut for the status buffer."
+    (interactive)
+    (unless (derived-mode-p 'magit-status-mode)
+      (user-error "Must be in a magit status buffer"))
+    (let ((flag "--ignore-space-change"))
+      (pcase-let ((`(,args ,_) (magit-diff-arguments 'magit-status-mode)))
+        (setq magit-buffer-diff-args
+              (if (member flag args)
+                  (remove flag args)
+                (cons flag args))))
+      (magit-refresh)
+      (message "Ignoring whitespace: %s" (if (member flag magit-buffer-diff-args) "yes" "no"))))
+
   (eriks/leader-def 'normal
     :infix "g"
     "s" 'magit-status
@@ -39,9 +57,13 @@ untracked directories."
 
   (eriks/leader-def 'normal 'magit-status-mode-map
     :infix "g"
+    "w" 'eriks/magit-toggle-whitespace
     "u" 'eriks/magit-refresh-with-all-untracked-files)
 
   (progn
+    ;; TODO: make the comment color brighter to make it more readable against the refined
+    ;; background color?
+
     ;; https://github.com/magit/magit/issues/2942#issuecomment-4069825556
     (defun eriks/magit-diff-fontify-with-diff-mode ()
       (save-excursion
