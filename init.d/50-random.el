@@ -1,3 +1,5 @@
+;; TODO: use minimap or demap?
+
 (use-package minibuffer
   :config
   (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function)

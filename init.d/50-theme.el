@@ -226,17 +226,21 @@ the default number back to the usual 2."
             (setq display-fill-column-indicator-character ?│)))
 
 ;; font-locks
-(defface eriks/marker-low-face '((t :foreground "green")) "face for low prio markers")
-(defface eriks/marker-medium-face '((t :foreground "orange")) "face for medium prio markers")
-(defface eriks/marker-high-face '((t :foreground "red")) "face for high prio markers")
+(defface eriks/marker-low-face '((t :foreground "green")) "face for kind comments")
+(defface eriks/marker-medium-face '((t :foreground "orange")) "face for things to do")
+(defface eriks/marker-high-face '((t :foreground "red")) "face for angry comments")
 (defconst eriks/markers '((todo "TODO" medium "to" "Future work or planned enhancements.")
-                          (fixme "FIXME" high "fi" "Known broken code that needs a fix.")
+                          (fixme "FIXME" medium "fi" "Known broken code that needs a fix.")
                           (note "NOTE" low "no" "Explanations, context, or reminders about how it works.")
                           (bug "BUG" medium "bu" "Flags a specific known bug (often tied to an issue ticket).")
                           (xxx "XXX" high "xx" "Critical warning about dangerous, messy, or tricky code.")
-                          (hack "HACK" low "ha" "A temporary, sub-optimal workaround that should be refactored later.")
-                          (rant "RANT" low "ra" "Informal remark to vent frustration, explain bizarre workarounds, or document non-obvious design flaws")))
+                          (hack "HACK" high "ha" "A temporary, sub-optimal workaround that should be refactored later.")
+                          (rant "RANT" high "ra" "Informal remark to vent frustration, explain bizarre workarounds, or document non-obvious design flaws")))
 (defconst eriks/marker-suffix ":")
+
+(defun eriks/marker-is-problem (i)
+  (cl-destructuring-bind (key str level snippet doc) i
+    (memq key '(todo fixme bug))))
 
 (defun eriks/marker-face-name (name)
   (intern (concat "eriks/" (symbol-name name) "-marker-face")))

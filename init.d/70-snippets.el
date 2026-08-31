@@ -47,7 +47,7 @@ The return value is the symbol of the created skeleton."
          (define-abbrev ,(car tables) ,abbrev "" ',(car names))
          ,@extra)))
 
-  ;; NOTE: These should probably belong to `eriks/editable-file-hook' somehow, because not
+  ;; HACK: These should probably belong to `eriks/editable-file-hook' somehow, because not
   ;; every mode that has comments belong to `prog-mode-abbrev-table' unfortunately. But
   ;; not everything in my hook is guaranteed to have comments either... So it's easier to
   ;; just add these globally and call it a day. The majority of files I edit do have

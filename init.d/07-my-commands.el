@@ -78,9 +78,7 @@ Similar purpose as `pwd'."
   (counsel-rg
    (string-join
     (->> eriks/markers
-         (seq-filter (lambda (i)
-                       (cl-destructuring-bind (key str level snippet doc) i
-                         (not (eq level 'low)))))
+         (seq-filter #'eriks/marker-is-problem)
          (seq-map (lambda (i)
                     (cl-destructuring-bind (key str level snippet doc) i
                       (concat str eriks/marker-suffix)))))
