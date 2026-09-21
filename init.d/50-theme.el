@@ -1,5 +1,5 @@
 ;; color theme
-(define-advice color-rgb-to-hex  (:filter-args (args) change-default)
+(define-advice color-rgb-to-hex (:filter-args (args) change-default)
   "This function will, by default, return RGB strings with four characters
 per component instead of usual two. Some code is not expecting that,
 like whatever is setting `ivy-minibuffer-match-face-1', it truncates the
@@ -9,7 +9,10 @@ the default number back to the usual 2."
     (list red green blue (or digits-per-component 2))))
 
 (use-package dracula-theme
-  :ensure t
+  ;; NOTE: this is pinned since an update to the theme could change stuff that i rely on,
+  ;; so this should be updated deliberately.
+  :vc (:url https://github.com/dracula/emacs.git
+            :rev "b1a4d87ba1cf880143f4ab2ccd942cf556887fb1")
   :config
   (define-advice custom-theme-set-faces (:filter-args (args) dracula-black-background)
     "An advice to map some colors to others, noteably the default background color."
@@ -41,7 +44,11 @@ the default number back to the usual 2."
               (vibrant-yellow "gold2")
               (vibrant-green "green1")
               (vibrant-orange "orange1")
-              (vibrant-red "red1"))
+              (vibrant-red "red1")
+              (refine-added "#128238")
+              (refine-removed "#9e1505")
+              (refine-changed "#8f8b05") ;; TODO or #997800 or #b08d00
+              )
           (cl-labels ((ovwr (xs face &rest spec)
                         (cons `(,face ((,display-graphical ,spec))) xs))
                       (modify (xs face &rest kwargs)
@@ -104,7 +111,7 @@ the default number back to the usual 2."
                           ;; My faces
                           (ovwr 'eriks/marker-low-face :foreground vibrant-green :weight 'bold)
                           (ovwr 'eriks/marker-medium-face :foreground vibrant-orange :weight 'bold)
-                          (ovwr 'eriks/marker-high-face :foreground vibrant-red :weight 'bold)
+                          (ovwr 'eriks/marker-high-face :foreground vibrant-pink :weight 'bold)
                           (ovwr 'tab-face :strike-through dracula-purple)
                           ;; Highlighting
                           (ovwr 'trailing-whitespace :strike-through dracula-orange)
@@ -143,6 +150,9 @@ the default number back to the usual 2."
                           ;; Magit
                           (modify 'magit-diff-hunk-heading-highlight :foreground dracula-cyan)
                           (modify 'magit-diff-hunk-heading :foreground dracula-cyan)
+                          ;; NOTE: respect `magit-diff-specify-hunk-foreground' as nil
+                          (modify 'magit-diff-context :foreground 'unspecified)
+                          (modify 'magit-diff-context-highlight :foreground 'unspecified)
                           (ovwr 'magit-diff-added :inherit 'diff-added)
                           (ovwr 'magit-diff-removed :inherit 'diff-removed)
                           (ovwr 'magit-diff-base :inherit 'diff-changed)
@@ -157,12 +167,12 @@ the default number back to the usual 2."
                           (ovwr 'diff-file-header :inherit 'magit-diff-file-heading-highlight)
                           (ovwr 'diff-hl-change :foreground dracula-yellow :background dracula-yellow)
                           (ovwr 'diff-indicator-changed :foreground dracula-yellow)
-                          (ovwr 'diff-refine-added :underline dracula-green)
-                          (ovwr 'diff-refine-removed :underline dracula-red)
-                          (ovwr 'diff-refine-changed :underline dracula-yellow)
-                          (ovwr 'diff-added :foreground dracula-fg :background (color-darken-name dracula-green 80) :extend t)
-                          (ovwr 'diff-removed :foreground dracula-fg :background (color-darken-name dracula-red 80) :extend t)
-                          (ovwr 'diff-changed :foreground dracula-fg :background (color-darken-name dracula-yellow 80) :extend t)
+                          (ovwr 'diff-refine-added :background refine-added)
+                          (ovwr 'diff-refine-removed :background refine-removed)
+                          (ovwr 'diff-refine-changed :background refine-changed)
+                          (ovwr 'diff-added :background (color-darken-name dracula-green 80) :extend t)
+                          (ovwr 'diff-removed :background (color-darken-name dracula-red 80) :extend t)
+                          (ovwr 'diff-changed :background (color-darken-name dracula-yellow 80) :extend t)
                           ;; Smerge
                           (ovwr 'smerge-upper :inherit 'magit-diff-our)
                           (ovwr 'smerge-base :inherit 'magit-diff-base)
@@ -170,6 +180,18 @@ the default number back to the usual 2."
                           (ovwr 'smerge-refined-added :inherit 'diff-refine-added)
                           (ovwr 'smerge-refined-removed :inherit 'diff-refine-removed)
                           (ovwr 'smerge-refined-changed :inherit 'diff-refine-changed)
+                          ;; ediff
+                          (ovwr 'ediff-current-diff-A :inherit 'diff-removed)
+                          (ovwr 'ediff-fine-diff-A :inherit 'diff-refine-removed)
+                          (ovwr 'ediff-current-diff-B :inherit 'diff-added)
+                          (ovwr 'ediff-fine-diff-B :inherit 'diff-refine-added)
+                          (ovwr 'ediff-current-diff-C :inherit 'diff-changed)
+                          (ovwr 'ediff-fine-diff-C :inherit 'diff-refine-changed)
+                          ;; TODO: what colors should `ediff-current-diff-Ancestor' and
+                          ;; `ediff-fine-diff-Ancestor' get?
+                          (ovwr 'ediff-odd-diff-B :inherit 'ediff-odd-diff-A)
+                          (ovwr 'ediff-even-diff-C :inherit 'ediff-even-diff-B)
+                          (ovwr 'ediff-even-diff-A :inherit 'ediff-even-diff-B)
                           ;; Ansi
                           (ovwr 'ansi-color-bright-black :foreground bright-black :background bright-black)
                           (brighten 'ansi-color-bright-blue dracula-purple 10)
@@ -257,20 +279,19 @@ the default number back to the usual 2."
 
 (defun eriks/add-marker-font-locks ()
   "Makes FIXME, TODO and NOTE get highlighted in current buffer"
-  ;; TODO: it seems like a buffer could use syntax thingies instead of regexes for
-  ;; comments, what to do in those cases?
-  (if (null comment-start-skip)
-      (message "No comment syntax in current buffer, can't highlight comment markers")
-    (let ((start-groups (regexp-opt-depth comment-start-skip)))
-      (font-lock-add-keywords
-       nil
-       (seq-map (lambda (i)
-                  (cl-destructuring-bind (key regx level snippet doc) i
-                    (list (concat comment-start-skip "\\<\\(" regx "\\)\\>")
-                          (1+ start-groups)
-                          `',(eriks/marker-face-name key)
-                          'prepend)))
-                eriks/markers)))))
+  ;; NOTE: for buffers that don't have `comment-start-skip' set or use
+  ;; `comment-use-syntax' (?), fontify on a best effort basis, better than nothing
+  (let* ((cmt-start (or comment-start-skip ""))
+         (start-groups (regexp-opt-depth cmt-start)))
+    (font-lock-add-keywords
+     nil
+     (seq-map (lambda (i)
+                (cl-destructuring-bind (key regx level snippet doc) i
+                  (list (concat cmt-start "\\<\\(" regx "\\)\\>")
+                        (1+ start-groups)
+                        `',(eriks/marker-face-name key)
+                        'prepend)))
+              eriks/markers))))
 
 (add-hook 'eriks/editable-file-hook #'eriks/add-marker-font-locks)
 

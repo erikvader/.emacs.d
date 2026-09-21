@@ -95,24 +95,6 @@
   :config
   (remove-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
-(use-package diff-mode
-  :custom
-  (diff-font-lock-syntax 'hunk-also)
-  :config
-  (evil-collection-diff-mode-setup)
-  (define-advice diff-refine-hunk (:around (org) toggle)
-    "Makes this function toggle the refinement in the current hunk."
-    (cl-destructuring-bind (beg end) (diff-bounds-of-hunk)
-      (if (cl-some (lambda (ovl) (eq 'fine (overlay-get ovl 'diff-mode)))
-                   (overlays-in beg end))
-          (remove-overlays beg end 'diff-mode 'fine)
-        (save-excursion
-          (diff--refine-hunk beg end)))))
-  :general-config
-  ('diff-mode-map
-   ;; NOTE: let my `ace-window' through
-   "M-o" nil))
-
 ;; TODO: den ser ut att återställas varje gång buffern döljs och visas på nytt
 ;; TODO: och jag kommer inte ihåg varför det var ett problem
 (use-package man
@@ -135,6 +117,9 @@
   :ensure t
   :config
   (defface rust-safety-face '((t :inherit rust-unsafe)) "face for SAFETY")
+  ;; NOTE: the default explicitly inherits default, which overrides the backgrounds in
+  ;; magit diff
+  (face-spec-set 'rust-ampersand-face nil 'face-defface-spec)
   :gfhook
   (nil (cl-defun eriks/rust-fill-column-hook-fun ()
          ;; NOTE: the default in rustfmt

@@ -8,14 +8,14 @@
   ;; (smerge-refine-weight-hack t)
   )
 
-;; BUG: the - and + in the left fringe are included in the refinement
 (use-package magit
   :ensure t
   :custom
   (magit-auto-revert-tracked-only nil)
   (magit-define-global-key-bindings nil)
-  (magit-diff-refine-hunk 'all)
   (magit-diff-use-indicator-faces t)
+  (magit-diff-specify-hunk-foreground nil)
+  (magit-ediff-dwim-show-on-hunks t)
   (evil-collection-magit-use-$-for-end-of-line nil)
   (evil-collection-magit-use-0-for-beginning-of-line nil)
   (evil-collection-magit-use-z-for-folds t)
@@ -61,28 +61,60 @@ just a shortcut for the status buffer."
     "u" 'eriks/magit-refresh-with-all-untracked-files)
 
   (progn
-    ;; TODO: make the comment color brighter to make it more readable against the refined
-    ;; background color?
+    (defvar-local eriks/magit-faces-modified nil)
 
     ;; https://github.com/magit/magit/issues/2942#issuecomment-4069825556
     (defun eriks/magit-diff-fontify-with-diff-mode ()
-      (save-excursion
-        (let ((min (point-min))
-              (max (point-max)))
-          (save-restriction
-            (widen)
-            (setq-local buffer-read-only nil)
-            (setq-local diff-font-lock-syntax 'hunk-also)
-            (goto-char min)
-            (diff--font-lock-syntax max)))))
+      "Alternate way to add syntax to magit diffs.
 
-    (add-hook 'magit-diff-wash-diffs-hook #'eriks/magit-diff-fontify-with-diff-mode))
+The official way with (magit-diff-fontify-hunk 'all) is too wasteful, it
+opens each file and runs all of their hooks. I don't know why it does
+that, because that version and this one eventually calls
+`diff-syntax-fontify-props', which uses `delay-mode-hooks', so it must
+be something on magit's side that runs the mode hooks.
 
-  (add-hook 'magit-diff-wash-diffs-hook #'eriks/add-tab-font-lock)
+This methods fontifies the diff text that is already there, which is
+less accurate, but works well enough imho. I think magit tries much
+harder to get the whole file as context, it at least sounds like it on
+the issue discussing this feature."
+      ;; NOTE: make it easier to read dark and dim colors against bright refinement
+      ;; backgrounds. This is affecting the whole magit diff buffer, but that is probably
+      ;; fine since this is targeting font lock faces that magit is probably not using.
+      (unless eriks/magit-faces-modified
+        (setq-local eriks/magit-faces-modified t)
+        (let ((bright-shadow (color-lighten-name (face-foreground 'shadow nil 'default) 20)))
+          (dolist (dark '(font-lock-comment-face font-lock-doc-face))
+            (face-remap-add-relative dark :foreground bright-shadow))))
+
+      ;; HACK: the major mode is activated inside a delay-mode-hooks inside the function
+      ;; `diff-syntax-fontify-props', which is the function that converts all text
+      ;; properties into overlays. My own font locks are enabled through these now delayed
+      ;; hooks, so they need to be forcefully enabled for the function to find them and
+      ;; return them in the correct display order.
+      (cl-letf* ((org-fun (symbol-function 'set-auto-mode))
+                 ((symbol-function 'set-auto-mode) (lambda (&rest args2)
+                                                     (apply org-fun args2)
+                                                     (eriks/add-marker-font-locks)
+                                                     (eriks/add-tab-font-lock))))
+        (save-excursion
+          (let ((min (point-min))
+                (max (point-max)))
+            (save-restriction
+              (widen)
+              (setq-local buffer-read-only nil)
+              (setq-local diff-font-lock-syntax 'hunk-also)
+              (goto-char min)
+              (diff--font-lock-syntax max))))))
+
+    (add-hook 'magit-diff-wash-diffs-hook 'eriks/magit-diff-fontify-with-diff-mode))
 
   (evil-collection-magit-setup)
   (evil-set-initial-state 'git-commit-mode 'insert)
   :general-config
+  ;; NOTE: change these bindings in the same maps as evil-collection does
+  ('(magit-file-section-map magit-hunk-section-map)
+   [remap magit-diff-visit-worktree-file] 'magit-diff-visit-worktree-file-other-window
+   [remap magit-diff-visit-file] 'magit-diff-visit-file-other-window)
   ('(magit-revision-mode-map magit-status-mode-map)
    ;; NOTE: let my leader through
    "SPC" nil)
@@ -112,16 +144,6 @@ just a shortcut for the status buffer."
    "z S-<right>" 'evil-scroll-left
    "zL" 'evil-scroll-right
    "z S-<right>" 'evil-scroll-right))
-
-;; TODO: bindings don't work, at least the p button. Has to switch to emacs mode
-(use-package git-timemachine
-  :ensure t
-  :config
-  (add-to-list 'evil-buffer-regexps '("^timemachine:" . normal))
-  (evil-collection-git-timemachine-setup)
-  (eriks/leader-def 'normal
-    :infix "g"
-    "t" 'git-timemachine))
 
 (use-package diff-hl
   :ensure t
@@ -160,10 +182,53 @@ just a shortcut for the status buffer."
 (use-package vc
   :custom
   (vc-display-status nil)
-  (vc-handled-backends '(git))
+  (vc-handled-backends '(Git))
   (vc-follow-symlinks nil))
 
 (use-package git-modes
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("/git/config\\..+\\'" . gitconfig-mode)))
+
+(use-package ediff
+  :config
+  (evil-collection-ediff-setup)
+  :custom
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  :gfhook
+  ('ediff-startup-hook #'ediff-next-difference))
+
+(use-package diff-mode
+  :custom
+  (diff-font-lock-syntax 'hunk-also)
+  (diff-refine nil)
+  :config
+  (evil-collection-diff-mode-setup)
+  ;; TODO: it would be nice if this could toggle all hunks on a file in magit
+  ;; TODO: it would be cool if a hunk automatically got refined only if the number of
+  ;; deleted lines is equal to the number of added lines. This would hopefully remove most
+  ;; "this word got replaced with 10 lines", which is the most useless applifaction of
+  ;; refinement.
+  (define-advice diff-refine-hunk (:around (org) toggle)
+    "Makes this function toggle the refinement in the current hunk."
+    (cl-destructuring-bind (beg end) (diff-bounds-of-hunk)
+      (if (cl-some (lambda (ovl) (eq 'fine (overlay-get ovl 'diff-mode)))
+                   (overlays-in beg end))
+          (remove-overlays beg end 'diff-mode 'fine)
+        (save-excursion
+          (diff--refine-hunk beg end)))))
+
+  ;; BUG: the + and - are included in the refinement as code changes.
+  ;; This function is run on each hunk before being refined, and this is how it looked in
+  ;; 2007. I don't know if this actually fixed the problem completely, a simple case got
+  ;; fixed though, but the pluses and minuses are are still sometimes highlighed and
+  ;; sometimes not. Not sure if this is even fixable.
+  ;; (define-advice diff-refine-preproc (:override () fix-refinement)
+  ;;   (while (re-search-forward "^." nil t)
+  ;;     (replace-match " ")))
+
+  :general-config
+  ('diff-mode-map
+   ;; NOTE: let my `ace-window' through
+   "M-o" nil))

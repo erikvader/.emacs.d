@@ -40,13 +40,6 @@ Makes that function behave like the default
   ('insert
    "C-s" 'eriks/evil-dabbrev-completion))
 
-(use-package ediff
-  :config
-  (evil-collection-ediff-setup)
-  :custom
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
-
 (use-package ibuffer
   :config
   (evil-collection-ibuffer-setup)
@@ -86,6 +79,8 @@ Makes that function behave like the default
     "t" 'eriks/spawn-external-terminal))
 
 (use-package pdf-tools
+  ;; TODO: i dont use this anymore, remove?
+  :disabled
   :ensure t
   :custom
   (pdf-view-display-size 'fit-page)
