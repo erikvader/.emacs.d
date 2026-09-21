@@ -24,7 +24,7 @@
    "M-u" 'eriks/evil-scroll-up-half-other-window
    "-" 'repeat
    "<backspace>" 'evil-ex-nohighlight
-   "gr" 'revert-buffer)
+   "gr" 'revert-buffer-quick)
   ('motion
    :prefix "]"
    "s" 'evil-forward-sentence-begin
@@ -370,15 +370,15 @@ cmd:
   (evil-indent-plus-default-bindings))
 
 (use-package evil-collection
-  ;; NOTE: This is pinned because the commit after introduces an annoying switch that
-  ;; changes how RET works in REPL modes. I want RET to send the input to the repl both in
-  ;; normal and insert states, and i don't like that they implemented it by binding to
-  ;; [return] and stuff, only RET is enough.
-  ;; https://github.com/emacs-evil/evil-collection/issues/904
-  ;; https://github.com/emacs-evil/evil-collection/commit/14c09ec65c0d6184115233741f5667a1de5a7f6b
-  :vc (:url https://github.com/emacs-evil/evil-collection.git
-            :rev "c214d48dd80d5ba9b7d05b7751d67b9281cd25f4")
+  :ensure t
   :custom
+  ;; TODO: I disable these so they don't interfere with my manually set bindings, <return>
+  ;; has higher priority than RET, but i should probably be able to remove my mode
+  ;; specific bindings and set them via these overrides instead.
+  (evil-collection-binding-overrides
+   '((repl-submit :enabled nil)
+     (repl-newline :enabled nil)
+     (repl-force-newline :enabled nil)))
   (evil-collection-key-blacklist (list eriks/leader)))
 
 (use-package evil-numbers
