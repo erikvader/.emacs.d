@@ -20,8 +20,8 @@
   "Show the faces that are used to display the character at point."
   (interactive "d")
   (let* ((overlays (->> (overlays-at pos)
-                        (mapcar (lambda (o) (overlay-get o 'face)))
-                        (cl-remove-if #'null)))
+                        (seq-mapcat (lambda (o) (ensure-list (overlay-get o 'face))))
+                        (seq-remove #'null)))
          ;; NOTE: copied from `describe-char'
          (char (char-after pos))
          (hardcoded-face
@@ -40,14 +40,17 @@
            ((and (< char 32) (not (memq char '(9 10))))
             'escape-glyph)))
          (tprop (text-properties-at pos))
-         (tface (-> tprop (plist-get 'face)))
-         (flface (-> tprop (plist-get 'font-lock-face)))
-         (used-face (cond ((and font-lock-mode flface) flface)
-                          (tface tface)
-                          (t 'default))))
+         (order (or (assq 'face char-property-alias-alist)
+                    '(face)))
+         (used-faces (or (->> order
+                              (seq-map (apply-partially #'plist-get tprop))
+                              (seq-remove #'null)
+                              (seq-first))
+                         'default)))
     (cl-flet ((tostring (kind face)
+                ;; TODO: support `face-remapping-alist'
                 (list (format "%s: %s (%s)" kind face (propertize "sample" 'face face)))))
-      (message "%s" (string-join (append (tostring "Prop" used-face)
+      (message "%s" (string-join (append (mapcan (apply-partially #'tostring "Prop") (ensure-list used-faces))
                                          (when hardcoded-face (tostring "Hard" hardcoded-face))
                                          (mapcan (apply-partially #'tostring "Ovrl") overlays))
                                  ", ")))))
