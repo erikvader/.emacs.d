@@ -1,6 +1,7 @@
 (use-package help-mode
   :gfhook 'scroll-lock-mode
   :config
+  ;; BUG: the C-i binding doesn't work, it does the incorrect thing
   (evil-collection-help-setup)
 
   (defun eriks/help-revert-with-characters ()

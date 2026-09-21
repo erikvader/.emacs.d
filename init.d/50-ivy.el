@@ -1,3 +1,7 @@
+;; TODO: ivy is a beast of a third-party package that re-implements everything in emacs.
+;; It would be really nice if i could get a vertico/consult/marginalia/embark/orderless
+;; setup that worked almost exacly like ivy. I have a previous attempt in the history
+;; somewhere.
 (use-package ivy
   :ensure t
   :diminish

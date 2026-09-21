@@ -126,7 +126,8 @@
    "C-l" 'comint-clear-buffer)
   ('insert
    'comint-mode-map
-   ;; Make it more bash/minibuffer-like. NOTE: It didn't work to simply bind to nil
+   ;; Make it more bash/minibuffer-like.
+   ;; NOTE: It didn't work to simply bind to nil
    "C-a" 'move-beginning-of-line ;; I have never used this
    "C-k" 'kill-line ;; not using digraphs
    "C-e" 'move-end-of-line ;; not really useful in this context

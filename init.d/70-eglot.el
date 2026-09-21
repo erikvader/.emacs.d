@@ -7,6 +7,7 @@
 ;; sometimes. Hopefully this just fixes itself eventually. It seems that this only happens
 ;; when completing modules in rust.
 ;; BUG: it doesn't seem like imenu can find some things in rust files, like async fn
+;; BUG: the diagnostics aren't colored anymore...
 (use-package eglot
   :custom
   (eglot-autoshutdown t)
