@@ -4,6 +4,7 @@ session.*
 /recentf
 /projectile.cache
 /projectile-bookmarks.eld
+/projectile-frecency.eld
 /auto-save-list
 /ac-comphist.dat
 /.mc-lists.el

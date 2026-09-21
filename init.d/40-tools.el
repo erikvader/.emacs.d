@@ -19,6 +19,7 @@
 
 ;; TODO: remove various manual project.el overrides i have added, projectile integrates to
 ;; that itself, so no need for my advices and stuff.
+;; TODO: give project.el a serious go. I don't think projectile offers anything unique i need
 (use-package projectile
   :ensure t
   :diminish
@@ -37,6 +38,7 @@
   (projectile-ignored-project-function (cl-defun eriks/projectile-ignore-project (truename)
                                          "Ignore the sources of rust packages."
                                          (string-prefix-p (file-truename "~/.cargo") truename)))
+  (projectile-enable-frecency nil)
   :config
   (defface eriks/mode-line-projectile-face nil
     "face for the projectile project in the modeline")
@@ -47,8 +49,6 @@
   ('projectile-mode-map
    :prefix "C-c"
    "p" 'projectile-command-map))
-
-;; TODO: use-package proced
 
 (use-package xref
   :general-config
@@ -61,5 +61,6 @@
   :general-config
   ('normal
    :prefix "g"
+   ;; TODO: is `projectile-find-other-file' a better version of this?
    "f" 'ff-find-related-file
    "F" 'find-file-at-point))
