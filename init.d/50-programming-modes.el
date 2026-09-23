@@ -240,3 +240,7 @@
                            ;; NOTE: It seems that the elisp source in emacs itself uses a
                            ;; mix of spaces and 8 character wide tabs.
                            (setq-local tab-width 8))))
+
+;; NOTE: at least eglot uses this to format documentation and hover info
+(use-package markdown-mode
+  :ensure t)

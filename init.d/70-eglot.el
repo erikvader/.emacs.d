@@ -6,8 +6,6 @@
 ;; are some corner cases left, like expanding a rust struct at the beginning of line,
 ;; sometimes. Hopefully this just fixes itself eventually. It seems that this only happens
 ;; when completing modules in rust.
-;; BUG: it doesn't seem like imenu can find some things in rust files, like async fn
-;; BUG: the diagnostics aren't colored anymore...
 (use-package eglot
   :custom
   (eglot-autoshutdown t)
@@ -28,7 +26,7 @@ method."
                                        (let ((serv (eglot-current-server)))
                                          (when (and serv (eglot-managed-p))
                                            (eglot-reconnect serv)))))
-  ;; NOTE: evil fixes the keymaps frequently, e.g. when switching states, but apparently
+  ;; HACK: evil fixes the keymaps frequently, e.g. when switching states, but apparently
   ;; not the moment when eglot is activated, so add an extra normalize here.
   ('eglot-managed-mode-hook `(evil-normalize-keymaps
                               ,(cl-defun eriks/disable-inlay-hints-mode ()
@@ -85,18 +83,26 @@ method."
       "This wraps the normal eglot eldoc hover function to find the actual
 function signature in the hover text. Eglot normally displays the module
 path in the echo area since that is what is on the first line."
-      (eglot-hover-eldoc-function (lambda (info &rest args)
-                                    (let ((echo (pcase (seq-remove #'string-blank-p (string-lines info))
-                                                  ((and `(,_ ,fn-line . ,_)
-                                                        ;; TODO: borde kolla mer robust efter fn med lite word boundaries osv
-                                                        ;; TODO: functions with type parameters can have a impl block before the function signature, so it's probably best to search each line for the fn keyword?
-                                                        ;; TODO: hantera struct samt trait
-                                                        (guard (string-search "fn " fn-line)))
-                                                   fn-line)
-                                                  (`(,module-line . ,_)
-                                                   module-line)
-                                                  (_ nil))))
-                                      (apply cb info :echo echo args))))))
+      (eglot-hover-eldoc-function
+       (lambda (info &rest args)
+         (cl-flet ((impl-line-p (line)
+                     (with-syntax-table rust-mode-syntax-table
+                       (string-match-p "^impl\\_>" line)))
+                   (mod-line-p (line)
+                     (with-syntax-table rust-mode-syntax-table
+                       (string-match-p "^\\(\\s_\\|\\sw\\)+\\(?:::\\(\\s_\\|\\sw\\)+\\)*$" line))))
+           (let ((echo (pcase (seq-remove #'string-blank-p (string-lines info))
+                         ((and `(,mod-line ,impl-line ,fn-line . ,_)
+                               (guard (and (impl-line-p impl-line)
+                                           (mod-line-p mod-line))))
+                          fn-line)
+                         ((and `(,mod-line ,fn-line . ,_)
+                               (guard (mod-line-p mod-line)))
+                          fn-line)
+                         (`(,mod-line . ,_)
+                          mod-line)
+                         (_ nil))))
+             (apply cb info :echo echo args)))))))
 
   (eriks/leader-def 'normal 'eglot-mode-map
     :infix "l"
