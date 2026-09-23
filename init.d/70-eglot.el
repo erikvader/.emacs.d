@@ -152,13 +152,3 @@ path in the echo area since that is what is on the first line."
     "d" 'eglot-x-open-external-documentation)
 
   (eglot-x-setup))
-
-(use-package flycheck-eglot
-  :ensure t
-  :custom
-  (flycheck-eglot-enable-diagnostic-tags nil)
-  :config
-  (global-flycheck-eglot-mode 1)
-  :gfhook
-  ;; NOTE: this is recommended by the author for rust-analyzer
-  ('rust-mode-hook 'flycheck-eglot-disable-diagnostics-pull))

@@ -1,4 +1,3 @@
-;; TODO: make flycheck-next-error only consider errors
 (use-package flycheck
   :ensure t
   :custom
@@ -6,6 +5,7 @@
   (flycheck-mode-line-color nil)
   :config
   (define-advice flycheck-mode-line-status-text (:filter-return (text) colorize)
+    "Colorize the modeline differently."
     (cond ((string-match "^\\(.*\\):\\([0-9]+\\)|\\([0-9]+\\)|\\([0-9]+\\)" text)
            `(,(match-string 1 text)
              ":" (:propertize ,(match-string 2 text) face error)
@@ -15,17 +15,32 @@
            `(,(match-string 1 text)
              ":" (:propertize ,(match-string 2 text) face success)))
           (t text)))
+
   (general-define-key :keymaps 'flycheck-mode-map flycheck-keymap-prefix nil)
   (eriks/leader-def 'normal 'flycheck-mode-map
     "f" flycheck-command-map)
-  ;; TODO: an error list goto error that doesn't move window focus
-  (evil-collection-flycheck-setup)
+  (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
+
   (flycheck-add-next-checker 'python-pylint '(warning . python-pyright))
+  (global-flycheck-eglot-mode 1)
+
+  ;; NOTE: I don't want special faces for unused stuff, an underline is enough.
+  (face-spec-set 'flycheck-deprecated nil 'face-defface-spec)
+  (face-spec-set 'flycheck-unnecessary nil 'face-defface-spec)
 
   ;; NOTE: Originally taken from
   ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
   (defun eriks/flycheck-eldoc (callback &rest _ignored)
-    "Print flycheck messages at point by calling CALLBACK."
+    "Print flycheck messages at point by calling CALLBACK.
+
+Flycheck can display in eldoc by itself as of version 37, but it doesn't
+work like I want it to. For the first, it display multiline errors in
+the echo area, I prefer it being as small as possible, so this custom
+function is only showing a single line in the echo area per error. The
+second reason is that flycheck seems to have some weird bug where it
+shows the whole `eldoc-doc-buffer' by itself, which is way more
+distracting than a multiline echo. This is probably just a temporary bug
+that will get fixed though."
     (when-let ((flycheck-errors (and flycheck-mode (flycheck-overlay-errors-at (point)))))
       (mapc
        (lambda (err)
@@ -50,21 +65,23 @@
   (cl-defun eriks/flycheck-activate-if-started-projectile ()
     "Activates `flycheck-mode' in the current buffer if another buffer
 in the same projectile project also has flycheck enabled."
-    (when-let (((not (bound-and-true-p lsp-mode)))
-               ((flycheck-may-enable-mode))
-               (root (projectile-project-root))
-               (cur-mode major-mode)
-               ((cl-some (lambda (buf)
-                           (with-current-buffer buf
-                             (and (buffer-file-name buf)
-                                  (eq major-mode cur-mode)
-                                  flycheck-mode)))
-                         (projectile-project-buffers root))))
+    (when-let* (((not (bound-and-true-p lsp-mode)))
+                ((not (flycheck-eglot--enabled-p)))
+                ((not flycheck-mode))
+                ((flycheck-may-enable-mode))
+                (root (projectile-project-root))
+                (cur-mode major-mode)
+                ((cl-some (lambda (buf)
+                            (with-current-buffer buf
+                              (and (buffer-file-name buf)
+                                   (eq major-mode cur-mode)
+                                   flycheck-mode)))
+                          (projectile-project-buffers root))))
       (flycheck-mode 1)))
-  :general-config
-  ('flycheck-command-map
-   "f" 'flycheck-first-error)
   :gfhook
+  ;; HACK: evil fixes the keymaps frequently, e.g. when switching states, but apparently
+  ;; not the moment when flycheck is activated, so add an extra normalize here.
+  (nil 'evil-normalize-keymaps)
   (nil (cl-defun eriks/flycheck-prefer-eldoc ()
          "Display flycheck text using eldoc to prevent minibuffer conflicts."
          (add-hook 'eldoc-documentation-functions #'eriks/flycheck-eldoc nil t)
@@ -96,21 +113,20 @@ in the same projectile project also has flycheck enabled."
                        ;; NOTE: I don't like types in python and find it unnecessary to
                        ;; run this automatically after pylint
                        ;; (setq-local flycheck-disabled-checkers '(python-mypy))
-                       (eriks/flycheck-activate-if-started-projectile))))
-
-(use-package flymake
-  :disabled ;; TODO: i used this for eglot, but not anymore, so remove?
-  :custom
-  (flymake-fringe-indicator-position nil)
-  (flymake-margin-indicator-position nil)
-  :config
-  (evil-collection-flymake-setup)
-  (eriks/leader-def 'normal 'flymake-mode-map
-    :infix "f"
-    "n" 'flymake-goto-next-error
-    "p" 'flymake-goto-prev-error
-    "l" 'flymake-show-project-diagnostics
-    "b" 'flymake-show-buffer-diagnostics))
+                       (eriks/flycheck-activate-if-started-projectile)))
+  :general-config
+  ('flycheck-error-list-mode-map
+   ;; TODO: it would be nice if there were more navigation commands, like goto parent
+   ;; section or something.
+   "k" #'flycheck-error-list-previous-error
+   ;; TODO: next and prev doesn't make sure the whole diagnostic is visible on screen. The
+   ;; rust-analyzer likes to output multiline ones for example.
+   "j" #'flycheck-error-list-next-error
+   "r" #'flycheck-error-list-visit-related-location
+   "1" #'flycheck-error-list-group-by-none
+   "2" #'flycheck-error-list-group-by-file
+   "3" #'flycheck-error-list-group-by-checker
+   "4" #'flycheck-error-list-group-by-level))
 
 (use-package apheleia
   :ensure t
