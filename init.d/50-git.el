@@ -60,8 +60,12 @@ just a shortcut for the status buffer."
     "w" 'eriks/magit-toggle-whitespace
     "u" 'eriks/magit-refresh-with-all-untracked-files)
 
+  ;; BUG: a bash script with only a shebang is not colorized unless the shebang is visible
+  ;; in the context, i.e. it is visible in the diff. This is probably a limitation of the
+  ;; current method, but there could maybe be worked around?
   (progn
-    (defvar-local eriks/magit-faces-modified nil)
+    (defvar-local eriks/magit-faces-modified nil
+      "Make sure faces are only adjusted once per buffer")
 
     ;; https://github.com/magit/magit/issues/2942#issuecomment-4069825556
     (defun eriks/magit-diff-fontify-with-diff-mode ()
@@ -111,12 +115,13 @@ the issue discussing this feature."
   (evil-collection-magit-setup)
   (evil-set-initial-state 'git-commit-mode 'insert)
   :general-config
-  ;; NOTE: change these bindings in the same maps as evil-collection does
+  ;; NOTE: remap these bindings in the same maps as evil-collection binds in
   ('(magit-file-section-map magit-hunk-section-map)
    [remap magit-diff-visit-worktree-file] 'magit-diff-visit-worktree-file-other-window
    [remap magit-diff-visit-file] 'magit-diff-visit-file-other-window)
   ('(magit-revision-mode-map magit-status-mode-map)
    ;; NOTE: let my leader through
+   ;; TODO: use my eriks/leader variable?
    "SPC" nil)
   ('(magit-status-mode-map magit-diff-mode-map)
    ;; NOTE: matches the binding in `evil-collection-diff-mode-setup'. This is the command

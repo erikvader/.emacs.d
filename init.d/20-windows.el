@@ -62,6 +62,13 @@ value of a symbol."
 
   (column-number-mode 1))
 
+;; BUG: when i do C-h C-k in a shell-mode buffer to figure out what a key does,
+;; quit-window from the help-buffer that replaces the shell buffer in the popup window
+;; deletes the whole window. I expect it to keep the window and return to the shell-mode
+;; buffer. This is most likely poppers fault. The quit-restore window parameter is set
+;; like the buffer is spawned from nowhere it seems, it doesn't care that it got spawned
+;; from the popper window. Maybe it's possible to solve this with advices on the display
+;; function in popper?
 (use-package popper
   :ensure t
   :config
@@ -71,6 +78,7 @@ value of a symbol."
                      'evil-list-view-mode
                      (eriks/regexp-quote-all "*eshell*")
 
+                     ;; TODO: remove shell??
                      ;; NOTE: it's not enough to just specify comint-mode
                      (eriks/regexp-quote-all "*shell*")
                      'inferior-emacs-lisp-mode
@@ -125,6 +133,9 @@ value of a symbol."
                (side . right)
                (slot . 0)))))
 
+  ;; BUG: when flycheck error list was toggled and an existing instance was spawned again
+  ;; with the keybind, then the window wasn't spawned on the right. But when C-x C-b, then
+  ;; it was displayed correctly. But maybe just remove this toggle since i never use it?
   (defun eriks/popper-toggle-display-function ()
     "Toggle which side to use when displaying the current popup buffer."
     (interactive)
@@ -176,10 +187,6 @@ value of a symbol."
    :prefix "C-x"
    "o" 'popper-toggle))
 
-;; BUG: when i do C-h C-k in a shell-mode buffer to figure out what a key does,
-;; quit-window from the help-buffer that replaces the shell buffer in the popup window
-;; deletes the whole window. I expect it to keep the window and return to the shell-mode
-;; buffer.
 (use-package ace-window
   :ensure t
   :custom

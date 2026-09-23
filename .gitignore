@@ -25,6 +25,7 @@ session.*
 /dirvish/
 /request/
 /ielm-history.eld
+/places
 
 # eclipse lsp
 /workspace

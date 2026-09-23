@@ -9,6 +9,7 @@
 (message "Using these package archives: %s" package-archives)
 
 ;; fix load-paths
+;; TODO: use `locate-user-emacs-file' instead of `user-emacs-directory' directly!
 (add-to-list 'custom-theme-load-path (concat user-emacs-directory "themes"))
 (mapc
  (lambda (x) (add-to-list 'load-path x))
@@ -31,6 +32,8 @@
 (setq-default create-lockfiles nil)
 
 ;; no more customize!
+;; TODO: check env variables or some emacs variable for the tmp directory and use a
+;; hardcoded one only as backup.
 (setq-default custom-file "/tmp/emacs-custom-file")
 
 ;; silence warnings
@@ -41,7 +44,7 @@
 (require 'cl-lib)
 
 ;; load everything
-(cl-flet ((list-el-files (dir) (directory-files dir t "\\.elc?$" nil)))
+(cl-flet ((list-el-files (dir) (directory-files dir t "\\.el$" nil)))
   (mapc #'load
         (sort (nconc
                (list-el-files (concat user-emacs-directory "init.d"))
